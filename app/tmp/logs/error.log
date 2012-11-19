@@ -1,0 +1,411 @@
+2012-11-07 08:35:29 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\Pages\json\home.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName('home')
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render('home', NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\app\Controller\PagesController.php(73): Controller->render('home')
+#3 [internal function]: PagesController->display('home')
+#4 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(PagesController), Array)
+#5 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#6 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(PagesController), Object(CakeRequest), Object(CakeResponse))
+#7 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-11-07 08:36:07 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosetPhotoRelations\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-07 09:06:13 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1066 Not unique table/alias: 'DatPhotosetPhotoRelation'
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1254): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1294): DboSource->queryAssociation(Object(DatPhotoset), Object(DatPhotosetPhotoRelation), 'hasAndBelongsTo...', 'DatPhotosetPhot...', Array, Array, true, Array, 0, Array)
+#5 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1117): DboSource->queryAssociation(Object(DatPhotosetPhotoRelation), Object(DatPhotoset), 'belongsTo', 'DatPhotoset', Array, Array, true, Array, 1, Array)
+#6 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhotosetPhotoRelation), Array)
+#7 C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosetPhotoRelationsController.php(24): Model->find('all')
+#8 [internal function]: DatPhotosetPhotoRelationsController->index()
+#9 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosetPhotoRelationsController), Array)
+#10 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#12 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2012-11-07 09:36:53 Error: [NotFoundException] Invalid dat photoset photo relation
+#0 [internal function]: DatPhotosetPhotoRelationsController->view('1')
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosetPhotoRelationsController), Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-07 21:50:09 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotos\json\add.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-07 21:59:17 Error: Fatal Error (1): Call to a member function getLastInsertID() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php, line 72]
+2012-11-07 21:59:17 Error: [FatalErrorException] Call to a member function getLastInsertID() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 72)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 72, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 72, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-07 22:43:14 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10:43:14  WHERE ((`DatPhotosetPhotoRelation`.`fk_photoset_id` = 1)  AND  (`DatPh' at line 1
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('UPDATE `Phorest...', Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\Database\Mysql.php(357): DboSource->execute('UPDATE `Phorest...')
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Model.php(2334): Mysql->update(Object(DatPhotosetPhotoRelation), Array, NULL, Array)
+#4 C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosetPhotoRelationsController.php(165): Model->updateAll(Array, Array)
+#5 [internal function]: DatPhotosetPhotoRelationsController->delete()
+#6 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosetPhotoRelationsController), Array)
+#7 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#8 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#9 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2012-11-07 22:48:46 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '10:48:46  WHERE ((`DatPhotosetPhotoRelation`.`fk_photoset_id` = '\'1\'')  AND  (' at line 1
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('UPDATE `Phorest...', Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\Database\Mysql.php(357): DboSource->execute('UPDATE `Phorest...')
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Model.php(2334): Mysql->update(Object(DatPhotosetPhotoRelation), Array, NULL, Array)
+#4 C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosetPhotoRelationsController.php(165): Model->updateAll(Array, Array)
+#5 [internal function]: DatPhotosetPhotoRelationsController->delete()
+#6 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosetPhotoRelationsController), Array)
+#7 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#8 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#9 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2012-11-09 19:25:40 Error: [MissingActionException] Action DatPhotosetPhotoRelationsController::1() could not be found.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-11-09 19:25:54 Error: [MissingActionException] Action DatPhotosetPhotoRelationsController::2() could not be found.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#2 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-11-12 09:06:41 Error: [MissingControllerException] Controller class TestApi.phpController could not be found.
+#0 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-11-12 09:06:55 Error: [MissingControllerException] Controller class ApiTestphpController could not be found.
+#0 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2012-11-12 09:47:32 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosetPhotoRelations\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 09:48:05 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosetPhotoRelations\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 09:48:43 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosetPhotoRelations\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetPhotoRelationsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 16:24:00 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosets\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 16:25:15 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosets\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 16:25:33 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosets\json\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\JsonView.php(98): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): JsonView->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 17:13:24 Error: Fatal Error (1): Call to a member function query() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosetsController.php, line 19]
+2012-11-12 17:13:24 Error: [FatalErrorException] Call to a member function query() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 19)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 19, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 19, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 20:20:12 Error: Fatal Error (1): Call to undefined method DatPhotosetsController::element() in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosetsController.php, line 23]
+2012-11-12 20:20:12 Error: [FatalErrorException] Call to undefined method DatPhotosetsController::element()
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to undefin...', 'C:\xampp\htdocs...', 23)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to undefin...', 'C:\xampp\htdocs...', 23, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to undefin...', 'C:\xampp\htdocs...', 23, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 20:20:43 Error: [MissingViewException] View file "C:\xampp\htdocs\workspase\Phorest\app\View\DatPhotosets\index.ctp" is missing.
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosetsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-12 21:57:46 Error: Fatal Error (1): Call to a member function find() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php, line 18]
+2012-11-12 21:57:46 Error: [FatalErrorException] Call to a member function find() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 21:57:49 Error: Fatal Error (1): Call to a member function find() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php, line 18]
+2012-11-12 21:57:49 Error: [FatalErrorException] Call to a member function find() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 21:57:54 Error: Fatal Error (1): Call to a member function find() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php, line 18]
+2012-11-12 21:57:54 Error: [FatalErrorException] Call to a member function find() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 21:59:15 Error: Fatal Error (1): Call to a member function find() on a non-object in [C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php, line 18]
+2012-11-12 21:59:15 Error: [FatalErrorException] Call to a member function find() on a non-object
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Error\ErrorHandler.php(162): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\xampp\htdocs...', 18, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-12 22:00:10 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DatPhotoset.id' in 'on clause'
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1254): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1117): DboSource->queryAssociation(Object(DatPhoto), Object(AppModel), 'hasAndBelongsTo...', 'DatPhotoset', Array, Array, true, Array, 0, Array)
+#5 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhoto), Array)
+#6 C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php(18): Model->find('all')
+#7 [internal function]: DatPhotosController->index()
+#8 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#9 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#11 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-11-12 22:00:14 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DatPhotoset.id' in 'on clause'
+#0 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1254): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Datasource\DboSource.php(1117): DboSource->queryAssociation(Object(DatPhoto), Object(AppModel), 'hasAndBelongsTo...', 'DatPhotoset', Array, Array, true, Array, 0, Array)
+#5 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhoto), Array)
+#6 C:\xampp\htdocs\workspase\Phorest\app\Controller\DatPhotosController.php(18): Model->find('all')
+#7 [internal function]: DatPhotosController->index()
+#8 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#9 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 C:\xampp\htdocs\workspase\Phorest\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#11 C:\xampp\htdocs\workspase\Phorest\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-11-20 00:45:46 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 00:46:12 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 00:53:47 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 00:53:50 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 00:57:39 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 00:58:39 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:03:29 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:03:54 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:04:37 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:05:28 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:05:48 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DatAlbum.album_id' in 'where clause'
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(1082): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhoto), Array)
+#5 C:\xampp\htdocs\Phorest_Dev\app\Controller\DatPhotosController.php(33): Model->find('all', Array)
+#6 [internal function]: DatPhotosController->index()
+#7 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#8 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#9 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#10 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-11-20 01:06:25 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatAlbums\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatAlbumsController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:09:26 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DatAlbum.album_id' in 'where clause'
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(1082): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhoto), Array)
+#5 C:\xampp\htdocs\Phorest_Dev\app\Controller\DatPhotosController.php(33): Model->find('all', Array)
+#6 [internal function]: DatPhotosController->index()
+#7 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#8 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#9 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#10 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-11-20 01:13:03 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '//DatAlbum.album_id = '' AND `DatPhoto`.`status` = 1' at line 1
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatPhot...', Array)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatPhot...', Array, Array)
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(1082): DboSource->fetchAll('SELECT `DatPhot...', false)
+#4 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Model.php(2630): DboSource->read(Object(DatPhoto), Array)
+#5 C:\xampp\htdocs\Phorest_Dev\app\Controller\DatPhotosController.php(32): Model->find('all', Array)
+#6 [internal function]: DatPhotosController->index()
+#7 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#8 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#9 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#10 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-11-20 01:13:22 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:19:13 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:23:52 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:25:18 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DatPhoto.status' in 'where clause'
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(461): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(427): DboSource->_execute('SELECT `DatAlbu...', Array)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(671): DboSource->execute('SELECT `DatAlbu...', Array, Array)
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Datasource\DboSource.php(1082): DboSource->fetchAll('SELECT `DatAlbu...', false)
+#4 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Model\Model.php(2630): DboSource->read(Object(AppModel), Array)
+#5 C:\xampp\htdocs\Phorest_Dev\app\Controller\DatPhotosController.php(35): Model->find('all', Array)
+#6 [internal function]: DatPhotosController->index()
+#7 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(DatPhotosController), Array)
+#8 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#9 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#10 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-11-20 01:25:45 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:29:10 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:29:43 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:30:32 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 01:32:02 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-20 02:21:32 Error: [MissingViewException] View file "C:\xampp\htdocs\Phorest_Dev\app\View\DatPhotos\index.ctp" is missing.
+#0 C:\xampp\htdocs\Phorest_Dev\lib\Cake\View\View.php(472): View->_getViewFileName(NULL)
+#1 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Controller\Controller.php(957): View->render(NULL, NULL)
+#2 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\xampp\htdocs\Phorest_Dev\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(DatPhotosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\xampp\htdocs\Phorest_Dev\app\webroot\index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}

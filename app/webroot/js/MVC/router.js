@@ -18,11 +18,12 @@ $(function(){
          PhotoModel = new mvc.PhotoModel(),
          PhotoCollection = new mvc.PhotoCollection(),
          AlbumModel = new mvc.AlbumModel(),
-         AlbumCollection = new mvc.AlbumCollection(),
+         AlbumCollection = new mvc.AlbumCollection();
+         
+
          //view
-         // PhotoView = new mvc.PhotoView({model:PhotoModel}),
-         //AlbumView = new mvc.AlbumView({model:AlbumModel}),
-         AlbumsView = new mvc.AlbumsView({collection:AlbumCollection});
+         //view.jsで使用できるよう、どこでもアクセス出来るmvcにつけるておく
+         mvc.AlbumsView_instance = new mvc.AlbumsView({collection:AlbumCollection});
 
          AlbumModel.photoCollection = PhotoCollection;
 

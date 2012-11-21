@@ -35,15 +35,37 @@ class DatPhotosController extends AppController {
 
 		$db = $this->DatPhoto->getDataSource();
 		$datPhotos = $db->fetchAll(
-				"SELECT * FROM `dat_photos` as DatPhoto
+<<<EOF
+				SELECT
+					DatPhoto.photo_id as id,
+					DatPhoto.fk_user_id,
+					DatPhoto.name as photoName,
+					DatPhoto.description as description,
+					DatPhoto.file_name,
+					DatPhoto.thum_file_name,
+					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'/',DatPhoto.file_name) as imgUrl,
+					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'/',DatPhoto.thum_file_name) as thumUrl,
+					DatPhoto.size,
+					DatPhoto.type,
+					DatPhoto.status,
+					DatPhoto.create_datetime,
+					DatPhoto.update_timestamp
+				FROM
+					`dat_photos` as DatPhoto
 					left outer join dat_album_photo_relations as DatAlbumPhotoRelation on DatPhoto.photo_id = DatAlbumPhotoRelation.fk_photo_id
-				where DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?",
-				array(1)
+					inner join mst_image_servers as MstImageServer on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
+				where
+					DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?
+EOF
+				,array(1)
 		);
-// 		$db->fetchAll(
-// 				'SELECT * from users where username = :username AND password = :password',
-// 				array('username' => 'jhon','password' => '12345')
-// 		);
+
+		// TODO:データ入れ替え処理
+		foreach( $datPhotos as $key => $datPhoto ) {
+			$datPhotos[$key]['DatPhoto']['imgUrl'] = $datPhoto[0]['imgUrl'];
+			$datPhotos[$key]['DatPhoto']['thumUrl'] = $datPhoto[0]['thumUrl'];
+		}
+
 // 		$datPhotos = $this->DatPhoto->query("
 // 				SELECT * FROM `dat_photos` as photo
 // 				left outer join dat_album_photo_relations as relations on photo.photo_id = relations.fk_photo_id

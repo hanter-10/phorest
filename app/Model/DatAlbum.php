@@ -121,7 +121,7 @@ class DatAlbum extends AppModel {
 				'associationForeignKey' => 'fk_photo_id',
 				'unique' => 'keepExisting',
 				'conditions' => '',
-				'fields' => '',
+				'fields' => 'DatPhoto.photo_id,DatPhoto.name',
 				'order' => '',
 				'limit' => '',
 				'offset' => '',

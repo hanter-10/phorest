@@ -14,7 +14,7 @@ $(function(){
          photoName:     undefined, //写真名
          relatedAlbum:  undefined, //どのアルバムに入っているか
          imgUrl:        undefined, //元画像のurl
-         thumbnailUrl:  undefined  //サムネイルのurl
+         thumUrl:  undefined  //サムネイルのurl
       },
       update : function()
       {

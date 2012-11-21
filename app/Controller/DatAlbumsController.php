@@ -21,6 +21,28 @@ class DatAlbumsController extends AppController {
 	public function index() {
 
 		//$this->DatAlbum->recursive = 0;					HABTMの際に関連テーブルを検索するので削除
+
+		// 検索項目
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.name as albumName',
+				'DatAlbum.description',
+				'DatAlbum.flg',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+
+// 		$this->DatAlbum->Behaviors->attach('Containable');
+// 		$this->DatAlbum->contain('DatPhoto.photo_id');
+// 		$contains = array(
+// 				'DatPhoto.photo_id',
+// 				'DatPhoto.name'
+// 		);
+
+		$option = array(
+				'fields' => $fields,
+		);
 		$datAlbums = $this->DatAlbum->find('all');
 		$this->set('datAlbums', $datAlbums);
 

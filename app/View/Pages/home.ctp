@@ -6,24 +6,24 @@
         <meta name="description" content="demo">
         <meta name="keywords" content="demo,demo">
         <link rel="shortcut icon" href="/images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="pagetop/css/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="pagetop/css/index.css" media="all" />
+        <link id="reset_css" rel="stylesheet" type="text/css" href="css/reset.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" media="all" />
 
         <!--[if lt IE 9]>
               <script type="text/javascript" src="js/html5shiv.js"></script>
         <![endif]-->
-        <script type="text/javascript" src="pagetop/js/loadCSS.js"></script>
-        <script type="text/javascript" src="pagetop/js/jquery-1.7.2.min.js"></script>
-        <script type="text/javascript" src="pagetop/js/index.js"></script>
+        <script type="text/javascript" src="js/loadCSS.js"></script>
+        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
     </head>
     <body>
 
         <div id="wrapper">
-
+            
             <header id="header">
-
+                
             </header>
-
+            
             <div id="main">
                 <div id="more-info">
                     <section id="main-info">
@@ -139,7 +139,7 @@
                         <a href="#">
                             <img src="images/img-4.jpg" height="150" width="267"></a>
                     </div>
-
+                    
                     <div class="row">
                         <h1 class="album-title">自然風景</h1>
                         <a href="#">
@@ -238,7 +238,7 @@
                         <a href="#">
                             <img src="images/img-4.jpg" height="150" width="267"></a>
                     </div>
-
+                    
                     <div class="row">
                         <h1 class="album-title">自然風景</h1>
                         <a href="#">
@@ -339,11 +339,11 @@
                     </div>
                 </div>
             </div>
-
+            
             <footer id="footer">
                 <address>Powered by <a href="#" id="phorest-link">Phorest</a>.</address>
             </footer>
-
+            
         </div>
 
     </body>

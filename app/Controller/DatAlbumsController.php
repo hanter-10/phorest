@@ -22,7 +22,7 @@ class DatAlbumsController extends AppController {
 
 		//$this->DatAlbum->recursive = 0;					HABTMの際に関連テーブルを検索するので削除
 
-		// 検索項目
+		/* 検索項目 */
 		$fields = array(
 				'DatAlbum.album_id as id',
 				'DatAlbum.name as albumName',
@@ -32,18 +32,45 @@ class DatAlbumsController extends AppController {
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',
 		);
+		$contain = array(
+				'DatPhoto' => array(
+					'MstImageServer' => array(
+						'fields' => array(
+							'image_server_id',
+							'grobal_ip',
+							'file_path'
+						),
+						'conditions' => array(
+							'MstImageServer.status' => 1,
+						),
+					),
+					'fields' => array(
+						'photo_id as id',
+						'name as photoName',
+						'description',
+						'file_name',
+						'thum_file_name',
+						'size',
+						'type',
+						'status',
+						'create_datetime',
+						'update_timestamp',
+					),
+					'conditions' => array(
+						'DatPhoto.status' => 1,
+					),
+				),
+		);
 
-// 		$this->DatAlbum->Behaviors->attach('Containable');
-// 		$this->DatAlbum->contain('DatPhoto.photo_id');
-// 		$contains = array(
-// 				'DatPhoto.photo_id',
-// 				'DatPhoto.name'
-// 		);
+		$this->DatAlbum->Behaviors->attach('Containable');
+// 		$this->DatAlbum->contain('DatPhoto');
 
 		$option = array(
 				'fields' => $fields,
+				'contain' => $contain,
 		);
-		$datAlbums = $this->DatAlbum->find('all');
+
+		$datAlbums = $this->DatAlbum->find('all', $option);
 		$this->set('datAlbums', $datAlbums);
 
 		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる

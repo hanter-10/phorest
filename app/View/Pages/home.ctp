@@ -19,11 +19,11 @@
     <body>
 
         <div id="wrapper">
-            
+
             <header id="header">
-                
+
             </header>
-            
+
             <div id="main">
                 <div id="more-info">
                     <section id="main-info">
@@ -139,7 +139,7 @@
                         <a href="#">
                             <img src="images/img-4.jpg" height="150" width="267"></a>
                     </div>
-                    
+
                     <div class="row">
                         <h1 class="album-title">自然風景</h1>
                         <a href="#">
@@ -238,7 +238,7 @@
                         <a href="#">
                             <img src="images/img-4.jpg" height="150" width="267"></a>
                     </div>
-                    
+
                     <div class="row">
                         <h1 class="album-title">自然風景</h1>
                         <a href="#">
@@ -339,11 +339,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <footer id="footer">
                 <address>Powered by <a href="#" id="phorest-link">Phorest</a>.</address>
             </footer>
-            
+
         </div>
 
     </body>

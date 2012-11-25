@@ -62,11 +62,11 @@
                     </div>
                 </div>
                 <ul id="user-panel">
-                    <li><a href="#">アカウント設定</a></li> 
-                    <li><a href="#">ログアウト</a></li> 
+                    <li><a href="#">アカウント設定</a></li>
+                    <li><a href="#">ログアウト</a></li>
                 </ul>
             </header>
-            
+
             <div id="main">
                 <div id="albums-panel" class="prevent-select">
 
@@ -79,7 +79,7 @@
                             </div>
                             <span class="status">非公開</span>
                         </div>
-                        
+
 
 
                     </div>
@@ -131,11 +131,11 @@
                     </figure>
                 </div>
             </div>
-            
+
             <footer id="footer">
-                
+
             </footer>
-            
+
         </div>
 
     </body>

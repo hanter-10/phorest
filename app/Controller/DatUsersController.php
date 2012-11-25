@@ -35,9 +35,11 @@ class DatUsersController extends AppController {
  */
 	public function index() {
 
-		var_dump($this->Auth->user('user_id'));
-		$this->DatUser->recursive = 0;
-		$this->set('datUsers', $this->paginate());
+		$this->layout = 'testlayout';
+
+// 		var_dump($this->Auth->user('user_id'));
+// 		$this->DatUser->recursive = 0;
+// 		$this->set('datUsers', $this->paginate());
 	}
 
 /**

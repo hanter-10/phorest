@@ -25,14 +25,14 @@
 	<body>
 
 	<h2>DatAlbums</h2>
-		<a href="javascript: void(0)" onClick="requestAPI('get', 'datalbums', '{ user_id:33 }');">get:datalbumss</a>
-		<a href="javascript: void(0)" onClick="requestAPI('post', 'datalbums', '{ user_id:33 }');">post:datalbumss</a>
-		<a href="javascript: void(0)" onClick="requestAPI('put', 'datalbums', '{ user_id:33 }');">put:datalbumss</a>
-		<a href="javascript: void(0)" onClick="requestAPI('delete', 'datalbums', '{ user_id:33 }');">delete:datalbumss</a>
+		<a href="javascript: void(0)" onClick="requestAPI('get', 'DatAlbums', '{ user_id:33 }');">get:datalbumss</a>
+		<a href="javascript: void(0)" onClick="requestAPI('post', 'DatAlbums', '{ user_id:33 }');">post:datalbumss</a>
+		<a href="javascript: void(0)" onClick="requestAPI('put', 'DatAlbums', '{ user_id:33 }');">put:datalbumss</a>
+		<a href="javascript: void(0)" onClick="requestAPI('delete', 'DatAlbums', '{ user_id:33 }');">delete:datalbumss</a>
 	<h2>DatPhotos</h2>
-		<a href="javascript: void(0)" onClick="requestAPI('get', 'datphotos', '{ user_id:33 }');">get:datphotos</a>
-		<a href="javascript: void(0)" onClick="requestAPI('post', 'datphotos', '{ user_id:33 }');">post:datphotos</a>
-		<a href="javascript: void(0)" onClick="requestAPI('put', 'datphotos', '{ user_id:33 }');">put:datphotos</a>
-		<a href="javascript: void(0)" onClick="requestAPI('delete', 'datphotos', '{ user_id:33 }');">delete:datphotos</a>
+		<a href="javascript: void(0)" onClick="requestAPI('get', 'DatPhotos', '{ user_id:33 }');">get:datphotos</a>
+		<a href="javascript: void(0)" onClick="requestAPI('post', 'DatPhotos', '{ user_id:33 }');">post:datphotos</a>
+		<a href="javascript: void(0)" onClick="requestAPI('put', 'DatPhotos', '{ user_id:33 }');">put:datphotos</a>
+		<a href="javascript: void(0)" onClick="requestAPI('delete', 'DatPhotos', '{ user_id:33 }');">delete:datphotos</a>
 </html>
 <?php

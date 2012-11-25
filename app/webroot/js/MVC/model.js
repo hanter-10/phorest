@@ -9,7 +9,7 @@ $(function(){
       {
          this.on('change',this.update,this);
       },
-      defaults : 
+      defaults :
       {
          photoName:     undefined, //写真名
          relatedAlbum:  undefined, //どのアルバムに入っているか
@@ -30,7 +30,7 @@ $(function(){
    **************************** Collection ****************************
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
-      url:     '/DatPhotoes/',
+      url:     './DatPhotoes/',
       model:   mvc.PhotoModel
    });
 
@@ -59,11 +59,11 @@ $(function(){
    ******************************* 宇宙の始まり *******************************
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
-      url:     './DatAlbums',
+      url:     './DatAlbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {
-         
+
       },
       parse : function(albumArr)
       {
@@ -72,7 +72,7 @@ $(function(){
             parsedJSON[index] = { photoes : album.DatPhoto };
             _.extend( parsedJSON[index],album.DatAlbum );
          });
-         
+
          console.log(parsedJSON);
          return parsedJSON;
       }

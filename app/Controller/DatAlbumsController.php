@@ -63,8 +63,6 @@ class DatAlbumsController extends AppController {
 		);
 
 		$this->DatAlbum->Behaviors->attach('Containable');
-// 		$this->DatAlbum->contain('DatPhoto');
-
 		$option = array(
 				'fields' => $fields,
 				'contain' => $contain,

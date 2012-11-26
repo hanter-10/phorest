@@ -59,7 +59,8 @@ $(function(){
    ******************************* 宇宙の始まり *******************************
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
-      url:     './DatAlbums/',
+//      url:     './DatAlbums/',
+      url:     'http://localhost:81/Phorest/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {

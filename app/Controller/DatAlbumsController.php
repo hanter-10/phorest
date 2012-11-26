@@ -13,6 +13,7 @@ class DatAlbumsController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler');
 
+
 /**
  * index method
  *
@@ -131,12 +132,15 @@ class DatAlbumsController extends AppController {
 // 		$datAlbumPhotoRelations = $this->DatAlbum->DatAlbumPhotoRelation->find('list');
 // 		$this->set(compact('datUsers', 'datAlbumPhotoRelations'));
 
+		// リクエストデータをJSON形式にエンコードで取得する
+		$data = $this->request->input('json_decode');
+
 		/* paramater set */
-		$datAlbum['DatAlbum']['fk_user_id']			= $this->params['data']['user_id'];		// TODO:セッションより取得する
-		$datAlbum['DatAlbum']['albumName']			= $this->params['data']['albumName'];
-		$datAlbum['DatAlbum']['description']		= $this->params['data']['description'];
-		$datAlbum['DatAlbum']['flg']				= 0;		// デフォルトは非公開
-		$datAlbum['DatAlbum']['status']				= 1;		// デフォルトは有効
+		$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// TODO:セッションより取得する
+		$datAlbum['DatAlbum']['albumName']			= $data->albumName;
+		$datAlbum['DatAlbum']['description']		= $data->description;
+		$datAlbum['DatAlbum']['flg']				= 0;								// デフォルトは非公開
+		$datAlbum['DatAlbum']['status']				= 1;								// デフォルトは有効
 		$datAlbum['DatAlbum']['create_datetime']	= date('Y-m-d h:i:s');
 		$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
 
@@ -165,28 +169,28 @@ class DatAlbumsController extends AppController {
 			throw new NotFoundException(__('Invalid dat album'));
 		}
 
-		var_dump($this->params['data']);
-		exit;
+		// リクエストデータをJSON形式にエンコードで取得する
+		$data = $this->request->input('json_decode');
 
 		$this->set('datAlbum', false);
 		if ($this->request->is('put')) {
 
 			/* paramater set */
 			$datAlbum['DatAlbum']['album_id']			= $id;
-			$datAlbum['DatAlbum']['albumName']			= $this->params['data']['albumName'];
-			$datAlbum['DatAlbum']['description']		= $this->params['data']['description'];
-			$datAlbum['DatAlbum']['flg']				= $this->params['data']['flg'];
-			$datAlbum['DatAlbum']['status']				= $this->params['data']['status'];
+			$datAlbum['DatAlbum']['albumName']			= $data->albumName;
+// 			$datAlbum['DatAlbum']['description']		= $data->description;
+// 			$datAlbum['DatAlbum']['flg']				= $data->flg;
+// 			$datAlbum['DatAlbum']['status']				= $data->status;
 			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
 
 			/* update query */
 			$result = $this->DatAlbum->updateAll(
 					// Update set
 					array(
-							'DatAlbum.name'				=> $datAlbum['DatAlbum']['albumName'],
-							'DatAlbum.description'		=> $datAlbum['DatAlbum']['description'],
-							'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
-							'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],
+							'DatAlbum.name'				=> "'".$datAlbum['DatAlbum']['albumName']."'",
+// 							'DatAlbum.description'		=> "'".$datAlbum['DatAlbum']['description']."'",
+// 							'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
+// 							'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],
 							'DatAlbum.update_timestamp'	=> "'".$datAlbum['DatAlbum']['update_timestamp']."'",
 					)
 					// Where
@@ -203,7 +207,6 @@ class DatAlbumsController extends AppController {
 			$this->request->data = $this->DatAlbum->read(null, $id);
 		}
 		$this->set('_serialize', 'datAlbum');
-
 // 		$datUsers = $this->DatAlbum->DatUser->find('list');
 // 		$datAlbumPhotoRelations = $this->DatAlbum->DatAlbumPhotoRelation->find('list');
 // 		$this->set(compact('datUsers', 'datAlbumPhotoRelations'));

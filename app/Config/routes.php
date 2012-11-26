@@ -32,7 +32,7 @@
 	Router::mapResources('datphotos');
 	Router::mapResources('datalbums');
 	Router::mapResources('datalbumphotorelations');
-	Router::mapResources('datusers');
+// 	Router::mapResources('datusers');
 
 /**
  * [ Phorest ] : Parser

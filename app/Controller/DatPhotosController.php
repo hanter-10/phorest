@@ -60,7 +60,7 @@ EOF
 				,array(1)
 		);
 
-		// TODO:データ入れ替え処理
+		// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
 		foreach( $datPhotos as $key => $datPhoto ) {
 			$datPhotos[$key]['DatPhoto']['imgUrl'] = $datPhoto[0]['imgUrl'];
 			$datPhotos[$key]['DatPhoto']['thumUrl'] = $datPhoto[0]['thumUrl'];

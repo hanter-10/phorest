@@ -6,7 +6,7 @@
 				$.ajax({
 					type: method,
 					async:false,
-					url: "http://" + "<?php echo $_SERVER["HTTP_HOST"]?>" + "/Phorest/" + api,
+					url: "http://" + "<?php echo $_SERVER["HTTP_HOST"]?>" + "/Phorest/" + api + "/1",
 					data: data,
 					dataType: "json",
 					contentType:"application/json",

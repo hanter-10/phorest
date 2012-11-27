@@ -221,13 +221,13 @@ class DatAlbumsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->DatAlbum->id = $id;
-		if (!$this->DatAlbum->exists()) {
-			throw new NotFoundException(__('Invalid dat album'));
-		}
+// 		if (!$this->request->is('post')) {
+// 			throw new MethodNotAllowedException();
+// 		}
+// 		$this->DatAlbum->id = $id;
+// 		if (!$this->DatAlbum->exists()) {
+// 			throw new NotFoundException(__('Invalid dat album'));
+// 		}
 // 		if ($this->DatAlbum->delete()) {
 // 			$this->Session->setFlash(__('Dat album deleted'));
 // 			$this->redirect(array('action' => 'index'));

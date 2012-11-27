@@ -24,7 +24,7 @@
 
 
 /**
- * [ Phorest ] : JavaScript Web Application Mapping
+ * [ Phorest ] : RESTful Mapping
  * 	該当のControllerに対するリクエストをHTTPメソッドにマッピング
  * 	※Webサービスとして公開するコントローラが増えた場合 Router::mapResources(コントローラ名)”を追加していく
  *

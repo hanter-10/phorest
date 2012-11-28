@@ -13,12 +13,24 @@ class DatPhotosController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler');
 
-// 	public $uses = array('DatPhoto','DatAlbumPhotoRelation');
+	function beforeFilter() {
+		// 親クラスをロード
+		parent::beforeFilter();
+
+		// ajax通信でのアクセスか確認
+		if(!$this->RequestHandler->isAjax()) {
+			// ajaxではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
+		}
+	}
+
 
 /**
  * index method
  *
  * @return void
+ *
+ * URI：/tempalbum/ -> /datphotos/
  */
 	public function index() {
 
@@ -165,23 +177,26 @@ EOF
 			throw new NotFoundException(__('Invalid dat photo'));
 		}
 
+		// リクエストデータをJSON形式にエンコードで取得する
+		$data = $this->request->input('json_decode');
+
 		$this->set('datPhoto', false);
 		if ($this->request->is('put')) {
 
 			/* paramater set */
-			$datPhoto['DatPhoto']['name']					= $this->params['data']['name'];
-			$datPhoto['DatPhoto']['description']			= $this->params['data']['description'];
-			$datPhoto['DatPhoto']['status']					= $this->params['data']['status'];
+			$datPhoto;
+			$datPhoto['DatPhoto']['name']					= $data->photoname;
+// 			$datPhoto['DatPhoto']['description']			= $data->description;;
+// 			$datPhoto['DatPhoto']['status']					= $this->params['data']['status'];
 			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
-
 
 			/* update query */
 			$result = $this->DatAlbum->updateAll(
 					// Update set
 					array(
-							'DatPhoto.name'				=> $datPhoto['DatPhoto']['name'],
-							'DatPhoto.description'		=> $datPhoto['DatPhoto']['description'],
-							'DatPhoto.status'			=> $datPhoto['DatPhoto']['status'],
+							'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
+							'DatPhoto.description'		=> "'".$datPhoto['DatPhoto']['description']."'",
+							'DatPhoto.status'			=> $datPhoto['DatPhoto']['status']."'",
 							'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
 					)
 					// Where
@@ -213,13 +228,13 @@ EOF
  * @return void
  */
 	public function delete($id = null) {
-// 		if (!$this->request->is('post')) {
-// 			throw new MethodNotAllowedException();
-// 		}
-// 		$this->DatPhoto->id = $id;
-// 		if (!$this->DatPhoto->exists()) {
-// 			throw new NotFoundException(__('Invalid dat photo'));
-// 		}
+		if (!$this->request->is('post')) {
+			throw new MethodNotAllowedException();
+		}
+		$this->DatPhoto->id = $id;
+		if (!$this->DatPhoto->exists()) {
+			throw new NotFoundException(__('Invalid dat photo'));
+		}
 // 		if ($this->DatPhoto->delete()) {
 // 			$this->Session->setFlash(__('Dat photo deleted'));
 // 			$this->redirect(array('action' => 'index'));
@@ -237,13 +252,13 @@ EOF
 		$result = $this->DatPhoto->updateAll(
 				// Update set
 				array(
-						'DatPhoto.status' => $datPhoto['DatPhoto']['status']
-						,'DatPhoto.update_timestamp' => "'".$datPhoto['DatPhoto']['update_timestamp']."'"
+						'DatPhoto.status'		 	=> $datPhoto['DatPhoto']['status'],
+						'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'"
 				)
 				// Where
 				,array(
 						array(
-								'DatPhoto.photo_id' => $datPhoto['DatPhoto']['photo_id']
+								'DatPhoto.photo_id'	=> $datPhoto['DatPhoto']['photo_id']
 						)
 				)
 		);

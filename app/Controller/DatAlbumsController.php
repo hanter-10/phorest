@@ -13,6 +13,16 @@ class DatAlbumsController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler');
 
+	function beforeFilter() {
+		// 親クラスをロード
+		parent::beforeFilter();
+
+		// ajax通信でのアクセスか確認
+		if (!$this->RequestHandler->isAjax()) {
+			// ajaxではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
+		}
+	}
 
 /**
  * index method
@@ -72,9 +82,9 @@ class DatAlbumsController extends AppController {
 		$datAlbums = $this->DatAlbum->find('all', $option);
 
 		// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
-		foreach( $datAlbums as $albumkey => $datAlbum ) {
+		foreach ( $datAlbums as $albumkey => $datAlbum ) {
 
-			foreach( $datAlbum['DatPhoto'] as $photoKey => $datPhoto) {
+			foreach ( $datAlbum['DatPhoto'] as $photoKey => $datPhoto) {
 				// オリジナル写真
 				$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datAlbum['DatAlbum']['id'] . '/' . $datPhoto['file_name'];
 				// サムネイル写真
@@ -136,23 +146,32 @@ class DatAlbumsController extends AppController {
 		$data = $this->request->input('json_decode');
 
 		/* paramater set */
+		$datAlbum = array();
 		$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// TODO:セッションより取得する
-		$datAlbum['DatAlbum']['albumName']			= $data->albumName;
-		$datAlbum['DatAlbum']['description']		= $data->description;
-		$datAlbum['DatAlbum']['flg']				= 0;								// デフォルトは非公開
-		$datAlbum['DatAlbum']['status']				= 1;								// デフォルトは有効
+		$datAlbum['DatAlbum']['name']				= $data->albumName;
+// 		$datAlbum['DatAlbum']['description']		= $data->description;
+// 		$datAlbum['DatAlbum']['flg']				= 0;								// デフォルトは非公開
+// 		$datAlbum['DatAlbum']['status']				= 1;								// デフォルトは有効
 		$datAlbum['DatAlbum']['create_datetime']	= date('Y-m-d h:i:s');
 		$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
 
-		/* insert query */
-		$this->DatAlbum->create();
-		if ($this->DatAlbum->save($datAlbum)) {
-			/* get insert new id */
-			$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
-
-			$this->set('datAlbum', $datAlbum);
-			$this->set('_serialize', 'datAlbum');
+		$this->DatAlbum->set($datAlbum);
+		if (!$this->DatAlbum->validates()) {
+			// エラー内容出力
+// 			var_dump($this->validateErrors($this->DatAlbum));
+			$this->set('_serialize', $this->validateErrors($this->DatAlbum));
 		}
+
+
+// 		/* insert query */
+// 		$this->DatAlbum->create();
+// 		if ($this->DatAlbum->save($datAlbum)) {
+// 			/* get insert new id */
+// 			$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
+
+// 			$this->set('datAlbum', $datAlbum);
+// 			$this->set('_serialize', 'datAlbum');
+// 		}
 	}
 
 /**
@@ -177,7 +196,7 @@ class DatAlbumsController extends AppController {
 
 			/* paramater set */
 			$datAlbum['DatAlbum']['album_id']			= $id;
-			$datAlbum['DatAlbum']['albumName']			= $data->albumName;
+			$datAlbum['DatAlbum']['name']				= $data->albumName;
 // 			$datAlbum['DatAlbum']['description']		= $data->description;
 // 			$datAlbum['DatAlbum']['flg']				= $data->flg;
 // 			$datAlbum['DatAlbum']['status']				= $data->status;
@@ -187,7 +206,7 @@ class DatAlbumsController extends AppController {
 			$result = $this->DatAlbum->updateAll(
 					// Update set
 					array(
-							'DatAlbum.name'				=> "'".$datAlbum['DatAlbum']['albumName']."'",
+							'DatAlbum.name'				=> "'".$datAlbum['DatAlbum']['name']."'",
 // 							'DatAlbum.description'		=> "'".$datAlbum['DatAlbum']['description']."'",
 // 							'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
 // 							'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],

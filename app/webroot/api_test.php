@@ -26,7 +26,7 @@
 
 	<h2>DatAlbums</h2>
 		<a href="javascript: void(0)" onClick="requestAPI('get', 'datalbums', 'user_id : 33');">get:datalbumss</a>
-		<a href="javascript: void(0)" onClick="requestAPI('post', 'datalbums', '{ \'albumName\':\'test4\',\'description\':\'test_description\'}');">post:datalbumss</a>
+		<a href="javascript: void(0)" onClick="requestAPI('post', 'datalbums', 'albumName:test4');">post:datalbumss</a>
 		<a href="javascript: void(0)" onClick="requestAPI('put', 'datalbums', 'user_id=33');">put:datalbumss</a>
 		<a href="javascript: void(0)" onClick="requestAPI('delete', 'datalbums', '{ user_id:33 }');">delete:datalbumss</a>
 	<h2>DatPhotos</h2>
@@ -34,5 +34,7 @@
 		<a href="javascript: void(0)" onClick="requestAPI('post', 'datphotos', '{ user_id:33 }');">post:datphotos</a>
 		<a href="javascript: void(0)" onClick="requestAPI('put', 'datphotos', '{ user_id:33 }');">put:datphotos</a>
 		<a href="javascript: void(0)" onClick="requestAPI('delete', 'datphotos', '{ user_id:33 }');">delete:datphotos</a>
+	<h2>DatPhotos</h2>
+		<a href="javascript: void(0)" onClick="requestAPI('get', 'tempalbum', '{ user_id:33 }');">get:tempalbum</a>
 </html>
 <?php

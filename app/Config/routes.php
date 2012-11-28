@@ -41,6 +41,11 @@
 	Router::parseExtensions('json');
 
 
+/**
+ * [ Phorest ] : Routing
+ */
+	//「 tempalbum 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
+	Router::connect('/tempalbum/*', array('controller' => 'datphotos'));
 
 
 /**

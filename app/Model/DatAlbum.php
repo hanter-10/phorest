@@ -33,7 +33,7 @@ class DatAlbum extends AppModel {
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
-				//'required' => false,
+				//'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
@@ -42,10 +42,20 @@ class DatAlbum extends AppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
+				'allowEmpty' => false,
+				'required' => true,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'name' => array(
+			'notEmpty' => array(
+					'rule' => array('notEmpty'),
+					//'message' => 'Your custom message here',
+					'allowEmpty' => false,
+					//'required' => false,
+					//'last' => false, // Stop validation after this rule
+					//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'flg' => array(

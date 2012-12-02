@@ -127,7 +127,12 @@
 
 /* default scrollbar colors and backgrounds */
 .mCustomScrollBox .mCSB_scrollTools{
-	opacity:0.75;
+	opacity: 0;
+	-webkit-transition: opacity,0.3s;
+	-moz-transition: opacity,0.3s;
+	-ms-transition: opacity,0.3s;
+	-o-transition: opacity,0.3s;
+	transition: opacity,0.3s;
 }
 .mCustomScrollBox:hover .mCSB_scrollTools{
 	opacity:1;

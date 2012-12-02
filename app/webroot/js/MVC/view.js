@@ -64,13 +64,23 @@ $(function(){
       events : 
       {
          'keypress .filename':   'unFocus',
-         'click .photo':         'selectable',
-         'add':                  'addPhotoes',
-         'remove':               'removePhotoes'
+         'click .photo':         'selectable'
       },
       rendered : false,
+      appendTo : $.app.properties.photoCollections.find('.mCSB_container'),
       initialize : function()
       {
+         //インスタンスから引数を受け取って初期設定
+         var settings = arguments[1];
+         if(settings)
+         {
+            console.log( 'options->',settings );
+            settings.init && settings.init();
+            settings.appendTo && (this.appendTo=settings.appendTo);
+         }
+
+         this.collection.on('add',this.addPhotos,this);
+         this.collection.on('remove',this.removePhotos,this);
          _.bindAll(this,'onDropAlbum','onDropUploadArea'); //The _.bindAll() must be called before the function is assigned
          var dnd = new $.app.UI.methods.dndClass(this.$el,'img'),
          options = 
@@ -101,7 +111,7 @@ $(function(){
       {
          //レンダリング済みであれば、それを表示すればいい
          console.log(this.rendered)
-         if(this.rendered){ this.showPhotoes(); return this; }
+         if(this.rendered){ this.showPhotos(); return this; }
          this.rendered = true;
          //初回のレンダリング処理を行う
          this.$el.empty();
@@ -116,14 +126,14 @@ $(function(){
             var photoView = new mvc.PhotoView({model:photo});
             _this.$el.append(photoView.render().el);
          });
-         // $.app.properties.photoesControlPanel.after(this.$el);
-         $.app.properties.photoCollections.append(this.$el);
+         // $.app.properties.photosControlPanel.after(this.$el);
+         this.appendTo.append(this.$el);
          //UIが正常に働くように、プロパティを更新
          $.app.properties.photos = this.$el.find('.photo');
-         $.app.properties.photoesPanel.trigger('resize');
+         $.app.properties.photosPanel.trigger('resize');
          return this;
       },
-      showPhotoes : function()
+      showPhotos : function()
       {
          //現在のをhide、クリックされたのをshow、現在の値を更新
          $currentActivePhotoCollection.hide();
@@ -131,7 +141,7 @@ $(function(){
          $currentActivePhotoCollection.show();
          //UIが正常に働くように、プロパティを更新
          $.app.properties.photos = this.$el.find('.photo');
-         $.app.properties.photoesPanel.trigger('resize');
+         $.app.properties.photosPanel.trigger('resize');
       },
       unFocus : function(e)
       {
@@ -264,11 +274,11 @@ $(function(){
             photoIds[index] = model.id;
          },this);
          
-         data = JSON.stringify({ targetAlbum:targetAlbum.id, photoes:photoIds });
+         data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });
          options =
          {
             data : data,
-            url : 'DatPhotoes/'
+            url : 'DatPhotos/'
          } 
          Backbone.sync('update',null,options)
          .fail(function(){
@@ -282,11 +292,11 @@ $(function(){
          targetAlbum.PhotoCollectionView.$el.append($selectedElem);
 
       },
-      addPhotoes : function(models)
+      addPhotos : function(models)
       {
          console.log( 'add',models );
       },
-      removePhotoes : function(models)
+      removePhotos : function(models)
       {
          console.log("remove",models);
       }
@@ -294,7 +304,7 @@ $(function(){
 
    //イベントに特化したView
    mvc.PhotoCollectionEventHandlerView=Backbone.View.extend({
-      el : $.app.properties.photoes,
+      el : $.app.properties.photos,
       
    });
 
@@ -309,7 +319,7 @@ $(function(){
       },
       initialize : function()
       {
-         var photoCollection = new mvc.PhotoCollection(this.model.get('photoes'));
+         var photoCollection = new mvc.PhotoCollection(this.model.get('photos'));
          this.PhotoCollectionView = new mvc.PhotoCollectionView({collection:photoCollection});
          this.model.PhotoCollectionView = this.PhotoCollectionView;
          _.bindAll(this,'changeName','unFocus');
@@ -333,11 +343,11 @@ $(function(){
          //アルバムのサムネールを設定する & 縦横比に合わせてサイズを最適化
          var
          $coverImg = this.$el.find('.coverImg');
-         thumUrl = this.model.get('photoes')[0].thumUrl;
+         thumUrl = this.model.get('photos')[0].thumUrl;
          $coverImg.css({'background-image' : "url('"+thumUrl+"')"});
          return this;
       },
-      showPhotoes : function()
+      showPhotos : function()
       {
          this.PhotoCollectionView.render();
          return this;
@@ -351,7 +361,7 @@ $(function(){
             $albumNameInput.val(albumName); //アルバムの名前の表示を更新
             // console.log( this.model.get('albumName') );
             //$('#delete-photo').off(); //PhotoViewを生成時にイベントが累加されないように、予めイベントたちを全て削除しておく
-            this.showPhotoes();
+            this.showPhotos();
 
             mvc.router.navigate('album/'+albumName);
             $title.text('Phorest - '+albumName);
@@ -390,7 +400,7 @@ $(function(){
 
    //ここから宇宙が始まるぞ
    mvc.AlbumsView = Backbone.View.extend({
-      el : '#albums',
+      el : '#albums .mCSB_container',
       initialize : function()
       {
          this.collection.on('reset',this.render,this);
@@ -401,6 +411,7 @@ $(function(){
       {
          var
          firstAlbumView, //ループ後、最初のアルバムviewになる
+         PhotoCollectionView_right,
          albumEls = $("<div>"); //fragment element
          this.collection.each(function(album, index){
             /*
@@ -409,7 +420,7 @@ $(function(){
                albumName:  '風景',
                status:     'private',
                photoCount: 34,
-               photoes:[
+               photos:[
                   {
                      photoName:     '桜の花',
                      relatedAlbum:  '45345ffdex',
@@ -419,17 +430,29 @@ $(function(){
                ]
             }
             */
-            var
-            albumView = new mvc.AlbumView({model:album}),
-            albumEl = albumView.render().el;
+            if(!album.get('tempAlbum')) //臨時的な写真を格納するアルバムじゃなければ
+            {
+               var
+               albumView = new mvc.AlbumView({model:album}),
+               albumEl = albumView.render().el;
 
-            if(index==0){ firstAlbumView = albumView; }
-            albumEls.append(albumEl);
+               if(index==0){ firstAlbumView = albumView; } //最初のアルバムを決める
+               albumEls.append(albumEl);
+            }
+            else
+            {
+               var photoCollection = new mvc.PhotoCollection(album.get('photos'));
+               PhotoCollectionView_right = new mvc.PhotoCollectionView({collection:photoCollection},{appendTo:$('#uploadAreaContainer'),init:$.app.methods.fileDrop});
+               PhotoCollectionView_right.render().$el.show();
+               $('#uploadArea').hide();
+            }
+            
          });
 
          this.$el.append( albumEls.children() );
          //最初のアルバム内の写真を表示する
-         firstAlbumView.showPhotoes().$el.addClass('active');
+         firstAlbumView.showPhotos().$el.addClass('active');
+         PhotoCollectionView_right.$el.show();
       }
    });
 

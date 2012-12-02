@@ -70,6 +70,7 @@ a{
 	padding: 10px 20px;
 	position: relative;
 	cursor: pointer;
+	padding-left: 43px;
 }
 
 #up-photo {
@@ -250,9 +251,9 @@ a{
 
 
 
-/*photoes-panel*/
+/*photos-panel*/
 
-#photoes-panel{
+#photos-panel{
 	background-image: url("../images/common/bg_mid.png");
 	background-image: url("../images/common/shadow2.png"), url("../images/common/shadow3.png"), url("../images/common/bg_mid.png");
 	background-repeat: repeat-y, repeat-x, repeat;
@@ -311,7 +312,7 @@ a{
 	display: block;
 }
 
-#photoes-control-panel{
+#photos-control-panel{
 	width: 330px;
 	margin: 0 auto;
 	padding-top: 10px;
@@ -339,14 +340,14 @@ a{
 	background: rgba(255, 255, 255, 0.18);
 }
 
-#photoes-control-panel .row{
+#photos-control-panel .row{
 	padding: 10px 0;
 	display: block;
 	line-height: 1.5;
 }
 
-#preview {
-	padding-left: 40px;
+#preview, #upload-btn {
+	padding-left: 38px;
 	font-size: 12px;
 	position: relative;
 	cursor: pointer;
@@ -357,7 +358,7 @@ a{
 	transition:0.23s;
 }
 
-#delete-photo {
+#delete-photo, #delete-photo-right {
 	padding-left: 27px;
 	font-size: 12px;
 	position: relative;
@@ -370,12 +371,12 @@ a{
 	transition:0.23s;
 }
 
-#preview:hover, #delete-photo:hover{
+#preview:hover, #delete-photo:hover, #upload-btn:hover, #delete-photo-right:hover{
 	text-shadow: 0 0 30px white;
 }
 
 
-/*Photoes*/
+/*Photos*/
 
 .photoCollection .photo{
 	position: relative;
@@ -419,7 +420,7 @@ a{
 }
 
 
-.photoCollection .photo img, #uploadAreaContainer img{
+.photoCollection .photo img{
 	border-radius: 5px;
 	box-shadow: 0 3px 16px 6px rgba(0, 0, 0, 0.3);
 	cursor: pointer;
@@ -481,6 +482,8 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) ins
 #uploadAreaContainer{
 	height: 100%;
 	width: 100%;
+	background-image: url("../images/common/shadow4.png");
+	background-repeat: repeat-x;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -490,10 +493,25 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) ins
 	display: none;
 }
 
-#uploadAreaContainer img{
-	display: block;
-	float: left;
-	margin: 5px;
+
+
+#upload-control-panel{
+	color: #E7E7E7;
+	font-weight: bold;
+	width: 334px;
+	margin: 0 auto;
+	padding: 10px 0;
+	/*background: rgba(255, 0, 0, 0.2);*/
+	margin-top: -10px;
+	padding-bottom: 20px;
+}
+
+#upload-btn{
+
+}
+
+#delete-photo-right{
+
 }
 
 #uploadArea{

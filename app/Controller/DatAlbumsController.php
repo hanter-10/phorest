@@ -293,6 +293,7 @@ class DatAlbumsController extends AppController {
 		// 返り値のデフォルトセット：false
 		$this->set('datAlbum', false);
 
+		// idが存在するかチェック
 		$this->DatAlbum->id = $id;
 		if (!$this->DatAlbum->exists()) {
 			throw new NotFoundException(__('Invalid dat album'));

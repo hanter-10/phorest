@@ -235,7 +235,7 @@ EOF
 				/* バリデーション通過 */
 
 				/* update query */
-				$result = $this->DatAlbum->updateAll(
+				$result = $this->DatPhoto->updateAll(
 						// Update set
 						array(
 								'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
@@ -275,42 +275,51 @@ EOF
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
+
+		// 返り値のデフォルトセット：false
+		$this->set('datPhoto', false);
+
+		// idが存在するかチェック
 		$this->DatPhoto->id = $id;
 		if (!$this->DatPhoto->exists()) {
 			throw new NotFoundException(__('Invalid dat photo'));
 		}
-// 		if ($this->DatPhoto->delete()) {
-// 			$this->Session->setFlash(__('Dat photo deleted'));
-// 			$this->redirect(array('action' => 'index'));
-// 		}
-// 		$this->Session->setFlash(__('Dat photo was not deleted'));
-// 		$this->redirect(array('action' => 'index'));
 
+		// リクエストメソッド判断
+		if ($this->request->is('delete')) {
 
-		/* paramater set */
-		$datPhoto['DatPhoto']['photo_id'] = $id;
-		$datPhoto['DatPhoto']['status']  = 0;
-		$datPhoto['DatPhoto']['update_timestamp']  = date('Y-m-d h:i:s');
+			/* paramater set */
+			$datPhoto['DatPhoto']['photo_id'] = $id;
+			$datPhoto['DatPhoto']['status']  = 0;
+			$datPhoto['DatPhoto']['update_timestamp']  = date('Y-m-d h:i:s');
 
-		/* update query */
-		$result = $this->DatPhoto->updateAll(
-				// Update set
-				array(
-						'DatPhoto.status'		 	=> $datPhoto['DatPhoto']['status'],
-						'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'"
-				)
-				// Where
-				,array(
+			// Modelに値をセット
+			$this->DatPhoto->set($datPhoto);
+
+			// バリデーションチェック
+			if ($this->DatPhoto->validates()) {
+
+				/* バリデーション通過 */
+
+				/* update query */
+				$result = $this->DatPhoto->updateAll(
+						// Update set
 						array(
-								'DatPhoto.photo_id'	=> $datPhoto['DatPhoto']['photo_id']
+								'DatPhoto.status'		 	=> $datPhoto['DatPhoto']['status'],
+								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'"
 						)
-				)
-		);
-
-		$this->set('datPhoto', $result);
+						// Where
+						,array(
+								array(
+										'DatPhoto.photo_id'	=> $datPhoto['DatPhoto']['photo_id']
+								)
+						)
+				);
+				$this->set('datPhoto', $result);
+			}
+		} else {
+			throw new MethodNotAllowedException();
+		}
 		$this->set('_serialize', 'datPhoto');
 	}
 }

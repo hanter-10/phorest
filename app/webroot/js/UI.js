@@ -183,16 +183,16 @@ var methods =
     {
         var 
         albumEdge = $.app.properties.albumEdge,
-        photoesEdge = $.app.properties.photoesEdge;
+        photosEdge = $.app.properties.photosEdge;
 
         if(pageX<albumEdge) // in album area
         {
            this.position='album';
            
         }
-        else if(pageX>albumEdge && pageX<photoesEdge)
+        else if(pageX>albumEdge && pageX<photosEdge)
         {
-           this.position='photoesArea';
+           this.position='photosArea';
         }
         else
         {
@@ -251,12 +251,12 @@ UI.methods =
          _this                   = this,
          headerHeight            = $.app.properties.headerHeight,
          albumControlBarHeight   = $.app.properties.albumControlBarHeight,
-         photoesControlPanel     = $("#photoes-control-panel").outerHeight(true),
+         photosControlPanel     = $("#photos-control-panel").outerHeight(true),
          captionHeight           = $("#caption").outerHeight(),
          $albums              = $.app.properties.albums,
          $photoCollections    = $.app.properties.photoCollections,
          $previewPanel        = $("#preview-panel"),
-         $photoesPanel        = $("#photoes-panel"),
+         $photosPanel        = $("#photos-panel"),
          $imgContainer        = $.app.properties.imgContainer,
          $previewImg          = $("#preview-img"),
          winHeight, winWidth;//すべてのresizeCallbackで使う共通の変数
@@ -268,12 +268,12 @@ UI.methods =
             winWidth = $(window).width();
 
             $albums.height( winHeight-headerHeight-albumControlBarHeight-1 );
-            $photoCollections.outerHeight( winHeight-headerHeight-photoesControlPanel-1 );
+            $photoCollections.outerHeight( winHeight-headerHeight-photosControlPanel-1 );
 
             //previewPanel
             $previewPanel
             .outerHeight( winHeight-headerHeight-1 )
-            .outerWidth( winWidth - $.app.properties.albumsPanelWidth - $photoesPanel.outerWidth());
+            .outerWidth( winWidth - $.app.properties.albumsPanelWidth - $photosPanel.outerWidth());
             
             //imgContainer
             // $imgContainer.outerHeight( winHeight-headerHeight-1 );
@@ -284,10 +284,10 @@ UI.methods =
          {
 
             //jQuery UIのresizableを使い、パネルの幅をドラッグで変えられるようにする
-            $photoesPanel.resizable({ minWidth: 375 , axis: "x" , handles: "e" });
+            $photosPanel.resizable({ minWidth: 375 , axis: "x" , handles: "e" });
 
             //パネルのresize時に写真のアイコンのmarginを揃える (注: windowのresizeではない)
-            $photoesPanel.bind( "resize", function(event, ui){
+            $photosPanel.bind( "resize", function(event, ui){
                var
                $photos = $.app.properties.photos,
                newWidth_photoCollections = $.app.properties.photoCollections.width(),
@@ -297,7 +297,7 @@ UI.methods =
                _this.properties.photoCollectionsWidth = newWidth_photoCollections; //_this.howManyPerRow()が正しく動作するために、propertiesを更新
 
                var 
-               perRowCount = _this.hwoManyPhotoesPerRow(), //marginの長さも含めて、一行に何枚入るか
+               perRowCount = _this.hwoManyPhotosPerRow(), //marginの長さも含めて、一行に何枚入るか
                new_margin = Math.floor( (  (newWidth_photoCollections) -(photoWidth * perRowCount)  ) / (perRowCount*2) ) ;
 
                // console.log(perRowCount)
@@ -313,7 +313,7 @@ UI.methods =
          resizableUI();
       },
 
-      hwoManyPhotoesPerRow : function()
+      hwoManyPhotosPerRow : function()
       {
          return Math.floor(this.properties.photoCollectionsWidth / this.properties.photoWidth);
       },

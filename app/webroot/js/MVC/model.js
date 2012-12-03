@@ -9,7 +9,7 @@ $(function(){
       {
          this.on('change',this.update,this);
       },
-      defaults :
+      defaults : 
       {
          photoName:     undefined, //写真名
          relatedAlbum:  undefined, //どのアルバムに入っているか
@@ -64,7 +64,7 @@ $(function(){
       model:   mvc.AlbumModel,
       initialize : function()
       {
-
+         
       },
       parse : function(albumArr)
       {
@@ -73,7 +73,7 @@ $(function(){
             parsedJSON[index] = { photos : album.DatPhoto };
             _.extend( parsedJSON[index],album.DatAlbum );
          });
-
+         
          console.log(parsedJSON);
          return parsedJSON;
       }

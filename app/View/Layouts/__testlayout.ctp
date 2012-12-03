@@ -22,7 +22,7 @@
         <script type="text/javascript" src="js/jquery.mCustomScrollbar.js"></script>
         <script type="text/javascript" src="js/jquery.filedrop.js"></script>
         <script type="text/javascript" src="js/underscore1.4.2-min.js"></script>
-        <script type="text/javascript" src="js/backbone_092.js"></script>
+        <script type="text/javascript" src="js/backbone0.9.2-min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/UI.js"></script>
         <script type="text/javascript" src="js/MVC/model.js"></script>
@@ -54,10 +54,10 @@
                     <img src="images/common/logo.png" alt="logo" id="logo">
                     <div class="right-side">
                         <div id="up-photo" class="icon-upload prevent-select">
-                            アップロード
+                            写真をアップロード
                         </div>
-                        <div id="user-panel-hover" class="icon-user">
-                            <span id="username">xipx</span>
+                        <div id="user-panel-hover">
+                            <span id="username">xipx</span>▼
                         </div>
                     </div>
                 </div>
@@ -92,11 +92,11 @@
                 </div>
                 <!-- albums-panel (end) -->
 
-                <div id="photos-panel">
-                    <ul id="photos-control-panel">
+                <div id="photoes-panel">
+                    <ul id="photoes-control-panel">
                         <li class="row prevent-select">
                             <span class="icon-eye" id="preview">プレビュー</span>
-                            <span class="icon-cancel" id="delete-photo">写真を削除</span>
+                            <span class="icon-cancel-2" id="delete-photo">写真を削除</span>
                         </li>
                         <li class="row">
                             <input type="text" id="album-name-input" value="風景">
@@ -109,14 +109,10 @@
 
                     <div id="photoCollections"></div>
                 </div>
-                <!-- photos-panel (end) -->
+                <!-- photoes-panel (end) -->
 
                 <div id="preview-panel">
                     <div id="uploadAreaContainer">
-                        <div id="upload-control-panel" class="prevent-select">
-                            <span class="icon-upload" id="upload-btn">アップロード</span>
-                            <span class="icon-cancel" id="delete-photo-right">写真を削除</span>
-                        </div>
                         <div id="uploadArea">
                             <div class="text prevent-select">
                                 <span class="small">ここに写真をドロップして</span>

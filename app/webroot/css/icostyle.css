@@ -1,17 +1,17 @@
 @font-face {
-	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot');
-	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-	url('fonts/icomoon.svg#icomoon') format('svg'),
-	url('fonts/icomoon.woff') format('woff'),
-	url('fonts/icomoon.ttf') format('truetype');
+	font-family: 'icons';
+	src:url('../fonts/icons.eot');
+	src:url('../fonts/icons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icons.svg#icons') format('svg'),
+		url('../fonts/icons.woff') format('woff'),
+		url('../fonts/icons.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
-	font-family: 'icomoon';
+	font-family: 'icons';
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
@@ -20,33 +20,42 @@
 
 /* Use the following CSS code if you want to have a class per icon */
 [class^="icon-"]:before, [class*=" icon-"]:before {
-	font-family: 'icomoon';
+	font-family: 'icons';
 	font-style: normal;
 	speak: none;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
 }
-.icon-cancel:before {
+
+
+/* icons */
+
+
+.icon-download:before {
 	content: "\21";
 }
 .icon-upload:before {
-	content: "\22";
-	font-size: 20px;
+	content: "\40";
 	position: absolute;
-	top: 4px;
-	left: 22px;
-	color: white;
-}
-.icon-eye::before {
-	content: "\23";
-	font-size: 30px;
-	position: absolute;
-	top: -16px;
-	left: 0;
-	color: white;
+	left: 21px;
+	top: 2px;
+	font-size: 22px;
 }
 
-.icon-cancel-2::before {
+#upload-btn.icon-upload:before {
+	left: 0;
+	top: -18px;
+	font-size: 28px;
+}
+
+.icon-user:before {
+	content: "\23";
+	font-size: 20px;
+	position: absolute;
+	left: 17px;
+	top: 4px;
+}
+.icon-cancel:before {
 	content: "\24";
 	font-size: 20px;
 	position: absolute;
@@ -54,7 +63,17 @@
 	top: -10px;
 	color: white;
 }
-
-.icon-arrow-down:before {
+.icon-eye:before {
 	content: "\25";
+	font-size: 30px;
+	position: absolute;
+	top: -16px;
+	left: 0;
+	color: white;
+}
+.icon-search:before {
+	content: "\5e";
+}
+.icon-cog:before {
+	content: "\26";
 }

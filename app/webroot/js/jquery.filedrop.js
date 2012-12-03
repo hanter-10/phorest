@@ -36,7 +36,7 @@
       paramname: 'userfile',
       allowedfiletypes:[],
       maxfiles: 25,           // Ignored if queuefiles is set > 0
-      maxfilesize: 1,         // MB file size limit
+      maxfilesize: 10,         // MB file size limit
       queuefiles: 0,          // Max files before queueing (for large volume uploads)
       queuewait: 200,         // Queue wait time if full
       data: {},
@@ -222,7 +222,7 @@
 
       // Process an upload, recursive
       var process = function() {
-
+        console.log( 'process' );
         var fileIndex;
 
         if (stop_loop) {
@@ -477,7 +477,7 @@
       }
       var ords = Array.prototype.map.call(datastr, byteValue);
       var ui8a = new Uint8Array(ords);
-      this.send(ui8a.buffer);
+      this.send(ui8a);
     };
   } catch (e) {}
 

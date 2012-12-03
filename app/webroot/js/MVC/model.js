@@ -30,7 +30,7 @@ $(function(){
    **************************** Collection ****************************
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
-      url:     './DatPhotoes/',
+      url:     '/DatPhotos/',
       model:   mvc.PhotoModel
    });
 
@@ -45,7 +45,7 @@ $(function(){
          albumName:  undefined,  //アルバム名
          status:     undefined,  //公開状態 public | private
          photoCount: undefined,  //このアルバム内にある写真の枚数
-         photoes:    []          //このアルバム内の全ての写真
+         photos:    []          //このアルバム内の全ての写真
       },
       update : function()
       {
@@ -59,7 +59,7 @@ $(function(){
    ******************************* 宇宙の始まり *******************************
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
-//      url:     './DatAlbums/',
+      //url:     './DatAlbums',
       url:     'http://localhost:81/Phorest/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
@@ -70,7 +70,7 @@ $(function(){
       {
          var parsedJSON = [];
          _.each(albumArr,function(album,index){
-            parsedJSON[index] = { photoes : album.DatPhoto };
+            parsedJSON[index] = { photos : album.DatPhoto };
             _.extend( parsedJSON[index],album.DatAlbum );
          });
 

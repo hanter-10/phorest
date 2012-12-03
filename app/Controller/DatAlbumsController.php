@@ -186,7 +186,6 @@ class DatAlbumsController extends AppController {
 					$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
 
 					$this->set('datAlbum', $datAlbum);
-					$this->set('_serialize', 'datAlbum');
 				}
 			}
 
@@ -290,41 +289,55 @@ class DatAlbumsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
+
+		// 返り値のデフォルトセット：false
+		$this->set('datAlbum', false);
+
 		$this->DatAlbum->id = $id;
 		if (!$this->DatAlbum->exists()) {
 			throw new NotFoundException(__('Invalid dat album'));
+		} else {
+
 		}
-// 		if ($this->DatAlbum->delete()) {
-// 			$this->Session->setFlash(__('Dat album deleted'));
-// 			$this->redirect(array('action' => 'index'));
-// 		}
-// 		$this->Session->setFlash(__('Dat album was not deleted'));
-// 		$this->redirect(array('action' => 'index'));
 
-		/* paramater set */
-		$datAlbum['DatAlbum']['album_id'] = $id;
-		$datAlbum['DatAlbum']['status']  = 0;
-		$datAlbum['DatAlbum']['update_timestamp']  = date('Y-m-d h:i:s');
+		// リクエストメソッド判断
+		if ($this->request->is('delete')) {
 
-		/* update query */
-		$result = $this->DatAlbum->updateAll(
-				// Update set
-				array(
-						'DatAlbum.status' => $datAlbum['DatAlbum']['status']
-						,'DatAlbum.update_timestamp' => "'".$datAlbum['DatAlbum']['update_timestamp']."'"
-				)
-				// Where
-				,array(
+			/* paramater set */
+			$datAlbum['DatAlbum']['album_id'] = $id;
+			$datAlbum['DatAlbum']['status']  = 0;
+			$datAlbum['DatAlbum']['update_timestamp']  = date('Y-m-d h:i:s');
+
+			// Modelに値をセット
+			$this->DatAlbum->set($datAlbum);
+
+			// バリデーションチェック
+			if ($this->DatAlbum->validates()) {
+
+				/* バリデーション通過 */
+
+				/* update query */
+				$result = $this->DatAlbum->updateAll(
+						// Update set
 						array(
-								'DatAlbum.album_id' => $datAlbum['DatAlbum']['album_id']
+								'DatAlbum.status' => $datAlbum['DatAlbum']['status']
+								,'DatAlbum.update_timestamp' => "'".$datAlbum['DatAlbum']['update_timestamp']."'"
 						)
-				)
-		);
+						// Where
+						,array(
+								array(
+										'DatAlbum.album_id' => $datAlbum['DatAlbum']['album_id']
+								)
+						)
+				);
+				$this->set('datAlbum', $result);
+			}
+		} else {
+			// deleteではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
+		}
 
-		$this->set('datAlbum', $result);
+
 		$this->set('_serialize', 'datAlbum');
 	}
 }

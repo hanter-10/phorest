@@ -136,31 +136,53 @@ EOF
 // 		$datPhotosetPhotoRelations = $this->DatPhoto->DatPhotosetPhotoRelation->find('list');
 // 		$this->set(compact('datUsers', 'mstImageServers', 'datPhotosetPhotoRelations'));
 
+		// 返り値のデフォルトセット：false
+		$this->set('datPhoto', false);
 
-		/* $_FILEデータ受信処理 */
+		// リクエストメソッド判断
+		if ($this->request->is('post')) {
 
+			/* TODO:$_FILEデータ受信処理 */
 
-		/* paramater set */
-		$datPhoto['DatPhoto']['fk_user_id']				= $this->params['data']['user_id'];		// TODO:セッションより取得する
-		$datPhoto['DatPhoto']['fk_image_server_id']		= 1;			// TODO:対象の画像サーバのidを取得する
-		$datPhoto['DatPhoto']['name']					= $this->params['data']['name'];
-		$datPhoto['DatPhoto']['description']			= $this->params['data']['description'];
-		$datPhoto['DatPhoto']['file_name']				= '';			// TODO:画像の名前を決める
-		$datPhoto['DatPhoto']['size']					= 100;			// TODO:画像のサイズを取得
-		$datPhoto['DatPhoto']['type']					= 'jpg';		// TODO:画像のタイプを取得
-		$datPhoto['DatPhoto']['status']					= 1;			// デフォルトは有効
-		$datPhoto['DatPhoto']['create_datetime']		= date('Y-m-d h:i:s');
-		$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
+			// リクエストデータをJSON形式にエンコードで取得する
+			$data = $this->request->input('json_decode');
 
-		/* insert query */
-		$this->DatPhoto->create();
-		if ($this->DatPhoto->save($datPhoto)) {
-			/* get insert new id */
-			$datPhoto['DatPhoto']['photo_id'] = $this->DatPhoto->id;
+			// TODO:$dataの内容を確認して動的にModelに値をセットできるようにする
 
-			$this->set('datPhoto', $datPhoto);
-			$this->set('_serialize', 'datPhoto');
+			/* paramater set */
+			$datPhoto['DatPhoto']['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+			$datPhoto['DatPhoto']['fk_image_server_id']		= 1;								// TODO:対象の画像サーバのidを取得する
+			$datPhoto['DatPhoto']['name']					= $data->photoName;					// 写真名
+			$datPhoto['DatPhoto']['description']			= $data->description;				// 写真説明
+			$datPhoto['DatPhoto']['file_name']				= '';								// TODO:画像の名前を決める
+			$datPhoto['DatPhoto']['size']					= 100;								// TODO:画像のサイズを取得
+			$datPhoto['DatPhoto']['type']					= 'jpg';							// TODO:画像のタイプを取得
+			$datPhoto['DatPhoto']['status']					= 1;								// デフォルトは有効
+			$datPhoto['DatPhoto']['create_datetime']		= date('Y-m-d h:i:s');
+			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
+
+			// Modelに値をセット
+			$this->DatPhoto->set($datPhoto);
+
+			// バリデーションチェック
+			if ($this->DatPhoto->validates()) {
+
+				/* バリデーション通過 */
+
+				/* insert query */
+				$this->DatPhoto->create();
+				if ($this->DatPhoto->save($datPhoto)) {
+					/* get insert new id */
+					$datPhoto['DatPhoto']['photo_id'] = $this->DatPhoto->id;
+
+					$this->set('datPhoto', $datPhoto);
+				}
+			}
+		} else {
+			// postではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
 		}
+		$this->set('_serialize', 'datPhoto');
 	}
 
 /**
@@ -171,45 +193,70 @@ EOF
  * @return void
  */
 	public function edit($id = null) {
+
+		// 返り値のデフォルトセット：false
+		$this->set('datPhoto', false);
+
 		$this->DatPhoto->id = $id;
 		if (!$this->DatPhoto->exists()) {
 			// Not Data
 			throw new NotFoundException(__('Invalid dat photo'));
+		} else {
+
 		}
 
-		// リクエストデータをJSON形式にエンコードで取得する
-		$data = $this->request->input('json_decode');
-
-		$this->set('datPhoto', false);
+		// リクエストメソッド判断
 		if ($this->request->is('put')) {
+
+			// リクエストデータをJSON形式にエンコードで取得する
+			$data = $this->request->input('json_decode');
+
+			// TODO:ここで$dataに格納されているパラメータの確認をして、$datAlbum配列に格納されているパラメータのみ格納するメソッドを書いて動的なパラメータでupdateAllに渡すようにする
 
 			/* paramater set */
 			$datPhoto;
-			$datPhoto['DatPhoto']['name']					= $data->photoname;
-// 			$datPhoto['DatPhoto']['description']			= $data->description;;
-// 			$datPhoto['DatPhoto']['status']					= $this->params['data']['status'];
+			$datAlbum['DatPhoto']['photo_id']			= $id;
+			$datAlbum['DatPhoto']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+			$datPhoto['DatPhoto']['name']				= $data->photoName;
+// 			$datPhoto['DatPhoto']['description']		= $data->description;;
+// 			$datPhoto['DatPhoto']['status']				= $data->status;
 			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
 
-			/* update query */
-			$result = $this->DatAlbum->updateAll(
-					// Update set
-					array(
-							'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
-							'DatPhoto.description'		=> "'".$datPhoto['DatPhoto']['description']."'",
-							'DatPhoto.status'			=> $datPhoto['DatPhoto']['status']."'",
-							'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
-					)
-					// Where
-					,array(
-							array(
-									'DatPhoto.photo_id' => $datAlbum['DatPhoto']['photo_id']
-							)
-					)
-			);
-			$this->set('datPhoto', $result);
+
+			// Modelに値をセット
+			$this->DatPhoto->set($datPhoto);
+
+			// バリデーションチェック
+			if ($this->DatPhoto->validates()) {
+
+				// TODO:update fieldを動的に設定
+
+
+				/* バリデーション通過 */
+
+				/* update query */
+				$result = $this->DatAlbum->updateAll(
+						// Update set
+						array(
+								'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
+// 								'DatPhoto.description'		=> "'".$datPhoto['DatPhoto']['description']."'",
+// 								'DatPhoto.status'			=> $datPhoto['DatPhoto']['status']."'",
+								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
+						)
+						// Where
+						,array(
+								array(
+										'DatPhoto.photo_id' => $datAlbum['DatPhoto']['photo_id'],
+										'DatPhoto.fk_user_id' => $datAlbum['DatPhoto']['fk_user_id'],
+								)
+						)
+				);
+				$this->set('datPhoto', $result);
+			}
 		} else {
-			// Bat Request
-			$this->request->data = $this->DatPhoto->read(null, $id);
+
+			// putではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
 		}
 		$this->set('_serialize', 'datPhoto');
 

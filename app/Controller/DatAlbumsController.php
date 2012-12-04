@@ -11,7 +11,7 @@ class DatAlbumsController extends AppController {
  * [ Phorest ] :
  */
 	public $viewClass = 'Json';
-	public $components = array('RequestHandler');
+	public $components = array('RequestHandler','Convert');
 
 	function beforeFilter() {
 		// 親クラスをロード
@@ -223,19 +223,32 @@ class DatAlbumsController extends AppController {
 		if ($this->request->is('put')) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$data = $this->request->input('json_decode');
+			$requestData = $this->request->input('json_decode');
 
 			// TODO:ここで$dataに格納されているパラメータの確認をして、$datAlbum配列に格納されているパラメータのみ格納するメソッドを書いて動的なパラメータでupdateAllに渡すようにする
+			$optionData = array();
 
+			/* 固定パラメータセット */
+			$optionData = array(
+						'album_id'			=> $id,
+						'fk_user_id'		=> $this->Auth->user('user_id'),
+// 						'flg'				=> ,
+// 						'status'			=> ,
+						'update_timestamp'	=> date('Y-m-d h:i:s'),
+					);
+			/* リクエストパラメータセット */
+			$datAlbum = $this->Convert->doConvertObjectToArray($requestData, 'DatAlbum', $optionData);
 
-			/* paramater set */
-			$datAlbum['DatAlbum']['album_id']			= $id;
+// 			$datAlbum['DatAlbum']['album_id']			= $id;
 // 			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datAlbum['DatAlbum']['name']				= $data->albumName;
+// 			$datAlbum['DatAlbum']['name']				= $data->albumName;
 // 			$datAlbum['DatAlbum']['description']		= $data->description;
 // 			$datAlbum['DatAlbum']['flg']				= $data->flg;
 // 			$datAlbum['DatAlbum']['status']				= $data->status;
-			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
+// 			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
+
+
+
 
 			// Modelに値をセット
 			$this->DatAlbum->set($datAlbum);

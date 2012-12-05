@@ -225,26 +225,15 @@ class DatAlbumsController extends AppController {
 			// リクエストデータをJSON形式にエンコードで取得する
 			$requestData = $this->request->input('json_decode');
 
-			// TODO:ここで$dataに格納されているパラメータの確認をして、$datAlbum配列に格納されているパラメータのみ格納するメソッドを書いて動的なパラメータでupdateAllに渡すようにする
-
 			/* 固定パラメータセット */
 			$optionData = array();
 			$optionData = array(
-						'album_id'			=> $id,
-						'fk_user_id'		=> $this->Auth->user('user_id'),
-// 						'flg'				=> ,
-// 						'status'			=> ,
-						'update_timestamp'	=> date('Y-m-d h:i:s'),
-					);
+				'album_id'			=> $id,
+				'fk_user_id'		=> $this->Auth->user('user_id'),
+				'update_timestamp'	=> date('Y-m-d h:i:s'),
+			);
 			/* リクエストパラメータセット */
 			$datAlbum = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbum', $optionData);
-
-			/* 配列のキー値の例外チェック */
-			if ( !$this->Check->doCheckArrayKeyToModel( $datAlbum['DatAlbum'], $this->DatAlbum->modelColumn ) ) {
-
-				// エラー：例外パラメータ
-				throw new BadRequestException(__('Bad Request.'));
-			}
 
 // 			$datAlbum['DatAlbum']['album_id']			= $id;
 // 			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
@@ -254,8 +243,11 @@ class DatAlbumsController extends AppController {
 // 			$datAlbum['DatAlbum']['status']				= $data->status;
 // 			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
 
-
-
+			/* 配列のキー値の例外チェック */
+			if ( !$this->Check->doCheckArrayKeyToModel( $datAlbum['DatAlbum'], $this->DatAlbum->modelColumn ) ) {
+				// エラー：例外パラメータ
+				throw new BadRequestException(__('Bad Request.'));
+			}
 
 			// Modelに値をセット
 			$this->DatAlbum->set($datAlbum);
@@ -264,38 +256,33 @@ class DatAlbumsController extends AppController {
 			if ($this->DatAlbum->validates()) {
 
 				/* バリデーション通過 */
-				var_dump($datAlbum);
-				exit;
-
-				// TODO:update fieldを動的に設定
-
 
 				/* update query */
 				$result = $this->DatAlbum->updateAll(
 						// Update set
-						array(
+// 						array(
 // 								'DatAlbum.albumName'		=> "'".$datAlbum['DatAlbum']['name']."'",
 // 								'DatAlbum.description'		=> "'".$datAlbum['DatAlbum']['description']."'",
 // 								'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
 // 								'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],
 // 								'DatAlbum.update_timestamp'	=> "'".$datAlbum['DatAlbum']['update_timestamp']."'",
-						)
+// 						)
+						// update fieldを動的に設定
+						$this->Convert->doConvertArrayKeyToQueryArray( $datAlbum['DatAlbum'], 'DatAlbum', $this->DatAlbum->updateColumn ),
 						// Where
-						,array(
-								array(
-										'DatAlbum.album_id' => $datAlbum['DatAlbum']['album_id'],
-										'DatAlbum.fk_user_id' => $datAlbum['DatAlbum']['fk_user_id'],
-								)
+						array(
+							array(
+								'DatAlbum.album_id' => $datAlbum['DatAlbum']['album_id'],
+								'DatAlbum.fk_user_id' => $datAlbum['DatAlbum']['fk_user_id'],
+							)
 						)
 				);
 				$this->set('datAlbum', $result);
 			}
-
 			// Validationエラー内容
 // 			$this->DatAlbum->validationErrors;
 
 		} else {
-
 			// putではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}

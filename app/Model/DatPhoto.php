@@ -23,6 +23,32 @@ class DatPhoto extends AppModel {
 	public $displayField = 'name';
 
 /**
+ * Model Column Set
+ *
+ * @var unknown
+ */
+	public $modelColumn = array(
+		'photo_id',
+		'fk_user_id',
+		'fk_image_server_id',
+		'photoName',
+		'description',
+		'size',
+		'type',
+		'status',
+		'create_datetime',
+		'update_timestamp',
+	);
+
+	public $updateColumn = array(
+		'photoName',
+		'description',
+		'flg',
+		'status',
+		'update_timestamp',
+	);
+
+/**
  * Validation rules
  *
  * @var array
@@ -58,7 +84,7 @@ class DatPhoto extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
+		'photoName' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',

@@ -11,7 +11,7 @@ class DatPhotosController extends AppController {
  * [ Phorest ] :
  */
 	public $viewClass = 'Json';
-	public $components = array('RequestHandler');
+	public $components = array('RequestHandler','Convert','Check');
 
 	function beforeFilter() {
 		// 親クラスをロード
@@ -209,19 +209,30 @@ EOF
 		if ($this->request->is('put')) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$data = $this->request->input('json_decode');
+			$requestData = $this->request->input('json_decode');
 
-			// TODO:ここで$dataに格納されているパラメータの確認をして、$datAlbum配列に格納されているパラメータのみ格納するメソッドを書いて動的なパラメータでupdateAllに渡すようにする
+			/* 固定パラメータセット */
+			$optionData = array();
+			$optionData = array(
+				'photo_id'			=> $id,
+				'fk_user_id'		=> $this->Auth->user('user_id'),
+				'update_timestamp'	=> date('Y-m-d h:i:s'),
+			);
+			/* リクエストパラメータセット */
+			$datPhoto = $this->Convert->doConvertObjectToModelArray($requestData, 'DatPhoto', $optionData);
 
-			/* paramater set */
-			$datPhoto;
-			$datAlbum['DatPhoto']['photo_id']			= $id;
-			$datAlbum['DatPhoto']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datPhoto['DatPhoto']['name']				= $data->photoName;
+// 			$datPhoto['DatPhoto']['photo_id']			= $id;
+// 			$datPhoto['DatPhoto']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+// 			$datPhoto['DatPhoto']['name']				= $data->photoName;
 // 			$datPhoto['DatPhoto']['description']		= $data->description;;
 // 			$datPhoto['DatPhoto']['status']				= $data->status;
-			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
+// 			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
 
+			/* 配列のキー値の例外チェック */
+			if ( !$this->Check->doCheckArrayKeyToModel( $datPhoto['DatPhoto'], $this->DatPhoto->modelColumn ) ) {
+				// エラー：例外パラメータ
+				throw new BadRequestException(__('Bad Request.'));
+			}
 
 			// Modelに値をセット
 			$this->DatPhoto->set($datPhoto);
@@ -229,32 +240,33 @@ EOF
 			// バリデーションチェック
 			if ($this->DatPhoto->validates()) {
 
-				// TODO:update fieldを動的に設定
-
-
 				/* バリデーション通過 */
 
 				/* update query */
 				$result = $this->DatPhoto->updateAll(
 						// Update set
-						array(
-								'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
+// 						array(
+// 								'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
 // 								'DatPhoto.description'		=> "'".$datPhoto['DatPhoto']['description']."'",
 // 								'DatPhoto.status'			=> $datPhoto['DatPhoto']['status']."'",
-								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
-						)
+// 								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
+// 						)
+						// update fieldを動的に設定
+						$this->Convert->doConvertArrayKeyToQueryArray( $datPhoto['DatPhoto'], 'DatPhoto', $this->DatPhoto->updateColumn ),
 						// Where
-						,array(
+						array(
 								array(
-										'DatPhoto.photo_id' => $datAlbum['DatPhoto']['photo_id'],
-										'DatPhoto.fk_user_id' => $datAlbum['DatPhoto']['fk_user_id'],
+										'DatPhoto.photo_id' => $datPhoto['DatPhoto']['photo_id'],
+										'DatPhoto.fk_user_id' => $datPhoto['DatPhoto']['fk_user_id'],
 								)
 						)
 				);
 				$this->set('datPhoto', $result);
 			}
-		} else {
+			// Validationエラー内容
+// 			$this->DatAlbum->validationErrors;
 
+		} else {
 			// putではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}

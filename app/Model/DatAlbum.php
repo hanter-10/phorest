@@ -38,7 +38,7 @@ class DatAlbum extends AppModel {
 		'update_timestamp',
 	);
 
-	public $updateClumn = array(
+	public $updateColumn = array(
 		'albumName',
 		'description',
 		'flg',

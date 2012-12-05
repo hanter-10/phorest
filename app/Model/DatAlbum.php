@@ -23,6 +23,30 @@ class DatAlbum extends AppModel {
 	public $displayField = 'name';
 
 /**
+ * Model Column Set
+ *
+ * @var unknown
+ */
+	public $modelColumn = array(
+		'album_id',
+		'fk_user_id',
+		'albumName',
+		'description',
+		'flg',
+		'status',
+		'create_datetime',
+		'update_timestamp',
+	);
+
+	public $updateClumn = array(
+		'albumName',
+		'description',
+		'flg',
+		'status',
+		'update_timestamp',
+	);
+
+/**
  * Validation rules
  *
  * @var array
@@ -48,7 +72,7 @@ class DatAlbum extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
+		'albumName' => array(
 			'notEmpty' => array(
 					'rule' => array('notEmpty'),
 					//'message' => 'Your custom message here',

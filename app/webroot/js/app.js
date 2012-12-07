@@ -1,96 +1,80 @@
+//命名空間やアプリで使うプロパティなどを設定しておく
+
 $(document).ready(function(){
-   
-    $.utilities = 
-    {
 
-        CSSSupports : function(cssProp)
-        {
-            var
-            div = document.createElement('div'),  
-            vendors = 'Khtml Ms O Moz Webkit'.split(' '),  
-            len = vendors.length;
-            if ( cssProp in div.style ) return true;
-
-            cssProp = cssProp.replace(/^[a-z]/, function(val) {  
-                return val.toUpperCase();  
-            });  
-            while(len--) {  
-                if ( vendors[len] + cssProp in div.style ) {  
-                    return true;  
-                }  
-            }  
-            return false;
-        }
-    };
-
-
+    var mvc;
     $.app = {};
-    $.app.Backbone = {};
+    $.app.Backbone = {};  mvc = $.app.Backbone;
     $.app.properties = 
     {
-        headerHeight : $("#header").outerHeight(true),
-        albumControlBarHeight : $("#album-control-bar").outerHeight(true),
-        albums : $("#albums"),
-        photos : {},
-        previewImg : $("#preview-img"),
-        imgContainer : $("#imgContainer"),
-        previewImg : $("#preview-img"),
-        albumsPanel:$("#albums-panel"),
-        photosPanel : $("#photos-panel"),
-        albumsPanelWidth : $("#albums-panel").outerWidth(),
-        albumEdge : $("#albums-panel").outerWidth(),
-        photosEdge : $("#albums-panel").outerWidth() + $("#photos-panel").outerWidth(),
-        photoCollections : $("#photoCollections"),
-        albumNameInput : $('#album-name-input')
+        headerHeight:           $("#header").outerHeight(true),
+        albumControlBarHeight:  $("#album-control-bar").outerHeight(true),
+        albums:                 $("#albums"),
+        photos:                 $('#photoCollections .photoCollection .photo'),
+        photos_right:           $("#uploadAreaContainer .photoCollection .photo"),
+        previewImg:             $("#preview-img"),
+        imgContainer:           $("#imgContainer"),
+        previewImg:             $("#preview-img"),
+        albumsPanel:            $("#albums-panel"),
+        photosPanel:            $("#photos-panel"),
+        albumsPanelWidth:       $("#albums-panel").outerWidth(),
+        albumEdge:              $("#albums-panel").outerWidth(),
+        photosEdge:             $("#albums-panel").outerWidth() + $("#photos-panel").outerWidth(),
+        photoCollections:       $("#photoCollections"),
+        albumNameInput:         $('#album-name-input'),
+        photoCollections_right: $('#uploadAreaContainer')
     };
 
 
-   $.app.methods =
-   {
-    init : function()
+    $.app.methods =
     {
-      var 
-         _this = this, 
-         $albums = $.app.properties.albums,
-         $photos = $.app.properties.photoCollections;
+        init : function()
+        {
+            var 
+            _this = this, 
+            $albums = $.app.properties.albums,
+            $photos = $.app.properties.photoCollections;
 
-         $albums.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true }});
-         $photos.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true }});
-         
-         
-         if(!$.utilities.CSSSupports("box-shadow")) $('body').addClass("no-box-shadow")
-         this.clickable();
-         // this.fileDrop();
-    },
+            //customize scrollbar
+            $albums.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true }});
+            $photos.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true }});
+            $('#uploadedPhotos').mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true }});
+            //add scrollTop method
+            $.app.properties.albums._scrollTop = function(){ var st = parseInt(this.find('.mCSB_container').css('top')); return -st; }
 
-    
+            //if(!$.utilities.CSSSupports("box-shadow")) $('body').addClass("no-box-shadow")
+            this.clickable();
+            this.fileDrop();
+        },
 
-      clickable : function()
-      {
-         var
-         $uploadAreaContainer = $("#uploadAreaContainer"),
-         $fig = $("#preview-panel>figure");
 
-         $("#up-photo").toggle
-         (
+
+        clickable : function()
+        {
+            var
+            $uploadAreaContainer = $("#uploadAreaContainer"),
+            $fig = $("#preview-panel>figure");
+
+            $("#up-photo").toggle
+            (
             function(){ $uploadAreaContainer.show(); $fig.hide(); },
             function(){ $fig.show(); $uploadAreaContainer.hide(); }
-         );
+            );
 
-         //------------------------アルバムのアクティブ状態----------------------------
-         $("#albums .cover").live
-         (
+            //------------------------アルバムのアクティブ状態----------------------------
+            $("#albums .cover").live
+            (
             "click",
             function()
             {
-               $("#albums .album").removeClass("active");
-               $(this).parent().addClass("active");
+            $("#albums .album").removeClass("active");
+            $(this).parent().addClass("active");
             }
-         );
+            );
 
-         //------------------------アルバムの追加-----------------------------
-         $("#add-album").click(function()
-         {
+            //------------------------アルバムの追加-----------------------------
+            $("#add-album").click(function()
+            {
             var $albums = $.app.properties.albums;
             $newAlbum = $('<div class="album"><div class="cover"><img src="images/cover" alt="cover" draggable="false" width="102" height="102"><span class="album-name">風景</span></div><span class="status">非公開</span></div>');
             $newAlbum.appendTo($albums);
@@ -99,171 +83,124 @@ $(document).ready(function(){
             $newAlbum.addClass("active");
             // $.app.properties.photos.html('');
             $.app.properties.albums.mCustomScrollbar("update");
-         });
+            });
 
-      },
+        },
 
-      
+        fileDrop: function()
+        {
+            $("#uploadAreaContainer").dropfile({
+                //url: './upload/',
+				url:   'http://development/phorest/uploads/',
+                inputID: 'photoFiles',
+                accept: ['image/jpeg','image/png','image/gif'],
+                drop: function(files,upload)
+                {
+                    var views;
+                    views = renderPic(files); //画像を表示する
+                    $.each(files,function(index,file){
+                        var data = { view: views[index] };
+                        upload(file,data);
+                    });
+                },
+                progress: function(e,percentage)
+                {
+                    var $el = e.data.view.$el;
+                    $el.find('.currentbar').width(percentage+"%");
+                    // console.log( percentage+"%" );
+                },
+                load: function(e,responseText)
+                {
+                    // console.log( e.data );
+                    var
+                    view = e.data.view,
+                    $el = view.$el,
+                    model = view.model,
+                    newAttributes = responseText;
+                    $el.find('.processbar').remove();
+                    $el.find('.filename').show();
+                    $.extend(model.attributes,newAttributes);
 
-      
+                    $.app.properties.PhotoCollectionView_right.collection.add(model);
 
-      fileDrop: function(_this)
-      {
-      $('#uploadAreaContainer').filedrop({
-          fallback_id: 'photoFiles',   // an identifier of a standard file input element
-          url: 'http://localhost:8888/phorest/upload/index.php',              // upload handler, handles each file separately
-          paramname: 'userfile',          // POST parameter name used on serverside to reference file
-          withCredentials: true,          // make a cross-origin request with cookies
-          data: {
-              param1: 'value1'           // send POST variables
-          },
-          headers: {          // Send additional request headers
-              'header': 'value'
-          },
-          error: function(err, file) {
-              switch(err) {
-                  case 'BrowserNotSupported':
-                      alert('browser does not support html5 drag and drop')
-                      break;
-                  case 'TooManyFiles':
-                      // user uploaded more than 'maxfiles'
-                      break;
-                  case 'FileTooLarge':
-                      // program encountered a file whose size is greater than 'maxfilesize'
-                      // FileTooLarge also has access to the file which was too large
-                      // use file.name to reference the filename of the culprit file
-                      break;
-                  case 'FileTypeNotAllowed':
-                      // The file type is not in the specified list 'allowedfiletypes'
-                  default:
-                      break;
-              }
-          },
-          allowedfiletypes: ['image/jpeg','image/png','image/gif'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
-          maxfiles: 25,
-          maxfilesize: 20,    // max file size in MBs
-          dragEnter: function() {
-             
-          },
-          dragOver: function(e) {
-              // user dragging files over #dropzone
-              $("#uploadArea").addClass("active");
-          },
-          dragLeave: function() {
-              // user dragging files out of #dropzone
-              $("#uploadArea").removeClass("active");
-          },
-          docOver: function() {
-              // user dragging files anywhere inside the browser document window
-          },
-          docLeave: function() {
-              // user dragging files out of the browser document window
-          },
-          drop: function(e) {
-              // user drops file
-              $("#uploadArea").removeClass("active").hide();
-              var
-              i,
-              url,
-              img,
-              files = e.dataTransfer ? e.dataTransfer.files : e.target.files; //e.target.files for input element
+                    console.log( 'loaded' );
+                },
+                allLoaded: function()
+                {
+                    console.log( 'all uploaded' );
+                }
+            });
+        }
 
-              if (files.length === 0) { return; }
-              
-              for(i=0,length=files.length; i<length; i++)
-              {
+    };
+
+    
+
+
+   //---------------- functions -------------------
+
+   function renderPic(files)
+   {
+        var 
+        url,
+        views=[];
+
+        for(i=0,len=files.length; i<len; i++)
+        {
+            var 
+            processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
+            photoModel = new mvc.PhotoModel({
+                photoName: files[i].name,
+                relatedAlbum: "tempAlbum"
+            }),
+            photoView = new mvc.PhotoView({model:photoModel},{deleteBtn:$('#delete-photo')}),
+            photoEl = photoView.render().el;
+            $(photoEl).find('.filename').hide().after(processbar);
+            $.app.properties.photos_right.push(photoEl);
+            views.push(photoView);
+            console.log( photoView.model,"mmm" );
+            if(window.URL){
                 url = window.URL.createObjectURL(files[i]);
-                $img = $("<img height='113' draggable='false'>");
-                $("#uploadAreaContainer .photoCollection").append($img);
-                $img[0].src=url;
-                window.URL.revokeObjectURL(url);
-              }
-          },
-          uploadStarted: function(i, file, len){
-              // a file began uploading
-              // i = index => 0, 1, 2, 3, 4 etc
-              // file is the actual file of the index
-              // len = total files user dropped
-          },
-          uploadFinished: function(i, file, response, time) {
-              // response is the data you got back from server in JSON format.
-              console.log( 'finidshed' );
-          },
-          progressUpdated: function(i, file, progress) {
-              // this function is used for large files and updates intermittently
-              // progress is the integer value of file being uploaded percentage to completion
-              console.log(i,progress)
-          },
-          globalProgressUpdated: function(progress) {
-              // progress for all the files uploaded on the current instance (percentage)
-              // ex: $('#progress div').width(progress+"%");
-          },
-          speedUpdated: function(i, file, speed) {
-              // speed in kb/s
-          },
-          rename: function(name) {
-              // name in string format
-              // must return alternate name as string
-          },
-          beforeEach: function(file) {
-              // file is a file object
-              // return false to cancel upload
-          },
-          beforeSend: function(file, i, done) {
-              // file is a file object
-              // i is the file index
-              // call done() to start the upload
-              done()
-          },
-          afterAll: function() {
-              // runs after all files have been uploaded or otherwise dealt with
-          }
-      });
-      }
+                photoView.model.set({imgUrl:url},{silent: true});
+                $("#uploadAreaContainer .photoCollection").append(photoEl);
+                $.app.properties.photosPanel.trigger('resize');
+                $(photoEl).find('img').hide().load(function(){
+                    $(this).attr({height:null,width:null});
+                    if(this.width/this.height > 150/113) { //横長
+                        $(this).attr({height:null,width:150}).show();
+                    }else{
+                        $(this).attr({height:113,width:null}).show();
+                    }
+                })[0].src=url;
 
+                // window.URL.revokeObjectURL(url);
+            }else{
+                var fr = new FileReader();
+                fr.addEventListener('load',function(e){
+                    url = this.result;
+                    $("#uploadAreaContainer .photoCollection").append(photoEl);
+                    $.app.properties.photosPanel.trigger('resize');
+                    $(photoEl).find('img').hide().load(function(){
+                    $(this).attr({height:null,width:null});
+                        if(this.width/this.height > 150/113) { //横長
+                            $(this).attr({height:null,width:150}).show();
+                        }else{
+                            $(this).attr({height:113,width:null}).show();
+                        }
+                    })[0].src=url;
+                    
+                });
+                fr.readAsDataURL(files[i]);
+            }
 
-   };
-
-   $.app.methods.init();
-
+        }
+        return views;
+    }
 
 
 
    //-----------------------------------
-   $.mouseIsOutside = function(event) 
-   {
-       var r;
-       var c;
-       
-       try {
-           c = event.currentTarget;
-           r = event.relatedTarget;
-           
-           // DOM3 Core: r がウィンドウ外にあるか、または c の内部にない
-           return ! r ||
-                  ! r.isSameNode (c) &&
-                  0 === (r.compareDocumentPosition (c) & Node.DOCUMENT_POSITION_CONTAINS);
-       }
-       catch (err1) {
-           try {
-               c = this;
-               r = event.toElement;
-               
-               // MSHTML: r がウィンドウ外にあるか、または c の内部にない
-               return ! r ||
-                      c !== r &&
-                      ! c.contains (r);
-           }
-           catch (err2) {
-               c = event.currentTarget;
-               r = event.relatedTarget;
-               
-               // DOM1: r が c の内部にない
-               while ((r = r.parentNode)) if (r === c) break;
-               return ! r;
-           }
-       }
-   }
+   
 
    //-----------------------------------
    

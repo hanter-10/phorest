@@ -13,6 +13,8 @@ class DatAlbumsController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler','Convert','Check');
 
+	public $uses = array('DatAlbum','DatPhoto');
+
 	function beforeFilter() {
 		// 親クラスをロード
 		parent::beforeFilter();
@@ -102,10 +104,79 @@ class DatAlbumsController extends AppController {
 			}
 		}
 
+// 		$this->set('datAlbums', $datAlbums);
+
+
+		// アルバム以外の写真検索
+		$db = $this->DatPhoto->getDataSource();
+		$datPhotos = $db->fetchAll(
+				<<<EOF
+				SELECT
+					DatPhoto.photo_id as id,
+					DatPhoto.fk_user_id,
+					DatPhoto.photoName as photoName,
+					DatPhoto.description as description,
+					DatPhoto.file_name,
+					DatPhoto.thum_file_name,
+					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.file_name) as imgUrl,
+					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.thum_file_name) as thumUrl,
+					DatPhoto.size,
+					DatPhoto.type,
+					DatPhoto.status,
+					DatPhoto.create_datetime,
+					DatPhoto.update_timestamp
+				FROM
+					`dat_photos` as DatPhoto
+					left outer join dat_album_photo_relations as DatAlbumPhotoRelation
+						on DatPhoto.photo_id = DatAlbumPhotoRelation.fk_photo_id
+					left outer join dat_users as DatUser
+						on DatPhoto.fk_user_id = DatUser.user_id
+					inner join mst_image_servers as MstImageServer
+						on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
+				where
+					DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?
+EOF
+				,array(1)
+		);
+
+		// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
+		foreach( $datPhotos as $key => $Photo ) {
+// 			$datPhotos[$key]['DatPhoto']['imgUrl'] = $Photo[0]['imgUrl'];
+// 			$datPhotos[$key]['DatPhoto']['thumUrl'] = $Photo[0]['thumUrl'];
+
+			$datPhotos[$key]['id'] = $datPhotos[$key]['DatPhoto']['id'];
+			$datPhotos[$key]['fk_user_id'] = $datPhotos[$key]['DatPhoto']['fk_user_id'];
+			$datPhotos[$key]['photoName'] = $datPhotos[$key]['DatPhoto']['photoName'];
+			$datPhotos[$key]['description'] = $datPhotos[$key]['DatPhoto']['description'];
+			$datPhotos[$key]['file_name'] = $datPhotos[$key]['DatPhoto']['file_name'];
+			$datPhotos[$key]['thum_file_name'] = $datPhotos[$key]['DatPhoto']['thum_file_name'];
+			$datPhotos[$key]['imgUrl'] = $Photo[0]['imgUrl'];
+			$datPhotos[$key]['thumUrl'] = $Photo[0]['thumUrl'];
+			$datPhotos[$key]['size'] = $datPhotos[$key]['DatPhoto']['size'];
+			$datPhotos[$key]['type'] = $datPhotos[$key]['DatPhoto']['type'];
+			$datPhotos[$key]['status'] = $datPhotos[$key]['DatPhoto']['status'];
+			$datPhotos[$key]['create_datetime'] = $datPhotos[$key]['DatPhoto']['create_datetime'];
+			$datPhotos[$key]['update_timestamp'] = $datPhotos[$key]['DatPhoto']['update_timestamp'];
+
+			// いらないものを消す
+			unset($datPhotos[$key][0]);
+			unset($datPhotos[$key]['DatPhoto']);
+		}
+
+		// TODO:もっといいデータ改変の方法があるはず・・・
+// 		foreach( $datPhotos as $key => $Photo ) {
+
+		$tempAlbums['DatAlbum'] = array("tempAlbum" => true);
+		$tempAlbums['DatPhoto'] = $datPhotos;
+		$datAlbums[] = $tempAlbums;
+
 		$this->set('datAlbums', $datAlbums);
+// 		$this->set('datPhotos', $datPhotos);
+
 
 		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
 		$this->set('_serialize', 'datAlbums');
+// 		$this->set('_serialize', compact('datAlbums','datPhotos'));
 	}
 
 /**

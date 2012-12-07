@@ -273,7 +273,7 @@ a{
 }
 
 .photoCollection{
-	overflow: auto;   
+	/*overflow: auto;   */
 	position: relative;
 	height: 100%;
 	/*padding: 10px 12px;*/
@@ -557,6 +557,33 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) ins
 
 	font-size: 40px;
 	cursor: default;
+}
+
+#uploadedPhotos{
+	position: relative;
+	height: 100%;
+}
+
+#uploadedPhotos .processbar{
+	height: 7px;
+	width: 100%;
+	margin: 8px 0;
+	margin-bottom: 34px;
+	background: rgba(255, 255, 255, 0.06);
+	border-radius: 10px;
+	position: relative;
+}
+
+#uploadedPhotos .currentbar{
+	width: 0%;
+	height: 100%;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.14);
+	-webkit-transition: width 0.3s ease-out;
+	-moz-transition: width 0.3s ease-out;
+	-ms-transition: width 0.3s ease-out;
+	-o-transition: width 0.3s ease-out;
+	transition: width 0.3s ease-out;
 }
 
 #photoFiles{

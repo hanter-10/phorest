@@ -20,7 +20,7 @@
         <script type="text/javascript" src="js/jquery.scrollTo-1.4.3.1-min.js"></script>
         <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
         <script type="text/javascript" src="js/jquery.mCustomScrollbar.js"></script>
-        <script type="text/javascript" src="js/jquery.filedrop.js"></script>
+        <script type="text/javascript" src="js/jquery.dropfile.js"></script>
         <script type="text/javascript" src="js/underscore1.4.2-min.js"></script>
         <script type="text/javascript" src="js/backbone_092.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
@@ -124,6 +124,7 @@
                             </div>
                             <input type="file" name="photoFiles" id="photoFiles" multiple="multiple" accept="image/jpeg,image/png,image/gif">
                         </div>
+                        <div id="uploadedPhotos"></div>
                     </div>
                     <figure id="imgContainer">
                         <div class="displayAstable">

@@ -18,10 +18,12 @@ $(function(){
       },
       update : function()
       {
-         var data = JSON.stringify(this.changedAttributes());
+         var 
+         data = JSON.stringify(this.changedAttributes()),
+         options = {data:data},
+         method = 'update';
 
-         this.save(null,{data:data}); //変更したデータのみを送信する
-         // console.log(data);
+         Backbone.sync( method ,this, options);
       }
 
    });
@@ -30,7 +32,8 @@ $(function(){
    **************************** Collection ****************************
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
-      url:     '/DatPhotos/',
+      //url:     '/DatPhotos/',
+      url:     'http://development/phorest/datphotos/',      
       model:   mvc.PhotoModel
    });
 
@@ -49,9 +52,12 @@ $(function(){
       },
       update : function()
       {
-         console.log( 'wow' );
-         var data = JSON.stringify(this.changedAttributes());
-         this.save(null,{data:data});
+         var 
+         data = JSON.stringify(this.changedAttributes()),
+         options = {data:data},
+         method = 'update';
+
+         Backbone.sync( method ,this, options);
       }
    });
 
@@ -60,7 +66,7 @@ $(function(){
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
       //url:     './DatAlbums',
-      url:     'http://localhost:81/Phorest/datalbums/',
+      url:     'http://development/phorest/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {

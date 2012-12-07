@@ -144,6 +144,7 @@
 	background:#fff; /* rgba fallback */
 	background: rgba(32, 32, 32, 0.75);
 	filter:"alpha(opacity=75)"; -ms-filter:"alpha(opacity=75)"; /* old ie */
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar{
 	background:rgba(255,255,255,0.85);

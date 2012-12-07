@@ -27,7 +27,7 @@ sending     = false,
 files;
 
 $.fn.dropfile = function(options){
-     opts = $.extend({}, def_opts, options);
+    var opts = $.extend({}, def_opts, options);
     this.on('drop', drop).on('dragstart', opts.dragStart).on('dragenter', dragEnter).on('dragover', dragOver).on('dragleave', dragLeave);
     $('#' + opts.inputID).change(function(e){
         e.preventDefault();
@@ -53,7 +53,7 @@ $.fn.dropfile = function(options){
             if ( verify(file) ) return file;
         });
         if(passedFiles.length===0) return false;
-        opts.drop.call(passedFiles, upload);
+        opts.drop.call(this,passedFiles, upload);
     }
 
 
@@ -109,13 +109,14 @@ $.fn.dropfile = function(options){
     {
         if (e.lengthComputable){
             var percentage = Math.round((e.loaded * 100) / e.total);
-            e.data = this.upload.data;
-            e.file = this.upload.file;
+            e.data = this.data;
+            e.file = this.file;
             opts.progress(e,percentage);
         }
     }
 
-    function empty() {}
+
+
 
     function dragEnter(e) {
       e.preventDefault();
@@ -145,7 +146,7 @@ $.fn.dropfile = function(options){
     {
         //拡張の指定があれば
         if(opts.accept.push && opts.accept.length){ 
-            if( !file.type || $.inArray(file.type, opts.accept < 0) ){
+            if( !file.type || $.inArray(file.type, opts.accept) < 0 ){
                 opts.error(errors[3], file);
                 return false;
             }
@@ -160,9 +161,10 @@ $.fn.dropfile = function(options){
         return true;
     }
 
+
 };
 
 
-
+function empty() {}
 
 });

@@ -1,5 +1,10 @@
 $(function(){
 
+   //------------------------initialize--------------------------
+   $.app.methods.init();
+   $.app.UI.methods.init();
+   //------------------------------------------------------------
+
    var 
    mvc = $.app.Backbone,
    $title = $('head title');
@@ -57,9 +62,5 @@ $(function(){
 
    mvc.router = new Router();
    //Backbone.history.start({pushState: true, root: "/phorest/"});
-   Backbone.history.start({pushState: true, root: "/Phorest/DatUsers"});
-   
-   /* 本番 ******
-   Backbone.history.start({pushState: true, root: "/DatUsers"});
-   */
+   Backbone.history.start({pushState: true, root: "/phorest/DatUsers"});
 });

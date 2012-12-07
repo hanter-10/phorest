@@ -1,5 +1,5 @@
 $(document).ready(function(){
-   
+   console.log( 'ui loaded' );
 var dnd = (function(){
 
 var dndClass = function( $container,selector )
@@ -150,7 +150,7 @@ var methods =
 
             if(dropArea==_this.position)
             {
-                if(_this.position=='album')
+                if( _this.position=='album' )
                 {
                     var 
                     $dndElem = _this.getNthElem(e), //何番目のアルバムにドロップしているかを割り出す
@@ -160,7 +160,7 @@ var methods =
                 }
                 else //albumじゃないほうは$dndElemは要らない
                 {
-                    droped = onDrop($selectedElem);
+                    droped = onDrop(_this.$selectedElem);
                 }
             }
         }
@@ -203,7 +203,7 @@ var methods =
     {
         //何番目のアルバムかを割り出す
         var 
-        scrollTop = $.app.properties.albums.scrollTop(),
+        scrollTop = $.app.properties.albums._scrollTop(),
         y = event.pageY - $.app.properties.headerHeight + scrollTop,
         albumHeight = this.albumHeight,
         nth = Math.ceil(y/albumHeight),
@@ -235,8 +235,7 @@ UI.methods =
    {
       properties :
       {
-         photoWidth : 150 + 24, // margin = 24
-         photoCollectionsWidth : $.app.properties.photoCollections.width()
+         photoWidth : 150 + 24 // margin = 24
       },
 
       init : function()
@@ -278,32 +277,42 @@ UI.methods =
             //imgContainer
             // $imgContainer.outerHeight( winHeight-headerHeight-1 );
             _this.adaptPreviewImg.adapt();
+
+            var maxWidth = winWidth - ($.app.properties.albumsPanelWidth + 414);
+            try { $photosPanel.resizable( "option", { maxWidth: maxWidth } ); }catch(e){}
          }
 
          function resizableUI() //UI.resize時に各UI部品を最適化
          {
-
+            var maxWidth = winWidth - ($.app.properties.albumsPanelWidth + 414);
             //jQuery UIのresizableを使い、パネルの幅をドラッグで変えられるようにする
-            $photosPanel.resizable({ minWidth: 375 , axis: "x" , handles: "e" });
+            $photosPanel.resizable({ minWidth: 375, maxWidth: maxWidth , axis: "x" , handles: "e" });
 
             //パネルのresize時に写真のアイコンのmarginを揃える (注: windowのresizeではない)
             $photosPanel.bind( "resize", function(event, ui){
                var
                $photos = $.app.properties.photos,
+               $photos_right = $.app.properties.photos_right,
                newWidth_photoCollections = $.app.properties.photoCollections.width(),
                newWidth_previewPanel = winWidth - $.app.properties.albumsPanelWidth - newWidth_photoCollections - 2; //2 = border
+               $previewPanel.width(newWidth_previewPanel);
+
+               var
+               newWidth_photoCollections_right = $.app.properties.photoCollections_right.width(),
                photoWidth = _this.properties.photoWidth-24; //24はmargin、marginを除いて計算する必要がある
                
-               _this.properties.photoCollectionsWidth = newWidth_photoCollections; //_this.howManyPerRow()が正しく動作するために、propertiesを更新
 
                var 
-               perRowCount = _this.hwoManyPhotosPerRow(), //marginの長さも含めて、一行に何枚入るか
+               perRowCount = _this.howManyPhotosPerRow(newWidth_photoCollections), //marginの長さも含めて、一行に何枚入るか
+               perRowCount_right = _this.howManyPhotosPerRow(newWidth_photoCollections_right), //marginの長さも含めて、一行に何枚入るか
                new_margin = Math.floor( (  (newWidth_photoCollections) -(photoWidth * perRowCount)  ) / (perRowCount*2) ) ;
+               new_margin_right = Math.floor( (  (newWidth_photoCollections_right) -(photoWidth * perRowCount_right)  ) / (perRowCount_right*2) ) ;
 
                // console.log(perRowCount)
 
                $photos.css("margin","0 "+new_margin+"px");
-               $previewPanel.width(newWidth_previewPanel);
+               $photos_right.css("margin","0 "+new_margin_right+"px");
+               
                // console.log(new_margin)
                
             });
@@ -313,9 +322,9 @@ UI.methods =
          resizableUI();
       },
 
-      hwoManyPhotosPerRow : function()
+      howManyPhotosPerRow : function(photoCollectionsWidth)
       {
-         return Math.floor(this.properties.photoCollectionsWidth / this.properties.photoWidth);
+         return Math.floor(photoCollectionsWidth / this.properties.photoWidth);
       },
 
       adaptPreviewImg :
@@ -373,7 +382,7 @@ UI.methods =
 
 };
 
-UI.methods.init();
+
 
    
 

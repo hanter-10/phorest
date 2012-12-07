@@ -1,5 +1,5 @@
 $(function(){
-
+console.log( 'view loaded' );
    var 
    $currentActivePhotoCollection,
    mvc = $.app.Backbone,
@@ -16,9 +16,9 @@ $(function(){
       },
       initialize : function()
       {
+         var settings = arguments[1];
          _.bindAll(this,'deletePhoto');
-         $('#delete-photo').on('click',this.deletePhoto);
-
+         settings.deleteBtn.on('click',this.deletePhoto);
       },
       render : function()
       {
@@ -67,16 +67,20 @@ $(function(){
          'click .photo':         'selectable'
       },
       rendered : false,
-      appendTo : $.app.properties.photoCollections.find('.mCSB_container'),
+      appendTo : undefined,
+      tempType : false, //通常タイプ
       initialize : function()
       {
+         this.appendTo = $.app.properties.photoCollections.find('.mCSB_container');
+         this.albumID = this.options.albumID;
          //インスタンスから引数を受け取って初期設定
          var settings = arguments[1];
          if(settings)
          {
-            console.log( 'options->',settings );
+            // console.log( 'options->',settings );
             settings.init && settings.init();
-            settings.appendTo && (this.appendTo=settings.appendTo);
+            settings.appendTo && (this.appendTo = settings.appendTo);
+            settings.tempType && (this.tempType = settings.tempType);
          }
 
          this.collection.on('add',this.addPhotos,this);
@@ -99,6 +103,14 @@ $(function(){
                {
                   onDrop:     this.onDropUploadArea,
                   onDragOver: this.onDragOverUploadArea
+               }
+            },
+            {
+               dropArea:    'photosArea',
+               events:
+               {
+                  onDrop:     this.onDropPhotosArea,
+                  onDragOver: this.onDragOverPhotosArea
                }
             }
          ];
@@ -123,7 +135,14 @@ $(function(){
          var _this = this;
          // this.$el.empty();
          this.collection.each(function(photo){
-            var photoView = new mvc.PhotoView({model:photo});
+            var photoView;
+            if(!_this.tempType){
+               photoView = new mvc.PhotoView({model:photo},{ deleteBtn:$('#delete-photo') });
+            }else{
+               photoView = new mvc.PhotoView({model:photo},{ deleteBtn:$('#delete-photo-right') });
+            }
+
+            
             _this.$el.append(photoView.render().el);
          });
          // $.app.properties.photosControlPanel.after(this.$el);
@@ -215,7 +234,7 @@ $(function(){
             cid = $(e.target).data('cid'),
             model = this.collection.getByCid(cid),
             imgUrl = model.get('imgUrl');
-            $.app.properties.previewImg.load()[0].src=imgUrl;
+            if(!this.tempType){ $.app.properties.previewImg.load()[0].src=imgUrl; }
             // console.log( imgUrl );
             $(".selectedElem",$container).removeClass("selectedElem");
             $photo.addClass("selectedElem");
@@ -253,6 +272,14 @@ $(function(){
       {
 
       },
+      onDropPhotosArea: function($selectedElem)
+      {
+         console.log( $selectedElem[0],$selectedElem[1] );
+      },
+      onDragOverPhotosArea: function($selectedElem)
+      {
+
+      },
       move : function( $selectedElem, targetAlbum )
       {
          //Transactionが成功したら、移動されたモデルをdestroyし、移動先のコレクションに追加する
@@ -278,8 +305,8 @@ $(function(){
          options =
          {
             data : data,
-            url : 'DatPhotos/'
-         } 
+            url : '/DatAlbumPhotoRelations/'+_this.albumID
+         }; 
          Backbone.sync('update',null,options)
          .fail(function(){
             console.log( 'faid roll back database' );
@@ -320,7 +347,7 @@ $(function(){
       initialize : function()
       {
          var photoCollection = new mvc.PhotoCollection(this.model.get('photos'));
-         this.PhotoCollectionView = new mvc.PhotoCollectionView({collection:photoCollection});
+         this.PhotoCollectionView = new mvc.PhotoCollectionView({collection:photoCollection,albumID:this.model.id});
          this.model.PhotoCollectionView = this.PhotoCollectionView;
          _.bindAll(this,'changeName','unFocus');
          $albumNameInput.on('keypress',this.unFocus);
@@ -411,7 +438,6 @@ $(function(){
       {
          var
          firstAlbumView, //ループ後、最初のアルバムviewになる
-         PhotoCollectionView_right,
          albumEls = $("<div>"); //fragment element
          this.collection.each(function(album, index){
             /*
@@ -440,10 +466,11 @@ $(function(){
                albumEls.append(albumEl);
             }
             else
-            {
+            {  //temp album
                var photoCollection = new mvc.PhotoCollection(album.get('photos'));
-               PhotoCollectionView_right = new mvc.PhotoCollectionView({collection:photoCollection},{appendTo:$('#uploadAreaContainer'),init:$.app.methods.fileDrop});
-               PhotoCollectionView_right.render().$el.show();
+               $.app.properties.PhotoCollectionView_right = new mvc.PhotoCollectionView({collection:photoCollection},{tempType:true,appendTo:$('#uploadedPhotos .mCSB_container')});
+               $.app.properties.PhotoCollectionView_right.render().$el.show();
+               $.app.properties.photos_right = $("#uploadAreaContainer .photoCollection .photo");
                $('#uploadArea').hide();
             }
             
@@ -452,7 +479,7 @@ $(function(){
          this.$el.append( albumEls.children() );
          //最初のアルバム内の写真を表示する
          firstAlbumView.showPhotos().$el.addClass('active');
-         PhotoCollectionView_right.$el.show();
+         $.app.properties.PhotoCollectionView_right.$el.show();
       }
    });
 

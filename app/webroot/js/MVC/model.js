@@ -9,7 +9,7 @@ $(function(){
       {
          this.on('change',this.update,this);
       },
-      defaults : 
+      defaults :
       {
          photoName:     undefined, //写真名
          relatedAlbum:  undefined, //どのアルバムに入っているか
@@ -18,7 +18,7 @@ $(function(){
       },
       update : function()
       {
-         var 
+         var
          data = JSON.stringify(this.changedAttributes()),
          options = {data:data},
          method = 'update';
@@ -33,7 +33,7 @@ $(function(){
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
       //url:     '/DatPhotos/',
-      url:     'http://development/phorest/datphotos/',      
+      url:     'http://localhost:81/Phorest/datphotos/',
       model:   mvc.PhotoModel
    });
 
@@ -52,7 +52,7 @@ $(function(){
       },
       update : function()
       {
-         var 
+         var
          data = JSON.stringify(this.changedAttributes()),
          options = {data:data},
          method = 'update';
@@ -66,11 +66,11 @@ $(function(){
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
       //url:     './DatAlbums',
-      url:     'http://development/phorest/datalbums/',
+      url:     'http://localhost:81/Phorest/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {
-         
+
       },
       parse : function(albumArr)
       {
@@ -79,7 +79,7 @@ $(function(){
             parsedJSON[index] = { photos : album.DatPhoto };
             _.extend( parsedJSON[index],album.DatAlbum );
          });
-         
+
          console.log(parsedJSON);
          return parsedJSON;
       }

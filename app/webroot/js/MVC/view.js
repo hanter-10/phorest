@@ -1,6 +1,6 @@
 $(function(){
 console.log( 'view loaded' );
-   var 
+   var
    $currentActivePhotoCollection,
    mvc = $.app.Backbone,
    $albumNameInput = $.app.properties.albumNameInput,
@@ -38,11 +38,11 @@ console.log( 'view loaded' );
             this.model.destroy();
             _el.fadeOut(300,function(){ _el.remove(); });
          }
-         
+
       },
       changeName : function(e)
       {
-         var 
+         var
          $input = $(e.currentTarget),
          oldName = this.model.get('photoName');
          newName = $input.val();
@@ -54,14 +54,14 @@ console.log( 'view loaded' );
          {
             this.model.set({photoName:newName});
          }
-         
+
       }
    });
 
    mvc.PhotoCollectionView = Backbone.View.extend({
       tagName : 'div',
       className : 'photoCollection',
-      events : 
+      events :
       {
          'keypress .filename':   'unFocus',
          'click .photo':         'selectable'
@@ -87,11 +87,11 @@ console.log( 'view loaded' );
          this.collection.on('remove',this.removePhotos,this);
          _.bindAll(this,'onDropAlbum','onDropUploadArea'); //The _.bindAll() must be called before the function is assigned
          var dnd = new $.app.UI.methods.dndClass(this.$el,'img'),
-         options = 
+         options =
          [
             {
                dropArea:   'album',
-               events:     
+               events:
                {
                   onDrop:     this.onDropAlbum, //dndElemはドロップされた要素(album)
                   onDragOver: this.onDragOverAlbum
@@ -115,7 +115,7 @@ console.log( 'view loaded' );
             }
          ];
          dnd.enable(options);
-         
+
          // this.onDropAlbum = _.bind(this.onDropAlbum,this);
          //this.$el.on('keypress','.filename',this.unFocus); //通常のjQueryのonを利用している
       },
@@ -142,7 +142,7 @@ console.log( 'view loaded' );
                photoView = new mvc.PhotoView({model:photo},{ deleteBtn:$('#delete-photo-right') });
             }
 
-            
+
             _this.$el.append(photoView.render().el);
          });
          // $.app.properties.photosControlPanel.after(this.$el);
@@ -225,12 +225,12 @@ console.log( 'view loaded' );
             $(".selectedElem",$container).removeClass("selectedElem");
             beSelected = beSelected.add($photo).add($firstElem);
             beSelected.addClass("selectedElem");
-            $photo.removeClass("activing"); 
+            $photo.removeClass("activing");
 
          }
          else
          {
-            var 
+            var
             cid = $(e.target).data('cid'),
             model = this.collection.getByCid(cid),
             imgUrl = model.get('imgUrl');
@@ -253,14 +253,14 @@ console.log( 'view loaded' );
          {
             return false;
          }
-         
+
          this.move($selectedElem,albumModel);
          return true;
          // console.log( $dndElem,$selectedElem );
       },
       onDragOverAlbum: function($dndElem, $selectedElem)
       {
-          
+
          this.lastDragOverElem.removeClass("dragOver");
          this.lastDragOverElem = $dndElem.addClass("dragOver");
       },
@@ -294,26 +294,27 @@ console.log( 'view loaded' );
          _this = this;
 
          _.each($selectedElem,function(el,index){
-            var 
+            var
             cid      = $('img',el).data('cid'),
             model    = this.collection.getByCid(cid);
             photoModels[index] = model;
             photoIds[index] = model.id;
          },this);
-         
+
          data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });
          options =
          {
             data : data,
-            url : '/DatAlbumPhotoRelations/'+_this.albumID
-         }; 
+//            url : '/DatAlbumPhotoRelations/'+_this.albumID
+            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+         };
          Backbone.sync('update',null,options)
          .fail(function(){
             console.log( 'faid roll back database' );
          });
 
          //サーバーの応答を待たずに、とりあえずアルバムを移動する
-         
+
          _this.collection.remove(photoModels);
          targetAlbum.PhotoCollectionView.collection.add(photoModels);
          targetAlbum.PhotoCollectionView.$el.append($selectedElem);
@@ -332,7 +333,7 @@ console.log( 'view loaded' );
    //イベントに特化したView
    mvc.PhotoCollectionEventHandlerView=Backbone.View.extend({
       el : $.app.properties.photos,
-      
+
    });
 
    //単体のアルバムView
@@ -364,7 +365,7 @@ console.log( 'view loaded' );
          json.status = json.status ? "公開" : "非公開";
 
          html = this.template(json);
-         
+
          this.$el.html(html);
 
          //アルバムのサムネールを設定する & 縦横比に合わせてサイズを最適化
@@ -404,7 +405,7 @@ console.log( 'view loaded' );
       },
       changeName : function(e)
       {
-         var 
+         var
          $albumEl = this.$el,
          newVal = $albumNameInput.val(),
          oldVal = this.model.get('albumName');
@@ -415,7 +416,7 @@ console.log( 'view loaded' );
          }
 
          if(newVal==oldVal){ return; }
-         
+
          if( $albumEl.hasClass('active') )
          {
             this.model.set({ albumName: newVal});
@@ -431,9 +432,9 @@ console.log( 'view loaded' );
       initialize : function()
       {
          this.collection.on('reset',this.render,this);
-         
+
       },
-      
+
       render : function()
       {
          var
@@ -473,7 +474,7 @@ console.log( 'view loaded' );
                $.app.properties.photos_right = $("#uploadAreaContainer .photoCollection .photo");
                $('#uploadArea').hide();
             }
-            
+
          });
 
          this.$el.append( albumEls.children() );

@@ -31,7 +31,7 @@
  */
 	Router::mapResources('datphotos');
 	Router::mapResources('datalbums');
-// 	Router::mapResources('datalbumphotorelations');
+	Router::mapResources('datalbumphotorelations');
 // 	Router::mapResources('datusers');
 
 /**

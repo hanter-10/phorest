@@ -7,24 +7,40 @@ App::uses('AppController', 'Controller');
  */
 class DatAlbumPhotoRelationsController extends AppController {
 
+	public $viewClass = 'Json';
+	public $components = array('RequestHandler','Convert','Check');
+
+	public $uses = array('DatAlbum','DatPhoto','DatAlbumPhotoRelation');
+
+	function beforeFilter() {
+		// 親クラスをロード
+		parent::beforeFilter();
+
+		// ajax通信でのアクセスか確認
+		if (!$this->RequestHandler->isAjax()) {
+			// ajaxではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
+		}
+	}
+
 /**
  * index method
  *
  * @return void
  */
-	public function index() {
+// 	public function index() {
 
-		$group = array('group' => 'DatAlbum.album_id');
-		$conditions = array("DatAlbum.album_id" => 1);
+// 		$group = array('group' => 'DatAlbum.album_id');
+// 		$conditions = array("DatAlbum.album_id" => 1);
 
-		$this->DatAlbumPhotoRelation->recursive = 0;
-		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find('all');
-// 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find('threaded', $group);
-		$this->set('datAlbumPhotoRelations', $datAlbumPhotoRelations);
+// 		$this->DatAlbumPhotoRelation->recursive = 0;
+// 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find('all');
+// // 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find('threaded', $group);
+// 		$this->set('datAlbumPhotoRelations', $datAlbumPhotoRelations);
 
-		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
-		$this->set('_serialize', 'datAlbumPhotoRelations');
-	}
+// 		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
+// 		$this->set('_serialize', 'datAlbumPhotoRelations');
+// 	}
 
 /**
  * view method
@@ -33,22 +49,22 @@ class DatAlbumPhotoRelationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+// 	public function view($id = null) {
 
-		$this->DatAlbumPhotoRelation->recursive = 0;
-// 		$this->DatAlbumPhotoRelation->id = $id;
-// 		if (!$this->DatAlbumPhotoRelation->exists()) {
-// 			throw new NotFoundException(__('Invalid dat album photo relation'));
-// 		}
-// 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->read(null, $id);
+// 		$this->DatAlbumPhotoRelation->recursive = 0;
+// // 		$this->DatAlbumPhotoRelation->id = $id;
+// // 		if (!$this->DatAlbumPhotoRelation->exists()) {
+// // 			throw new NotFoundException(__('Invalid dat album photo relation'));
+// // 		}
+// // 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->read(null, $id);
 
-		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find(
-			'first'
-			,array('conditions' => array('album_id' => $id))
-		);
-		$this->set('datAlbumPhotoRelations', $datAlbumPhotoRelations);
-		$this->set('_serialize', 'datAlbumPhotoRelations');
-	}
+// 		$datAlbumPhotoRelations = $this->DatAlbumPhotoRelation->find(
+// 			'first'
+// 			,array('conditions' => array('album_id' => $id))
+// 		);
+// 		$this->set('datAlbumPhotoRelations', $datAlbumPhotoRelations);
+// 		$this->set('_serialize', 'datAlbumPhotoRelations');
+// 	}
 
 /**
  * add method
@@ -97,23 +113,94 @@ class DatAlbumPhotoRelationsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$this->DatAlbumPhotoRelation->id = $id;
-		if (!$this->DatAlbumPhotoRelation->exists()) {
+
+		// 返り値のデフォルトセット：false
+		$this->set('datAlbumPhotoRelation', false);
+
+		// from Album_id Check
+		$this->DatAlbum->id = $id;
+		if (!$this->DatAlbum->exists()) {
+			// No Data
 			throw new NotFoundException(__('Invalid dat album photo relation'));
 		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->DatAlbumPhotoRelation->save($this->request->data)) {
-				$this->Session->setFlash(__('The dat album photo relation has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The dat album photo relation could not be saved. Please, try again.'));
+
+		// リクエストメソッド判断
+		if ($this->request->is('put')) {
+
+			// リクエストデータをJSON形式にエンコードで取得する
+			$requestData = $this->request->input('json_decode');
+
+			/* 固定パラメータセット */
+			$optionData = array();
+			$optionData = array(
+					'fromAlbum'				=> $id,
+// 					'fk_user_id'			=> $this->Auth->user('user_id'),
+					'update_timestamp'		=> date('Y-m-d h:i:s'),
+			);
+			/* リクエストパラメータセット */
+			$datAlbumPhotoRelation = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbumPhotoRelation', $optionData);
+
+			/* 配列のキー値の例外チェック */
+			if ( !$this->Check->doCheckArrayKeyToModel( $datAlbumPhotoRelation['DatAlbumPhotoRelation'], $this->DatAlbumPhotoRelation->requestColumn ) ) {
+				// エラー：例外パラメータ
+				throw new BadRequestException(__('Bad Request.'));
 			}
+
+
+			/**
+			 * 各album_id,photo_idの存在チェック
+			 */
+
+			// target Album_id Check
+			$this->DatAlbum->id = $datAlbumPhotoRelation['DatAlbumPhotoRelation']['targetAlbum'];
+			if (!$this->DatAlbum->exists()) {
+				// No Data
+				throw new NotFoundException(__('Invalid dat album photo relation'));
+			}
+
+			// photo_id Check;
+			foreach ($datAlbumPhotoRelation['DatAlbumPhotoRelation']['photos'] as $photo) {
+				$this->DatPhoto->id = $photo;
+				if (!$this->DatPhoto->exists()) {
+					// No Data
+					throw new NotFoundException(__('Invalid dat album photo relation'));
+				}
+			}
+
+			/* バリデーション通過 */
+
+			// 更新対象の配列整形
+			$datAlbumPhotoRelation['DatAlbumPhotoRelation']['fk_album_id'] = $datAlbumPhotoRelation['DatAlbumPhotoRelation']['targetAlbum'];
+			unset($datAlbumPhotoRelation['DatAlbumPhotoRelation']['targetAlbum']);
+
+			// 選択された写真毎に実行
+			foreach ($datAlbumPhotoRelation['DatAlbumPhotoRelation']['photos'] as $key => $photo_id) {
+
+				/* update query */
+				$result[$key] = $this->DatAlbumPhotoRelation->updateAll(
+
+						// update fieldを動的に設定
+						$this->Convert->doConvertArrayKeyToQueryArray( $datAlbumPhotoRelation['DatAlbumPhotoRelation'], 'DatAlbumPhotoRelation', $this->DatAlbumPhotoRelation->updateColumn ),
+						// Where
+						array(
+							array(
+								'DatAlbumPhotoRelation.fk_album_id' => $datAlbumPhotoRelation['DatAlbumPhotoRelation']['fromAlbum'],
+								'DatAlbumPhotoRelation.fk_photo_id' => $photo_id,
+							)
+						)
+				);
+			}
+			$this->set('datAlbumPhotoRelation', $result);
+
 		} else {
-			$this->request->data = $this->DatAlbumPhotoRelation->read(null, $id);
+			// putではない時は「400 Bad Request」
+			throw new BadRequestException(__('Bad Request.'));
 		}
-		$datAlbums = $this->DatAlbumPhotoRelation->DatAlbum->find('list');
-		$datPhotos = $this->DatAlbumPhotoRelation->DatPhoto->find('list');
-		$this->set(compact('datAlbums', 'datPhotos'));
+		$this->set('_serialize', 'datAlbumPhotoRelation');
+
+// 		$datAlbums = $this->DatAlbumPhotoRelation->DatAlbum->find('list');
+// 		$datPhotos = $this->DatAlbumPhotoRelation->DatPhoto->find('list');
+// 		$this->set(compact('datAlbums', 'datPhotos'));
 	}
 
 /**

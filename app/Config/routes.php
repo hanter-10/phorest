@@ -46,7 +46,7 @@
  */
 	//「 tempalbum 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/tempalbum/*', array('controller' => 'datphotos'));
-
+	Router::connect('/uploads/*', array('controller' => 'datphotos', 'action' => 'add'));
 
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',

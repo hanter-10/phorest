@@ -111,8 +111,8 @@ class DatUser extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'DatPhotoset' => array(
-			'className' => 'DatPhotoset',
+		'DatAlbum' => array(
+			'className' => 'DatAlbum',
 			'foreignKey' => 'fk_user_id',
 			'dependent' => false,
 			'conditions' => '',

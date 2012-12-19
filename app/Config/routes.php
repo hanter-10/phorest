@@ -46,7 +46,18 @@
  */
 	//「 tempalbum 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/tempalbum/*', array('controller' => 'datphotos'));
+	//「 uploads 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/uploads/*', array('controller' => 'datphotos', 'action' => 'add'));
+
+	//「 DatUsers 」
+	Router::connect('/DatUsers/login', array('controller' => 'DatUsers', 'action' => 'login'));
+	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
+	Router::connect('/DatUsers/add', array('controller' => 'DatUsers', 'action' => 'add'));
+	Router::connect('/DatUsers/album', array('controller' => 'DatUsers', 'action' => 'index'));
+	Router::connect('/DatUsers/*', array('controller' => 'DatUsers'));
+
+	// requestパラメータに付与する  $this->request->username で取得
+	Router::connect('/:username', array('controller' => 'datalbums', 'action' => 'userSearch'));
 
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',

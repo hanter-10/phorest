@@ -13,7 +13,7 @@ class DatAlbumsController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler','Convert','Check');
 
-	public $uses = array('DatAlbum','DatPhoto');
+	public $uses = array('DatAlbum','DatPhoto','DatUser');
 
 	function beforeFilter() {
 		// 親クラスをロード
@@ -423,6 +423,162 @@ EOF
 		}
 
 
+		$this->set('_serialize', 'datAlbum');
+	}
+
+	public function userSearch () {
+
+		// 返り値のデフォルトセット：false
+		$this->set('datAlbum', false);
+
+		/* 検索項目 */
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.albumName as albumName',
+				'DatAlbum.description',
+				'DatAlbum.flg',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+		$conditions = array(
+				'DatUser.username' => $this->request->username,
+		);
+		$contain = array(
+				'DatPhoto' => array(
+						'MstImageServer' => array(
+								'fields' => array(
+										'image_server_id',
+										'grobal_ip',
+										'file_path'
+								),
+								'conditions' => array(
+										'MstImageServer.status' => 1,
+								),
+						),
+						'fields' => array(
+								'photo_id as id',
+								'photoName as photoName',
+								'description',
+								'file_name',
+								'thum_file_name',
+								'size',
+								'type',
+								'status',
+								'create_datetime',
+								'update_timestamp',
+						),
+						'conditions' => array(
+								'DatPhoto.status' => 1,
+						),
+				),
+				'DatUser' => array(
+						'fields' => array(
+								'user_id',
+								'username',
+								'first_name',
+								'last_name',
+								'create_datetime',
+								'update_timestamp',
+						),
+						'conditions' => array(
+								'DatUser.status' => 1,
+						),
+				),
+		);
+
+		$this->DatAlbum->Behaviors->attach('Containable');
+		$option = array(
+				'fields' => $fields,
+				'conditions' => $conditions,
+				'contain' => $contain,
+		);
+
+		$datAlbums = $this->DatAlbum->find('all', $option);
+
+// 		echo '<pre>';
+// 		var_dump($this->request->username);
+// 		var_dump($datAlbums);
+// 		echo '</pre>';
+
+		$this->set('datAlbum', $datAlbums);
+		$this->set('_serialize', 'datAlbum');
+	}
+
+	public function userSearchAll () {
+
+		// 返り値のデフォルトセット：false
+		$this->set('datAlbum', false);
+
+		/* 検索項目 */
+		$fields = array(
+				'DatUser.user_id as id',
+				'DatUser.username',
+				'DatUser.first_name',
+				'DatUser.last_name',
+				'DatUser.status',
+				'DatUser.create_datetime',
+				'DatUser.update_timestamp',
+		);
+		$contain = array(
+				'DatAlbum' => array(
+						'fields' => array(
+								'album_id as id',
+								'albumName as albumName',
+								'description',
+								'flg',
+								'status',
+								'create_datetime',
+								'update_timestamp',
+						),
+						'conditions' => array(
+								'DatAlbum.status' => 1,
+								'DatAlbum.flg' => 1,
+						),
+				),
+				'DatPhoto' => array(
+						'MstImageServer' => array(
+								'fields' => array(
+										'image_server_id',
+										'grobal_ip',
+										'file_path'
+								),
+								'conditions' => array(
+										'MstImageServer.status' => 1,
+								),
+						),
+						'fields' => array(
+								'photo_id as id',
+								'photoName as photoName',
+								'description',
+								'file_name',
+								'thum_file_name',
+								'size',
+								'type',
+								'status',
+								'create_datetime',
+								'update_timestamp',
+						),
+						'conditions' => array(
+								'DatPhoto.status' => 1,
+						),
+				),
+		);
+
+// 		$this->DatUser->Behaviors->attach('Containable');
+		$option = array(
+				'fields' => $fields,
+// 				'contain' => $contain,
+		);
+
+		$datAlbums = $this->DatUser->find('all', $option);
+
+				echo '<pre>';
+				var_dump($this->request->username);
+				var_dump($datAlbums);
+				echo '</pre>';
+
+		$this->set('datAlbum', $datAlbums);
 		$this->set('_serialize', 'datAlbum');
 	}
 }

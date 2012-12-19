@@ -5,30 +5,30 @@
         <title>Phorest</title>
         <meta name="description" content="demo">
         <meta name="keywords" content="demo,demo">
-        <link rel="shortcut icon" href="/images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="css/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.24.custom.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="css/icostyle.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" media="all" />
+        <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
+        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/reset.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/jquery-ui-1.8.24.custom.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/jquery.mCustomScrollbar.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/icostyle.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/index.css" media="all" />
 
         <!--[if lt IE 9]><script type="text/javascript" src="js/html5shiv.js"></script><![endif]-->
         <!--[if lte IE 7]><script src="js/lte-ie7.js"></script><![endif]-->
-        <script type="text/javascript" src="js/loadCSS.js"></script>
-        <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.9.0.custom.min.js"></script>
-        <script type="text/javascript" src="js/jquery.scrollTo-1.4.3.1-min.js"></script>
-        <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mCustomScrollbar.js"></script>
-        <script type="text/javascript" src="js/jquery.dropfile.js"></script>
-        <script type="text/javascript" src="js/underscore1.4.2-min.js"></script>
-        <script type="text/javascript" src="js/backbone_092.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
-        <script type="text/javascript" src="js/UI.js"></script>
-        <script type="text/javascript" src="js/MVC/model.js"></script>
-        <script type="text/javascript" src="js/MVC/view.js"></script>
-        <script type="text/javascript" src="js/MVC/router.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/loadCSS.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery-ui-1.9.0.custom.min.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.scrollTo-1.4.3.1-min.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.mousewheel.min.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.mCustomScrollbar.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.dropfile.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/underscore1.4.2-min.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/backbone_092.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/app.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/UI.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/model.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/view.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/router.js"></script>
+        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/index.js"></script>
         <!-- template -->
         <script type="text/template" id="temp_photo">
             <div class="imgTable"><div class="imgCell"><img src="<%=thumUrl%>" height="113" draggable="false"></div></div>
@@ -51,7 +51,7 @@
             </div>
             <header id="header">
                 <div class="container">
-                    <img src="images/common/logo.png" alt="logo" id="logo">
+                    <img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/common/logo.png" alt="logo" id="logo">
                     <div class="right-side">
                         <div id="up-photo" class="icon-upload prevent-select">
                             アップロード
@@ -62,11 +62,11 @@
                     </div>
                 </div>
                 <ul id="user-panel">
-                    <li><a href="#">アカウント設定</a></li> 
-                    <li><a href="#">ログアウト</a></li> 
+                    <li><a href="#">アカウント設定</a></li>
+                    <li><a href="#">ログアウト</a></li>
                 </ul>
             </header>
-            
+
             <div id="main">
                 <div id="albums-panel" class="prevent-select">
 
@@ -74,12 +74,12 @@
 
                         <div class="album">
                             <div class="cover">
-                                <img src="images/cover" alt="cover" draggable="false" width="102" height="102">
+                                <img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/cover" alt="cover" draggable="false" width="102" height="102">
                                 <span class="album-name" title="dreamscape">風景</span>
                             </div>
                             <span class="status">非公開</span>
                         </div>
-                        
+
 
 
                     </div>
@@ -136,11 +136,11 @@
                     </figure>
                 </div>
             </div>
-            
+
             <footer id="footer">
-                
+
             </footer>
-            
+
         </div>
 
     </body>

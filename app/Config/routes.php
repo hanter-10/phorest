@@ -36,7 +36,7 @@
 
 /**
  * [ Phorest ] : Parser
- * 	AcceptHeaderが'applkication/json'の場合、JsonViewに切り替える
+ * 	AcceptHeaderが'aplication/json'の場合、JsonViewに切り替える
  */
 	Router::parseExtensions('json');
 
@@ -49,7 +49,7 @@
 	//「 uploads 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/uploads/*', array('controller' => 'datphotos', 'action' => 'add'));
 
-	//「 DatUsers 」
+	//「 DatUsers 」routhing
 	Router::connect('/DatUsers/login', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/add', array('controller' => 'DatUsers', 'action' => 'add'));

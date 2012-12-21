@@ -306,7 +306,8 @@ console.log( 'view loaded' );
          {
             data : data,
 //            url : '/DatAlbumPhotoRelations/'+_this.albumID
-            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)
          .fail(function(){
@@ -391,7 +392,7 @@ console.log( 'view loaded' );
             //$('#delete-photo').off(); //PhotoViewを生成時にイベントが累加されないように、予めイベントたちを全て削除しておく
             this.showPhotos();
 
-            mvc.router.navigate('album/'+albumName);
+            mvc.router.navigate('/album/'+albumName);
             $title.text('Phorest - '+albumName);
             return this;
          }

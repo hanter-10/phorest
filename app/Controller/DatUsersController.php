@@ -15,6 +15,7 @@ class DatUsersController extends AppController {
 	}
 
 	public function login() {
+		$this->layout = 'login';
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 				$this->redirect($this->Auth->redirect());
@@ -25,6 +26,7 @@ class DatUsersController extends AppController {
 	}
 
 	public function logout() {
+		$this->layout = 'login';
 		$this->redirect($this->Auth->logout());
 	}
 

@@ -142,7 +142,14 @@ EOF
 			 * 画像アップロード処理
 			 */
 			// オリジナル画像アップロード先
+			$imagePath = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username');
 			$image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . $_FILES['file']['name'];
+
+			//保存先のディレクトリが存在しているかチェック
+			if(!file_exists($imagePath)){
+				mkdir($imagePath);
+			}
+
 			// 画像のアップロード
 			move_uploaded_file($_FILES['file']['tmp_name'], $image);
 

@@ -49,12 +49,16 @@
 	//「 uploads 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/uploads/*', array('controller' => 'datphotos', 'action' => 'add'));
 
+// 	Router::connect('/:username/cp/*', array('controller' => 'DatUsers', 'action' => 'index'));
+
 	//「 DatUsers 」routhing
 	Router::connect('/DatUsers/login', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/add', array('controller' => 'DatUsers', 'action' => 'add'));
-	Router::connect('/DatUsers/album', array('controller' => 'DatUsers', 'action' => 'index'));
+	Router::connect('/DatUsers/album/*', array('controller' => 'DatUsers', 'action' => 'index'));
 	Router::connect('/DatUsers/*', array('controller' => 'DatUsers'));
+
+	Router::connect('/datalbumphotorelations/undefined', array('controller' => 'datalbumphotorelations', 'action' => 'add'));
 
 	// requestパラメータに付与する  $this->request->username で取得
 	Router::connect('/:username', array('controller' => 'datalbums', 'action' => 'userSearch'));

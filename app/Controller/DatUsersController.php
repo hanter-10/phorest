@@ -18,6 +18,9 @@ class DatUsersController extends AppController {
 		$this->layout = 'login';
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
+
+				// CPへリダイレクト
+// 				$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
 				$this->redirect($this->Auth->redirect());
 			} else {
 				$this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
@@ -65,6 +68,9 @@ class DatUsersController extends AppController {
  * @return void
  */
 	public function add() {
+
+		$this->layout = 'login';
+
 		if ($this->request->is('post')) {
 			$this->DatUser->create();
 			if ($this->DatUser->save($this->request->data)) {

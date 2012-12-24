@@ -79,11 +79,13 @@ class DatAlbumsController extends AppController {
 					),
 				),
 		);
+		$conditions = array('DatAlbum.fk_user_id' => $this->Auth->user('user_id'));
 
 		$this->DatAlbum->Behaviors->attach('Containable');
 		$option = array(
 				'fields' => $fields,
 				'contain' => $contain,
+				'conditions' => $conditions,
 		);
 
 		$datAlbums = $this->DatAlbum->find('all', $option);
@@ -134,9 +136,9 @@ class DatAlbumsController extends AppController {
 					inner join mst_image_servers as MstImageServer
 						on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
 				where
-					DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?
+					DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ? and DatUser.user_id = ?
 EOF
-				,array(1)
+				,array(1, $this->Auth->user('user_id'))
 		);
 
 		// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
@@ -166,7 +168,7 @@ EOF
 		// TODO:もっといいデータ改変の方法があるはず・・・
 // 		foreach( $datPhotos as $key => $Photo ) {
 
-		$tempAlbums['DatAlbum'] = array("tempAlbum" => true);
+		$tempAlbums['DatAlbum'] = array('tempAlbum' => true);
 		$tempAlbums['DatPhoto'] = $datPhotos;
 		$datAlbums[] = $tempAlbums;
 
@@ -236,7 +238,7 @@ EOF
 			$datAlbum = array();
 			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
 			$datAlbum['DatAlbum']['name']				= $data->albumName;					// アルバム名
-			$datAlbum['DatAlbum']['description']		= $data->description;				// アルバム説明
+			$datAlbum['DatAlbum']['description']		= '';		//$data->description;				// アルバム説明
 			$datAlbum['DatAlbum']['flg']				= 0;								// デフォルトは非公開
 			$datAlbum['DatAlbum']['status']				= 1;								// デフォルトは有効
 			$datAlbum['DatAlbum']['create_datetime']	= date('Y-m-d h:i:s');
@@ -428,81 +430,162 @@ EOF
 
 	public function userSearch () {
 
+// 		// 返り値のデフォルトセット：false
+// 		$this->set('datAlbum', false);
+
+// 		/* 検索項目 */
+// 		$fields = array(
+// 				'DatAlbum.album_id as id',
+// 				'DatAlbum.albumName as albumName',
+// 				'DatAlbum.description',
+// 				'DatAlbum.flg',
+// 				'DatAlbum.status',
+// 				'DatAlbum.create_datetime',
+// 				'DatAlbum.update_timestamp',
+// 		);
+// 		$conditions = array(
+// 				'DatUser.username' => 'ichiba',
+// 		);
+// 		$contain = array(
+// 				'DatPhoto' => array(
+// 						'MstImageServer' => array(
+// 								'fields' => array(
+// 										'image_server_id',
+// 										'grobal_ip',
+// 										'file_path'
+// 								),
+// 								'conditions' => array(
+// 										'MstImageServer.status' => 1,
+// 								),
+// 						),
+// 						'fields' => array(
+// 								'photo_id as id',
+// 								'photoName as photoName',
+// 								'description',
+// 								'file_name',
+// 								'thum_file_name',
+// 								'size',
+// 								'type',
+// 								'status',
+// 								'create_datetime',
+// 								'update_timestamp',
+// 						),
+// 						'conditions' => array(
+// 								'DatPhoto.status' => 1,
+// 						),
+// 				),
+// 				'DatUser' => array(
+// 						'fields' => array(
+// 								'user_id',
+// 								'username',
+// 								'first_name',
+// 								'last_name',
+// 								'create_datetime',
+// 								'update_timestamp',
+// 						),
+// 						'conditions' => array(
+// 								'DatUser.status' => 1,
+// 						),
+// 				),
+// 		);
+
+// 		$this->DatAlbum->Behaviors->attach('Containable');
+// 		$option = array(
+// 				'fields' => $fields,
+// 				'conditions' => $conditions,
+// 				'contain' => $contain,
+// 		);
+
+// 		$datAlbums = $this->DatAlbum->find('all', $option);
+
+// 		echo '<pre>';
+// 		var_dump($this->request->username);
+// 		var_dump($datAlbums);
+// 		echo '</pre>';
+
+// 		$this->set('datAlbum', $datAlbums);
+// 		$this->set('_serialize', 'datAlbum');
+
 		// 返り値のデフォルトセット：false
-		$this->set('datAlbum', false);
+		$this->set('datUser', false);
 
 		/* 検索項目 */
 		$fields = array(
-				'DatAlbum.album_id as id',
-				'DatAlbum.albumName as albumName',
-				'DatAlbum.description',
-				'DatAlbum.flg',
-				'DatAlbum.status',
-				'DatAlbum.create_datetime',
-				'DatAlbum.update_timestamp',
-		);
-		$conditions = array(
-				'DatUser.username' => 'ichiba',
+				'DatUser.user_id as id',
+				'DatUser.username',
+				'DatUser.first_name',
+				'DatUser.last_name',
+				'DatUser.status',
+				'DatUser.create_datetime',
+				'DatUser.update_timestamp',
 		);
 		$contain = array(
-				'DatPhoto' => array(
-						'MstImageServer' => array(
-								'fields' => array(
-										'image_server_id',
-										'grobal_ip',
-										'file_path'
-								),
-								'conditions' => array(
-										'MstImageServer.status' => 1,
-								),
-						),
+				'DatAlbum' => array(
 						'fields' => array(
-								'photo_id as id',
-								'photoName as photoName',
+								'album_id as id',
+								'albumName as albumName',
 								'description',
-								'file_name',
-								'thum_file_name',
-								'size',
-								'type',
+								'flg',
 								'status',
 								'create_datetime',
 								'update_timestamp',
 						),
 						'conditions' => array(
-								'DatPhoto.status' => 1,
-						),
-				),
-				'DatUser' => array(
-						'fields' => array(
-								'user_id',
-								'username',
-								'first_name',
-								'last_name',
-								'create_datetime',
-								'update_timestamp',
-						),
-						'conditions' => array(
-								'DatUser.status' => 1,
+								'DatAlbum.status' => 1,
+								'DatAlbum.flg' => 1,
 						),
 				),
 		);
+		$conditions = array(
+				'DatUser.status' => 1,
+				'DatUser.username' => $this->request->username,
+		);
 
-		$this->DatAlbum->Behaviors->attach('Containable');
+		$this->DatUser->Behaviors->attach('Containable');
 		$option = array(
 				'fields' => $fields,
 				'conditions' => $conditions,
 				'contain' => $contain,
 		);
+		$datUsers = $this->DatUser->find('all', $option);
 
-		$datAlbums = $this->DatAlbum->find('all', $option);
+		// 必要ない関連テーブルは検索しない
 
-		echo '<pre>';
-		var_dump($this->request->username);
-		var_dump($datAlbums);
-		echo '</pre>';
+		$this->DatAlbumPhotoRelation->unbindModel(array('belongsTo'=>array('DatAlbum')), false);			//,'hasAndBelongsToMany' => array('DatAlbum')
+		foreach ( $datUsers as $userkey => $datUser ) {
 
-		$this->set('datAlbum', $datAlbums);
-		$this->set('_serialize', 'datAlbum');
+			foreach ( $datUser['DatAlbum'] as $albumkey => $Album) {
+
+				$datPhotos = $this->DatAlbumPhotoRelation->find('all', array('conditions' => array('DatAlbumPhotoRelation.fk_album_id' => $Album['id'])));
+
+				foreach( $datPhotos as $photokey => $Photo ) {
+
+					$datPhotos[$photokey]['id'] = $datPhotos[$photokey]['DatPhoto']['photo_id'];
+					$datPhotos[$photokey]['fk_user_id'] = $datPhotos[$photokey]['DatPhoto']['fk_user_id'];
+					$datPhotos[$photokey]['photoName'] = $datPhotos[$photokey]['DatPhoto']['photoName'];
+					$datPhotos[$photokey]['description'] = $datPhotos[$photokey]['DatPhoto']['description'];
+					$datPhotos[$photokey]['file_name'] = $datPhotos[$photokey]['DatPhoto']['file_name'];
+					$datPhotos[$photokey]['thum_file_name'] = $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+					// 					$datPhotos[$photokey]['imgUrl'] = $datPhotos[$photokey]['DatPhoto']['imgUrl'];
+					// 					$datPhotos[$photokey]['thumUrl'] = $datPhotos[$photokey]['DatPhoto']['thumUrl'];
+					$datPhotos[$photokey]['size'] = $datPhotos[$photokey]['DatPhoto']['size'];
+					$datPhotos[$photokey]['type'] = $datPhotos[$photokey]['DatPhoto']['type'];
+					$datPhotos[$photokey]['status'] = $datPhotos[$photokey]['DatPhoto']['status'];
+					$datPhotos[$photokey]['create_datetime'] = $datPhotos[$photokey]['DatPhoto']['create_datetime'];
+					$datPhotos[$photokey]['update_timestamp'] = $datPhotos[$photokey]['DatPhoto']['update_timestamp'];
+
+					// いらないものを消す
+					// 					unset($datPhotos[$key][0]);
+					unset($datPhotos[$photokey]['DatPhoto']);
+					unset($datPhotos[$photokey]['DatAlbumPhotoRelation']);
+				}
+
+				$datUsers[$userkey]['DatAlbum'][$albumkey]['DatPhoto'] = $datPhotos;
+			}
+		}
+
+		$this->set('datUser', $datUsers);
+		$this->set('_serialize', 'datUser');
 	}
 
 	public function userSearchAll () {

@@ -34,6 +34,7 @@ $(function(){
    mvc.PhotoCollection = Backbone.Collection.extend({
       //url:     '/DatPhotos/',
       url:     'http://localhost:81/Phorest/datphotos/',
+//      url:     'http://development/Phorest/datphotos/',
       model:   mvc.PhotoModel
    });
 
@@ -67,6 +68,7 @@ $(function(){
    mvc.AlbumCollection = Backbone.Collection.extend({
       //url:     './DatAlbums',
       url:     'http://localhost:81/Phorest/datalbums/',
+//      url:     'http://development/Phorest/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {

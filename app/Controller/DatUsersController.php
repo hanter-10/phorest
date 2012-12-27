@@ -74,8 +74,13 @@ class DatUsersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->DatUser->create();
 			if ($this->DatUser->save($this->request->data)) {
-				$this->Session->setFlash(__('The dat user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				if ($this->Auth->login()) {
+
+					// CPへリダイレクト
+// 					$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
+					$this->redirect($this->Auth->redirect());
+// 					$this->redirect(array('controller' => 'DatUsers', 'action' => 'index'));
+				}
 			} else {
 				$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
 			}

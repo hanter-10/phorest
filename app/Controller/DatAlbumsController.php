@@ -79,7 +79,10 @@ class DatAlbumsController extends AppController {
 					),
 				),
 		);
-		$conditions = array('DatAlbum.fk_user_id' => $this->Auth->user('user_id'));
+		$conditions = array(
+				'DatAlbum.fk_user_id' => $this->Auth->user('user_id'),
+				'DatAlbum.status' => 1,
+		);
 
 		$this->DatAlbum->Behaviors->attach('Containable');
 		$option = array(
@@ -98,7 +101,7 @@ class DatAlbumsController extends AppController {
 				$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datPhoto['file_name'];
 				// サムネイル写真
 // 				$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datAlbum['DatAlbum']['id'] . '/' . $datPhoto['thum_file_name'];
-				$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datPhoto['file_name'];
+				$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhoto['thum_file_name'];
 
 				// いらないものを消す
 				unset($datAlbums[$albumkey]['DatPhoto'][$photoKey]['DatAlbumPhotoRelation']);
@@ -394,6 +397,7 @@ EOF
 
 			/* paramater set */
 			$datAlbum['DatAlbum']['album_id'] = $id;
+			$datAlbum['DatAlbum']['flg']  = 0;
 			$datAlbum['DatAlbum']['status']  = 0;
 			$datAlbum['DatAlbum']['update_timestamp']  = date('Y-m-d h:i:s');
 
@@ -409,8 +413,9 @@ EOF
 				$result = $this->DatAlbum->updateAll(
 						// Update set
 						array(
-								'DatAlbum.status' => $datAlbum['DatAlbum']['status']
-								,'DatAlbum.update_timestamp' => "'".$datAlbum['DatAlbum']['update_timestamp']."'"
+								'DatAlbum.flg' => $datAlbum['DatAlbum']['flg'],
+								'DatAlbum.status' => $datAlbum['DatAlbum']['status'],
+								'DatAlbum.update_timestamp' => "'".$datAlbum['DatAlbum']['update_timestamp']."'",
 						)
 						// Where
 						,array(
@@ -481,7 +486,13 @@ EOF
 
 			foreach ( $datUser['DatAlbum'] as $albumkey => $Album) {
 
-				$datPhotos = $this->DatAlbumPhotoRelation->find('all', array('conditions' => array('DatAlbumPhotoRelation.fk_album_id' => $Album['id'])));
+				$datPhotos = $this->DatAlbumPhotoRelation->find('all', array(
+						'conditions' => array(
+							'DatAlbumPhotoRelation.fk_album_id' => $Album['id'],
+							'DatPhoto.status' => 1,
+						)
+					)
+				);
 
 				foreach( $datPhotos as $photokey => $Photo ) {
 
@@ -497,7 +508,7 @@ EOF
 // 					$datPhotos[$photokey]['imgUrl'] = $datPhotos[$photokey]['DatPhoto']['imgUrl'];
 					$datPhotos[$photokey]['imgUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 // 					$datPhotos[$photokey]['thumUrl'] = $datPhotos[$photokey]['DatPhoto']['thumUrl'];
-					$datPhotos[$photokey]['thumUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+					$datPhotos[$photokey]['thumUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
 					$datPhotos[$photokey]['size'] = $datPhotos[$photokey]['DatPhoto']['size'];
 					$datPhotos[$photokey]['type'] = $datPhotos[$photokey]['DatPhoto']['type'];
 					$datPhotos[$photokey]['status'] = $datPhotos[$photokey]['DatPhoto']['status'];

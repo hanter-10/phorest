@@ -21,7 +21,7 @@ var dndClass = function( $container,selector )
 //アルバムはインスタンス間で共有するので、クラスに束縛する
 dndClass.prototype.lastDragOverElem = $("#albums>.active");
 //その他の共通プロパティ
-dndClass.prototype.albumHeight           = $("#albums .album").outerHeight(true);
+dndClass.prototype.albumHeight           = 193; //$("#albums .album").outerHeight(true);
 dndClass.prototype.countIcon             = $('#countIcon');
 dndClass.prototype.countIconContainer    = $('#countIconContainer');
 
@@ -49,6 +49,7 @@ var methods =
 
     mousedown:function(e)
     {
+        e.preventDefault();
         var _this = e.data._this;
 
         //mousemoveのイベントをセットする
@@ -81,6 +82,7 @@ var methods =
 
     mousemove:function(e)
     {
+        e.preventDefault();
         var 
         _this = e.data._this,
         options = _this.options;
@@ -132,6 +134,7 @@ var methods =
 
     mouseup:function(e)
     {
+        e.preventDefault();
         var 
         droped = false, //ドロップが成功したかどうかを表すフラグ、成功時と失敗時に合わせて、count iconの消え方を変える
         _this = e.data._this;
@@ -289,7 +292,7 @@ UI.methods =
             $photosPanel.resizable({ minWidth: 375, maxWidth: maxWidth , axis: "x" , handles: "e" });
 
             //パネルのresize時に写真のアイコンのmarginを揃える (注: windowのresizeではない)
-            $photosPanel.bind( "resize", function(event, ui){
+            $photosPanel.on( "resize", function(event, ui){
                var
                $photos = $.app.properties.photos,
                $photos_right = $.app.properties.photos_right,
@@ -315,6 +318,11 @@ UI.methods =
                
                // console.log(new_margin)
                
+            });
+
+            $photosPanel.on( "resizestop" , function(){
+                $.app.properties.photosEdge = $.app.properties.albumEdge + $("#photos-panel").outerWidth();
+                // console.log( $.app.properties.photosEdge );
             });
          }
 

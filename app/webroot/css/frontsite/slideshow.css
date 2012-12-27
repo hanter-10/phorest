@@ -1,29 +1,35 @@
-#phorest_slideshow{
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	left: 0;
-	top: 0;
-	z-index: 0;
+/* line 1, ../sass/slideshow.scss */
+#phorest_slideshow {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  z-index: 0;
 }
 
-#phorest_slideshow .slide{
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: black;
+/* line 11, ../sass/slideshow.scss */
+#phorest_slideshow .slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
 }
 
-#phorest_slideshow .current{
-	z-index: 999 !important;
-}
-#phorest_slideshow .next{
-	z-index: 888 !important;
+/* line 20, ../sass/slideshow.scss */
+#phorest_slideshow .current {
+  z-index: 999 !important;
 }
 
-#phorest_slideshow img{
-	position: absolute;
+/* line 23, ../sass/slideshow.scss */
+#phorest_slideshow .next {
+  z-index: 888 !important;
+}
+
+/* line 27, ../sass/slideshow.scss */
+#phorest_slideshow img {
+  position: absolute;
 }

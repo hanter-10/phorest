@@ -1,7 +1,7 @@
 $(function(){
+console.log( 'view loaded' );
    var
    $currentActivePhotoCollection,
-   $photoCollection_right,
    mvc = $.app.Backbone,
    $albumNameInput = $.app.properties.albumNameInput,
    $title = $('head title');
@@ -16,9 +16,9 @@ $(function(){
       },
       initialize : function()
       {
-         // var settings = arguments[1];
-         // _.bindAll(this,'deletePhoto');
-         // settings.deleteBtn.on('click',this.deletePhoto);
+         var settings = arguments[1];
+         _.bindAll(this,'deletePhoto');
+         settings.deleteBtn.on('click',this.deletePhoto);
       },
       render : function()
       {
@@ -26,6 +26,19 @@ $(function(){
          this.$el.html(html);
          this.$el.find('img').data({cid:this.model.cid});
          return this;
+      },
+      deletePhoto : function(e)
+      {
+         if(this.$el.hasClass('selectedElem')) //選択されているなら削除する
+         {
+            console.log('wow')
+            var _el = this.$el;
+
+            $('#delete-photo').off(e);
+            this.model.destroy();
+            _el.fadeOut(300,function(){ _el.remove(); });
+         }
+
       },
       changeName : function(e)
       {
@@ -72,7 +85,7 @@ $(function(){
 
          this.collection.on('add',this.addPhotos,this);
          this.collection.on('remove',this.removePhotos,this);
-         _.bindAll(this,'onDropAlbum','onDropUploadArea','onDropPhotosArea'); //The _.bindAll() must be called before the function is assigned
+         _.bindAll(this,'onDropAlbum','onDropUploadArea'); //The _.bindAll() must be called before the function is assigned
          var dnd = new $.app.UI.methods.dndClass(this.$el,'img'),
          options =
          [
@@ -119,12 +132,16 @@ $(function(){
             $currentActivePhotoCollection.hide();
          }
          $currentActivePhotoCollection = this.$el;
-         this.$el.data('collection',this.collection);
          var _this = this;
          // this.$el.empty();
          this.collection.each(function(photo){
             var photoView;
-            photoView = new mvc.PhotoView({model:photo});
+            if(!_this.tempType){
+               photoView = new mvc.PhotoView({model:photo},{ deleteBtn:$('#delete-photo') });
+            }else{
+               photoView = new mvc.PhotoView({model:photo},{ deleteBtn:$('#delete-photo-right') });
+            }
+
 
             _this.$el.append(photoView.render().el);
          });
@@ -215,7 +232,7 @@ $(function(){
          {
             var
             cid = $(e.target).data('cid'),
-            model = this.collection.get(cid),
+            model = this.collection.getByCid(cid),
             imgUrl = model.get('imgUrl');
             if(!this.tempType){ $.app.properties.previewImg.load()[0].src=imgUrl; }
             // console.log( imgUrl );
@@ -230,7 +247,7 @@ $(function(){
          $dndElem.removeClass("dragOver");
 
          // ドロップした先のalbumのmodel、要するに移動先toである
-         var albumModel = mvc.AlbumsView_instance.collection.get($dndElem.data('cid'));
+         var albumModel = mvc.AlbumsView_instance.collection.getByCid($dndElem.data('cid'));
          // console.log( albumModel );
          if($dndElem.hasClass("active")) //現在アクティブ中のフォルダに落とした場合、falseを返し、何もしない
          {
@@ -258,16 +275,6 @@ $(function(){
       onDropPhotosArea: function($selectedElem)
       {
          console.log( $selectedElem[0],$selectedElem[1] );
-         if($selectedElem.parents('#photoCollections').length!=0){
-            return false;
-         }else{
-            // ドロップした先のalbumのmodel、要するに移動先toである
-            var
-            $to = $('#albums .album.active'),
-            albumModel = mvc.AlbumsView_instance.collection.get($to.data('cid'));
-            this.move($selectedElem,albumModel);
-            return true;
-         }
       },
       onDragOverPhotosArea: function($selectedElem)
       {
@@ -289,7 +296,7 @@ $(function(){
          _.each($selectedElem,function(el,index){
             var
             cid      = $('img',el).data('cid'),
-            model    = this.collection.get(cid);
+            model    = this.collection.getByCid(cid);
             photoModels[index] = model;
             photoIds[index] = model.id;
          },this);
@@ -297,12 +304,10 @@ $(function(){
          data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });
          options =
          {
-        	data : data,
+            data : data,
 //            url : '/DatAlbumPhotoRelations/'+_this.albumID
-//            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
-            url : 'http://development/Phorest/datalbumphotorelations/'+_this.albumID
-//            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
-
+            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)
          .fail(function(){
@@ -326,7 +331,11 @@ $(function(){
       }
    });
 
+   //イベントに特化したView
+   mvc.PhotoCollectionEventHandlerView=Backbone.View.extend({
+      el : $.app.properties.photos,
 
+   });
 
    //単体のアルバムView
    mvc.AlbumView = Backbone.View.extend({
@@ -345,7 +354,6 @@ $(function(){
          _.bindAll(this,'changeName','unFocus');
          $albumNameInput.on('keypress',this.unFocus);
          $albumNameInput.on('blur',this.changeName);
-         this.model.on('destroy',this.remove,this);
          //今後利用できるよう、cidをdataにセットしておく
          this.$el.data({cid:this.model.cid});
       },
@@ -361,15 +369,10 @@ $(function(){
 
          this.$el.html(html);
 
-         //アルバムのサムネールを設定する
+         //アルバムのサムネールを設定する & 縦横比に合わせてサイズを最適化
          var
-         $coverImg = this.$el.find('.coverImg'),
-         thumUrl;
-         try {
-            thumUrl = this.model.get('photos')[0].thumUrl;
-         }catch(e){
-            thumUrl = $.app.properties.coverimg;
-         }
+         $coverImg = this.$el.find('.coverImg');
+         thumUrl = this.model.get('photos')[0].thumUrl;
          $coverImg.css({'background-image' : "url('"+thumUrl+"')"});
          return this;
       },
@@ -389,7 +392,7 @@ $(function(){
             //$('#delete-photo').off(); //PhotoViewを生成時にイベントが累加されないように、予めイベントたちを全て削除しておく
             this.showPhotos();
 
-            mvc.router.navigate('album/'+albumName);
+            mvc.router.navigate('/album/'+albumName);
             $title.text('Phorest - '+albumName);
             return this;
          }
@@ -420,12 +423,6 @@ $(function(){
             this.model.set({ albumName: newVal});
             $('.album-name',$albumEl).text(newVal);
          }
-      },
-      remove : function()
-      {
-         this.$el.prev().find('.cover').click();
-         this.$el.remove();
-         this.PhotoCollectionView.remove();
       }
    });
 
@@ -473,16 +470,10 @@ $(function(){
             else
             {  //temp album
                var photoCollection = new mvc.PhotoCollection(album.get('photos'));
-               mvc.PhotoCollectionView_right_instance = new mvc.PhotoCollectionView({collection:photoCollection,albumID:album.attributes.id},{tempType:true,appendTo:$('#uploadedPhotos .mCSB_container')});
-               mvc.PhotoCollectionView_right_instance.render().$el.show();
-               $photoCollection_right = $("#uploadAreaContainer .photoCollection");
-               $photoCollection_right.data('collection',mvc.PhotoCollectionView_right_instance.collection);
+               $.app.properties.PhotoCollectionView_right = new mvc.PhotoCollectionView({collection:photoCollection},{tempType:true,appendTo:$('#uploadedPhotos .mCSB_container')});
+               $.app.properties.PhotoCollectionView_right.render().$el.show();
                $.app.properties.photos_right = $("#uploadAreaContainer .photoCollection .photo");
-               if($.app.properties.photos_right.length==0){
-                  $('#upload-control-panel').hide();
-               }else{
-                  $('#uploadArea').hide();
-               }
+               $('#uploadArea').hide();
             }
 
          });
@@ -490,68 +481,8 @@ $(function(){
          this.$el.append( albumEls.children() );
          //最初のアルバム内の写真を表示する
          firstAlbumView.showPhotos().$el.addClass('active');
-         mvc.PhotoCollectionView_right_instance.$el.show();
+         $.app.properties.PhotoCollectionView_right.$el.show();
       }
    });
-
-
-   //functions
-   function syncPhotoDel($delBtn,which)
-   {
-      $delBtn.click(function(){
-         var
-         $photoCollection = which == 'left' ? $currentActivePhotoCollection : $photoCollection_right,
-         $selectedElems = $photoCollection.find('.selectedElem'),
-         collection = $photoCollection.data('collection');
-
-         if($selectedElems.length==0) return;
-         $selectedElems.each(function(){
-            var
-            $el = $(this),
-            cid = $el.find('img').data('cid'),
-            model = collection.get(cid);
-            model.destroy();
-         });
-
-         $selectedElems.fadeOut(300,function(){ $selectedElems.remove(); });
-      });
-   }
-
-   syncPhotoDel($('#delete-photo'),'left');
-   syncPhotoDel($('#delete-photo-right'),'right');
-
-   function syncAlbum()
-   {
-      $('#add-album').click(addAlbum);
-      $('#remove-album').click(delAlbum);
-
-      function addAlbum()
-      {
-         var $el = mvc.AlbumsView_instance.$el;
-
-         mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',status:0},{silent: true,success:function(model){
-            var
-            albumView = new mvc.AlbumView({model:model}),
-            albumEl = albumView.render().el;
-            $el.append(albumEl);
-            $.app.properties.albums.mCustomScrollbar("update");
-            $(albumEl).find('.cover').click().addClass('flipInX animated');
-            $.app.properties.albums.mCustomScrollbar("scrollTo","bottom");
-            // $(albumEl).addClass('flipInX animated');
-            // console.log( albumEl );
-         }});
-      }
-
-      function delAlbum()
-      {
-         var
-         $actived_album = $("#albums .album.active"),
-         cid = $actived_album.data('cid'),
-         albumModel = mvc.AlbumsView_instance.collection.get(cid);
-         albumModel.destroy();
-      }
-   }
-
-   syncAlbum();
 
 });

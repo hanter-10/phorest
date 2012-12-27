@@ -18,7 +18,9 @@
               <script src="js/css3-mediaqueries.js"></script>
         <![endif]-->
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/loadCSS.js"></script>
+	<script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/TweenMax.min.js"></script>
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery-1.4.2.min.js"></script>
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery-tools.js"></script>
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery.slideshow.js"></script>
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/screenfull.js"></script>

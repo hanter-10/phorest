@@ -1,52 +1,56 @@
 @font-face {
-	font-family: 'icons';
-	src:url('../fonts/icons.eot');
-	src:url('../fonts/icons.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/icons.svg#icons') format('svg'),
-		url('../fonts/icons.woff') format('woff'),
-		url('../fonts/icons.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'icons';
+  src: url("../fonts/icons.eot");
+  src: url("../fonts/icons.eot?#iefix") format("embedded-opentype"), url("../fonts/icons.svg#icons") format("svg"), url("../fonts/icons.woff") format("woff"), url("../fonts/icons.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
+/* line 13, ../sass/icon.scss */
 [data-icon]:before {
-	font-family: 'icons';
-	content: attr(data-icon);
-	speak: none;
-	font-weight: normal;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
+  font-family: 'icons';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Use the following CSS code if you want to have a class per icon */
+/* line 23, ../sass/icon.scss */
 [class^="icon-"]:before, [class*=" icon-"]:before {
-	font-family: 'icons';
-	font-style: normal;
-	speak: none;
-	font-weight: normal;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-}
-.icon-picture:before {
-	content: "\70";
-	font-size: 22px;
-	position: absolute;
-	left: 3px;
-	top: -4px;
-}
-.icon-grid-view:before {
-	content: "\61";
-	font-size: 14px;
-	position: absolute;
-	left: 3px;
-	top: 1px;
+  font-family: 'icons';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* line 31, ../sass/icon.scss */
+.icon-picture:before {
+  content: "\70";
+  font-size: 22px;
+  position: absolute;
+  left: 3px;
+  top: -4px;
+}
+
+/* line 38, ../sass/icon.scss */
+.icon-grid-view:before {
+  content: "\61";
+  font-size: 14px;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+}
+
+/* line 46, ../sass/icon.scss */
 .icon-cog:before {
-	content: "\73";
-	position: absolute;
-	left: 0;
-	top: -1px;
-	font-size: 17px;
+  content: "\73";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  font-size: 17px;
 }

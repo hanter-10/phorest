@@ -23,22 +23,14 @@ def_opts =
 },
 errors = ["BrowserNotSupported", "TooManyFiles", "FileTooLarge", "FileTypeNotAllowed"],
 workQueue   = [],
-sending     = false,
-files;
+sending     = false;
 
 $.fn.dropfile = function(options){
     var opts = $.extend({}, def_opts, options);
     this.on('drop', drop).on('dragstart', opts.dragStart).on('dragenter', dragEnter).on('dragover', dragOver).on('dragleave', dragLeave);
-    $('#' + opts.inputID).change(function(e){
-        e.preventDefault();
-        files = e.target.files;
-        upload();
-    });
+    
 
-    function drop(e){
-        e.preventDefault();
-        files = e.dataTransfer.files;
-
+    function getPassedFiles(files){
         //ファイルがセットされているか
         if( !hasFile(files) ) return false; 
 
@@ -53,6 +45,24 @@ $.fn.dropfile = function(options){
             if ( verify(file) ) return file;
         });
         if(passedFiles.length===0) return false;
+        return passedFiles;
+    }
+
+    $('#' + opts.inputID).change(function(e){
+        e.preventDefault();
+        var 
+        files = e.target.files,
+        passedFiles = getPassedFiles(files);
+        if(!passedFiles) return false;
+        opts.drop.call(this,passedFiles, upload);
+    });
+
+    function drop(e){
+        e.preventDefault();
+        var 
+        files = e.dataTransfer.files,
+        passedFiles = getPassedFiles(files);
+        if(!passedFiles) return false;
         opts.drop.call(this,passedFiles, upload);
     }
 

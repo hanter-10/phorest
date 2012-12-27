@@ -9,25 +9,6 @@ $(function(){
    mvc = $.app.Backbone,
    $title = $('head title');
 
-   //------------------------ Get Ready ------------------------
-   var
-   //create models
-   PhotoModel = new mvc.PhotoModel(),
-   PhotoCollection = new mvc.PhotoCollection(),
-   AlbumModel = new mvc.AlbumModel(),
-   AlbumCollection = new mvc.AlbumCollection();
-
-
-   //create views
-   //view.jsで使用できるよう、どこでもアクセス出来るmvcにつけるておく
-   mvc.AlbumsView_instance = new mvc.AlbumsView({collection:AlbumCollection});
-
-   AlbumModel.photoCollection = PhotoCollection;
-
-   AlbumCollection.fetch();
-
-
-   //-----------------------------------------------------------
    var Router = Backbone.Router.extend({
       routes:
       {
@@ -37,7 +18,21 @@ $(function(){
       home : function()
       {
          console.log("home")
+         var
+         //model
+         PhotoModel = new mvc.PhotoModel(),
+         PhotoCollection = new mvc.PhotoCollection(),
+         AlbumModel = new mvc.AlbumModel(),
+         AlbumCollection = new mvc.AlbumCollection();
 
+
+         //view
+         //view.jsで使用できるよう、どこでもアクセス出来るmvcにつけるておく
+         mvc.AlbumsView_instance = new mvc.AlbumsView({collection:AlbumCollection});
+
+         AlbumModel.photoCollection = PhotoCollection;
+
+         AlbumCollection.fetch();
       },
       loadAlbum : function(name)
       {
@@ -66,9 +61,7 @@ $(function(){
    // }
 
    mvc.router = new Router();
-//   Backbone.history.start({pushState: true, root: "/phorest/"});
-//   Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
- Backbone.history.start({pushState: true, root: "/Phorest/DatUsers/"});
-// Backbone.history.start({pushState: true, root: "/DatUsers/"});
-
+   //Backbone.history.start({pushState: true, root: "/phorest/"});
+   Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
+//   Backbone.history.start({pushState: true, root: "/Phorest/DatUsers/"});
 });

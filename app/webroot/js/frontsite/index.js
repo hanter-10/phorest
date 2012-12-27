@@ -1,42 +1,142 @@
 $(function(){
 
-var imgs=[
-'images/frontsite/3.jpeg',
-'images/frontsite/1.jpeg',
-'images/frontsite/2.jpeg',
-'images/frontsite/4.jpeg',
-'images/frontsite/5.jpg'
-];
- slideshow =
-$.slideshow({
-	imgs: imgs,
-	fade: 1600,
-	delay: 5000,
-	onchange:change,
-	onstop:stop,
-	onplay:play,
-	prevbtn:'#prevbtn',
-	nextbtn:'#nextbtn'
-});
-slideshow.play()
-function stop(index)
-{
-
-}
-
-function change(index)
+var
+$imgContainer       = $('#img-container'),
+$controller         = $('#controller'),
+$albumsContainer    = $('#albumsContainer'),
+$indicator          = $('#indicator'),
+$title              = $("#footer .title"),
+$phorest_slideshow;
+//データの取得を開始
+function init()
 {
 	var
-	$img = $('#img-container img').eq(index),
-	left = $img.offset().left,
-	width = $img.width();
-	$('#indicator').animate({ left:left,width:width },500);
+	username = 'ichiba/',
+//	url = 'http://localhost:8888/phorest/DatUsers/' + username;
+//	url = 'http://localhost:81/phorest/DatUsers/' + username;
+	url = 'http://development/Phorest/datalbums/userSearch/' + username;
+	$.getJSON(url,function(userArr){
+		var
+		albumArr = userArr[0]['DatAlbum'],
+		albumIndex = 0;
+
+		$.each(albumArr,function(index,album){
+			var datPhoto = album.DatPhoto;
+			album.photos = datPhoto;
+			delete album.DatPhoto;
+		});
+
+		addThumb(albumArr[albumIndex]);
+		addAlbum(albumArr);
+		startslide(albumArr[albumIndex]);
+	});
 }
 
-function play(index)
+function addThumb(album)
 {
+	var
+	photos = album['photos'],
+	firstPhoto = photos[0],
+	ratio  = firstPhoto.width/firstPhoto.height,
+	width = ratio*33;
+	$imgContainer.empty();
+	$indicator.width(width);
+	$.each(photos,function(index,photo){
+		var url = photo.thumUrl;
+		$('<img height="33" alt="thum">').attr('src',url).data({index:index,title:photo.photoName}).appendTo($imgContainer);
+	});
+}
+
+function startslide(album)
+{
+	var
+    photos    = album['photos'],
+    imgUrls   = _.pluck(photos,'imgUrl');
+
+	slideshow =
+	$.slideshow({
+		imgs: imgUrls,
+		fade: 1600,
+		delay: 5000,
+		onchange:change,
+		onstop:stop,
+		onplay:play,
+		prevbtn:'#prevbtn',
+		nextbtn:'#nextbtn'
+	});
+	slideshow.play();
+
+	$phorest_slideshow = $("#phorest_slideshow");
+
+	$imgContainer.on('click','img',function(){
+		var index = $(this).data('index');
+		slideshow.jumpTo(index);
+	});
+
+	function stop(index)
+	{
+
+	}
+
+	function change(index)
+	{
+		var
+        $img    = $imgContainer.find('img').eq(index),
+        title   = $img.data('title'),
+        left    = $img.offset().left,
+        width   = $img.width();
+		// $indicator.animate({ left:left,width:width },500);
+		TweenMax.to( $indicator, 0.5, { css:{left:left,width:width}, ease:Back.easeInOut });
+		$title.text(title);
+	}
+
+	function play(index)
+	{
+
+	}
 
 }
+
+function addAlbum(albumArr)
+{
+	var
+	template = _.template($('#temp_album').html());
+	$.each(albumArr,function(index,album){
+		var
+		cover = album['photos'][0],
+		$el = $( template({thumUrl:cover['thumUrl'],  albumName:album["albumName"]}) );
+
+		$albumsContainer.append($el);
+		$el.find('.wrapper').data('album_info',album).click(changeAlbum);
+		fillimg( $el.find('img'), cover["width"], cover["height"] );
+	});
+
+	function fillimg($img,w,h)
+	{
+		if(w/h>1){ //横長
+			$img.attr('height',150);
+		}else{
+			$img.attr('width',150);
+		}
+	}
+
+	function changeAlbum()
+	{
+		var
+		$this = $(this),
+		album_info = $this.data('album_info'),
+		imgUrls = _.pluck(album_info['photos'],'imgUrl');
+
+		slideshow.option({imgs:imgUrls});
+		addThumb(album_info);
+	}
+}
+
+
+
+init();
+
+
 
 
 //サムネールのロードと配置
@@ -101,18 +201,25 @@ $('#show-albums').click(function(){
 	toggleAlbums();
 });
 
+$('#albums').click(function(){
+	$('#show-albums').click();
+});
+
 function toggleAlbums()
 {
 	if(if_albums_open){
+		$controller.show();
 		hideAlbums();
 	}else{
 		showAlbums();
+		$controller.hide();
 	}
 }
 function showAlbums()
 {
 	slideshow.stop();
 	$albums.addClass('show');
+	$phorest_slideshow.addClass('blur');
 	if_albums_open = true;
 }
 
@@ -120,6 +227,7 @@ function hideAlbums()
 {
 	slideshow.play();
 	$albums.removeClass('show');
+	$phorest_slideshow.removeClass('blur');
 	if_albums_open = false;
 }
 

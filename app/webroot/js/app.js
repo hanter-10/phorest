@@ -5,8 +5,12 @@ $(document).ready(function(){
     var mvc;
     $.app = {};
     $.app.Backbone = {};  mvc = $.app.Backbone;
-    $.app.properties = 
+    $.app.properties =
     {
+//        coverimg:               "http://localhost:8888/phorest/images/cover.png",
+//        coverimg:               "http://localhost:81/Phorest/images/cover.png",
+        coverimg:               "http://development/Phorest/images/cover.png",
+//        coverimg:               "http://pk-brs.xsrv.jp/images/cover.png",
         headerHeight:           $("#header").outerHeight(true),
         albumControlBarHeight:  $("#album-control-bar").outerHeight(true),
         albums:                 $("#albums"),
@@ -22,7 +26,9 @@ $(document).ready(function(){
         photosEdge:             $("#albums-panel").outerWidth() + $("#photos-panel").outerWidth(),
         photoCollections:       $("#photoCollections"),
         albumNameInput:         $('#album-name-input'),
-        photoCollections_right: $('#uploadAreaContainer')
+        photoCollections_right: $('#uploadAreaContainer'),
+        uploadArea:             $('#uploadArea'),
+        uploadControlPanel:     $('#upload-control-panel')
     };
 
 
@@ -30,8 +36,8 @@ $(document).ready(function(){
     {
         init : function()
         {
-            var 
-            _this = this, 
+            var
+            _this = this,
             $albums = $.app.properties.albums,
             $photos = $.app.properties.photoCollections;
 
@@ -52,28 +58,38 @@ $(document).ready(function(){
         clickable : function()
         {
             var
+            $photoFiles = $('#photoFiles'),
             $uploadAreaContainer = $("#uploadAreaContainer"),
-            $fig = $("#preview-panel>figure");
+            $imgContainer = $("#imgContainer");
 
             $("#up-photo").toggle
             (
-            function(){ $uploadAreaContainer.show(); $fig.hide(); },
-            function(){ $fig.show(); $uploadAreaContainer.hide(); }
+            function(){ $(this).toggleClass('hover');$uploadAreaContainer.show(); $imgContainer.hide(); },
+            function(){ $(this).toggleClass('hover');$imgContainer.show(); $uploadAreaContainer.hide(); }
             );
 
+            var
+            $userPanel = $("#user-panel"),
+            $userPanelHover = $("#user-panel-hover");
+
+            $userPanelHover.toggle(function(){
+                $userPanelHover.toggleClass('hover');
+                $userPanel.fadeIn();
+            },function(){
+                $userPanelHover.toggleClass('hover');
+                $userPanel.fadeOut();
+            });
+
             //------------------------アルバムのアクティブ状態----------------------------
-            $("#albums .cover").live
-            (
-            "click",
-            function()
+            $("#albums .cover").live("click",function()
             {
-            $("#albums .album").removeClass("active");
-            $(this).parent().addClass("active");
+                $("#albums .album").removeClass("active");
+                $(this).parent().addClass("active");
             }
             );
 
             //------------------------アルバムの追加-----------------------------
-            $("#add-album").click(function()
+            /*$("#add-album").click(function()
             {
             var $albums = $.app.properties.albums;
             $newAlbum = $('<div class="album"><div class="cover"><img src="images/cover" alt="cover" draggable="false" width="102" height="102"><span class="album-name">風景</span></div><span class="status">非公開</span></div>');
@@ -83,6 +99,10 @@ $(document).ready(function(){
             $newAlbum.addClass("active");
             // $.app.properties.photos.html('');
             $.app.properties.albums.mCustomScrollbar("update");
+            });*/
+
+            $('#upload-btn').click(function(){
+                $photoFiles.click();
             });
 
         },
@@ -90,12 +110,15 @@ $(document).ready(function(){
         fileDrop: function()
         {
             $("#uploadAreaContainer").dropfile({
-                //url: './upload/',
-				url:   'http://development/phorest/uploads/',
+//                url: './upload/',
+//                url:   'http://localhost:81/phorest/uploads/',
+				url:   'http://development/Phorest/uploads/',
+//				url:   'http://pk-brs.xsrv.jp/uploads/',
                 inputID: 'photoFiles',
                 accept: ['image/jpeg','image/png','image/gif'],
                 drop: function(files,upload)
                 {
+                    $.app.properties.uploadArea.hide();  $.app.properties.uploadControlPanel.show();
                     var views;
                     views = renderPic(files); //画像を表示する
                     $.each(files,function(index,file){
@@ -121,7 +144,7 @@ $(document).ready(function(){
                     $el.find('.filename').show();
                     $.extend(model.attributes,newAttributes);
 
-                    $.app.properties.PhotoCollectionView_right.collection.add(model);
+                    mvc.PhotoCollectionView_right_instance.collection.add(model);
 
                     console.log( 'loaded' );
                 },
@@ -134,31 +157,31 @@ $(document).ready(function(){
 
     };
 
-    
+
 
 
    //---------------- functions -------------------
 
    function renderPic(files)
    {
-        var 
+        var
         url,
         views=[];
 
         for(i=0,len=files.length; i<len; i++)
         {
-            var 
+            var
             processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
             photoModel = new mvc.PhotoModel({
                 photoName: files[i].name,
                 relatedAlbum: "tempAlbum"
             }),
-            photoView = new mvc.PhotoView({model:photoModel},{deleteBtn:$('#delete-photo')}),
+            photoView = new mvc.PhotoView({model:photoModel}),
             photoEl = photoView.render().el;
             $(photoEl).find('.filename').hide().after(processbar);
             $.app.properties.photos_right.push(photoEl);
             views.push(photoView);
-            console.log( photoView.model,"mmm" );
+            // console.log( photoView.model,"mmm" );
             if(window.URL){
                 url = window.URL.createObjectURL(files[i]);
                 photoView.model.set({imgUrl:url},{silent: true});
@@ -188,7 +211,7 @@ $(document).ready(function(){
                             $(this).attr({height:113,width:null}).show();
                         }
                     })[0].src=url;
-                    
+
                 });
                 fr.readAsDataURL(files[i]);
             }
@@ -200,8 +223,8 @@ $(document).ready(function(){
 
 
    //-----------------------------------
-   
+
 
    //-----------------------------------
-   
+
 });

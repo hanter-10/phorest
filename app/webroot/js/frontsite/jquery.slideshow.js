@@ -8,7 +8,7 @@ $.slideshow = function(setting)
 	options = 
 	{
 		imgs: null,
-		fade: 600,
+		fade: 500,
 		delay: 3000,
 		size: 'auto', //contain , cover も可能
 		nextbtn: null,
@@ -154,6 +154,7 @@ $.slideshow = function(setting)
 	{
 		play: function(immediacy)
 		{
+			clearTimeout( timer );
 			var len = options.imgs.length;
 
 			function doSlideshow()
@@ -165,12 +166,25 @@ $.slideshow = function(setting)
 				$current.show();
 				$next.show();
 				allowJump = false;
-				$current.fadeOut(options.fade,function(){
+				/*$current.fadeOut(options.fade,function(){
 					$(this).removeClass('current');
 					$current.removeClass('next').addClass('current');
 					$next.addClass('next');
 					allowJump = true;
-				});
+				});*/
+
+				(function($current_copy){
+					TweenMax.to($current_copy, options.fade/1000, 
+						{
+							css:{opacity:0},onComplete:function(){
+								$current_copy.removeClass('current').hide().css('opacity',1);
+								$current.removeClass('next').addClass('current');
+								$next.addClass('next');
+								allowJump = true;
+							}
+						});
+				})($current);
+				
 				//fire change event
 				options.onchange(pointer-1<0 ? len-1 : pointer-1);
 				$current = $next;

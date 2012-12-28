@@ -462,7 +462,7 @@ EOF
 						),
 						'conditions' => array(
 								'DatAlbum.status' => 1,
-								'DatAlbum.flg' => 1,
+// 								'DatAlbum.flg' => 1,		//TODO: テストのため見ないようにする
 						),
 				),
 		);
@@ -506,9 +506,11 @@ EOF
 					$datPhotos[$photokey]['file_name'] = $datPhotos[$photokey]['DatPhoto']['file_name'];
 					$datPhotos[$photokey]['thum_file_name'] = $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
 // 					$datPhotos[$photokey]['imgUrl'] = $datPhotos[$photokey]['DatPhoto']['imgUrl'];
-					$datPhotos[$photokey]['imgUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+// 					$datPhotos[$photokey]['imgUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+					$datPhotos[$photokey]['imgUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 // 					$datPhotos[$photokey]['thumUrl'] = $datPhotos[$photokey]['DatPhoto']['thumUrl'];
-					$datPhotos[$photokey]['thumUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+// 					$datPhotos[$photokey]['thumUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+					$datPhotos[$photokey]['thumUrl'] = 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
 					$datPhotos[$photokey]['size'] = $datPhotos[$photokey]['DatPhoto']['size'];
 					$datPhotos[$photokey]['type'] = $datPhotos[$photokey]['DatPhoto']['type'];
 					$datPhotos[$photokey]['status'] = $datPhotos[$photokey]['DatPhoto']['status'];

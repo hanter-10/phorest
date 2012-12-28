@@ -6,6 +6,7 @@
     <?php
     	echo $this->Form->input('username');
         echo $this->Form->input('password');
+        echo $this->Form->hidden('status',array('value' => 1));
     ?>
     </fieldset>
 	<?php echo $this->Form->end(__('ログイン'));?>

@@ -68,7 +68,7 @@ $(function(){
    mvc.router = new Router();
 //   Backbone.history.start({pushState: true, root: "/phorest/"});
 //   Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
- Backbone.history.start({pushState: true, root: "/Phorest/DatUsers/"});
+ Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
 // Backbone.history.start({pushState: true, root: "/DatUsers/"});
 
 });

@@ -34,7 +34,7 @@ $(function(){
    mvc.PhotoCollection = Backbone.Collection.extend({
 //      url:     'http://localhost:8888/phorest/DatPhotos/',
 //      url:     'http://localhost:81/Phorest/datphotos/',
-    url:     'http://development/Phorest/datphotos/',
+    url:     'http://development/phorest/datphotos/',
 //    url:     'http://pk-brs.xsrv.jp/datphotos/',
       model:   mvc.PhotoModel
    });
@@ -69,7 +69,7 @@ $(function(){
    mvc.AlbumCollection = Backbone.Collection.extend({
 //      url:     'http://localhost:8888/phorest/DatAlbums/',
 //      url:     'http://localhost:81/Phorest/datalbums/',
-    url:     'http://development/Phorest/datalbums/',
+    url:     'http://development/phorest/datalbums/',
 //    url:     'http://pk-brs.xsrv.jp/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()

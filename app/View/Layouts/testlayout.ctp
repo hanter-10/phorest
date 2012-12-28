@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Phorest</title>
         <meta name="description" content="demo">
+        <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
         <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
         <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/reset.css" media="all" />
@@ -94,7 +95,7 @@
                 <div id="photos-panel">
                     <ul id="photos-control-panel">
                         <li class="row prevent-select">
-                            <span class="icon-eye" id="preview">プレビュー</span>
+                            <a class="icon-eye" id="preview" target="blank">プレビュー</a>
                             <span class="icon-cancel" id="delete-photo">写真を削除</span>
                         </li>
                         <li class="row">

@@ -40,6 +40,10 @@ class DatUsersController extends AppController {
  */
 	public function index() {
 
+		// usernameを取得してViewに設置
+		$meta_data = $this->Auth->user('username');
+		$this->set(compact('meta_data'));
+
 		$this->layout = 'testlayout';
 
 // 		var_dump($this->Auth->user('user_id'));

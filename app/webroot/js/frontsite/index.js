@@ -11,10 +11,11 @@ $phorest_slideshow;
 function init()
 {
 	var
-	username = 'ichiba/',
-//	url = 'http://localhost:8888/phorest/DatUsers/' + username;
-//	url = 'http://localhost:81/phorest/DatUsers/' + username;
-	url = 'http://development/Phorest/datalbums/userSearch/' + username;
+	username = $('meta[name="owner"]').attr('content'),
+//	url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
+//	url = 'http://localhost:81/phorest/datalbums/userSearch/' + username;
+	url = 'http://development/phorest/datalbums/userSearch/' + username;
+//	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
 	$.getJSON(url,function(userArr){
 		var
 		albumArr = userArr[0]['DatAlbum'],

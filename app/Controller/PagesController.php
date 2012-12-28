@@ -45,6 +45,7 @@ class PagesController extends AppController {
  */
 	public $uses = array();
 
+
 /**
  * Displays a view
  *
@@ -53,6 +54,12 @@ class PagesController extends AppController {
  */
 	public function display() {
 
+
+// 		var_dump($this->request->url);
+// 		$meta_data = $this->request->ownerName;
+// 		$meta_data = $this->request->url;
+		$meta_data = $this->request->pass[0];
+// 		var_dump($this->request->pass[0]);
 
 		$path = func_get_args();
 
@@ -71,7 +78,7 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title_for_layout = Inflector::humanize($path[$count - 1]);
 		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
+		$this->set(compact('page', 'subpage', 'title_for_layout','meta_data'));
 		$this->render(implode('/', $path));
 	}
 }

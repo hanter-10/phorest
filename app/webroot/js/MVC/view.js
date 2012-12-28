@@ -4,7 +4,9 @@ $(function(){
    $photoCollection_right,
    mvc = $.app.Backbone,
    $albumNameInput = $.app.properties.albumNameInput,
-   $title = $('head title');
+   $title = $('head title'),
+   $preview = $('#preview'),
+   username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
       tagName:    'div',
@@ -297,12 +299,11 @@ $(function(){
          data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });
          options =
          {
-        	data : data,
+            data : data,
 //            url : '/DatAlbumPhotoRelations/'+_this.albumID
 //            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
-            url : 'http://development/Phorest/datalbumphotorelations/'+_this.albumID
+            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
 //            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
-
          };
          Backbone.sync('update',null,options)
          .fail(function(){
@@ -391,6 +392,8 @@ $(function(){
 
             mvc.router.navigate('album/'+albumName);
             $title.text('Phorest - '+albumName);
+
+            $preview.attr('href',$.app.properties.root + username + "/albums/" + albumName);
             return this;
          }
       },
@@ -489,7 +492,8 @@ $(function(){
 
          this.$el.append( albumEls.children() );
          //最初のアルバム内の写真を表示する
-         firstAlbumView.showPhotos().$el.addClass('active');
+         // firstAlbumView.showPhotos().$el.addClass('active').find('.cover').click();
+         firstAlbumView.$el.find('.cover').click();
          mvc.PhotoCollectionView_right_instance.$el.show();
       }
    });

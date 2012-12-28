@@ -55,6 +55,14 @@ class AppController extends Controller {
 	function beforeFilter() {
 		$this->Auth->allow('*');
 
+		// usernameをURIから取得してViewに設置
+		$meta_data = '';
+		if (isset($this->request->pass[0])) {
+			$meta_data = $this->request->pass[0];
+// 			var_dump($this->request->ownername);
+		}
+		$this->set(compact('meta_data'));
+
 // 		var_dump($this->params['prefix']);
 // 		var_dump(Configure::read('Routing.prefixes'));
 

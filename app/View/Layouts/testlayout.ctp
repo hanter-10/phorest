@@ -57,7 +57,7 @@
                             アップロード
                         </div>
                         <div id="user-panel-hover" class="icon-user">
-                            <span id="username">xipx</span>
+                            <span id="username"><?php echo $meta_data?></span>
                         </div>
                     </div>
                 </div>

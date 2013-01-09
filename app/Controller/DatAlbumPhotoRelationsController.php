@@ -68,23 +68,10 @@ class DatAlbumPhotoRelationsController extends AppController {
 
 /**
  * add method
- *
+ * [PUT/undefined]アルバムに写真を紐づけるAPI
  * @return void
  */
 	public function add() {
-// 		if ($this->request->is('post')) {
-// 			$this->DatAlbumPhotoRelation->create();
-// 			if ($this->DatAlbumPhotoRelation->save($this->request->data)) {
-// 				$this->Session->setFlash(__('The dat album photo relation has been saved'));
-// 				$this->redirect(array('action' => 'index'));
-// 			} else {
-// 				$this->Session->setFlash(__('The dat album photo relation could not be saved. Please, try again.'));
-// 			}
-// 		}
-// 		$datAlbums = $this->DatAlbumPhotoRelation->DatAlbum->find('list');
-// 		$datPhotos = $this->DatAlbumPhotoRelation->DatPhoto->find('list');
-// 		$this->set(compact('datAlbums', 'datPhotos'));
-
 
 		// 返り値のデフォルトセット：false
 		$this->set('datAlbumPhotoRelation', false);
@@ -99,11 +86,11 @@ class DatAlbumPhotoRelationsController extends AppController {
 			foreach ($data->photos as $key => $photo_id) {
 
 				/* paramater set */
-				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id'] = $data->targetAlbum;				// $this->params['data']['album_id'];
-				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']  = $photo_id;				// $this->params['data']['photo_id'];
-				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']  = 1;
-				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['create_datetime']  = date('Y-m-d h:i:s');
-				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']  = date('Y-m-d h:i:s');
+				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id']			= $data->targetAlbum;		// $this->params['data']['album_id'];
+				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']			= $photo_id;				// $this->params['data']['photo_id'];
+				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']				= 1;
+				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['create_datetime']		= date('Y-m-d h:i:s');
+				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']	= date('Y-m-d h:i:s');
 
 				/* insert query */
 				$this->DatAlbumPhotoRelation->create();
@@ -124,6 +111,7 @@ class DatAlbumPhotoRelationsController extends AppController {
 /**
  * edit method
  *
+ * [PUT/id]アルバムと写真の紐づき情報の更新API
  * @throws NotFoundException
  * @param string $id
  * @return void
@@ -162,18 +150,15 @@ class DatAlbumPhotoRelationsController extends AppController {
 				throw new BadRequestException(__('Bad Request.'));
 			}
 
-
 			/**
 			 * 各album_id,photo_idの存在チェック
 			 */
-
 			// target Album_id Check
 			$this->DatAlbum->id = $datAlbumPhotoRelation['DatAlbumPhotoRelation']['targetAlbum'];
 			if (!$this->DatAlbum->exists()) {
 				// No Data
 				throw new NotFoundException(__('Invalid dat album photo relation'));
 			}
-
 			// photo_id Check;
 			foreach ($datAlbumPhotoRelation['DatAlbumPhotoRelation']['photos'] as $photo) {
 				$this->DatPhoto->id = $photo;
@@ -213,60 +198,54 @@ class DatAlbumPhotoRelationsController extends AppController {
 			throw new BadRequestException(__('Bad Request.'));
 		}
 		$this->set('_serialize', 'datAlbumPhotoRelation');
-
-// 		$datAlbums = $this->DatAlbumPhotoRelation->DatAlbum->find('list');
-// 		$datPhotos = $this->DatAlbumPhotoRelation->DatPhoto->find('list');
-// 		$this->set(compact('datAlbums', 'datPhotos'));
 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-// 		if (!$this->request->is('post')) {
-// 			throw new MethodNotAllowedException();
-// 		}
-// 		$this->DatAlbumPhotoRelation->id = $id;
-// 		if (!$this->DatAlbumPhotoRelation->exists()) {
-// 			throw new NotFoundException(__('Invalid dat album photo relation'));
-// 		}
-// 		if ($this->DatAlbumPhotoRelation->delete()) {
-// 			$this->Session->setFlash(__('Dat album photo relation deleted'));
-// 			$this->redirect(array('action' => 'index'));
-// 		}
-// 		$this->Session->setFlash(__('Dat album photo relation was not deleted'));
-// 		$this->redirect(array('action' => 'index'));
+// /**
+//  * delete method
+//  *
+//  * @throws MethodNotAllowedException
+//  * @throws NotFoundException
+//  * @param string $id
+//  * @return void
+//  */
+// 	public function delete($id = null) {
+// // 		if (!$this->request->is('post')) {
+// // 			throw new MethodNotAllowedException();
+// // 		}
+// // 		$this->DatAlbumPhotoRelation->id = $id;
+// // 		if (!$this->DatAlbumPhotoRelation->exists()) {
+// // 			throw new NotFoundException(__('Invalid dat album photo relation'));
+// // 		}
+// // 		if ($this->DatAlbumPhotoRelation->delete()) {
+// // 			$this->Session->setFlash(__('Dat album photo relation deleted'));
+// // 			$this->redirect(array('action' => 'index'));
+// // 		}
+// // 		$this->Session->setFlash(__('Dat album photo relation was not deleted'));
+// // 		$this->redirect(array('action' => 'index'));
 
+// 		/* paramater set */
+// 		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id'] = $id;				// $this->params['data']['album_id'];
+// 		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']  = 10;				// $this->params['data']['photo_id'];
+// 		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']  = 0;
+// 		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']  = date('Y-m-d h:i:s');
 
+// 		/* update query */
+// 		$result = $this->DatAlbumPhotoRelation->updateAll(
+// 				// Update set
+// 				array(
+// 					'DatAlbumPhotoRelation.status' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']
+// 					,'DatAlbumPhotoRelation.update_timestamp' => "'".$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']."'"
+// 				)
+// 				// Where
+// 				,array(
+// 					array(
+// 						'DatAlbumPhotoRelation.fk_album_id' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id']
+// 						,'DatAlbumPhotoRelation.fk_photo_id' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']
+// 					)
+// 				)
+// 		);
 
-		/* paramater set */
-		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id'] = $id;				// $this->params['data']['album_id'];
-		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']  = 10;				// $this->params['data']['photo_id'];
-		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']  = 0;
-		$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']  = date('Y-m-d h:i:s');
-
-		/* update query */
-		$result = $this->DatAlbumPhotoRelation->updateAll(
-				// Update set
-				array(
-					'DatAlbumPhotoRelation.status' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['status']
-					,'DatAlbumPhotoRelation.update_timestamp' => "'".$datAlbumPhotoRelations['DatAlbumPhotoRelation']['update_timestamp']."'"
-				)
-				// Where
-				,array(
-					array(
-						'DatAlbumPhotoRelation.fk_album_id' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id']
-						,'DatAlbumPhotoRelation.fk_photo_id' => $datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']
-					)
-				)
-		);
-
-		$this->set('datAlbumPhotoRelations', $result);
-		$this->set('_serialize', 'datAlbumPhotoRelations');
-	}
+// 		$this->set('datAlbumPhotoRelations', $result);
+// 		$this->set('_serialize', 'datAlbumPhotoRelations');
+// 	}
 }

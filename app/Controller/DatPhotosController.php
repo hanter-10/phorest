@@ -28,100 +28,96 @@ class DatPhotosController extends AppController {
 	}
 
 
-/**
- * index method
- *
- * @return void
- *
- * URI：/tempalbum/ -> /datphotos/
- */
-	public function index() {
+// /**
+//  * index method
+//  *
+//  * @return void
+//  *
+//  * URI：/tempalbum/ -> /datphotos/
+//  */
+// 	public function index() {
 
-		//$this->DatPhoto->recursive = 0;				HABTMの際に関連テーブルを検索するので削除
+// 		//$this->DatPhoto->recursive = 0;				HABTMの際に関連テーブルを検索するので削除
 
-// 		$option = array(
-// 				'conditions' => array(
-// 						//'DatAlbum.album_id'		=> '',
-// 						'DatPhoto.status'		=> 1,
-// 				),
-// 		);
-// 		$datPhotos = $this->DatPhoto->find('all', $option);
-// 		$datPhotos = $this->DatAlbumPhotoRelation->find('all', $option);
+// 		// リクエストメソッド判断
+// 		if ($this->request->is('get')) {
 
-		$db = $this->DatPhoto->getDataSource();
-		$datPhotos = $db->fetchAll(
-<<<EOF
-				SELECT
-					DatPhoto.photo_id as id,
-					DatPhoto.fk_user_id,
-					DatPhoto.photoName as photoName,
-					DatPhoto.description as description,
-					DatPhoto.file_name,
-					DatPhoto.thum_file_name,
-					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.file_name) as imgUrl,
-					concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.thum_file_name) as thumUrl,
-					DatPhoto.size,
-					DatPhoto.type,
-					DatPhoto.status,
-					DatPhoto.create_datetime,
-					DatPhoto.update_timestamp
-				FROM
-					`dat_photos` as DatPhoto
-					left outer join dat_album_photo_relations as DatAlbumPhotoRelation
-						on DatPhoto.photo_id = DatAlbumPhotoRelation.fk_photo_id
-					left outer join dat_users as DatUser
-						on DatPhoto.fk_user_id = DatUser.user_id
-					inner join mst_image_servers as MstImageServer
-						on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
-				where
-					DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?
-EOF
-				,array(1)
-		);
+// 			//TODO:リファラーチェックとかhash認証コードとかもしといたほうがいいんだろな。
 
-		// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
-		foreach( $datPhotos as $key => $datPhoto ) {
-			$datPhotos[$key]['DatPhoto']['imgUrl'] = $datPhoto[0]['imgUrl'];
-			$datPhotos[$key]['DatPhoto']['thumUrl'] = $datPhoto[0]['thumUrl'];
+// 			$db = $this->DatPhoto->getDataSource();
+// 			$datPhotos = $db->fetchAll(
+// <<<EOF
+// 					SELECT
+// 						DatPhoto.photo_id as id,
+// 						DatPhoto.fk_user_id,
+// 						DatPhoto.photoName as photoName,
+// 						DatPhoto.description as description,
+// 						DatPhoto.file_name,
+// 						DatPhoto.thum_file_name,
+// 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.file_name) as imgUrl,
+// 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.user_id,'/',DatPhoto.thum_file_name) as thumUrl,
+// 						DatPhoto.size,
+// 						DatPhoto.type,
+// 						DatPhoto.status,
+// 						DatPhoto.create_datetime,
+// 						DatPhoto.update_timestamp
+// 					FROM
+// 						`dat_photos` as DatPhoto
+// 						left outer join dat_album_photo_relations as DatAlbumPhotoRelation
+// 							on DatPhoto.photo_id = DatAlbumPhotoRelation.fk_photo_id
+// 						left outer join dat_users as DatUser
+// 							on DatPhoto.fk_user_id = DatUser.user_id
+// 						inner join mst_image_servers as MstImageServer
+// 							on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
+// 					where
+// 						DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ?
+// EOF
+// 					,array(1)
+// 			);
 
-			// いらないものを消す
-			unset($datPhotos[$key][0]);
-		}
+// 			// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
+// 			foreach( $datPhotos as $key => $datPhoto ) {
+// 				$datPhotos[$key]['DatPhoto']['imgUrl'] = $datPhoto[0]['imgUrl'];
+// 				$datPhotos[$key]['DatPhoto']['thumUrl'] = $datPhoto[0]['thumUrl'];
 
-// 		$datPhotos = $this->DatPhoto->query("
-// 				SELECT * FROM `dat_photos` as photo
-// 				left outer join dat_album_photo_relations as relations on photo.photo_id = relations.fk_photo_id
-// 				where relations.fk_photo_id is null
-// 		");
-		$this->set('datPhotos', $datPhotos);
+// 				// いらないものを消す
+// 				unset($datPhotos[$key][0]);
+// 			}
 
-		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
-		$this->set('_serialize', 'datPhotos');
-	}
+// 			$this->set('datPhotos', $datPhotos);
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
+// 		} else {
+// 			// postではない時は「400 Bad Request」
+// 			throw new BadRequestException(__('Bad Request.'));
+// 		}
+// 		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
+// 		$this->set('_serialize', 'datPhotos');
+// 	}
 
-		$this->DatPhoto->recursive = 0;		// 写真情報のみ取得
+// /**
+//  * view method
+//  *
+//  * @throws NotFoundException
+//  * @param string $id
+//  * @return void
+//  */
+// 	public function view($id = null) {
 
-		$this->DatPhoto->id = $id;
-		if (!$this->DatPhoto->exists()) {
-			// Not Data
-			throw new NotFoundException(__('Invalid dat photo'));
-		}
-		$this->set('datPhoto', $this->DatPhoto->read(null, $id));
-		$this->set('_serialize', 'datPhoto');
-	}
+// 		$this->DatPhoto->recursive = 0;		// 写真情報のみ取得
+
+// 		$this->DatPhoto->id = $id;
+// 		if (!$this->DatPhoto->exists()) {
+// 			// Not Data
+// 			throw new NotFoundException(__('Invalid dat photo'));
+// 		}
+// 		$this->set('datPhoto', $this->DatPhoto->read(null, $id));
+// 		$this->set('_serialize', 'datPhoto');
+// 	}
 
 /**
  * add method
  *
+ * [POST]写真データ登録/写真アップロード処理API
  * @return void
  */
 	public function add() {
@@ -142,13 +138,15 @@ EOF
 			 * 画像アップロード処理
 			 */
 			// オリジナル画像アップロード先
-			$imagePath = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username');
-			$image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . $_FILES['file']['name'];
+			$imagePath	= WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username');
+			$image		= WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . $_FILES['file']['name'];
 
 			//保存先のディレクトリが存在しているかチェック
-			if(!file_exists($imagePath)){
+			if (!file_exists($imagePath)) {
 				mkdir($imagePath);
 			}
+
+			//TODO:拡張子のチェックとかも必要になる事だろう
 
 			// 画像のアップロード
 			move_uploaded_file($_FILES['file']['tmp_name'], $image);
@@ -157,7 +155,7 @@ EOF
 			 *  サムネイル画像作成
 			 **/
 			// サムネイル画像アップロード先
-			$thumbnail_image  = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'thumbnail' . DS . $_FILES['file']['name'];
+			$thumbnail_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'thumbnail' . DS . $_FILES['file']['name'];
 
 			// 参考サムネイルサイズ
 			$width	= 150;
@@ -169,45 +167,21 @@ EOF
 			// 画像サイズ取得
 			$Jsize = getimagesize("$image");
 
-			/* リサイズ処理 */
-
+			/**
+			 * リサイズ処理
+			 */
 			// 画像の縦横サイズチェック
 			if ( $Jsize[0] >= $Jsize[1] ) {
 				// 縦より横が大きい場合
 				if (!$this->Thumbmake->width($width)) {
-					// サムネイル画像作成失敗
-
+					//TODO:サムネイル画像作成失敗
 				}
 			} else {
 				// 横より縦が大きい場合
 				if (!$this->Thumbmake->height($height)) {
-					// サムネイル画像作成失敗
-
+					//TODO:サムネイル画像作成失敗
 				}
 			}
-
-// 			// 画像サイズ取得
-// 			$Jsize = getimagesize("$image");
-// 			// 横121ピクセル以上なら
-// 			if ($Jsize[0] >= 121) {
-// 				// 横120ピクセル
-// 				$Jwidth = 120;
-// 				// 縦サイズを計算
-// 				$Jheight = $Jsize[1] * 120 / $Jsize[0];
-// 				// 画像を縮小する
-// 				$imagein = imagecreatefromjpeg("$image");
-// 				// サイズ変更（GD2使用）
-// 				$imageout = imagecreatetruecolor($Jwidth,$Jheight);
-// 				imagecopyresampled($imageout,$imagein,0,0,0,0,$Jwidth,$Jheight,$Jsize[0],$Jsize[1]);
-// 				imagejpeg($imageout,("$thumbnail_image"));	// サムネイル書き出し
-// 				imagedestroy($imagein);						// メモリを解放する
-// 				imagedestroy($imageout);					// メモリを解放する
-// 			}
-
-			// リクエストデータをJSON形式にエンコードで取得する
-// 			$data = $this->request->input('json_decode');
-
-			// TODO:$dataの内容を確認して動的にModelに値をセットできるようにする
 
 			/* paramater set */
 			$datPhoto['DatPhoto']['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
@@ -249,6 +223,7 @@ EOF
 /**
  * edit method
  *
+ * [PUT/id]写真情報の変更API
  * @throws NotFoundException
  * @param string $id
  * @return void
@@ -281,13 +256,6 @@ EOF
 			);
 			/* リクエストパラメータセット */
 			$datPhoto = $this->Convert->doConvertObjectToModelArray($requestData, 'DatPhoto', $optionData);
-
-// 			$datPhoto['DatPhoto']['photo_id']			= $id;
-// 			$datPhoto['DatPhoto']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-// 			$datPhoto['DatPhoto']['name']				= $data->photoName;
-// 			$datPhoto['DatPhoto']['description']		= $data->description;;
-// 			$datPhoto['DatPhoto']['status']				= $data->status;
-// 			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
 
 			/* 配列のキー値の例外チェック */
 			if ( !$this->Check->doCheckArrayKeyToModel( $datPhoto['DatPhoto'], $this->DatPhoto->modelColumn ) ) {
@@ -332,16 +300,12 @@ EOF
 			throw new BadRequestException(__('Bad Request.'));
 		}
 		$this->set('_serialize', 'datPhoto');
-
-// 		$datUsers = $this->DatPhoto->DatUser->find('list');
-// 		$mstImageServers = $this->DatPhoto->MstImageServer->find('list');
-// 		$datPhotosetPhotoRelations = $this->DatPhoto->DatPhotosetPhotoRelation->find('list');
-// 		$this->set(compact('datUsers', 'mstImageServers', 'datPhotosetPhotoRelations'));
 	}
 
 /**
  * delete method
  *
+ * [PUT/id]写真情報の論理削除API
  * @throws MethodNotAllowedException
  * @throws NotFoundException
  * @param string $id
@@ -362,9 +326,9 @@ EOF
 		if ($this->request->is('delete')) {
 
 			/* paramater set */
-			$datPhoto['DatPhoto']['photo_id'] = $id;
-			$datPhoto['DatPhoto']['status']  = 0;
-			$datPhoto['DatPhoto']['update_timestamp']  = date('Y-m-d h:i:s');
+			$datPhoto['DatPhoto']['photo_id']			= $id;
+			$datPhoto['DatPhoto']['status'] 			= 0;
+			$datPhoto['DatPhoto']['update_timestamp']	= date('Y-m-d h:i:s');
 
 			// Modelに値をセット
 			$this->DatPhoto->set($datPhoto);

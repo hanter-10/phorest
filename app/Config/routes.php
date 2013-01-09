@@ -32,7 +32,7 @@
 	Router::mapResources('datphotos');
 	Router::mapResources('datalbums');
 	Router::mapResources('datalbumphotorelations');
-// 	Router::mapResources('datusers');
+
 
 /**
  * [ Phorest ] : Parser
@@ -45,7 +45,7 @@
  * [ Phorest ] : Routing
  */
 	//「 tempalbum 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
-	Router::connect('/tempalbum/*', array('controller' => 'datphotos'));
+// 	Router::connect('/tempalbum/*', array('controller' => 'datphotos'));
 	//「 uploads 」コントローラーが呼び出しされたら「 datphotos 」コントローラーにすり替え
 	Router::connect('/uploads/*', array('controller' => 'datphotos', 'action' => 'add'));
 

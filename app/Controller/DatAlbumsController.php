@@ -74,8 +74,9 @@ class DatAlbumsController extends AppController {
 							'photo_id as id',
 							'photoName as photoName',
 							'description',
+							'width',
+							'height',
 							'file_name',
-							'thum_file_name',
 							'size',
 							'type',
 							'status',
@@ -109,7 +110,7 @@ class DatAlbumsController extends AppController {
 					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datPhoto['file_name'];
 					// サムネイル写真
 // 					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datAlbum['DatAlbum']['id'] . '/' . $datPhoto['thum_file_name'];
-					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhoto['thum_file_name'];
+					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhoto['file_name'];
 
 					// いらないものを消す
 					unset($datAlbums[$albumkey]['DatPhoto'][$photoKey]['DatAlbumPhotoRelation']);
@@ -129,10 +130,11 @@ class DatAlbumsController extends AppController {
 						DatPhoto.fk_user_id,
 						DatPhoto.photoName as photoName,
 						DatPhoto.description as description,
+						DatPhoto.width,
+						DatPhoto.height,
 						DatPhoto.file_name,
-						DatPhoto.thum_file_name,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name) as imgUrl,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.thum_file_name) as thumUrl,
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name) as thumUrl,
 						DatPhoto.size,
 						DatPhoto.type,
 						DatPhoto.status,
@@ -161,8 +163,9 @@ EOF
 				$datPhotos[$key]['fk_user_id']		= $datPhotos[$key]['DatPhoto']['fk_user_id'];
 				$datPhotos[$key]['photoName']		= $datPhotos[$key]['DatPhoto']['photoName'];
 				$datPhotos[$key]['description']		= $datPhotos[$key]['DatPhoto']['description'];
+				$datPhotos[$key]['width']			= $datPhotos[$key]['DatPhoto']['width'];
+				$datPhotos[$key]['height']			= $datPhotos[$key]['DatPhoto']['height'];
 				$datPhotos[$key]['file_name']		= $datPhotos[$key]['DatPhoto']['file_name'];
-				$datPhotos[$key]['thum_file_name']	= $datPhotos[$key]['DatPhoto']['thum_file_name'];
 				$datPhotos[$key]['imgUrl']			= $Photo[0]['imgUrl'];
 				$datPhotos[$key]['thumUrl']			= $Photo[0]['thumUrl'];
 				$datPhotos[$key]['size']			= $datPhotos[$key]['DatPhoto']['size'];
@@ -503,14 +506,15 @@ EOF
 						$datPhotos[$photokey]['fk_user_id']			= $datPhotos[$photokey]['DatPhoto']['fk_user_id'];
 						$datPhotos[$photokey]['photoName']			= $datPhotos[$photokey]['DatPhoto']['photoName'];
 						$datPhotos[$photokey]['description']		= $datPhotos[$photokey]['DatPhoto']['description'];
+						$datPhotos[$photokey]['width']				= $datPhotos[$photokey]['DatPhoto']['width'];
+						$datPhotos[$photokey]['height']				= $datPhotos[$photokey]['DatPhoto']['height'];
 						$datPhotos[$photokey]['file_name']			= $datPhotos[$photokey]['DatPhoto']['file_name'];
-						$datPhotos[$photokey]['thum_file_name']		= $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
 	// 					$datPhotos[$photokey]['imgUrl']				= $datPhotos[$photokey]['DatPhoto']['imgUrl'];
 	// 					$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 						$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 	// 					$datPhotos[$photokey]['thumUrl']			= $datPhotos[$photokey]['DatPhoto']['thumUrl'];
 	// 					$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
-						$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+						$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 						$datPhotos[$photokey]['size']				= $datPhotos[$photokey]['DatPhoto']['size'];
 						$datPhotos[$photokey]['type']				= $datPhotos[$photokey]['DatPhoto']['type'];
 						$datPhotos[$photokey]['status']				= $datPhotos[$photokey]['DatPhoto']['status'];

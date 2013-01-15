@@ -161,15 +161,15 @@ class DatPhotosController extends AppController {
 			$width	= 150;
 			$height	= 114;
 
+			// 初期化
+			$this->Thumbmake->init();
 			// 元画像のファイルパスと保存先をセット
 			$this->Thumbmake->setImage($image, $thumbnail_image);
 
 			// 画像サイズ取得
 			$Jsize = getimagesize("$image");
 
-			/**
-			 * リサイズ処理
-			 */
+			// リサイズ処理
 			// 画像の縦横サイズチェック
 			if ( $Jsize[0] >= $Jsize[1] ) {
 				// 縦より横が大きい場合
@@ -183,13 +183,153 @@ class DatPhotosController extends AppController {
 				}
 			}
 
+
+			/**
+			 * スクエア画像作成
+			 */
+			// スクエア画像アップロード先
+			$square_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'square' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 270;
+			$height	= 270;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $square_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if ($this->Thumbmake->resizeCrop($width,$height)) {
+				//TODO:スクエア画像作成失敗
+			}
+
+
+			/**
+			 * Small (横幅500)画像作成
+			 */
+			// スクエア画像アップロード先
+			$small_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'small' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 500;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $small_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+
+			/**
+			 * medium (横幅1000)画像作成
+			 */
+			// スクエア画像アップロード先
+			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 1000;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $medium_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+
+			/**
+			 * large (横幅2000)画像作成
+			 */
+			// スクエア画像アップロード先
+			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 2000;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $large_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+			/**
+			 * large (横幅2000)画像作成
+			 */
+			// スクエア画像アップロード先
+			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 2000;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $large_image);
+
+			// 画像サイズ取得
+			// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+
+			/**
+			 * huge (横幅3000)画像作成
+			 */
+			// スクエア画像アップロード先
+			$huge_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'huge' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 3000;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $huge_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+
 			/* paramater set */
 			$datPhoto['DatPhoto']['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
 			$datPhoto['DatPhoto']['fk_image_server_id']		= 1;								// TODO:対象の画像サーバのidを取得する
 			$datPhoto['DatPhoto']['photoName']				= $_FILES['file']['name'];			// 写真名
 // 			$datPhoto['DatPhoto']['description']			= '';								// 写真説明
+			$datPhoto['DatPhoto']['width']					= $Jsize[0];						// 画像の横幅
+			$datPhoto['DatPhoto']['height']					= $Jsize[1];						// 画像の縦幅
 			$datPhoto['DatPhoto']['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
-			$datPhoto['DatPhoto']['thum_file_name']			= $_FILES['file']['name'];			// サムネイル画像の名前を決める
 			$datPhoto['DatPhoto']['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
 			$datPhoto['DatPhoto']['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
 			$datPhoto['DatPhoto']['status']					= 1;								// デフォルトは有効

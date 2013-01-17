@@ -15,7 +15,7 @@ class DatUsersController extends AppController {
 	}
 
 	public function login() {
-		$this->layout = 'login';
+		$this->layout = 'home_layout';
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 
@@ -44,7 +44,7 @@ class DatUsersController extends AppController {
 		$meta_data = $this->Auth->user('username');
 		$this->set(compact('meta_data'));
 
-		$this->layout = 'testlayout';
+		$this->layout = 'user_layout';
 
 // 		var_dump($this->Auth->user('user_id'));
 // 		$this->DatUser->recursive = 0;

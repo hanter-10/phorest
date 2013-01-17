@@ -464,7 +464,7 @@ EOF
 							),
 							'conditions' => array(
 									'DatAlbum.status'	=> 1,
-	// 								'DatAlbum.flg'		=> 1,		//TODO: テストのため見ないようにする(公開/非公開)
+									'DatAlbum.flg'		=> 1,
 							),
 					),
 			);

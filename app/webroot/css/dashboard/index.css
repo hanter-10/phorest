@@ -1,0 +1,156 @@
+/* line 8, ../sass/partials/_base.scss */
+a {
+  color: #333333;
+}
+/* line 10, ../sass/partials/_base.scss */
+a:hover {
+  color: #333333;
+}
+
+/* line 4, ../sass/index.scss */
+html, body {
+  font-family: "SourceSansProItalic", "Helvetica Neue", sans-serif;
+}
+
+/* line 8, ../sass/index.scss */
+#header {
+  padding: 4em 0;
+}
+/* line 10, ../sass/index.scss */
+#header h1 {
+  font-size: 2em;
+  float: left;
+}
+/* line 14, ../sass/index.scss */
+#header nav {
+  float: right;
+  font-size: 1.2em;
+}
+/* line 17, ../sass/index.scss */
+#header nav ul {
+  margin: 1.2em 0;
+}
+/* line 19, ../sass/index.scss */
+#header nav ul li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0;
+  white-space: nowrap;
+  display: inline;
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 48, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+#header nav ul li:first-child, #header nav ul li.first {
+  padding-left: 0;
+}
+/* line 49, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+#header nav ul li:last-child {
+  padding-right: 0;
+}
+/* line 50, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+#header nav ul li.last {
+  padding-right: 0;
+}
+
+/* line 30, ../sass/index.scss */
+#albums .item {
+  position: relative;
+  height: 160px;
+  background-color: #2c2c2c;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+/* line 36, ../sass/index.scss */
+#albums .item .album-title {
+  width: 100%;
+  position: absolute;
+  bottom: -55px;
+  background-color: #1B1B1B;
+  color: #dbdbdb;
+  padding: 10px;
+  line-height: 2em;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+/* line 49, ../sass/index.scss */
+#albums .item:hover .album-title {
+  bottom: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/* line 56, ../sass/index.scss */
+#albums .span3 {
+  height: 220px;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  /* line 61, ../sass/index.scss */
+  #albums .span3 {
+    height: 166px;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 67, ../sass/index.scss */
+  #albums .span3 {
+    height: 270px;
+  }
+}
+
+/* line 73, ../sass/index.scss */
+#footer {
+  background-color: #333333;
+  padding-bottom: 40px;
+  padding-top: 2em;
+  color: #dddddd;
+}
+
+/* line 80, ../sass/index.scss */
+address {
+  margin: 0;
+  margin-top: 2em;
+  text-align: center;
+}
+
+/* mediaquery */
+/* @media (max-width: 767px) {
+	.carousel-inner{
+		height: 300px;
+	}
+	#myCarousel,#footer{
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	#footer{
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+} */
+@media (max-width: 320px) {
+  	/* #header h1{
+  		font-size: 1em;
+  	}
+  	#header nav{
+  		font-size: 0.9em;
+  	}
+  	#header nav ul{
+  		margin-top: 1.5em;
+  	}
+  
+  	#header {
+  		padding: 1em 0;
+  	} */
+}

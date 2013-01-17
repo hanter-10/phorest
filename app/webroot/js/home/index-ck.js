@@ -1,0 +1,1 @@
+$(function(){var e=$("#login-tab,#sign-up-tab"),t=$("#forms"),n=$("#form-container .triangle");e.click(function(){var r=$(this);if(r.hasClass("actived"))return;e.toggleClass("actived unactived");t.toggleClass("sign-up");n.toggleClass("bottom")})});

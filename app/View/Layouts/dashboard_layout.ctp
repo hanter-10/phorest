@@ -48,30 +48,6 @@
         <div id="main">
             <section id="albums" class="container">
                 <div class="row">
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
-                    <div class="span3 item">
-                        <div class="album-title">Lorem ipsum dolor.</div>
-                    </div>
                 </div>
             </section>
         </div>

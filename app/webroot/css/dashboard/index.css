@@ -92,24 +92,28 @@ html, body {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-/* line 56, ../sass/index.scss */
+/* line 55, ../sass/index.scss */
+#albums .item img {
+  width: 100%;
+}
+/* line 59, ../sass/index.scss */
 #albums .span3 {
   height: 220px;
 }
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 61, ../sass/index.scss */
+  /* line 64, ../sass/index.scss */
   #albums .span3 {
     height: 166px;
   }
 }
 @media (min-width: 1200px) {
-  /* line 67, ../sass/index.scss */
+  /* line 70, ../sass/index.scss */
   #albums .span3 {
     height: 270px;
   }
 }
 
-/* line 73, ../sass/index.scss */
+/* line 76, ../sass/index.scss */
 #footer {
   background-color: #333333;
   padding-bottom: 40px;
@@ -117,7 +121,7 @@ html, body {
   color: #dddddd;
 }
 
-/* line 80, ../sass/index.scss */
+/* line 83, ../sass/index.scss */
 address {
   margin: 0;
   margin-top: 2em;

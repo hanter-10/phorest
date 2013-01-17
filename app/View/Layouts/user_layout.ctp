@@ -51,7 +51,9 @@
             </div>
             <header id="header">
                 <div class="container">
+                	<a href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>DashBoards/<?php echo $meta_data?>" target="blank">
                     <img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/common/logo.png" alt="logo" id="logo">
+                    </a>
                     <div class="right-side">
                         <div id="up-photo" class="icon-upload prevent-select">
                             アップロード

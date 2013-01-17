@@ -301,8 +301,8 @@ $(function(){
          {
             data : data,
 //            url : '/DatAlbumPhotoRelations/'+_this.albumID
-//            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
-            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
+            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
 //            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)
@@ -356,7 +356,10 @@ $(function(){
          html,
          json = this.model.toJSON();
 
-         json.status = json.status ? "公開" : "非公開";
+//         json.flg = json.flg ? "公開" : "非公開";
+//         json.status = json.status ? "公開" : "非公開";
+         json.status = this.model.get('flg') == 1 ?  "公開" : "非公開";
+
 
          html = this.template(json);
 
@@ -533,7 +536,7 @@ $(function(){
       {
          var $el = mvc.AlbumsView_instance.$el;
 
-         mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',status:0},{silent: true,success:function(model){
+         mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',flg:0},{silent: true,success:function(model){
             var
             albumView = new mvc.AlbumView({model:model}),
             albumEl = albumView.render().el;
@@ -556,6 +559,40 @@ $(function(){
       }
    }
 
+
+   function getActivedAlbumModel()
+   {
+      var
+      $actived_album = $("#albums .album.active"),
+      cid = $actived_album.data('cid'),
+      albumModel = mvc.AlbumsView_instance.collection.get(cid);
+      return albumModel;
+   }
+
+
+//   function syncAlbumStatus()
+//   {
+//      $('#status-check').change(function(){
+//         var
+//         albumModel = getActivedAlbumModel(),
+//         status = this.checked;
+//
+//         albumModel.set({status:status});
+//      });
+//   }
+
+   function syncAlbumStatus()
+   {
+      $('#status-check').change(function(){
+         var
+         albumModel = getActivedAlbumModel(),
+         flg = this.checked == true ? 1 : 0;
+
+         albumModel.set({flg:flg});
+      });
+   }
+
+   syncAlbumStatus();
    syncAlbum();
 
 });

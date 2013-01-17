@@ -109,8 +109,9 @@ class DatAlbumsController extends AppController {
 					// オリジナル写真
 					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datPhoto['file_name'];
 					// サムネイル写真
-// 					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datAlbum['DatAlbum']['id'] . '/' . $datPhoto['thum_file_name'];
 					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhoto['file_name'];
+					// スクエア写真
+					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl_square'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/square/' . $datPhoto['file_name'];
 
 					// いらないものを消す
 					unset($datAlbums[$albumkey]['DatPhoto'][$photoKey]['DatAlbumPhotoRelation']);
@@ -135,6 +136,7 @@ class DatAlbumsController extends AppController {
 						DatPhoto.file_name,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name) as imgUrl,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name) as thumUrl,
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/square/',DatPhoto.file_name) as thumUrl_square,
 						DatPhoto.size,
 						DatPhoto.type,
 						DatPhoto.status,
@@ -168,6 +170,7 @@ EOF
 				$datPhotos[$key]['file_name']		= $datPhotos[$key]['DatPhoto']['file_name'];
 				$datPhotos[$key]['imgUrl']			= $Photo[0]['imgUrl'];
 				$datPhotos[$key]['thumUrl']			= $Photo[0]['thumUrl'];
+				$datPhotos[$key]['thumUrl_square']	= $Photo[0]['thumUrl_square'];
 				$datPhotos[$key]['size']			= $datPhotos[$key]['DatPhoto']['size'];
 				$datPhotos[$key]['type']			= $datPhotos[$key]['DatPhoto']['type'];
 				$datPhotos[$key]['status']			= $datPhotos[$key]['DatPhoto']['status'];
@@ -311,6 +314,16 @@ EOF
 			);
 			/* リクエストパラメータセット */
 			$datAlbum = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbum', $optionData);
+
+// 			// TODO:true/falseでリクエストが来ているので現状時間がないから値(1or0)に強制的に直す
+// 			if (isset($datAlbum['DatAlbum']['status'])) {
+// 				if ($datAlbum['DatAlbum']['status']) {
+// 					$datAlbum['DatAlbum']['flg'] = 1;
+// 				} else {
+// 					$datAlbum['DatAlbum']['flg'] = 0;
+// 				}
+// 				unset($datAlbum['DatAlbum']['status']);
+// 			}
 
 // 			$datAlbum['DatAlbum']['album_id']			= $id;
 // 			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
@@ -515,6 +528,7 @@ EOF
 	// 					$datPhotos[$photokey]['thumUrl']			= $datPhotos[$photokey]['DatPhoto']['thumUrl'];
 	// 					$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
 						$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+						$datPhotos[$photokey]['thumUrl_square']		= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/square/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
 						$datPhotos[$photokey]['size']				= $datPhotos[$photokey]['DatPhoto']['size'];
 						$datPhotos[$photokey]['type']				= $datPhotos[$photokey]['DatPhoto']['type'];
 						$datPhotos[$photokey]['status']				= $datPhotos[$photokey]['DatPhoto']['status'];

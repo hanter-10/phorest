@@ -207,119 +207,96 @@ class DatPhotosController extends AppController {
 				//TODO:スクエア画像作成失敗
 			}
 
+// TODO:処理が重いので現状はコメントアウトしておく
+// 			/**
+// 			 * Small (横幅500)画像作成
+// 			 */
+// 			// スクエア画像アップロード先
+// 			$small_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'small' . DS . $_FILES['file']['name'];
 
-			/**
-			 * Small (横幅500)画像作成
-			 */
-			// スクエア画像アップロード先
-			$small_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'small' . DS . $_FILES['file']['name'];
+// 			// 参考サムネイルサイズ
+// 			$width	= 500;
 
-			// 参考サムネイルサイズ
-			$width	= 500;
+// 			// 初期化
+// 			$this->Thumbmake->init();
+// 			// 元画像のファイルパスと保存先をセット
+// 			$this->Thumbmake->setImage($image, $small_image);
 
-			// 初期化
-			$this->Thumbmake->init();
-			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $small_image);
+// 			// 画像サイズ取得
+// // 			$Jsize = getimagesize("$image");
 
-			// 画像サイズ取得
-// 			$Jsize = getimagesize("$image");
-
-			// リサイズ処理
-			if (!$this->Thumbmake->width($width)) {
-				//TODO:サムネイル画像作成失敗
-			}
-
-
-			/**
-			 * medium (横幅1000)画像作成
-			 */
-			// スクエア画像アップロード先
-			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $_FILES['file']['name'];
-
-			// 参考サムネイルサイズ
-			$width	= 1000;
-
-			// 初期化
-			$this->Thumbmake->init();
-			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $medium_image);
-
-			// 画像サイズ取得
-// 			$Jsize = getimagesize("$image");
-
-			// リサイズ処理
-			if (!$this->Thumbmake->width($width)) {
-				//TODO:サムネイル画像作成失敗
-			}
+// 			// リサイズ処理
+// 			if (!$this->Thumbmake->width($width)) {
+// 				//TODO:サムネイル画像作成失敗
+// 			}
 
 
-			/**
-			 * large (横幅2000)画像作成
-			 */
-			// スクエア画像アップロード先
-			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];
+// 			/**
+// 			 * medium (横幅1000)画像作成
+// 			 */
+// 			// スクエア画像アップロード先
+// 			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $_FILES['file']['name'];
 
-			// 参考サムネイルサイズ
-			$width	= 2000;
+// 			// 参考サムネイルサイズ
+// 			$width	= 1000;
 
-			// 初期化
-			$this->Thumbmake->init();
-			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $large_image);
+// 			// 初期化
+// 			$this->Thumbmake->init();
+// 			// 元画像のファイルパスと保存先をセット
+// 			$this->Thumbmake->setImage($image, $medium_image);
 
-			// 画像サイズ取得
-// 			$Jsize = getimagesize("$image");
+// 			// 画像サイズ取得
+// // 			$Jsize = getimagesize("$image");
 
-			// リサイズ処理
-			if (!$this->Thumbmake->width($width)) {
-				//TODO:サムネイル画像作成失敗
-			}
-
-			/**
-			 * large (横幅2000)画像作成
-			 */
-			// スクエア画像アップロード先
-			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];
-
-			// 参考サムネイルサイズ
-			$width	= 2000;
-
-			// 初期化
-			$this->Thumbmake->init();
-			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $large_image);
-
-			// 画像サイズ取得
-			// 			$Jsize = getimagesize("$image");
-
-			// リサイズ処理
-			if (!$this->Thumbmake->width($width)) {
-				//TODO:サムネイル画像作成失敗
-			}
+// 			// リサイズ処理
+// 			if (!$this->Thumbmake->width($width)) {
+// 				//TODO:サムネイル画像作成失敗
+// 			}
 
 
-			/**
-			 * huge (横幅3000)画像作成
-			 */
-			// スクエア画像アップロード先
-			$huge_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'huge' . DS . $_FILES['file']['name'];
+// 			/**
+// 			 * large (横幅2000)画像作成
+// 			 */
+// 			// スクエア画像アップロード先
+// 			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];
 
-			// 参考サムネイルサイズ
-			$width	= 3000;
+// 			// 参考サムネイルサイズ
+// 			$width	= 2000;
 
-			// 初期化
-			$this->Thumbmake->init();
-			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $huge_image);
+// 			// 初期化
+// 			$this->Thumbmake->init();
+// 			// 元画像のファイルパスと保存先をセット
+// 			$this->Thumbmake->setImage($image, $large_image);
 
-			// 画像サイズ取得
-// 			$Jsize = getimagesize("$image");
+// 			// 画像サイズ取得
+// // 			$Jsize = getimagesize("$image");
 
-			// リサイズ処理
-			if (!$this->Thumbmake->width($width)) {
-				//TODO:サムネイル画像作成失敗
-			}
+// 			// リサイズ処理
+// 			if (!$this->Thumbmake->width($width)) {
+// 				//TODO:サムネイル画像作成失敗
+// 			}
+
+// 			/**
+// 			 * huge (横幅3000)画像作成
+// 			 */
+// 			// スクエア画像アップロード先
+// 			$huge_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'huge' . DS . $_FILES['file']['name'];
+
+// 			// 参考サムネイルサイズ
+// 			$width	= 3000;
+
+// 			// 初期化
+// 			$this->Thumbmake->init();
+// 			// 元画像のファイルパスと保存先をセット
+// 			$this->Thumbmake->setImage($image, $huge_image);
+
+// 			// 画像サイズ取得
+// // 			$Jsize = getimagesize("$image");
+
+// 			// リサイズ処理
+// 			if (!$this->Thumbmake->width($width)) {
+// 				//TODO:サムネイル画像作成失敗
+// 			}
 
 
 			/* paramater set */

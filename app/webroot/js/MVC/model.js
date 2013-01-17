@@ -33,8 +33,8 @@ $(function(){
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
 //      url:     'http://localhost:8888/phorest/DatPhotos/',
-//      url:     'http://localhost:81/Phorest/datphotos/',
-    url:     'http://development/phorest/datphotos/',
+      url:     'http://localhost:81/Phorest/datphotos/',
+//    url:     'http://development/phorest/datphotos/',
 //    url:     'http://pk-brs.xsrv.jp/datphotos/',
       model:   mvc.PhotoModel
    });
@@ -48,7 +48,8 @@ $(function(){
       defaults :
       {
          albumName:  undefined,  //アルバム名
-         status:     undefined,  //公開状態 public | private
+//         status:     undefined,  //公開状態 public | private
+         flg:     undefined,  //公開状態 public | private
          photoCount: undefined,  //このアルバム内にある写真の枚数
          photos:    []          //このアルバム内の全ての写真
       },
@@ -68,8 +69,8 @@ $(function(){
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
 //      url:     'http://localhost:8888/phorest/DatAlbums/',
-//      url:     'http://localhost:81/Phorest/datalbums/',
-    url:     'http://development/phorest/datalbums/',
+      url:     'http://localhost:81/Phorest/datalbums/',
+//    url:     'http://development/phorest/datalbums/',
 //    url:     'http://pk-brs.xsrv.jp/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()

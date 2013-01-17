@@ -25,6 +25,11 @@ class CheckComponent extends Component {
 		return true;
 	}
 
+	/**
+	 *
+	 * @param unknown $_file
+	 * @return boolean
+	 */
 	public function doCheckUploadAction ( $_file = array()) {
 
 		try

@@ -52,6 +52,8 @@
 // 	Router::connect('/:username/cp/*', array('controller' => 'DatUsers', 'action' => 'index'));
 	Router::connect('/datalbums/userSearch/:username', array('controller' => 'datalbums', 'action' => 'userSearch'));
 
+	Router::connect('/DashBoards/*', array('controller' => 'DashBoards', 'action' => 'index'));
+
 	//「 DatUsers 」routhing
 	Router::connect('/DatUsers/login', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));

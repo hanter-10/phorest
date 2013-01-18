@@ -448,109 +448,125 @@ EOF
  */
 	public function userSearch () {
 
-		// 返り値のデフォルトセット：false
-		$this->set('datUser', false);
+		try	{
 
-		// リクエストメソッド判断
-		if ($this->request->is('get')) {
+// 			echo 'ooooooooo';
+// 			var_dump($this->DatUser->find('all'));
+// 			echo 'aaaaaa';
 
-			/* 検索項目 */
-			$fields = array(
-					'DatUser.user_id as id',
-					'DatUser.username',
-					'DatUser.first_name',
-					'DatUser.last_name',
-					'DatUser.status',
-					'DatUser.create_datetime',
-					'DatUser.update_timestamp',
-			);
-			$contain = array(
-					'DatAlbum' => array(
-							'fields' => array(
-									'album_id as id',
-									'albumName as albumName',
-									'description',
-									'flg',
-									'status',
-									'create_datetime',
-									'update_timestamp',
-							),
-							'conditions' => array(
-									'DatAlbum.status'	=> 1,
-									'DatAlbum.flg'		=> 1,
-							),
-					),
-			);
-			$conditions = array(
-					'DatUser.status'	=> 1,
-					'DatUser.username'	=> $this->request->username,
-			);
+			// 返り値のデフォルトセット：false
+			$this->set('datUser', false);
 
-			$this->DatUser->Behaviors->attach('Containable');
-			$option = array(
-					'fields'		=> $fields,
-					'conditions'	=> $conditions,
-					'contain'		=> $contain,
-			);
-			$datUsers = $this->DatUser->find('all', $option);
+			// リクエストメソッド判断
+			if ($this->request->is('get')) {
 
-			//TODO:これらはひどいのでなんとかせねばなるまい・・・
+				/* 検索項目 */
+				$fields = array(
+						'DatUser.user_id as id',
+						'DatUser.username',
+						'DatUser.first_name',
+						'DatUser.last_name',
+						'DatUser.status',
+						'DatUser.create_datetime',
+						'DatUser.update_timestamp',
+				);
+				$contain = array(
+						'DatAlbum' => array(
+								'fields' => array(
+										'album_id as id',
+										'albumName as albumName',
+										'description',
+										'flg',
+										'status',
+										'create_datetime',
+										'update_timestamp',
+								),
+								'conditions' => array(
+										'DatAlbum.status'	=> 1,
+										'DatAlbum.flg'		=> 1,
+								),
+						),
+				);
+				$conditions = array(
+						'DatUser.status'	=> 1,
+						'DatUser.username'	=> $this->request->username,
+				);
 
-			// 必要ない関連テーブルは検索しない
-			$this->DatAlbumPhotoRelation->unbindModel(array('belongsTo'=>array('DatAlbum')), false);			//,'hasAndBelongsToMany' => array('DatAlbum')
-			foreach ( $datUsers as $userkey => $datUser ) {
+				$this->DatUser->Behaviors->attach('Containable');
+				$option = array(
+						'fields'		=> $fields,
+						'conditions'	=> $conditions,
+						'contain'		=> $contain,
+				);
+				$datUsers = $this->DatUser->find('all', $option);
 
-				foreach ( $datUser['DatAlbum'] as $albumkey => $Album) {
 
-					$datPhotos = $this->DatAlbumPhotoRelation->find('all', array(
-							'conditions' => array(
-								'DatAlbumPhotoRelation.fk_album_id' => $Album['id'],
-								'DatPhoto.status' => 1,
+// 				$log = $this->DatUser->getDataSource()->getLog(false, false);
+// 				var_dump($log);
+
+				//TODO:これらはひどいのでなんとかせねばなるまい・・・
+
+				// 必要ない関連テーブルは検索しない
+				$this->DatAlbumPhotoRelation->unbindModel(array('belongsTo'=>array('DatAlbum')), false);			//,'hasAndBelongsToMany' => array('DatAlbum')
+				foreach ( $datUsers as $userkey => $datUser ) {
+
+					foreach ( $datUser['DatAlbum'] as $albumkey => $Album) {
+
+						$datPhotos = $this->DatAlbumPhotoRelation->find('all', array(
+								'conditions' => array(
+									'DatAlbumPhotoRelation.fk_album_id' => $Album['id'],
+									'DatPhoto.status' => 1,
+								)
 							)
-						)
-					);
+						);
 
-					foreach( $datPhotos as $photokey => $Photo ) {
+						foreach( $datPhotos as $photokey => $Photo ) {
 
-						$this->MstImageServer->unbindModel(array('hasMany'=>array('DatPhoto')), false);
-						$datServer = $this->MstImageServer->find('all', array('conditions' => array('MstImageServer.image_server_id' => $datPhotos[$photokey]['DatPhoto']['fk_image_server_id'])));
+							$this->MstImageServer->unbindModel(array('hasMany'=>array('DatPhoto')), false);
+							$datServer = $this->MstImageServer->find('all', array('conditions' => array('MstImageServer.image_server_id' => $datPhotos[$photokey]['DatPhoto']['fk_image_server_id'])));
 
-						$datPhotos[$photokey]['id']					= $datPhotos[$photokey]['DatPhoto']['photo_id'];
-						$datPhotos[$photokey]['fk_user_id']			= $datPhotos[$photokey]['DatPhoto']['fk_user_id'];
-						$datPhotos[$photokey]['photoName']			= $datPhotos[$photokey]['DatPhoto']['photoName'];
-						$datPhotos[$photokey]['description']		= $datPhotos[$photokey]['DatPhoto']['description'];
-						$datPhotos[$photokey]['width']				= $datPhotos[$photokey]['DatPhoto']['width'];
-						$datPhotos[$photokey]['height']				= $datPhotos[$photokey]['DatPhoto']['height'];
-						$datPhotos[$photokey]['file_name']			= $datPhotos[$photokey]['DatPhoto']['file_name'];
-	// 					$datPhotos[$photokey]['imgUrl']				= $datPhotos[$photokey]['DatPhoto']['imgUrl'];
-	// 					$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-						$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-	// 					$datPhotos[$photokey]['thumUrl']			= $datPhotos[$photokey]['DatPhoto']['thumUrl'];
-	// 					$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
-						$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-						$datPhotos[$photokey]['thumUrl_square']		= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/square/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-						$datPhotos[$photokey]['size']				= $datPhotos[$photokey]['DatPhoto']['size'];
-						$datPhotos[$photokey]['type']				= $datPhotos[$photokey]['DatPhoto']['type'];
-						$datPhotos[$photokey]['status']				= $datPhotos[$photokey]['DatPhoto']['status'];
-						$datPhotos[$photokey]['create_datetime']	= $datPhotos[$photokey]['DatPhoto']['create_datetime'];
-						$datPhotos[$photokey]['update_timestamp']	= $datPhotos[$photokey]['DatPhoto']['update_timestamp'];
+							$datPhotos[$photokey]['id']					= $datPhotos[$photokey]['DatPhoto']['photo_id'];
+							$datPhotos[$photokey]['fk_user_id']			= $datPhotos[$photokey]['DatPhoto']['fk_user_id'];
+							$datPhotos[$photokey]['photoName']			= $datPhotos[$photokey]['DatPhoto']['photoName'];
+							$datPhotos[$photokey]['description']		= $datPhotos[$photokey]['DatPhoto']['description'];
+							$datPhotos[$photokey]['width']				= $datPhotos[$photokey]['DatPhoto']['width'];
+							$datPhotos[$photokey]['height']				= $datPhotos[$photokey]['DatPhoto']['height'];
+							$datPhotos[$photokey]['file_name']			= $datPhotos[$photokey]['DatPhoto']['file_name'];
+		// 					$datPhotos[$photokey]['imgUrl']				= $datPhotos[$photokey]['DatPhoto']['imgUrl'];
+		// 					$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+							$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+		// 					$datPhotos[$photokey]['thumUrl']			= $datPhotos[$photokey]['DatPhoto']['thumUrl'];
+		// 					$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
+							$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+							$datPhotos[$photokey]['thumUrl_square']		= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/square/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
+							$datPhotos[$photokey]['size']				= $datPhotos[$photokey]['DatPhoto']['size'];
+							$datPhotos[$photokey]['type']				= $datPhotos[$photokey]['DatPhoto']['type'];
+							$datPhotos[$photokey]['status']				= $datPhotos[$photokey]['DatPhoto']['status'];
+							$datPhotos[$photokey]['create_datetime']	= $datPhotos[$photokey]['DatPhoto']['create_datetime'];
+							$datPhotos[$photokey]['update_timestamp']	= $datPhotos[$photokey]['DatPhoto']['update_timestamp'];
 
-						// いらないものを消す
-	// 					unset($datPhotos[$key][0]);
-						unset($datPhotos[$photokey]['DatPhoto']);
-						unset($datPhotos[$photokey]['DatAlbumPhotoRelation']);
-						unset($datServer);
+							// いらないものを消す
+		// 					unset($datPhotos[$key][0]);
+							unset($datPhotos[$photokey]['DatPhoto']);
+							unset($datPhotos[$photokey]['DatAlbumPhotoRelation']);
+							unset($datServer);
+						}
+
+						$datUsers[$userkey]['DatAlbum'][$albumkey]['DatPhoto'] = $datPhotos;
 					}
-
-					$datUsers[$userkey]['DatAlbum'][$albumkey]['DatPhoto'] = $datPhotos;
 				}
+				$this->set('datUser', $datUsers);
+
+			} else {
+				// getではない時は「400 Bad Request」
+				throw new BadRequestException(__('Bad Request.'));
 			}
-			$this->set('datUser', $datUsers);
-		} else {
-			// getではない時は「400 Bad Request」
-			throw new BadRequestException(__('Bad Request.'));
+			$this->set('_serialize', 'datUser');
+		} catch (Exception $e) {
+			var_dump($e);
+			$this->set('datUser', 'catchDA');
+			$this->set('_serialize', 'datUser');
 		}
-		$this->set('_serialize', 'datUser');
 	}
 
 // 	public function userSearchAll () {

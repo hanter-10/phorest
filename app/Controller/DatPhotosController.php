@@ -300,18 +300,18 @@ class DatPhotosController extends AppController {
 
 
 			/* paramater set */
-			$datPhoto['DatPhoto']['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datPhoto['DatPhoto']['fk_image_server_id']		= 1;								// TODO:対象の画像サーバのidを取得する
-			$datPhoto['DatPhoto']['photoName']				= $_FILES['file']['name'];			// 写真名
+			$datPhoto['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+			$datPhoto['fk_image_server_id']		= 1;								// TODO:対象の画像サーバのidを取得する
+			$datPhoto['photoName']				= $_FILES['file']['name'];			// 写真名
 // 			$datPhoto['DatPhoto']['description']			= '';								// 写真説明
-			$datPhoto['DatPhoto']['width']					= $Jsize[0];						// 画像の横幅
-			$datPhoto['DatPhoto']['height']					= $Jsize[1];						// 画像の縦幅
-			$datPhoto['DatPhoto']['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
-			$datPhoto['DatPhoto']['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
-			$datPhoto['DatPhoto']['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
-			$datPhoto['DatPhoto']['status']					= 1;								// デフォルトは有効
-			$datPhoto['DatPhoto']['create_datetime']		= date('Y-m-d h:i:s');
-			$datPhoto['DatPhoto']['update_timestamp']		= date('Y-m-d h:i:s');
+			$datPhoto['width']					= $Jsize[0];						// 画像の横幅
+			$datPhoto['height']					= $Jsize[1];						// 画像の縦幅
+			$datPhoto['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
+			$datPhoto['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
+			$datPhoto['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
+			$datPhoto['status']					= 1;								// デフォルトは有効
+			$datPhoto['create_datetime']		= date('Y-m-d h:i:s');
+			$datPhoto['update_timestamp']		= date('Y-m-d h:i:s');
 
 			// Modelに値をセット
 			$this->DatPhoto->set($datPhoto);
@@ -325,7 +325,8 @@ class DatPhotosController extends AppController {
 				$this->DatPhoto->create();
 				if ($this->DatPhoto->save($datPhoto)) {
 					/* get insert new id */
-					$datPhoto['DatPhoto']['photo_id'] = $this->DatPhoto->id;
+// 					$datPhoto['DatPhoto']['photo_id'] = $this->DatPhoto->id;
+					$datPhoto['id'] = $this->DatPhoto->id;
 
 					$this->set('datPhoto', $datPhoto);
 				}

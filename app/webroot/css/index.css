@@ -71,6 +71,7 @@ a{
 	position: relative;
 	cursor: pointer;
 	padding-left: 43px;
+	-webkit-transition: 0.2s ease-out;
 }
 
 #up-photo {
@@ -87,7 +88,19 @@ a{
 	background: -ms-linear-gradient(top,  #357cdd 0%,#002c9d 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #357cdd 0%,#002c9d 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#357cdd', endColorstr='#002c9d',GradientType=0 ); /* IE6-9 */
+}
 
+#up-photo.hover, #user-panel-hover.hover{
+	text-shadow: 0 -1px 1px black;
+	background: #357cdd; /* Old browsers */
+	background: -moz-linear-gradient(top,  #357cdd 0%, #002c9d 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#357cdd), color-stop(100%,#002c9d)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #357cdd 0%,#002c9d 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #357cdd 0%,#002c9d 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #357cdd 0%,#002c9d 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #357cdd 0%,#002c9d 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#357cdd', endColorstr='#002c9d',GradientType=0 ); /* IE6-9 */
+	box-shadow: 0 0 50px 2px rgba(255, 255, 255, 0.13),0 0 1px 1px rgba(0, 0, 0, 0.4),0 4px 15px rgba(0, 0, 0, 0.39) inset;
 }
 
 #user-panel-hover:hover{
@@ -356,6 +369,7 @@ a{
 	-ms-transition:0.23s;
 	-o-transition:0.23s;
 	transition:0.23s;
+	color: white;
 }
 
 #delete-photo, #delete-photo-right {
@@ -369,6 +383,7 @@ a{
 	-ms-transition:0.23s;
 	-o-transition:0.23s;
 	transition:0.23s;
+	color: white;
 }
 
 #preview:hover, #delete-photo:hover, #upload-btn:hover, #delete-photo-right:hover{
@@ -501,18 +516,11 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) ins
 	width: 334px;
 	margin: 0 auto;
 	padding: 10px 0;
-	/*background: rgba(255, 0, 0, 0.2);*/
+	position: relative;
 	margin-top: -10px;
 	padding-bottom: 20px;
 }
 
-#upload-btn{
-
-}
-
-#delete-photo-right{
-
-}
 
 #uploadArea{
 	-webkit-box-sizing: border-box;
@@ -659,4 +667,104 @@ box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) ins
 	height: 70px;
 	position: absolute;
 	z-index: 999;
+}
+
+/*animate.css*/
+@-webkit-keyframes flipInX {
+    0% {
+        -webkit-transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+    
+    40% {
+        -webkit-transform: perspective(400px) rotateX(-10deg);
+    }
+    
+    70% {
+        -webkit-transform: perspective(400px) rotateX(10deg);
+    }
+    
+    100% {
+        -webkit-transform: perspective(400px) rotateX(0deg);
+        opacity: 1;
+    }
+}
+@-moz-keyframes flipInX {
+    0% {
+        -moz-transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+    
+    40% {
+        -moz-transform: perspective(400px) rotateX(-10deg);
+    }
+    
+    70% {
+        -moz-transform: perspective(400px) rotateX(10deg);
+    }
+    
+    100% {
+        -moz-transform: perspective(400px) rotateX(0deg);
+        opacity: 1;
+    }
+}
+@-o-keyframes flipInX {
+    0% {
+        -o-transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+    
+    40% {
+        -o-transform: perspective(400px) rotateX(-10deg);
+    }
+    
+    70% {
+        -o-transform: perspective(400px) rotateX(10deg);
+    }
+    
+    100% {
+        -o-transform: perspective(400px) rotateX(0deg);
+        opacity: 1;
+    }
+}
+@keyframes flipInX {
+    0% {
+        transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+    
+    40% {
+        transform: perspective(400px) rotateX(-10deg);
+    }
+    
+    70% {
+        transform: perspective(400px) rotateX(10deg);
+    }
+    
+    100% {
+        transform: perspective(400px) rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+.flipInX {
+	-webkit-backface-visibility: visible !important;
+	-webkit-animation-name: flipInX;
+	-moz-backface-visibility: visible !important;
+	-moz-animation-name: flipInX;
+	-o-backface-visibility: visible !important;
+	-o-animation-name: flipInX;
+	backface-visibility: visible !important;
+	animation-name: flipInX;
+}
+
+.animated {
+	-webkit-animation-duration: 1s;
+	   -moz-animation-duration: 1s;
+	     -o-animation-duration: 1s;
+	        animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	   -moz-animation-fill-mode: both;
+	     -o-animation-fill-mode: both;
+	        animation-fill-mode: both;
 }

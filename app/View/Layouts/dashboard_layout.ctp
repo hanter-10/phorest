@@ -28,7 +28,10 @@
         <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/index.js"></script>
 
         <script type="text/template" id="temp_album">
-            <div class="span3 item"><a href="<%=href%>"><img src="<%=thumUrl%>" alt="<%=albumName%>"></a></div>
+            <figure class="span3 item">
+                <a href="<%=href%>"><img src="<%=thumUrl%>" alt="<%=albumName%>"></a>
+                <figcaption class="album-title"><%=albumName%></figcaption>
+            </figure>
         </script>
 
     </head>

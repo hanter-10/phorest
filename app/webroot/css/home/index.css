@@ -17,7 +17,7 @@ h1, p {
 }
 
 /* line 22, ../sass/index.scss */
-input[type="text"] {
+input[type="text"], input[type="password"] {
   outline: none;
   padding: 13px 10px;
   border: 1px solid #e7e7e7;

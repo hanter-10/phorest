@@ -5,15 +5,15 @@ $(document).ready(function(){
     var mvc;
     $.app = {};
     $.app.Backbone = {};  mvc = $.app.Backbone;
-    $.app.properties =
+    $.app.properties = 
     {
 //    	root:                   "http://localhost:8888/phorest/",
-    	root:                   "http://localhost:81/Phorest/",
-//    	root:                   "http://development/phorest/",
+//    	root:                   "http://localhost:81/Phorest/",
+    	root:                   "http://development/phorest/",
 //    	root:                   "http://pk-brs.xsrv.jp/",
 //        coverimg:               "http://localhost:8888/phorest/images/cover.png",
-        coverimg:               "http://localhost:81/Phorest/images/cover.png",
-//        coverimg:               "http://development/phorest/images/cover.png",
+//        coverimg:               "http://localhost:81/Phorest/images/cover.png",
+        coverimg:               "http://development/phorest/images/cover.png",
 //        coverimg:               "http://pk-brs.xsrv.jp/images/cover.png",
         headerHeight:           $("#header").outerHeight(true),
         albumControlBarHeight:  $("#album-control-bar").outerHeight(true),
@@ -40,8 +40,8 @@ $(document).ready(function(){
     {
         init : function()
         {
-            var
-            _this = this,
+            var 
+            _this = this, 
             $albums = $.app.properties.albums,
             $photos = $.app.properties.photoCollections;
 
@@ -115,8 +115,8 @@ $(document).ready(function(){
         {
             $("#uploadAreaContainer").dropfile({
 //                url: './upload/',
-                url:   'http://localhost:81/Phorest/uploads/',
-//				url:   'http://development/phorest/uploads/',
+//                url:   'http://localhost:81/Phorest/uploads/',
+				url:   'http://development/phorest/uploads/',
 //				url:   'http://pk-brs.xsrv.jp/uploads/',
                 inputID: 'photoFiles',
                 accept: ['image/jpeg','image/png','image/gif'],
@@ -161,20 +161,20 @@ $(document).ready(function(){
 
     };
 
-
+    
 
 
    //---------------- functions -------------------
 
    function renderPic(files)
    {
-        var
+        var 
         url,
         views=[];
 
         for(i=0,len=files.length; i<len; i++)
         {
-            var
+            var 
             processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
             photoModel = new mvc.PhotoModel({
                 photoName: files[i].name,
@@ -215,7 +215,7 @@ $(document).ready(function(){
                             $(this).attr({height:113,width:null}).show();
                         }
                     })[0].src=url;
-
+                    
                 });
                 fr.readAsDataURL(files[i]);
             }
@@ -227,8 +227,8 @@ $(document).ready(function(){
 
 
    //-----------------------------------
-
+   
 
    //-----------------------------------
-
+   
 });

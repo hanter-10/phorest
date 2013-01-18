@@ -35,16 +35,17 @@
                 <figcaption><%=albumName%></figcaption>
             </figure>
         </script>
+
     </head>
     <body>
         <div id="albums">
             <div id="albumsContainer">
-
+                
             </div>
         </div>
         <div id="wrapper">
-
-
+            
+            
             <div id="main">
                 <div id="controller">
                     <div id="prevbtn">
@@ -55,7 +56,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="click-receiver"></div>
 
             <footer id="footer">
@@ -73,7 +74,7 @@
                 <div class="underpart">
                     <div id="indicator"></div>
                     <div id="img-container">
-
+                        
                     </div>
                 </div>
                 <ul id="controlPanel">
@@ -103,7 +104,7 @@
                             </ul>
                         </div>
                     </li>
-
+                    
                     <li>
                         <div class="left">写真表示方式</div>
                         <div class="right" unselectable="on">
@@ -128,7 +129,7 @@
                     </li>
                 </ul>
             </footer>
-
+            
         </div>
 
     </body>

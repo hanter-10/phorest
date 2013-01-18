@@ -5,7 +5,7 @@ $(function(){
    $.app.UI.methods.init();
    //------------------------------------------------------------
 
-   var
+   var 
    mvc = $.app.Backbone,
    $title = $('head title');
 
@@ -16,7 +16,7 @@ $(function(){
    PhotoCollection = new mvc.PhotoCollection(),
    AlbumModel = new mvc.AlbumModel(),
    AlbumCollection = new mvc.AlbumCollection();
-
+   
 
    //create views
    //view.jsで使用できるよう、どこでもアクセス出来るmvcにつけるておく
@@ -26,7 +26,7 @@ $(function(){
 
    AlbumCollection.fetch();
 
-
+   
    //-----------------------------------------------------------
    var Router = Backbone.Router.extend({
       routes:
@@ -37,7 +37,7 @@ $(function(){
       home : function()
       {
          console.log("home")
-
+         
       },
       loadAlbum : function(name)
       {
@@ -67,8 +67,8 @@ $(function(){
 
    mvc.router = new Router();
 //   Backbone.history.start({pushState: true, root: "/phorest/"});
-   Backbone.history.start({pushState: true, root: "/Phorest/DatUsers/"});
-// Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
+//   Backbone.history.start({pushState: true, root: "/Phorest/DatUsers/"});
+ Backbone.history.start({pushState: true, root: "/phorest/DatUsers/"});
 // Backbone.history.start({pushState: true, root: "/DatUsers/"});
 
 });

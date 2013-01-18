@@ -243,13 +243,13 @@ EOF
 
 			/* paramater set */
 			$datAlbum = array();
-			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datAlbum['DatAlbum']['albumName']			= $data->albumName;					// アルバム名
+			$datAlbum['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+			$datAlbum['albumName']			= $data->albumName;					// アルバム名
 // 			$datAlbum['DatAlbum']['description']		= '';		//$data->description;				// アルバム説明
-			$datAlbum['DatAlbum']['flg']				= 0;								// デフォルトは非公開
-			$datAlbum['DatAlbum']['status']				= 1;								// デフォルトは有効
-			$datAlbum['DatAlbum']['create_datetime']	= date('Y-m-d h:i:s');
-			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
+			$datAlbum['flg']				= 0;								// デフォルトは非公開
+			$datAlbum['status']				= 1;								// デフォルトは有効
+			$datAlbum['create_datetime']	= date('Y-m-d h:i:s');
+			$datAlbum['update_timestamp']	= date('Y-m-d h:i:s');
 
 			// Modelに値をセット
 			$this->DatAlbum->set($datAlbum);
@@ -263,8 +263,8 @@ EOF
 				$this->DatAlbum->create();
 				if ($this->DatAlbum->save($datAlbum)) {
 					/* get insert new id */
-					$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
-// 					$datAlbum['DatAlbum']['id'] = $this->DatAlbum->id;
+// 					$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
+					$datAlbum['id'] = $this->DatAlbum->id;
 
 					$this->set('datAlbum', $datAlbum);
 				}
@@ -500,7 +500,7 @@ EOF
 				);
 				$datUsers = $this->DatUser->find('all', $option);
 
-
+// SQLクエリログの確認方法
 // 				$log = $this->DatUser->getDataSource()->getLog(false, false);
 // 				var_dump($log);
 
@@ -563,8 +563,8 @@ EOF
 			}
 			$this->set('_serialize', 'datUser');
 		} catch (Exception $e) {
-			var_dump($e);
-			$this->set('datUser', 'catchDA');
+
+			$this->set('datUser', false);
 			$this->set('_serialize', 'datUser');
 		}
 	}

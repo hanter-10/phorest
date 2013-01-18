@@ -171,7 +171,7 @@ a:visited {
   -moz-transition: 0.3s ease-out;
   -o-transition: 0.3s ease-out;
   transition: 0.3s ease-out;
-  background-image: url("../images/leftArrow.png");
+  background-image: url("../../images/frontsite/leftArrow.png");
   background-repeat: no-repeat;
   background-position: 60% 50%;
 }
@@ -184,7 +184,7 @@ a:visited {
   -moz-transition: 0.3s ease-out;
   -o-transition: 0.3s ease-out;
   transition: 0.3s ease-out;
-  background-image: url("../images/rightArrow.png");
+  background-image: url("../../images/frontsite/rightArrow.png");
   background-repeat: no-repeat;
   background-position: 40% 50%;
 }
@@ -283,7 +283,7 @@ a:visited {
   bottom: -58px;
   width: 100%;
   font-family: Verdana;
-  background-image: url("../images/bg_black.png");
+  background-image: url("../../images/frontsite/bg_black.png");
 }
 
 /* line 231, ../sass/index.scss */

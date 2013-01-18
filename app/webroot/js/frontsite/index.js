@@ -1,6 +1,6 @@
 $(function(){
 
-var
+var 
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
 $albumsContainer    = $('#albumsContainer'),
@@ -10,14 +10,14 @@ $phorest_slideshow;
 //データの取得を開始
 function init()
 {
-	var
+	var 
 	username = $('meta[name="owner"]').attr('content'),
 //	url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
-	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
-//	url = 'http://development/phorest/datalbums/userSearch/' + username;
+//	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
+	url = 'http://development/phorest/datalbums/userSearch/' + username;
 //	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
 	$.getJSON(url,function(userArr){
-		var
+		var 
 		albumArr = userArr[0]['DatAlbum'],
 		albumIndex = 0;
 
@@ -35,7 +35,7 @@ function init()
 
 function addThumb(album)
 {
-	var
+	var 
 	photos = album['photos'],
 	firstPhoto = photos[0],
 	ratio  = firstPhoto.width/firstPhoto.height,
@@ -50,11 +50,11 @@ function addThumb(album)
 
 function startslide(album)
 {
-	var
+	var 
     photos    = album['photos'],
     imgUrls   = _.pluck(photos,'imgUrl');
 
-	slideshow =
+	slideshow = 
 	$.slideshow({
 		imgs: imgUrls,
 		fade: 1600,
@@ -66,14 +66,14 @@ function startslide(album)
 		nextbtn:'#nextbtn'
 	});
 	slideshow.play();
-
+	
 	$phorest_slideshow = $("#phorest_slideshow");
-
+	
 	$imgContainer.on('click','img',function(){
 		var index = $(this).data('index');
 		slideshow.jumpTo(index);
 	});
-
+	
 	function stop(index)
 	{
 
@@ -100,10 +100,10 @@ function startslide(album)
 
 function addAlbum(albumArr)
 {
-	var
+	var 
 	template = _.template($('#temp_album').html());
 	$.each(albumArr,function(index,album){
-		var
+		var 
 		cover = album['photos'][0],
 		$el = $( template({thumUrl:cover['thumUrl'],  albumName:album["albumName"]}) );
 
@@ -123,7 +123,7 @@ function addAlbum(albumArr)
 
 	function changeAlbum()
 	{
-		var
+		var 
 		$this = $(this),
 		album_info = $this.data('album_info'),
 		imgUrls = _.pluck(album_info['photos'],'imgUrl');
@@ -145,7 +145,7 @@ function createThum(imgurls)
 {
 	$('#img-container').empty();
 
-	var
+	var 
 	margin = 3,
 	left = margin,
 	$imgs = $.loadimg({
@@ -180,7 +180,7 @@ var imgurls = [
 
 //------------------ UI ------------------
 // $('#controlPanel select').selectStyler();
-var
+var 
 $footer = $('#footer'),
 $show_photos = $('#show-photos'),
 $albums = $('#albums'),
@@ -250,7 +250,7 @@ function hideAlbums()
 //----------------------------------config----------------------------------
 (function(){
 
-var
+var 
 $clickReceiver  = $('#click-receiver'),
 $controlPanel   = $('#controlPanel'),
 $config         = $('#config'),
@@ -270,7 +270,7 @@ $options.each(function(){
 function toggleConfig(onbody)
 {
 	$config.toggleClass('hover');
-
+	
 	if($config.hasClass('hover')){  //show
 		$clickReceiver.show();
 		slideshow.stop();
@@ -295,7 +295,7 @@ $('#click-receiver').click(function(e){
 
 
 $('#controlPanel .options>li').click(function(){
-	var
+	var 
     $this       = $(this),
     $parent     = $this.parent(),
     type        = $this.data('type'),
@@ -323,7 +323,7 @@ $('#controlPanel .options>li').click(function(){
 	$parent.find('.current').removeClass('current');
 	$parent.prev().text($this.text());
 	$this.addClass('current');
-
+	
 });
 
 })();

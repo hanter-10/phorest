@@ -2,23 +2,23 @@ $(function(){
 
 var
 //root = 'http://localhost:8888/phorest/',
-root = 'http://localhost:81/Phorest/',
-//root = 'http://development/phorest/',
+//root = 'http://localhost:81/Phorest/',
+root = 'http://development/phorest/',
 //root = 'http://pk-brs.xsrv.jp/',
 $albums = $('#albums .row');
 
 function init()
 {
-	var
+	var 
 	username = $('meta[name="owner"]').attr('content'),
 //	url = 'http://localhost:8888/phorest/DatUsers/' + username;
 //	url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
-	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
-//	url = 'http://development/phorest/datalbums/userSearch/' + username;
+//	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
+	url = 'http://development/phorest/datalbums/userSearch/' + username;
 //	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
 
 	$.getJSON(url,function(userArr){
-		var
+		var 
 		albumArr = userArr[0]['DatAlbum'],
 		albumIndex = 0;
 
@@ -35,17 +35,17 @@ function init()
 
 function addAlbum(albumArr)
 {
-	var
+	var 
 	template = _.template($('#temp_album').html());
 	$.each(albumArr,function(index,album){
-		var
+		var 
 		cover = album['photos'][0],
 		albumName = album["albumName"],
 		href = root + "albums/" + albumName,
 		$el = $( template({thumUrl:cover['thumUrl_square'],  albumName:albumName,  href:href}) );
 
 		$albums.append($el);
-
+		
 		// fillimg( $el.find('img'), cover["width"], cover["height"] );
 	});
 
@@ -60,7 +60,7 @@ function addAlbum(albumArr)
 
 	function changeAlbum()
 	{
-		var
+		var 
 		$this = $(this),
 		album_info = $this.data('album_info'),
 		imgUrls = _.pluck(album_info['photos'],'imgUrl');

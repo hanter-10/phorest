@@ -68,20 +68,11 @@
                     <li><a href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>DatUsers/logout">ログアウト</a></li>
                 </ul>
             </header>
-
+            
             <div id="main">
                 <div id="albums-panel" class="prevent-select">
 
                     <div id="albums">
-
-                        <div class="album">
-                            <div class="cover">
-                                <img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/cover" alt="cover" draggable="false" width="102" height="102">
-                                <span class="album-name" title="dreamscape">風景</span>
-                            </div>
-                            <span class="status">非公開</span>
-                        </div>
-
 
 
                     </div>
@@ -97,15 +88,15 @@
                 <div id="photos-panel">
                     <ul id="photos-control-panel">
                         <li class="row prevent-select">
-                            <a class="icon-eye" id="preview" target="blank">プレビュー</a>
+                            <a class="icon-eye" id="preview" href="#" target="_blank">プレビュー</a>
                             <span class="icon-cancel" id="delete-photo">写真を削除</span>
                         </li>
                         <li class="row">
                             <input type="text" id="album-name-input" value="風景">
                         </li>
                         <li class="row">
-                            <label for="status-check">アルバムを公開</label>
                             <input type="checkbox" name="status-check" id="status-check">
+                            <label for="status-check">アルバムを公開</label>
                         </li>
                     </ul>
 
@@ -138,11 +129,11 @@
                     </figure>
                 </div>
             </div>
-
+            
             <footer id="footer">
-
+                
             </footer>
-
+            
         </div>
 
     </body>

@@ -7,7 +7,7 @@
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
         <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="css/reset.css" media="all" />
+        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/reset.css" media="all" />
         <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/icon.css" media="all" />
         <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/slideshow.css" media="all" />
         <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/select-styler.css" media="all" />
@@ -40,12 +40,12 @@
     <body>
         <div id="albums">
             <div id="albumsContainer">
-                
+
             </div>
         </div>
         <div id="wrapper">
-            
-            
+
+
             <div id="main">
                 <div id="controller">
                     <div id="prevbtn">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="click-receiver"></div>
 
             <footer id="footer">
@@ -74,7 +74,7 @@
                 <div class="underpart">
                     <div id="indicator"></div>
                     <div id="img-container">
-                        
+
                     </div>
                 </div>
                 <ul id="controlPanel">
@@ -104,7 +104,7 @@
                             </ul>
                         </div>
                     </li>
-                    
+
                     <li>
                         <div class="left">写真表示方式</div>
                         <div class="right" unselectable="on">
@@ -129,7 +129,7 @@
                     </li>
                 </ul>
             </footer>
-            
+
         </div>
 
     </body>

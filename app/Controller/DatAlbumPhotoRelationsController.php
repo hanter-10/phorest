@@ -85,6 +85,10 @@ class DatAlbumPhotoRelationsController extends AppController {
 			// 選択された写真毎に実行
 			foreach ($data->photos as $key => $photo_id) {
 
+				if($photo_id == null) {
+					throw new BadRequestException(__('Bad Request.'));
+				}
+
 				/* paramater set */
 				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_album_id']			= $data->targetAlbum;		// $this->params['data']['album_id'];
 				$datAlbumPhotoRelations['DatAlbumPhotoRelation']['fk_photo_id']			= $photo_id;				// $this->params['data']['photo_id'];
@@ -97,7 +101,7 @@ class DatAlbumPhotoRelationsController extends AppController {
 				$this->DatAlbumPhotoRelation->save($datAlbumPhotoRelations);
 			}
 
-// 			/* get insert new id */
+			/* get insert new id */
 // 			$datAlbumPhotoRelations['DatAlbumPhotoRelation']['album_photo_relation_id'] = $this->DatAlbumPhotoRelation->id;
 
 			$this->set('datAlbumPhotoRelations', true);

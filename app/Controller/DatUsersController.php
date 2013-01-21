@@ -17,6 +17,17 @@ class DatUsersController extends AppController {
 	public function login() {
 		$this->layout = 'home_layout';
 		if ($this->request->is('post')) {
+
+			// ユーザー名に「＠」を使用できないという前提でusernameに「＠」を含んでいる場合はemailに置き換え
+			if (strstr($this->request->data['DatUser']['username'], '@')) {
+				$this->request->data['DatUser']['email']	= $this->request->data['DatUser']['username'];
+// 				$this->Auth->fields['username']	= 'email';
+// 				$this->Auth->fields = array(
+// 						'username' => 'email',
+// 				);
+				$this->Auth->authenticate['Form']['fields']['username'] = 'email';
+			}
+
 			if ($this->Auth->login()) {
 
 				// CPへリダイレクト
@@ -73,21 +84,27 @@ class DatUsersController extends AppController {
  */
 	public function add() {
 
-		$this->layout = 'login';
+		try
+		{
+			$this->layout = 'home_layout';
+			if ($this->request->is('post')) {
+				$this->DatUser->create();
+				if ($this->DatUser->save($this->request->data)) {
+					if ($this->Auth->login()) {
 
-		if ($this->request->is('post')) {
-			$this->DatUser->create();
-			if ($this->DatUser->save($this->request->data)) {
-				if ($this->Auth->login()) {
-
-					// CPへリダイレクト
-// 					$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
-					$this->redirect($this->Auth->redirect());
-// 					$this->redirect(array('controller' => 'DatUsers', 'action' => 'index'));
+						// CPへリダイレクト
+// 						$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
+						$this->redirect($this->Auth->redirect());
+// 						$this->redirect(array('controller' => 'DatUsers', 'action' => 'index'));
+					}
+				} else {
+					// TODO:バリデーションとかその辺ハンドリングしなきゃ
+					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
 				}
-			} else {
-				$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
 			}
+		} catch (Exception $e) {
+			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
+			$this->redirect($this->Auth->logout());
 		}
 	}
 

@@ -2,6 +2,7 @@ $(function(){
 
 var
 root = 'http://localhost:8888/phorest/',
+username = $('meta[name="owner"]').attr('content'),
 //root = 'http://localhost:81/Phorest/',
 //root = 'http://development/phorest/',
 //root = 'http://pk-brs.xsrv.jp/',
@@ -9,10 +10,9 @@ $albums = $('#albums .row');
 
 function init()
 {
-	var 
-	username = $('meta[name="owner"]').attr('content'),
+	
 //	url = 'http://localhost:8888/phorest/DatUsers/' + username;
-	url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
+	var url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
 //	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
 //	url = 'http://development/phorest/datalbums/userSearch/' + username;
 //	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
@@ -41,7 +41,7 @@ function addAlbum(albumArr)
 		var 
 		cover = album['photos'][0],
 		albumName = album["albumName"],
-		href = root + "albums/" + albumName,
+		href = root + username + "/albums/" + albumName,
 		$el = $( template({thumUrl:cover['thumUrl_square'],  albumName:albumName,  href:href}) );
 
 		$albums.append($el);

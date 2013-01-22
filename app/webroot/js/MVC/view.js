@@ -4,6 +4,7 @@ $(function(){
    $photoCollection_right,
    mvc = $.app.Backbone,
    $albumNameInput = $.app.properties.albumNameInput,
+   $albumStatusInput = $.app.properties.albumStatusInput,
    $title = $('head title'),
    $preview = $('#preview'),
    username = $('meta[name="owner"]').attr('content');
@@ -395,9 +396,14 @@ $(function(){
       {
          if(!this.$el.hasClass('active')) //今アクテイブ中のアルバムではなく、新たにクリックしたアルバムなら
          {
-            var albumName = this.model.get('albumName');
+            var 
+            //status,
+            albumName = this.model.get('albumName'),
+            status = this.model.get('public')==1 ? true : false;
+            
 
             $albumNameInput.val(albumName); //アルバムの名前の表示を更新
+            $albumStatusInput.attr({checked:status}); //アルバムの公開非公開の表示を更新
             // console.log( this.model.get('albumName') );
             //$('#delete-photo').off(); //PhotoViewを生成時にイベントが累加されないように、予めイベントたちを全て削除しておく
             this.showPhotos();
@@ -581,9 +587,8 @@ $(function(){
       $('#status-check').change(function(){
          var 
          albumModel = getActivedAlbumModel(),
-         status = this.checked;
-
-         albumModel.set({status:status});
+         status = this.checked ? 1 : 0;
+         albumModel.set({public:status});
       });
    }
 

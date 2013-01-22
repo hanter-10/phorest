@@ -9,7 +9,7 @@ $(document).ready(function(){
     {
     	root:                   "http://localhost:8888/phorest/",
 //    	root:                   "http://localhost:81/Phorest/",
-    	root:                   "http://development/phorest/",
+    // root:                   "http://development/phorest/",
 //    	root:                   "http://pk-brs.xsrv.jp/",
         coverimg:               "http://localhost:8888/phorest/images/cover.png",
 //        coverimg:               "http://localhost:81/Phorest/images/cover.png",
@@ -30,6 +30,7 @@ $(document).ready(function(){
         photosEdge:             $("#albums-panel").outerWidth() + $("#photos-panel").outerWidth(),
         photoCollections:       $("#photoCollections"),
         albumNameInput:         $('#album-name-input'),
+        albumStatusInput:       $('#status-check'),
         photoCollections_right: $('#uploadAreaContainer'),
         uploadArea:             $('#uploadArea'),
         uploadControlPanel:     $('#upload-control-panel')

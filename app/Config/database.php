@@ -64,8 +64,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '111',
-		'database' => 'Phorest_db',
+		'password' => 'root',
+		'database' => 'phorest_db',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

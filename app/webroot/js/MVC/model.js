@@ -32,9 +32,9 @@ $(function(){
    **************************** Collection ****************************
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
-//      url:     'http://localhost:8888/phorest/DatPhotos/',
+      url:     'http://localhost:8888/phorest/datphotos/',
 //      url:     'http://localhost:81/Phorest/datphotos/',
-    url:     'http://development/phorest/datphotos/',
+//    url:     'http://development/phorest/datphotos/',
 //    url:     'http://pk-brs.xsrv.jp/datphotos/',
       model:   mvc.PhotoModel
    });
@@ -67,9 +67,9 @@ $(function(){
    ******************************* 宇宙の始まり *******************************
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
-//      url:     'http://localhost:8888/phorest/DatAlbums/',
+      url:     'http://localhost:8888/phorest/datalbums/',
 //      url:     'http://localhost:81/Phorest/datalbums/',
-    url:     'http://development/phorest/datalbums/',
+//    url:     'http://development/phorest/datalbums/',
 //    url:     'http://pk-brs.xsrv.jp/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()

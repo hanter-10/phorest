@@ -312,8 +312,9 @@ $(function(){
          {
             data : data,
 //            url : '/DatAlbumPhotoRelations/'+_this.albumID
+            url : 'http://localhost:8888/Phorest/datalbumphotorelations/'+_this.albumID
 //            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
-            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
 //            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)

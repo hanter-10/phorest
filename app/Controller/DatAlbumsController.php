@@ -53,7 +53,7 @@ class DatAlbumsController extends AppController {
 					'DatAlbum.album_id as id',
 					'DatAlbum.albumName as albumName',
 					'DatAlbum.description',
-					'DatAlbum.flg',
+					'DatAlbum.flg as public',
 					'DatAlbum.status',
 					'DatAlbum.create_datetime',
 					'DatAlbum.update_timestamp',
@@ -312,6 +312,13 @@ EOF
 				'fk_user_id'		=> $this->Auth->user('user_id'),
 				'update_timestamp'	=> date('Y-m-d h:i:s'),
 			);
+
+			// 矯正 public->flg
+			if (isset($requestData->public)) {
+				$requestData->flg = $requestData->public;
+				unset($requestData->public);
+			}
+
 			/* リクエストパラメータセット */
 			$datAlbum = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbum', $optionData);
 

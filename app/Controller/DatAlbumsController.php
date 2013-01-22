@@ -559,7 +559,7 @@ EOF
 							unset($datServer);
 						}
 
-						if (in_array($datPhotos)) {
+						if (isset($datPhotos[0])) {
 							$datUsers[$userkey]['DatAlbum'][$albumkey]['DatPhoto'] = $datPhotos;
 						} else {
 							unset($datUsers[$userkey]['DatAlbum'][$albumkey]);

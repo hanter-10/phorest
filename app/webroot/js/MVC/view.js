@@ -304,7 +304,7 @@ $(function(){
             cid      = $('img',el).data('cid'),
             model    = this.collection.get(cid);
             photoModels[index] = model;
-            photoIds[index] = model.id;
+            photoIds[index] = model.id || model.attributes.id;
          },this);
          
          data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });

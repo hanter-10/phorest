@@ -360,7 +360,7 @@ class DatPhotosController extends AppController {
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('put')) {
+		if ($this->request->is('put') || $this->request->is('patch')) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
 			$requestData = $this->request->input('json_decode');

@@ -100,6 +100,7 @@ class CakeRequest implements ArrayAccess {
 		'get' => array('env' => 'REQUEST_METHOD', 'value' => 'GET'),
 		'post' => array('env' => 'REQUEST_METHOD', 'value' => 'POST'),
 		'put' => array('env' => 'REQUEST_METHOD', 'value' => 'PUT'),
+		'patch' => array('env' => 'REQUEST_METHOD', 'value' => 'PATCH'),			// PATCHメソッド対応 add 2013.01.24
 		'delete' => array('env' => 'REQUEST_METHOD', 'value' => 'DELETE'),
 		'head' => array('env' => 'REQUEST_METHOD', 'value' => 'HEAD'),
 		'options' => array('env' => 'REQUEST_METHOD', 'value' => 'OPTIONS'),

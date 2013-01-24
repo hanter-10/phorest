@@ -8,6 +8,8 @@ App::uses('AppController', 'Controller');
  */
 class DatUsersController extends AppController {
 
+	public $uses = array('DatUser', 'DatAlbum');
+
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -90,6 +92,8 @@ class DatUsersController extends AppController {
 				if ($this->DatUser->save($this->request->data)) {
 					if ($this->Auth->login()) {
 
+						// 初期登録デフォルトでアルバム3つ保持
+
 						// CPへリダイレクト
 // 						$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
 						$this->redirect($this->Auth->redirect());
@@ -97,7 +101,8 @@ class DatUsersController extends AppController {
 					}
 				} else {
 					// TODO:バリデーションとかその辺ハンドリングしなきゃ
-					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
+					$this->redirect($this->Auth->logout());
+// 					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
 				}
 			}
 		} catch (Exception $e) {

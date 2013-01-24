@@ -124,6 +124,7 @@ class Router {
 		array('action' => 'view',	'method' => 'GET',		'id' => true),
 		array('action' => 'add',	'method' => 'POST',		'id' => false),
 		array('action' => 'edit',	'method' => 'PUT', 		'id' => true),
+		array('action' => 'edit',	'method' => 'PATCH', 	'id' => true),			// PATCHメソッド対応 add 2013.01.24
 		array('action' => 'delete',	'method' => 'DELETE',	'id' => true),
 		array('action' => 'edit',	'method' => 'POST', 	'id' => true)
 	);

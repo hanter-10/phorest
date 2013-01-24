@@ -370,7 +370,7 @@ $(function(){
          html,
          json = this.model.toJSON();
 
-         json.status = json.status ? "公開" : "非公開";
+         json.status = json.public ? "公開" : "非公開";
 
          html = this.template(json);
          
@@ -589,8 +589,12 @@ $(function(){
       $('#status-check').change(function(){
          var 
          albumModel = getActivedAlbumModel(),
-         status = this.checked ? 1 : 0;
+         status = this.checked ? 1 : 0,
+         stext = status ? "公開" : "非公開";
          albumModel.save({public:status},{patch: true});
+         
+         //リアルタイムで表示を更新する
+         $('#albums .album.active .status').text(stext);
       });
    }
 

@@ -370,7 +370,7 @@ $(function(){
          html,
          json = this.model.toJSON();
 
-         json.status = json.public ? "公開" : "非公開";
+         json.status = json.public==1 ? "公開" : "非公開";
 
          html = this.template(json);
          

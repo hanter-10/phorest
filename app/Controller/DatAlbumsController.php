@@ -483,7 +483,7 @@ EOF
 										'album_id as id',
 										'albumName as albumName',
 										'description',
-										'flg',
+										'flg as public',
 										'status',
 										'create_datetime',
 										'update_timestamp',

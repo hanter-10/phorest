@@ -6,28 +6,26 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/icon.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/slideshow.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/select-styler.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/frontsite/index.css" media="all" />
+        
+        <?php 
+            $scripts = array(
+                "common/TweenMax.min.js",
+                "common/jquery-tools.js",
+                "common/jquery.slideshow.js",
+                "common/screenfull.js",
+                "frontsite/index.js"
+                );
+            echo $this->element('common/css');
+            echo $this->Html->css(array( "frontsite/css/icon.css","common/slideshow.css","frontsite/css/index.css" ));
 
-        <!--[if lt IE 9]>
-              <script type="text/javascript" src="js/html5shiv.js"></script>
-              <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-              <script src="js/css3-mediaqueries.js"></script>
-        <![endif]-->
+            echo $this->element('common/js');
+            echo $this->Html->script( $scripts );
+        ?>
+        
 
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/loadCSS.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/TweenMax.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/underscore1.4.2-min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery-tools.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery.slideshow.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/screenfull.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/jquery.select-styler.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/frontsite/index.js"></script>
+        
+
+        
 
         <script type="text/template" id="temp_album">
             <figure class="album">
@@ -62,7 +60,7 @@
             <footer id="footer">
                 <div class="upperpart">
                     <div class="fl">
-                        <a href="" id="logo"><img height="14" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/common/logo_white.png" alt="logo"></a>
+                        <a href="" id="logo"><?php echo $this->Html->image('common/logo_white.png') ?></a>
                         <span class="title">This is Photoshop's version  of Lorem Ipsum. Proin gravida</span>
                     </div>
                     <div class="fr">

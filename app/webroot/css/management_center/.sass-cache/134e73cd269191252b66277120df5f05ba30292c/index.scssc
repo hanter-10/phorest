@@ -1,7 +1,7 @@
 3.2.5 (Media Mark)
-4343f118f9f257419389036c8ce726cafc7e3feb
+8e4a1e8dec2d340ab1486a0674edc916ce7e186a
 o:Sass::Tree::RootNode
-:@template"%?@import "compass";
+:@template"æ>@import "compass";
 
 ::selection {
     background: transparent; /* Safari */
@@ -132,7 +132,7 @@ a{
 #albums-panel{
 	background-color: #e5e5e9;
 	width: 150px;
-	background-image: url("../images/common/shadow1.png"), url("../images/common/bg_light.png");
+	background-image: url("../images/shadow1.png"), url("../images/bg_light.png");
 	background-position: right top, center center;
 	background-repeat: repeat-y, repeat;
 	background-attachment: scroll, fixed;
@@ -189,7 +189,7 @@ a{
 	}
 
 	.album.active {
-		background-image: url("../images/common/bg_album.png");
+		background-image: url("../images/bg_album.png");
 		@include box-shadow( 0 1px 0 white, 0 1px 1px white, 0 3px 8px 2px rgba(0, 0, 0, 0.25) inset,0 2px 20px 1px rgba(0, 0, 0, 0.14) inset,-7px 0 10px rgba(0, 0, 0, 0.21) inset, -1px 0 0 rgba(255, 255, 255, 0.16) inset );
 	}
 
@@ -252,8 +252,8 @@ a{
 /*photos-panel*/
 
 #photos-panel{
-	background-image: url("../images/common/bg_mid.png");
-	background-image: url("../images/common/shadow2.png"), url("../images/common/shadow3.png"), url("../images/common/bg_mid.png");
+	background-image: url("../images/bg_mid.png");
+	background-image: url("../images/shadow2.png"), url("../images/shadow3.png"), url("../images/bg_mid.png");
 	background-repeat: repeat-y, repeat-x, repeat;
 	background-position: right top, center top, center center;
 	background-attachment: fixed;
@@ -453,7 +453,7 @@ a{
 
 #preview-panel{
 	position: absolute;
-	background-image: url("../images/common/bg_dark.png");
+	background-image: url("../images/bg_dark.png");
 	top: 0;
 	right: 0;
 	border-left: 1px solid #3c3c3e;
@@ -470,7 +470,7 @@ a{
 #uploadAreaContainer{
 	height: 100%;
 	width: 100%;
-	background-image: url("../images/common/shadow4.png");
+	background-image: url("../images/shadow4.png");
 	background-repeat: repeat-x;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -937,7 +937,7 @@ solido;!	;i|;	@;"{	;#i9;$i;%i9;&i9;0o;;;;i};	@;["position;i ;
 width;i ;
 [ ;o;;	@;;;"
 150pxo;;;;i„;	@;["background-image;i ;
-[ ;o;	;i„;	@;;?;[o;7;i„;	@;"url;80;9[o;	;i„;	@;:string;"!../images/common/shadow1.png;:{ o;7;i„;	@;"url;80;9[o;	;i„;	@;;A;""../images/common/bg_light.png;:{ o;;;;i…;	@;["background-position;i ;
+[ ;o;	;i„;	@;;?;[o;7;i„;	@;"url;80;9[o;	;i„;	@;:string;"../images/shadow1.png;:{ o;7;i„;	@;"url;80;9[o;	;i„;	@;;A;"../images/bg_light.png;:{ o;;;;i…;	@;["background-position;i ;
 [ ;o;	;i…;	@;;?;[o;	;i…;	@;;;[o;	;i…;	@;;;"
 righto;	;i…;	@;;;"topo;	;i…;	@;;;[o;	;i…;	@;;;"centero;	;i…;	@;;;"centero;;;;i†;	@;["background-repeat;i ;
 [ ;o;	;i†;	@;;?;[o;	;i†;	@;;;"repeat-yo;	;i†;	@;;;"repeato;;;;i‡;	@;["background-attachment;i ;
@@ -1007,7 +1007,7 @@ blocko;;;;i²;	@;["text-align;i ;
 ;*@-;.o;/;0{ ;i·;+[o;<;*@-;i·;["
 albumo;<;*@-;i·;["dragOver;40o;;i¼;T;	@;i ;
 [o;;;;i½;	@;["background-image;i ;
-[ ;o;7;i½;	@;"url;80;9[o;	;i½;	@;;A;""../images/common/bg_album.png;:{ o;=;i¾;	@;"box-shadow;80;
+[ ;o;7;i½;	@;"url;80;9[o;	;i½;	@;;A;"../images/bg_album.png;:{ o;=;i¾;	@;"box-shadow;80;
 [ ;9[o;	;i¾;	@;;;[	o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;[ ;"1px; ["px;io;;i¾;	@;@%;"0; [ ;i o;!	;i¾;	@;"{	;#iÿ;$i;%iÿ;&iÿ;0o;	;i¾;	@;;;[	o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;[ ;"1px; ["px;io;;i¾;	@;[ ;"1px; ["px;io;!	;i¾;	@;"{	;#iÿ;$i;%iÿ;&iÿ;0o;	;i¾;	@;;;[o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;[ ;"3px; ["px;io;;i¾;	@;[ ;"8px; ["px;io;;i¾;	@;[ ;"2px; ["px;io;7;i¾;	@;"	rgba;80;9[	o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"	0.25; [ ;f	0.25;:{ o;	;i¾;	@;;;"
 inseto;	;i¾;	@;;;[o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;[ ;"2px; ["px;io;;i¾;	@;[ ;"	20px; ["px;io;;i¾;	@;[ ;"1px; ["px;io;7;i¾;	@;"	rgba;80;9[	o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"0; [ ;i o;;i¾;	@;@%;"	0.14; [ ;f0.14000000000000001 Qì;:{ o;	;i¾;	@;;;"
 inseto;	;i¾;	@;;;[
@@ -1102,8 +1102,8 @@ hover;20;;>;40;'["#remove-album;(o;);*" ;iï;+[o;,;+[o;-
 ;iù;	@;
 [ ;;;["/*photos-panel*/o;;iû;T;	@;i ;
 [o;;;;iü;	@;["background-image;i ;
-[ ;o;7;iü;	@;"url;80;9[o;	;iü;	@;;A;" ../images/common/bg_mid.png;:{ o;;;;iý;	@;["background-image;i ;
-[ ;o;	;iý;	@;;?;[o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;"!../images/common/shadow2.png;:{ o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;"!../images/common/shadow3.png;:{ o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;" ../images/common/bg_mid.png;:{ o;;;;iþ;	@;["background-repeat;i ;
+[ ;o;7;iü;	@;"url;80;9[o;	;iü;	@;;A;"../images/bg_mid.png;:{ o;;;;iý;	@;["background-image;i ;
+[ ;o;	;iý;	@;;?;[o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;"../images/shadow2.png;:{ o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;"../images/shadow3.png;:{ o;7;iý;	@;"url;80;9[o;	;iý;	@;;A;"../images/bg_mid.png;:{ o;;;;iþ;	@;["background-repeat;i ;
 [ ;o;	;iþ;	@;;?;[o;	;iþ;	@;;;"repeat-yo;	;iþ;	@;;;"repeat-xo;	;iþ;	@;;;"repeato;;;;iÿ;	@;["background-position;i ;
 [ ;o;	;iÿ;	@;;?;[o;	;iÿ;	@;;;[o;	;iÿ;	@;;;"
 righto;	;iÿ;	@;;;"topo;	;iÿ;	@;;;[o;	;iÿ;	@;;;"centero;	;iÿ;	@;;;"topo;	;iÿ;	@;;;[o;	;iÿ;	@;;;"centero;	;iÿ;	@;;;"centero;;;;i ;	@;["background-attachment;i ;
@@ -1391,7 +1391,7 @@ focus;20;;>;40;'[".filename;(o;);*" ;i¤;+[o;,;+[o;-
 [ ;;;["/*preview-panel*/o;;iÃ;T;	@;i ;
 [o;;;;iÄ;	@;["position;i ;
 [ ;o;;	@;;;"absoluteo;;;;iÅ;	@;["background-image;i ;
-[ ;o;7;iÅ;	@;"url;80;9[o;	;iÅ;	@;;A;"!../images/common/bg_dark.png;:{ o;;;;iÆ;	@;["top;i ;
+[ ;o;7;iÅ;	@;"url;80;9[o;	;iÅ;	@;;A;"../images/bg_dark.png;:{ o;;;;iÆ;	@;["top;i ;
 [ ;o;;	@;;;"0o;;;;iÇ;	@;["
 right;i ;
 [ ;o;;	@;;;"0o;;;;iÈ;	@;["border-left;i ;
@@ -1412,7 +1412,7 @@ whiteo;;;;iÌ;	@;["font-size;i ;
 [ ;o;;	@;;;"	100%o;;;;iÕ;	@;["
 width;i ;
 [ ;o;;	@;;;"	100%o;;;;iÖ;	@;["background-image;i ;
-[ ;o;7;iÖ;	@;"url;80;9[o;	;iÖ;	@;;A;"!../images/common/shadow4.png;:{ o;;;;i×;	@;["background-repeat;i ;
+[ ;o;7;iÖ;	@;"url;80;9[o;	;iÖ;	@;;A;"../images/shadow4.png;:{ o;;;;i×;	@;["background-repeat;i ;
 [ ;o;;	@;;;"repeat-xo;;;;iØ;	@;["-webkit-box-sizing;i ;
 [ ;o;;	@;;;"border-boxo;;;;iÙ;	@;["-moz-box-sizing;i ;
 [ ;o;;	@;;;"border-boxo;;;;iÚ;	@;["-ms-box-sizing;i ;

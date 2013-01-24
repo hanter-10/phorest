@@ -129,7 +129,7 @@ a{
 #albums-panel{
 	background-color: #e5e5e9;
 	width: 150px;
-	background-image: url("../images/common/shadow1.png"), url("../images/common/bg_light.png");
+	background-image: url("../images/shadow1.png"), url("../images/bg_light.png");
 	background-position: right top, center center;
 	background-repeat: repeat-y, repeat;
 	background-attachment: scroll, fixed;
@@ -186,7 +186,7 @@ a{
 	}
 
 	.album.active {
-		background-image: url("../images/common/bg_album.png");
+		background-image: url("../images/bg_album.png");
 		@include box-shadow( 0 1px 0 white, 0 1px 1px white, 0 3px 8px 2px rgba(0, 0, 0, 0.25) inset,0 2px 20px 1px rgba(0, 0, 0, 0.14) inset,-7px 0 10px rgba(0, 0, 0, 0.21) inset, -1px 0 0 rgba(255, 255, 255, 0.16) inset );
 	}
 
@@ -249,8 +249,8 @@ a{
 /*photos-panel*/
 
 #photos-panel{
-	background-image: url("../images/common/bg_mid.png");
-	background-image: url("../images/common/shadow2.png"), url("../images/common/shadow3.png"), url("../images/common/bg_mid.png");
+	background-image: url("../images/bg_mid.png");
+	background-image: url("../images/shadow2.png"), url("../images/shadow3.png"), url("../images/bg_mid.png");
 	background-repeat: repeat-y, repeat-x, repeat;
 	background-position: right top, center top, center center;
 	background-attachment: fixed;
@@ -450,7 +450,7 @@ a{
 
 #preview-panel{
 	position: absolute;
-	background-image: url("../images/common/bg_dark.png");
+	background-image: url("../images/bg_dark.png");
 	top: 0;
 	right: 0;
 	border-left: 1px solid #3c3c3e;
@@ -467,7 +467,7 @@ a{
 #uploadAreaContainer{
 	height: 100%;
 	width: 100%;
-	background-image: url("../images/common/shadow4.png");
+	background-image: url("../images/shadow4.png");
 	background-repeat: repeat-x;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

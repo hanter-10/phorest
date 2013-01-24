@@ -6,20 +6,15 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/home/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/home/icon.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/home/index.css" media="all" />
-
-        <!--[if lt IE 9]>
-              <script type="text/javascript" src="js/html5shiv.js"></script>
-              <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-              <script src="js/css3-mediaqueries.js"></script>
-        <![endif]-->
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/home/loadCSS.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/home/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/home/bootstrap.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/home/index.js"></script>
+        <?php 
+            //css output
+            echo $this->element('common/css');
+            echo $this->Html->css(array( "home/css/icon.css", "home/css/index.css" )); 
+            //script output
+            echo $this->element('common/js');
+            echo $this->Html->script(array( "home/index.js" ));
+        ?>
+       
     </head>
     <body>
         <div id="wrapper">

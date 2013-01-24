@@ -83,10 +83,8 @@ class DatUsersController extends AppController {
  * @return void
  */
 	public function add() {
-
 		try
 		{
-			$this->layout = 'home_layout';
 			if ($this->request->is('post')) {
 				$this->DatUser->create();
 				if ($this->DatUser->save($this->request->data)) {
@@ -106,6 +104,11 @@ class DatUsersController extends AppController {
 			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
 			$this->redirect($this->Auth->logout());
 		}
+	}
+
+	public function sign_up(){
+		var_dump($this->request->data);
+		$this->layout = 'sign_up_layout';
 	}
 
 /**

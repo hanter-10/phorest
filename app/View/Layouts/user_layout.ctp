@@ -6,29 +6,43 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/jquery-ui-1.8.24.custom.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/jquery.mCustomScrollbar.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/icostyle.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/index.css" media="all" />
+        <?php 
+            $script = array(
+                "management_center/jquery-ui-1.9.0.custom.min.js",
+                "management_center/jquery.scrollTo-1.4.3.1-min.js",
+                "management_center/jquery.mousewheel.min.js",
+                "management_center/jquery.mCustomScrollbar.js",
+                "management_center/jquery.dropfile.js",
+                "management_center/underscore1.4.2-min.js",
+                "management_center/backbone_099.js",
+                "management_center/app.js",
+                "management_center/UI.js",
+                "management_center/MVC/model.js",
+                "management_center/MVC/view.js",
+                "management_center/MVC/router.js"
+                );
 
-        <!--[if lt IE 9]><script type="text/javascript" src="js/html5shiv.js"></script><![endif]-->
-        <!--[if lte IE 7]><script src="js/lte-ie7.js"></script><![endif]-->
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/loadCSS.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery-ui-1.9.0.custom.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.scrollTo-1.4.3.1-min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.mousewheel.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.mCustomScrollbar.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/jquery.dropfile.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/underscore1.4.2-min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/backbone_099.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/app.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/UI.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/model.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/view.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/MVC/router.js"></script>
+            $css = array( 
+                "management_center/css/jquery-ui-1.8.24.custom.css",
+                "management_center/css/jquery.mCustomScrollbar.css",
+                "management_center/css/icon.css",
+                "management_center/css/index.css" 
+                );
+
+            //css output
+            echo $this->element('common/css');
+            echo $this->Html->css( $css );
+            
+            //js output
+            echo $this->element('common/js');
+            echo $this->Html->script( $script );
+
+            //urls
+            $dashboard_url = $this->Html->url(array('controller'=>'DashBoards','action'=>'index',$meta_data));
+        ?>
+
+        
+
         <!-- template -->
         <script type="text/template" id="temp_photo">
             <div class="imgTable"><div class="imgCell"><img src="<%=thumUrl%>" height="113" draggable="false"></div></div>
@@ -51,8 +65,8 @@
             </div>
             <header id="header">
                 <div class="container">
-                	<a href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>DashBoards/<?php echo $meta_data?>" target="blank">
-                    <img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/common/logo.png" alt="logo" id="logo">
+                    <a href="<?php echo $dashboard_url; ?>" target="blank">
+                        <?php echo $this->Html->image( 'common/logo.png', array('alt'=>'logo', 'id'=>'logo') );?>
                     </a>
                     <div class="right-side">
                         <div id="up-photo" class="icon-upload prevent-select">
@@ -123,7 +137,7 @@
                         <div class="displayAstable">
                             <div class="displayAsCell">
                                 <figcaption id="caption">風景１</figcaption>
-                                <img id="preview-img" src="images/larg-img.jpg" alt="large-image">
+                                <img id="preview-img" src="#" alt="large-image">
                             </div>
                         </div>
                     </figure>

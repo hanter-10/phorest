@@ -1,0 +1,195 @@
+@import "compass";
+
+$mainGreen:#7ac717;
+$mainWhite:#FAFAFA;
+
+html,body{
+	height: 100%;
+	width: 100%;
+	background-color: #54a6bc;
+}
+
+#wrapper {
+	position: relative;
+	height: 100%;
+}
+
+h1,p{
+	margin:0;
+}
+
+
+input[type="text"],input[type="password"] {
+	outline: none;
+	padding: 13px 10px;
+	border: 1px solid #E7E7E7;
+	font-size: 14px;
+	color: #3D3D3D;
+	margin-top: 0;
+	margin-bottom: 16px;
+	@include transition(0.4s);
+	@include border-radius(3px);
+}
+
+input:focus {
+	@include box-shadow(0 0 5px #b9ff5e);
+}
+
+a:visited {
+	color: #919191;
+}
+
+button{
+	background-color: $mainGreen;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	border: 1px solid #6BB60A;
+	outline:none;
+	color: $mainWhite;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 14px 30px;
+	margin:0;
+	margin-bottom: 16px;
+	@include border-radius(3px);
+	&:hover{
+		background-color: #81d11b;
+	}
+	&:active{
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.32) inset;
+		background-color: #75c212;
+	}
+}
+
+#form-container{
+	position: relative;
+	overflow:hidden;
+	height: 280px;
+	width: 376px;
+	.left{
+		float: left;
+	}
+	.right{
+		$padding:25px;
+		position: relative;
+		border-left: 1px solid #FDFDFD;
+		background-color: #f7f7f7;
+		float: left;
+		width: 265px - $padding*2;
+		height: 280px - $padding*2;
+		padding: $padding;
+		@include box-shadow(0 0 30px rgba(0, 0, 0, 0.05));
+		input{
+			width: 193px;
+		}
+	}
+	.triangle{
+		@include transition(0.3s ease-in-out);
+		position: absolute;
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 17.5px 17px 17.5px 0;
+		border-color: transparent #F7F7F7 transparent transparent;
+		top: 52px;
+		left: 94px;
+		&.bottom{
+			top: 192px;
+		}
+	}
+}
+
+#form-wrapper{
+	width: 376px;
+	float: right;
+	@include box-shadow(0 0 1px 5px rgba(255, 255, 255, 0.35));
+}
+
+#title {
+	float: left;
+}
+
+#login-tab,#sign-up-tab{
+	@include transition(0.3s ease-out);
+	cursor:pointer;
+	position: relative;
+	font-size: 14px;
+	color: #606060;
+	width: 110px;
+	height: 140px;
+	background-color: #ECECEC;
+	text-align: center;
+
+	&.actived{
+		color: $mainWhite;
+		font-weight: bold;
+		background-color: $mainGreen;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+		@include box-shadow(10px 0 0 #5a9f00 inset);
+	}
+
+	&.unactived:hover{
+		@include box-shadow(130px 0 0 #A8E05F inset);
+		color: $mainWhite;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+		font-weight: bold;
+	}
+	span{
+		position: absolute;
+		top: 84px;
+		left: 0;
+		display: block;
+		width: 100%;
+	}
+}
+
+
+#options{
+	ul{
+		@include no-bullet;
+		color: #707070;
+		margin: 0;
+		padding: 0;
+		font-size: 12px;
+		#remember_me{
+			width:auto;
+		}
+		li{
+			line-height: 2;
+		}
+	}
+}
+
+#forms{
+	position: absolute;
+	top: 25px;
+	left: 25px;
+
+	@include transition(0.5s ease-out);
+	@include transition-timing-function(cubic-bezier(0.175, 0.885, 0.320, 1.275));
+	&.sign-up{
+		top: -237px;
+	}
+	.passed{
+		background-color: #E7FFD7;
+	}
+}
+
+#header {
+	padding: 20px;
+	overflow: hidden;
+	width: 870px;
+	margin: 0 auto;
+	position: relative;
+	top: 20%;
+}
+
+#title{
+	color: white;
+	text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+	h1{
+		font-size: 48px;
+		padding-top: 18px;
+		padding-bottom: 8px;
+	}
+}
+

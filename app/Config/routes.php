@@ -55,9 +55,9 @@
 	Router::connect('/DashBoards/*', array('controller' => 'DashBoards', 'action' => 'index'));
 
 	//「 DatUsers 」routhing
-	Router::connect('/DatUsers/login', array('controller' => 'DatUsers', 'action' => 'login'));
+	Router::connect('/login', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
-	Router::connect('/DatUsers/add', array('controller' => 'DatUsers', 'action' => 'add'));
+	Router::connect('/sign_up', array('controller' => 'DatUsers', 'action' => 'sign_up'));
 	Router::connect('/DatUsers/album/:albumName', array('controller' => 'DatUsers', 'action' => 'index'));
 	Router::connect('/DatUsers', array('controller' => 'DatUsers'));
 

@@ -5,7 +5,7 @@ $(document).ready(function(){
     var mvc;
     $.app = {};
     $.app.Backbone = {};  mvc = $.app.Backbone;
-    $.app.properties =
+    $.app.properties = 
     {
     	root:                   "http://localhost:8888/phorest/",
 //    	root:                   "http://localhost:81/Phorest/",
@@ -41,8 +41,8 @@ $(document).ready(function(){
     {
         init : function()
         {
-            var
-            _this = this,
+            var 
+            _this = this, 
             $albums = $.app.properties.albums,
             $photos = $.app.properties.photoCollections;
 
@@ -163,20 +163,20 @@ $(document).ready(function(){
 
     };
 
-
+    
 
 
    //---------------- functions -------------------
 
    function renderPic(files)
    {
-        var
+        var 
         url,
         views=[];
 
         for(i=0,len=files.length; i<len; i++)
         {
-            var
+            var 
             processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
             photoModel = new mvc.PhotoModel({
                 photoName: files[i].name,
@@ -217,7 +217,7 @@ $(document).ready(function(){
                             $(this).attr({height:113,width:null}).show();
                         }
                     })[0].src=url;
-
+                    
                 });
                 fr.readAsDataURL(files[i]);
             }
@@ -229,8 +229,8 @@ $(document).ready(function(){
 
 
    //-----------------------------------
-
+   
 
    //-----------------------------------
-
+   
 });

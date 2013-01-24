@@ -265,6 +265,8 @@ EOF
 					/* get insert new id */
 // 					$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
 					$datAlbum['id'] = $this->DatAlbum->id;
+					$datAlbum['public'] = $datAlbum['flg'];
+					unset($datAlbum['flg']);
 
 					$this->set('datAlbum', $datAlbum);
 				}

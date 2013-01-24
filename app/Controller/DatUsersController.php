@@ -93,6 +93,20 @@ class DatUsersController extends AppController {
 					if ($this->Auth->login()) {
 
 						// 初期登録デフォルトでアルバム3つ保持
+						$datAlbum = array();
+						$datAlbum['fk_user_id']					= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+						$datAlbum['flg']						= 0;								// デフォルトは非公開
+						$datAlbum['status']						= 1;								// デフォルトは有効
+						$datAlbum['create_datetime']			= date('Y-m-d h:i:s');
+						$datAlbum['update_timestamp']			= date('Y-m-d h:i:s');
+
+						/* insert query */
+						for ($i = 1; $i <= 3; $i++) {
+							$datAlbum['albumName']	= 'アルバム' . $i;		// アルバム名
+
+							$this->DatAlbum->create();
+							$this->DatAlbum->save($datAlbum);
+						}
 
 						// CPへリダイレクト
 // 						$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';

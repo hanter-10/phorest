@@ -9,6 +9,7 @@
         
         <?php 
             $scripts = array(
+                "common/underscore1.4.2-min.js",
                 "common/TweenMax.min.js",
                 "common/jquery-tools.js",
                 "common/jquery.slideshow.js",

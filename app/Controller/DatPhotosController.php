@@ -231,31 +231,31 @@ class DatPhotosController extends AppController {
 // 			}
 
 
+			/**
+			 * medium (横幅1280)画像作成
+			 */
+			// スクエア画像アップロード先
+			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $_FILES['file']['name'];
+
+			// 参考サムネイルサイズ
+			$width	= 1280;
+
+			// 初期化
+			$this->Thumbmake->init();
+			// 元画像のファイルパスと保存先をセット
+			$this->Thumbmake->setImage($image, $medium_image);
+
+			// 画像サイズ取得
+// 			$Jsize = getimagesize("$image");
+
+			// リサイズ処理
+			if (!$this->Thumbmake->width($width)) {
+				//TODO:サムネイル画像作成失敗
+			}
+
+
 // 			/**
-// 			 * medium (横幅1000)画像作成
-// 			 */
-// 			// スクエア画像アップロード先
-// 			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $_FILES['file']['name'];
-
-// 			// 参考サムネイルサイズ
-// 			$width	= 1000;
-
-// 			// 初期化
-// 			$this->Thumbmake->init();
-// 			// 元画像のファイルパスと保存先をセット
-// 			$this->Thumbmake->setImage($image, $medium_image);
-
-// 			// 画像サイズ取得
-// // 			$Jsize = getimagesize("$image");
-
-// 			// リサイズ処理
-// 			if (!$this->Thumbmake->width($width)) {
-// 				//TODO:サムネイル画像作成失敗
-// 			}
-
-
-// 			/**
-// 			 * large (横幅2000)画像作成
+// 			 * large (横幅1600)画像作成
 // 			 */
 // 			// スクエア画像アップロード先
 // 			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $_FILES['file']['name'];

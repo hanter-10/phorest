@@ -136,14 +136,15 @@ $(function(){
          $currentActivePhotoCollection = this.$el;
          this.$el.data('collection',this.collection);
          var _this = this;
-         // this.$el.empty();
          this.collection.each(function(photo){
             var photoView;
             photoView = new mvc.PhotoView({model:photo});
             
             _this.$el.append(photoView.render().el);
          });
-         // $.app.properties.photosControlPanel.after(this.$el);
+         
+
+         // insert to container
          this.appendTo.append(this.$el);
          //UIが正常に働くように、プロパティを更新
          $.app.properties.photos = this.$el.find('.photo');
@@ -204,7 +205,8 @@ $(function(){
          else if(ctrlOrShift=="shift") //shift
          {
             var
-            $firstElem = $(".selectedElem"), //ctrlを押しながらクリックした要素
+            $selectedElems = $container.find(".selectedElem"),
+            $firstElem = $selectedElems.eq(0), //ctrlを押しながらクリックした要素
             selDirection = "down", //選択の方法、デフォルで下に向かって選択する
             beSelected; //選択された要素たち
 
@@ -217,10 +219,11 @@ $(function(){
             }
             else
             {
+               $firstElem = $selectedElems.eq($selectedElems.length-1);
                beSelected = $firstElem.prevUntil($photo);
             }
 
-            $(".selectedElem",$container).removeClass("selectedElem");
+            // $(".selectedElem",$container).removeClass("selectedElem");
             beSelected = beSelected.add($photo).add($firstElem);
             beSelected.addClass("selectedElem");
             $photo.removeClass("activing"); 
@@ -231,8 +234,14 @@ $(function(){
             var 
             cid = $(e.target).data('cid'),
             model = this.collection.get(cid),
-            imgUrl = model.get('imgUrl');
-            if(!this.tempType){ $.app.properties.previewImg.load()[0].src=imgUrl; }
+            imgUrl = model.get('imgUrl'),
+            photoName = model.get('photoName');
+            
+            if(!this.tempType){ 
+               $.app.properties.previewImg.load()[0].src=imgUrl;
+               if($.app.properties.upPhoto.hasClass('active')){ $.app.properties.upPhoto.click(); }
+               $.app.properties.caption.text(photoName);
+            }
             // console.log( imgUrl );
             $(".selectedElem",$container).removeClass("selectedElem");
             $photo.addClass("selectedElem");
@@ -252,6 +261,39 @@ $(function(){
             return false;
          }
          
+         
+         
+         //animation
+         var dpos = $dndElem.offset();
+         $selectedElem.each(function(index){
+            var 
+            $this = $(this),
+            $clone = $this.clone(),
+            pos = $this.offset();
+
+            $clone.css({position:"absolute", top:pos.top, left:pos.left, "z-index": 999, margin: 0}).addClass('alternative');
+            $('body').append($clone);
+
+
+            var
+            rx = _.random(60, 200)*0.01,
+            ry = _.random(60, 130)*0.01,
+            dx = pos.left - dpos.left,
+            dy = Math.abs(pos.top - dpos.top),
+            fpx = dx/4+dpos.left + dy/5 * rx,
+            fpy = Math.abs(dpos.top-dy/2) * ry,
+            p1 = {left:fpx, top:fpy, scaleX:1,scaleY:1,opacity:1},
+            p2 = {left:dpos.left, top:dpos.top, scaleX:0.3,scaleY:0.3,opacity:0},
+            bezier = {
+               values: [ p1, p2],
+               curviness:0.3,
+               autoRotate:180,
+               type:"soft",
+               timeResolution:8
+            };
+            TweenMax.to( $clone , 0.85, {delay:index*0.01,css:{bezier:bezier}, ease:Power1.easeOut, onComplete:function(){$clone.remove();} });
+         });
+
          this.move($selectedElem,albumModel);
          return true;
          // console.log( $dndElem,$selectedElem );
@@ -265,6 +307,7 @@ $(function(){
       onDropUploadArea: function($selectedElem)
       {
          console.log( 'upload' );
+         $("#albums .dragOver").removeClass('dragOver');
       },
       onDragOverUploadArea: function($selectedElem)
       {
@@ -272,7 +315,8 @@ $(function(){
       },
       onDropPhotosArea: function($selectedElem)
       {
-         console.log( $selectedElem[0],$selectedElem[1] );
+         $("#albums .dragOver").removeClass('dragOver');
+         // console.log( $selectedElem[0],$selectedElem[1] );
          if($selectedElem.parents('#photoCollections').length!=0){
             return false;
          }else{
@@ -280,15 +324,17 @@ $(function(){
             var 
             $to = $('#albums .album.active'),
             albumModel = mvc.AlbumsView_instance.collection.get($to.data('cid'));
-            this.move($selectedElem,albumModel);
+            this.move($selectedElem,albumModel,true); //isPhotosAreaをtrueにすることで、moveでアニメを実行
             return true;
          }
+
+         
       },
       onDragOverPhotosArea: function($selectedElem)
       {
 
       },
-      move : function( $selectedElem, targetAlbum )
+      move : function( $selectedElem, targetAlbum, isPhotosArea )
       {
          //Transactionが成功したら、移動されたモデルをdestroyし、移動先のコレクションに追加する
          //追加してもrenderはしないので、自力でviewを作ってappendする
@@ -328,7 +374,82 @@ $(function(){
          
          _this.collection.remove(photoModels);
          targetAlbum.PhotoCollectionView.collection.add(photoModels);
+
+         if(isPhotosArea){
+            //UIが正常に働くように、プロパティを更新
+            $.app.properties.photos_right = $.app.properties.photos_right.not($selectedElem);
+            $.app.properties.photos = $.app.properties.photos.add($selectedElem);
+            $.app.properties.photosPanel.trigger('resize');
+            
+            var $clones=$();
+            $selectedElem.each(function(index){
+               var 
+               $this = $(this),
+               $clone = $this.clone(),
+               pos = $this.offset();
+
+               $clone.css({position:"absolute", top:pos.top, left:pos.left, "z-index": 999, margin: 0}).addClass('alternative');
+               $clones = $clones.add($clone);
+            });
+            $clones.appendTo('body');
+            $selectedElem.css('visibility','hidden');
+         }
+         
+
+         //目的のアルバムに挿入
          targetAlbum.PhotoCollectionView.$el.append($selectedElem);
+         
+         //---------- animation -----------
+         var w_height = $(window).height();
+         if(isPhotosArea){
+            // var dpos = $selectedElem.offset();
+            $selectedElem.each(function(index){
+               var 
+               $this = $(this),
+               $clone = $clones.eq(index),
+               curviness = 0.3,
+               pos = $clone.offset(),
+               dpos = $this.offset();
+               
+               if(dpos.top > w_height){
+                  var rh = _.random(60,200);
+                  dpos.top = w_height+rh;
+                  curviness = _.random(30,100)*0.01;
+               }
+               
+               
+               var
+               rx = _.random(60, 130)*0.01,
+               ry = _.random(60, 130)*0.01,
+               dx = pos.left - dpos.left,
+               dy = Math.abs(pos.top - dpos.top),
+               fpx = dpos.left-dx/4 - dy/15 * rx,
+               fpy = Math.abs(dpos.top-dy/2) * ry,
+               p1 = {left:fpx, top:fpy, scaleX:1.5,scaleY:1.5},
+               p2 = {left:dpos.left, top:dpos.top, scaleX:1,scaleY:1},
+               bezier = {
+                  values: [ p1, p2],
+                  curviness:curviness,
+                  type:"soft",
+                  timeResolution:8
+               },
+               t = 0.8;
+               /*if (dy>1500){
+                  t=1.8;
+               }else if(dy>1875){
+                  t=2.25;
+               }else if(dy>2250){
+                  t=2.7;
+               }else if(dy>2625){
+                  t=3.15;
+               }*/
+
+               TweenMax.to( $clone , t, {delay:index*0.03,css:{bezier:bezier}, ease:Back.easeOut.config(0.5), onComplete:function(){
+                  $this.css('visibility', 'visible');
+                  $clone.remove();
+               } });
+            });
+         }
 
       },
       addPhotos : function(models)
@@ -441,6 +562,7 @@ $(function(){
          {
             this.model.save({ albumName: newVal},{patch: true});
             $('.album-name',$albumEl).text(newVal);
+            mvc.router.navigate('album/'+newVal);
          }
       },
       remove : function()
@@ -464,8 +586,10 @@ $(function(){
       render : function()
       {
          var
-         firstAlbumView, //ループ後、最初のアルバムviewになる
-         albumEls = $("<div>"); //fragment element
+         initLocation = $.app.properties.initLocation, //ループ後、最初のアルバムviewになる
+         albumEls = $("<div>"), //fragment element
+         clickedAlbum;
+
          this.collection.each(function(album, index){
             /*
             albumの例
@@ -488,8 +612,8 @@ $(function(){
                var
                albumView = new mvc.AlbumView({model:album}),
                albumEl = albumView.render().el;
-
-               if(index==0){ firstAlbumView = albumView; } //最初のアルバムを決める
+               
+               //if(index==0){ firstAlbumView = albumView; } //最初のアルバムを決める
                albumEls.append(albumEl);
             }
             else
@@ -510,9 +634,29 @@ $(function(){
          });
 
          this.$el.append( albumEls.children() );
+
          //最初のアルバム内の写真を表示する
-         // firstAlbumView.showPhotos().$el.addClass('active').find('.cover').click();
-         firstAlbumView.$el.find('.cover').click();
+         if(initLocation=="home"){  //ホームであれば最初のアルバムをクリック
+            clickedAlbum = $("#albums .album .cover").eq(0).click().parent();
+         }else{ //違うならそのアルバムをクリック
+            
+            var matchedAlbum = $("#albums .album").filter(function(){
+               return $(this).find('.album-name').text() == initLocation;
+            }).eq(0).find('.cover');
+
+            if(matchedAlbum.length!=0){
+               clickedAlbum = matchedAlbum.click().parent();
+            }else{
+               clickedAlbum = $("#albums .album .cover").eq(0).click().parent();
+            }
+         }
+
+         var clickedAlbumModel = getAlbumModelByEl(clickedAlbum);
+         if( clickedAlbumModel.get('photos').length != 0 ){ 
+            clickedAlbumModel.PhotoCollectionView.$el.find('.photo img').eq(0).click(); //持ってるなら最初の写真をクリック
+         }
+         $.app.properties.upPhoto.click();
+         
          mvc.PhotoCollectionView_right_instance.$el.show();
       }
    });
@@ -528,15 +672,18 @@ $(function(){
          collection = $photoCollection.data('collection');
          
          if($selectedElems.length==0) return;
-         $selectedElems.each(function(){
+         $selectedElems.each(function(index){
             var 
             $el = $(this),
             cid = $el.find('img').data('cid'),
             model = collection.get(cid);
             model.destroy();
+
+
          });
          
-         $selectedElems.fadeOut(300,function(){ $selectedElems.remove(); });
+         TweenMax.to($selectedElems,0.4,{ css:{scale:0.3,opacity:0},ease:Back.easeIn,onComplete:function(){$selectedElems.remove();} });
+         
       });
    }
 
@@ -568,6 +715,10 @@ $(function(){
 
       function delAlbum()
       {
+         if($('#albums .album').length==1){
+            alert('これ以上アルバムを削除できません');
+            return false;
+         }
          albumModel = getActivedAlbumModel();
          albumModel.destroy();
       }
@@ -579,6 +730,14 @@ $(function(){
       var 
       $actived_album = $("#albums .album.active"),
       cid = $actived_album.data('cid'),
+      albumModel = mvc.AlbumsView_instance.collection.get(cid);
+      return albumModel;
+   }
+
+   function getAlbumModelByEl($albumEl)
+   {
+      var 
+      cid = $albumEl.data('cid'),
       albumModel = mvc.AlbumsView_instance.collection.get(cid);
       return albumModel;
    }

@@ -8,6 +8,7 @@
         <meta name="keywords" content="demo,demo">
         <?php 
             $script = array(
+                "common/TweenMax.min.js",
                 "management_center/jquery-ui-1.9.0.custom.min.js",
                 "management_center/jquery.scrollTo-1.4.3.1-min.js",
                 "management_center/jquery.mousewheel.min.js",
@@ -136,8 +137,9 @@
                     <figure id="imgContainer">
                         <div class="displayAstable">
                             <div class="displayAsCell">
-                                <figcaption id="caption">風景１</figcaption>
-                                <img id="preview-img" src="#" alt="large-image">
+                                <figcaption id="caption"></figcaption>
+                                <?php echo $this->Html->image('management_center/empty-album.png', array("id"=>"preview-img", "alt"=>"large-img")); ?>
+                            
                             </div>
                         </div>
                     </figure>

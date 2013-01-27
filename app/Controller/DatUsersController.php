@@ -126,7 +126,7 @@ class DatUsersController extends AppController {
 	}
 
 	public function sign_up(){
-		var_dump($this->request->data);
+		// var_dump($this->request->data);
 		$this->layout = 'sign_up_layout';
 	}
 

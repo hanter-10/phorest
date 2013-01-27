@@ -54,9 +54,7 @@
 								<?php echo $this->Form->end();?>
 
                                 <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'add'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
-                                	<input type="text" name="data[DatUser][username]" id="username" placeholder="ユーザ名">
                                     <input type="text" name="data[DatUser][email]" id="email" placeholder="E-mail">
-                                    <input type="password" name="data[DatUser][password]" id="password" placeholder="パスワード">
                                     <button>新規登録！</button>
                                 <?php echo $this->Form->end();?>
                             </div>

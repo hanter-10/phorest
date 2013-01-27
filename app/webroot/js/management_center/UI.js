@@ -170,8 +170,11 @@ var methods =
         //
         if(droped) //ドロップが成功した場合
         {
-            _this.countIconContainer.effect("drop",{direction:"up"});
-            // _this.selectedElem.fadeOut();
+            // _this.countIconContainer.effect("drop",{direction:"up"});
+            TweenMax.to(_this.countIconContainer,0.45,{css:{opacity:0, top:"-=80",display:"block"},ease:Back.easeIn,onComplete:function(){
+                _this.countIconContainer.css({opacity:1, display:"none"});
+            }});
+ 
         }
         else
         {

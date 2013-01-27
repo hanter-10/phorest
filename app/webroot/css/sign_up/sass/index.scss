@@ -1,7 +1,17 @@
 @import "compass";
+$base-font-size: 14px;
+$base-line-height: 18px;
+@include establish-baseline;
 
 html,body{
+	font-family: "Hiragino Kaku Gothic Pro";
 	background-color: #52a7bc;
+	height: 100%;
+}
+
+#wrapper{
+	height: 100%;
+	position: relative;
 }
 
 #header{
@@ -13,37 +23,108 @@ html,body{
 	background: -ms-linear-gradient(top,  #414141 0%,#232323 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #414141 0%,#232323 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#414141', endColorstr='#232323',GradientType=0 ); /* IE6-9 */
-
+	overflow: hidden;
+	padding: 7px 22px;
+	border-bottom: 1px solid #2C2C2C;
+	@include box-shadow( 0 5px 0 rgba(255, 255, 255, 0.24) );
 }
 
-#sign-up-form{
+#logo{
+	float: left;
+	display: block;
+
+	img{
+		display: block;
+		height: 19px;
+	}
+}
+
+#nav{
+	float: right;
+	@include horizontal-list( 15px );
+	a{
+		color: #ECECEC;
+		font-size: 12px;
+		line-height: 1;
+		&:hover{
+			color: white;
+		}
+	}
+}
+
+#about{
+	border-right: 1px solid rgba(0, 0, 0, 0.43);
+}
+#contact{
+	border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+#step3{
 	width: 380px;
 	margin: 0 auto;
+	top: 50%;
+	position: relative;
+	margin-top: -250px;
 	h2{
+		margin: 0;
 		font-family: "Hiragino Kaku Gothic Std";
-		font-size: 37px;
+		@include adjust-font-size-to( $to-size:37px, $lines:2 );
+		@include trailer(1);
 		color: #fff;
 		text-shadow: 0 5px 7px rgba(0,0,0,.24);
+		width: 455px;
+		margin-left: -23px;
+		text-align: center;
 	}
 	.container{
 		background-color: #f7f7f7;
-		padding: 25px;
+		padding: 27px;
 		@include border-radius( 3px );
 		@include box-shadow( 0 0 1px 5px rgba(255, 255, 255, 0.35) );
+		.row{
+			@include legacy-pie-clearfix;
+			#hostname{
+				width: 100px;
+				color: #606060;
+				float: left;
+				line-height: 2.5;
+			}
+			input{
+				float: left;
+				width: 204px;
+			}
+		}
+
+		input.passed {
+			color: #70BE80;
+			background-color: #E7FFD7 !important;
+		}
 	}
 }
 
-#hostname{
-	margin-right: 1em;
-	color: #606060;
+#email{
+	color: #C9C9C9;
 }
 
-.submit_btn{
+.btn{
+	display: block;
+	border: 1px solid #6BB60A;
+	padding: 8px 55px;
+	margin:0 auto;
+	color: white;
 	border:none;
 	outline: none;
 	background-color: #7ac717;
 	@include border-radius( 3px );
 	@include box-shadow( 0 0 1px 5px rgba(255, 255, 255, 0.35) );
+	@include leader(2);
+	&:hover{
+		background-color: #81d11b;
+	}
+	&:active{
+		@include box-shadow( 0 0 1px 5px rgba(255, 255, 255, 0.35),0 1px 3px rgba(0, 0, 0, 0.32) inset );
+		background-color: #75c212;
+	}
 }
 
 
@@ -51,13 +132,59 @@ input[type="text"], input[type="password"] {
 	outline: none;
 	padding: 9px 10px;
 	border: 1px solid #E7E7E7;
-	font-size: 14px;
 	color: #3D3D3D;
 	margin-top: 0;
-	margin-bottom: 16px;
+	width: 304px;
 	@include transition(0.4s);
 	@include border-radius(3px);
+	@include trailer(1);
 	&:focus{
 		@include box-shadow(0 0 5px #b9ff5e);
 	}
 }
+
+input.last{
+	margin-bottom: 0;
+}
+
+input{
+	line-height: 1.5;
+	font-family: "Hiragino Kaku Gothic Pro";
+}
+
+a{
+	text-decoration: none;
+}
+
+
+/* step2 */
+#step2,#step4{
+	text-align: center;
+	width: 660px;
+	margin: 0 auto;
+	color: white;
+
+	top: 50%;
+	position: relative;
+	margin-top: -160px;
+	h2{
+		font-family: "Hiragino Kaku Gothic Std";
+		text-shadow: 0 5px 7px rgba(0,0,0,.24);
+		margin: 0;
+		font-size: 14px;
+		@include trailer(3,60px);
+		@include adjust-font-size-to( $to-size:60px, $lines:3 );
+	}
+	p{
+		margin: 0;
+		@include adjust-font-size-to( $to-size:18px, $lines:2 );
+		text-shadow: 0 5px 7px rgba(0,0,0,.24);
+	}
+}
+
+#step4{
+	a{
+		width: 5em;
+	}
+}
+

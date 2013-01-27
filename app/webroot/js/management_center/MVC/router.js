@@ -36,13 +36,15 @@ $(function(){
       },
       home : function()
       {
-         console.log("home")
+         $.app.properties.initLocation = "home";
          
       },
       loadAlbum : function(name)
       {
          // console.log( "loadAlbum"+name );
-         var $coverBeClicked = $("#albums .album:contains('"+name+"')").find('.cover');
+         name = decodeURI(name);
+         $.app.properties.initLocation = name; //アルバムの名前
+         /*var $coverBeClicked = $("#albums .album:contains('"+name+"')").find('.cover');
          if($coverBeClicked.length)
          {
             $coverBeClicked.click();
@@ -50,7 +52,8 @@ $(function(){
          else
          {
             mvc.router.navigate("/", {replace: true});
-         }
+         }*/
+
       }
    });
 

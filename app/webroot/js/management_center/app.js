@@ -33,7 +33,10 @@ $(document).ready(function(){
         albumStatusInput:       $('#status-check'),
         photoCollections_right: $('#uploadAreaContainer'),
         uploadArea:             $('#uploadArea'),
-        uploadControlPanel:     $('#upload-control-panel')
+        uploadControlPanel:     $('#upload-control-panel'),
+        upPhoto:                $("#up-photo"),
+        caption:                $("#caption"),
+        uploadArea:             $('#uploadArea')
     };
 
 
@@ -69,8 +72,8 @@ $(document).ready(function(){
 
             $("#up-photo").toggle
             (
-            function(){ $(this).toggleClass('hover');$uploadAreaContainer.show(); $imgContainer.hide(); },
-            function(){ $(this).toggleClass('hover');$imgContainer.show(); $uploadAreaContainer.hide(); }
+            function(){ $(this).toggleClass('active');$uploadAreaContainer.show(); $imgContainer.hide(); },
+            function(){ $(this).toggleClass('active');$imgContainer.show(); $uploadAreaContainer.hide(); }
             );
 
             var
@@ -78,10 +81,10 @@ $(document).ready(function(){
             $userPanelHover = $("#user-panel-hover");
 
             $userPanelHover.toggle(function(){
-                $userPanelHover.toggleClass('hover');
+                $userPanelHover.toggleClass('active');
                 $userPanel.fadeIn();
             },function(){
-                $userPanelHover.toggleClass('hover');
+                $userPanelHover.toggleClass('active');
                 $userPanel.fadeOut();
             });
 
@@ -122,8 +125,18 @@ $(document).ready(function(){
 //				url:   'http://pk-brs.xsrv.jp/uploads/',
                 inputID: 'photoFiles',
                 accept: ['image/jpeg','image/png','image/gif'],
+                dragEnter: function(){
+                    $(this).addClass('dragOver');
+                    $.app.properties.uploadArea.addClass('active');
+                },
+                dragLeave: function(){
+                    $(this).removeClass('dragOver');
+                    $.app.properties.uploadArea.removeClass('active');
+                },
                 drop: function(files,upload)
                 {
+                    $(this).removeClass('dragOver');
+                    $.app.properties.uploadArea.removeClass('active');
                     $.app.properties.uploadArea.hide();  $.app.properties.uploadControlPanel.show();
                     var views;
                     views = renderPic(files); //画像を表示する

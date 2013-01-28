@@ -13,6 +13,8 @@ class DatPhotosController extends AppController {
 	public $viewClass = 'Json';
 	public $components = array('RequestHandler','Convert','Check','Thumbmake');
 
+	public $uses = array('DatAlbum','DatPhoto','DatUser','MstImageServer');
+
 	function beforeFilter() {
 		// 親クラスをロード
 		parent::beforeFilter();
@@ -133,6 +135,9 @@ class DatPhotosController extends AppController {
 
 		// リクエストメソッド判断
 		if ($this->request->is('post')) {
+
+			$username	= $this->Auth->user('username');
+			$filename	= $_FILES['file']['name'];
 
 			/**
 			 * 画像アップロード処理
@@ -298,6 +303,22 @@ class DatPhotosController extends AppController {
 // 				//TODO:サムネイル画像作成失敗
 // 			}
 
+			// 対象画像サーバー参照
+			$db = $this->MstImageServer->getDataSource();
+			$mstImage = $db->fetchAll(
+<<<EOF
+					SELECT
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/','$filename') as imgUrl,
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/thumbnail/','$filename') as thumUrl,
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/square/','$filename') as thumUrl_square,
+						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/medium/','$filename') as imgUrl_m
+					FROM
+						mst_image_servers as MstImageServer
+					where
+						MstImageServer.image_server_id = ?
+EOF
+					,array(1)
+			);
 
 			/* paramater set */
 			$datPhoto['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
@@ -307,10 +328,10 @@ class DatPhotosController extends AppController {
 			$datPhoto['width']					= $Jsize[0];						// 画像の横幅
 			$datPhoto['height']					= $Jsize[1];						// 画像の縦幅
 			$datPhoto['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
-			$datPhoto['imgUrl']					= $image;
-			$datPhoto['thumUrl']				= $thumbnail_image;
-			$datPhoto['thumUrl_square']			= $square_image;
-			$datPhoto['imgUrl_m']				= $medium_image;
+			$datPhoto['imgUrl']					= $mstImage[0][0]['imgUrl'];
+			$datPhoto['thumUrl']				= $mstImage[0][0]['thumUrl'];
+			$datPhoto['thumUrl_square']			= $mstImage[0][0]['thumUrl_square'];
+			$datPhoto['imgUrl_m']				= $mstImage[0][0]['imgUrl_m'];
 			$datPhoto['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
 			$datPhoto['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
 			$datPhoto['status']					= 1;								// デフォルトは有効

@@ -307,6 +307,10 @@ class DatPhotosController extends AppController {
 			$datPhoto['width']					= $Jsize[0];						// 画像の横幅
 			$datPhoto['height']					= $Jsize[1];						// 画像の縦幅
 			$datPhoto['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
+			$datPhoto['imgUrl']					= $image;
+			$datPhoto['thumUrl']				= $thumbnail_image;
+			$datPhoto['thumUrl_square']			= $square_image;
+			$datPhoto['imgUrl_m']				= $medium_image;
 			$datPhoto['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
 			$datPhoto['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
 			$datPhoto['status']					= 1;								// デフォルトは有効

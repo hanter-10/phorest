@@ -131,9 +131,9 @@ $(function(){
          this.$el.empty();
          if($currentActivePhotoCollection) //$currentActivePhotoCollectionがすでに存在していれば、隠しおく
          {
-            $currentActivePhotoCollection.hide();
+            $currentActivePhotoCollection.removeClass('active').hide();
          }
-         $currentActivePhotoCollection = this.$el;
+         $currentActivePhotoCollection = this.$el.addClass('active');
          this.$el.data('collection',this.collection);
          var _this = this;
          this.collection.each(function(photo){
@@ -154,9 +154,9 @@ $(function(){
       showPhotos : function()
       {
          //現在のをhide、クリックされたのをshow、現在の値を更新
-         $currentActivePhotoCollection.hide();
+         $currentActivePhotoCollection.removeClass('active').hide();
          $currentActivePhotoCollection = this.$el;
-         $currentActivePhotoCollection.show();
+         $currentActivePhotoCollection.addClass('active').show();
          //UIが正常に働くように、プロパティを更新
          $.app.properties.photos = this.$el.find('.photo');
          $.app.properties.photosPanel.trigger('resize');
@@ -170,7 +170,7 @@ $(function(){
       },
       selectable : function(e)
       {
-         if(e.target.className=='filename') { return this;}
+         if(e.target.tagName!='IMG') { return this;}
          var
          ctrlOrShift,
          $photo = $(e.currentTarget), //original 'this'
@@ -238,9 +238,13 @@ $(function(){
             photoName = model.get('photoName');
             
             if(!this.tempType){ 
-               $.app.properties.previewImg.load()[0].src=imgUrl;
-               if($.app.properties.upPhoto.hasClass('active')){ $.app.properties.upPhoto.click(); }
+               if( decodeURI($.app.properties.previewImg[0].src) != imgUrl ){
+                  $.app.properties.previewImg.hide().load(function(){
+                     $(this).fadeIn(150);
+                  })[0].src=imgUrl;
+               }
                $.app.properties.caption.text(photoName);
+               if($.app.properties.upPhoto.hasClass('active')){ $.app.properties.upPhoto.click(); }
             }
             // console.log( imgUrl );
             $(".selectedElem",$container).removeClass("selectedElem");
@@ -402,7 +406,7 @@ $(function(){
          //---------- animation -----------
          var w_height = $(window).height();
          if(isPhotosArea){
-            // var dpos = $selectedElem.offset();
+            var len = $selectedElem.length;
             $selectedElem.each(function(index){
                var 
                $this = $(this),
@@ -443,9 +447,18 @@ $(function(){
                }else if(dy>2625){
                   t=3.15;
                }*/
-
+               if(--len==0){
+                  $clone.data('lastone',true);
+               }
                TweenMax.to( $clone , t, {delay:index*0.03,css:{bezier:bezier}, ease:Back.easeOut.config(0.5), onComplete:function(){
                   $this.css('visibility', 'visible');
+                  
+                  if($clone.data('lastone')){
+                     if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
+                        $.app.properties.uploadControlPanel.hide();
+                        $.app.properties.uploadArea.fadeIn();
+                     }
+                  }
                   $clone.remove();
                } });
             });
@@ -634,6 +647,7 @@ $(function(){
          });
 
          this.$el.append( albumEls.children() );
+         
 
          //最初のアルバム内の写真を表示する
          if(initLocation=="home"){  //ホームであれば最初のアルバムをクリック
@@ -657,7 +671,7 @@ $(function(){
          }
          $.app.properties.upPhoto.click();
          
-         mvc.PhotoCollectionView_right_instance.$el.show();
+         mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
       }
    });
 
@@ -756,6 +770,24 @@ $(function(){
          $('#albums .album.active .status').text(stext);
       });
    }
+
+   function catchBlankAreaClicking($container){
+      $container.click(function(e){
+         var 
+         isActived = $.app.properties.upPhoto.hasClass('active'),
+         tnt = /IMG|INPUT/i,
+         tn = e.target.tagName;
+
+         if(!tnt.test(tn) && !isActived){
+            $('.photoCollection.active>.selectedElem',this).removeClass('selectedElem');
+            // $.app.properties.imgContainer.hide();
+            // $.app.properties.photoCollections_right.fadeIn();
+            $.app.properties.upPhoto.click();
+         }
+      });
+   }
+
+   catchBlankAreaClicking($.app.properties.photoCollections.add('#uploadedPhotos'));
 
    syncAlbumStatus();
    syncAlbum();

@@ -70,10 +70,10 @@ $(document).ready(function(){
             $uploadAreaContainer = $("#uploadAreaContainer"),
             $imgContainer = $("#imgContainer");
 
-            $("#up-photo").toggle
+            $.app.properties.upPhoto.toggle
             (
-            function(){ $(this).toggleClass('active');$uploadAreaContainer.show(); $imgContainer.hide(); },
-            function(){ $(this).toggleClass('active');$imgContainer.show(); $uploadAreaContainer.hide(); }
+            function(){ $(this).toggleClass('active');$imgContainer.hide(); $uploadAreaContainer.fadeIn(); },
+            function(){ $(this).toggleClass('active');$uploadAreaContainer.hide(); $imgContainer.fadeIn(); }
             );
 
             var

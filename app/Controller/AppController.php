@@ -47,6 +47,7 @@ class AppController extends Controller {
 											'username'	=> 'username',
 											'password'	=> 'password',
 									),
+									'scope'		=> array('status' => '1'),
 							),
 					),
 			),

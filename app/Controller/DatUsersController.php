@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
+
 
 /**
  * DatUsers Controller
@@ -8,12 +10,12 @@ App::uses('AppController', 'Controller');
  */
 class DatUsersController extends AppController {
 
-	public $uses = array('DatUser', 'DatAlbum');
+	public $uses = array('DatUser', 'DatAlbum', 'TmpUser');
 
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('login','logout','add');
+		$this->Auth->allow('login', 'logout', 'add', 'sign_up', 'code', 'provision');
 	}
 
 	public function login() {
@@ -88,9 +90,35 @@ class DatUsersController extends AppController {
 		try
 		{
 			if ($this->request->is('post')) {
+
+				// 対象sessionから値取得
+				if ($this->Session->check('TmpUser.temp_email')) {
+
+					$this->request->data['DatUser']['email'] = $this->Session->read('TmpUser.temp_email');
+					// 対象session削除
+					$this->Session->delete('TmpUser');
+				}
+				$this->request->data['DatUser']['create_datetime'] = date('Y-m-d h:i:s');
+				$this->request->data['DatUser']['update_timestamp'] = date('Y-m-d h:i:s');
+
 				$this->DatUser->create();
 				if ($this->DatUser->save($this->request->data)) {
 					if ($this->Auth->login()) {
+
+						// tempユーザーデータのステータスを認証済みとする
+						$result = $this->TmpUser->updateAll(
+								// Update set
+								array(
+										'TmpUser.status'	=> 1,
+								),
+								// Where
+								array(
+										array(
+												'TmpUser.status'		=> 0,
+												'TmpUser.temp_email'	=> $this->request->data['DatUser']['email'],
+										)
+								)
+						);
 
 						// 初期登録デフォルトでアルバム3つ保持
 						$datAlbum = array();
@@ -126,8 +154,111 @@ class DatUsersController extends AppController {
 	}
 
 	public function sign_up(){
-		// var_dump($this->request->data);
+
 		$this->layout = 'sign_up_layout';
+
+		// sessionにtemp_emailがある場合はセット
+		if ($this->Session->check('TmpUser.temp_email')) {
+
+			$this->set('email', $this->Session->read('TmpUser.temp_email'));
+// 			$this->Session->delete('TmpUser');
+		}
+		$this->set('step', $this->request->step);
+	}
+
+
+	public function code() {
+
+		$this->layout = 'sign_up_layout';
+
+		$hash = $this->request->hash;
+
+		// 対象期間 7日間
+		$toDate 	= date('Y-m-d h:i:s');
+		$fromDate 	= date('Y-m-d h:i:s' ,strtotime('-7 day'));
+
+		$db = $this->TmpUser->getDataSource();
+		$tmpUser = $db->fetchAll(
+<<<EOF
+				SELECT
+					id,
+					temp_email,
+					hash_string,
+					status,
+					create_datetime
+				FROM
+					tmp_users
+				WHERE
+					hash_string = ?
+				AND
+					status = ?
+				AND
+					create_datetime >= ?
+				AND
+					create_datetime <= ?
+EOF
+				,array($hash, 0, $fromDate, $toDate)
+		);
+		if($tmpUser){
+
+			// 格納
+			$this->Session->write('TmpUser.temp_email', $tmpUser[0]['tmp_users']['temp_email']);
+
+			// メール認証後、ユーザー情報入力画面へ
+			$this->redirect('/sign_up/3');
+		} else {
+
+			// ログイン画面へ
+			$this->redirect('/login');
+		}
+		exit;
+	}
+
+	public function provision() {
+		try
+		{
+			if ($this->request->is('post')) {
+
+				$temp_email = $this->request->data['TmpUser']['temp_email'];
+				$email_key = $temp_email . '_' . date('Ymdhis');
+
+				// データセット
+				$this->request->data['TmpUser']['hash_string']		= Security::hash($email_key, 'sha256', Configure::read('Security.key'));
+				$this->request->data['TmpUser']['create_datetime']	= date('Y-m-d h:i:s');
+
+				$hash_string = $this->request->data['TmpUser']['hash_string'];
+
+// 				$this->redirect('/sign_up');
+// 				var_dump($this->request->data);
+// 				exit;
+
+				$this->TmpUser->create();
+				if ($this->TmpUser->save($this->request->data)) {
+
+					// 通知URL作成
+					$send_url = Router::url("/code/$hash_string", true);
+
+					// メール送信処理
+					$email = new CakeEmail( 'default' );
+// 					$email->from(array('yashiro@XXX.com' => 'My Site'));
+					$email->to( $temp_email );
+					$email->subject( 'メールアドレス確認通知' );
+					$email->send( $send_url );
+
+					// メール送信しました画面へ
+					$this->redirect('/sign_up/2');
+					exit;
+
+				} else {
+					// TODO:バリデーションとかその辺ハンドリングしなきゃ
+					$this->redirect($this->Auth->logout());
+					// 					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
+				}
+			}
+		} catch (Exception $e) {
+			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
+			$this->redirect($this->Auth->logout());
+		}
 	}
 
 /**

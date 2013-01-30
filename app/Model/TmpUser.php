@@ -14,14 +14,6 @@ class TmpUser extends AppModel {
  */
 	public $primaryKey = 'id';
 
-	public function beforeSave($options = array()) {
-		if (isset($this->data[$this->alias]['tmp_email'])) {
-			$hash_string = $this->data[$this->alias]['tmp_email'];
-			$this->data[$this->alias]['hash_string'] = Security::rijndael($hash_string, Configure::read('Security.key'), 'encrypt');
-		}
-		return true;
-	}
-
 /**
  * Validation rules
  *
@@ -38,7 +30,7 @@ class TmpUser extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'email' => array(
+		'temp_email' => array(
 			'notempty' => array(
 				'rule' => array('email'),
 				//'message' => 'Your custom message here',

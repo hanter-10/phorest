@@ -44,6 +44,39 @@ class TmpUsersController extends AppController {
 		$this->set('TmpUser', $this->TmpUser->read(null, $id));
 	}
 
+	public function show($hash = null) {
+
+		// 対象期間 7日間
+		$toDate 	= date('Y-m-d h:i:s');
+		$fromDate 	= date('Y-m-d h:i:s' ,strtotime('-7 day'));
+
+		$db = $this->TmpUser->getDataSource();
+		$tmpUser = $db->fetchAll(
+<<<EOF
+				SELECT
+					id,
+					temp_email,
+					hash_string,
+					status,
+					create_datetime
+				FROM
+					tmp_users
+				WHERE
+					hash_string = ?
+				AND
+					status = ?
+				AND
+					create_datetime >= ?
+				AND
+					create_datetime <= ?
+EOF
+				,array($hash, 0, $fromDate, $toDate)
+		);
+		var_dump($tmpUser);
+		exit;
+	}
+
+
 /**
  * add method
  *
@@ -53,13 +86,13 @@ class TmpUsersController extends AppController {
 		try
 		{
 			if ($this->request->is('post')) {
-				$this->request->data['TmpUser']['create_datetime'] = date('Y-m-d h:i:s');
-				var_dump($this->request->data);
 
-				var_dump(Security::rijndael($this->request->data['TmpUser']['tmp_email'], Configure::read('Security.key'), 'encrypt'));
-				$encrypt = Security::rijndael($this->request->data['TmpUser']['tmp_email'], Configure::read('Security.key'), 'encrypt');
-				var_dump(Security::rijndael($encrypt, Configure::read('Security.key'), 'decrypt'));
-				exit;
+				$email_key = $this->request->data['TmpUser']['tmp_email'] . '_' . date('Ymdhis');
+
+				// データセット
+				$this->request->data['TmpUser']['hash_string']		= Security::hash($email_key, 'sha256', Configure::read('Security.key'));
+				$this->request->data['TmpUser']['create_datetime']	= date('Y-m-d h:i:s');
+
 				$this->TmpUser->create();
 				if ($this->TmpUser->save($this->request->data)) {
 

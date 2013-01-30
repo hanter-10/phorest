@@ -6,15 +6,15 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <?php 
+        <?php
             //css output
             echo $this->element('common/css');
-            echo $this->Html->css(array( "home/css/icon.css", "home/css/index.css" )); 
+            echo $this->Html->css(array( "home/css/icon.css", "home/css/index.css" ));
             //script output
             echo $this->element('common/js');
             echo $this->Html->script(array( "home/index.js" ));
         ?>
-       
+
     </head>
     <body>
         <div id="wrapper">
@@ -53,8 +53,8 @@
                                     </div>
 								<?php echo $this->Form->end();?>
 
-                                <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'add'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
-                                    <input type="text" name="data[DatUser][email]" id="email" placeholder="E-mail">
+                                <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'provision'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
+                                    <input type="text" name="data[TmpUser][temp_email]" id="email" placeholder="E-mail">
                                     <button>新規登録！</button>
                                 <?php echo $this->Form->end();?>
                             </div>

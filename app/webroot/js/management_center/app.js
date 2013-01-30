@@ -5,6 +5,7 @@ $(document).ready(function(){
     var mvc;
     $.app = {};
     $.app.Backbone = {};  mvc = $.app.Backbone;
+    $.app.Events = _.extend({}, Backbone.Events);
     $.app.properties = 
     {
     	root:                   "http://localhost:8888/phorest/",
@@ -56,7 +57,6 @@ $(document).ready(function(){
             //add scrollTop method
             $.app.properties.albums._scrollTop = function(){ var st = parseInt(this.find('.mCSB_container').css('top')); return -st; }
 
-            //if(!$.utilities.CSSSupports("box-shadow")) $('body').addClass("no-box-shadow")
             this.clickable();
             this.fileDrop();
         },
@@ -97,17 +97,6 @@ $(document).ready(function(){
             );
 
             //------------------------アルバムの追加-----------------------------
-            /*$("#add-album").click(function()
-            {
-            var $albums = $.app.properties.albums;
-            $newAlbum = $('<div class="album"><div class="cover"><img src="images/cover" alt="cover" draggable="false" width="102" height="102"><span class="album-name">風景</span></div><span class="status">非公開</span></div>');
-            $newAlbum.appendTo($albums);
-            $albums.scrollTo($newAlbum,{easing:"easeOutQuart" , duration:200});
-            $("#albums .album").removeClass("active");
-            $newAlbum.addClass("active");
-            // $.app.properties.photos.html('');
-            $.app.properties.albums.mCustomScrollbar("update");
-            });*/
 
             $('#upload-btn').click(function(){
                 $photoFiles.click();
@@ -159,17 +148,16 @@ $(document).ready(function(){
                     $el = view.$el,
                     model = view.model,
                     newAttributes = responseText;
-                    $el.find('.processbar').remove();
-                    $el.find('.filename').show();
                     $.extend(model.attributes,newAttributes);
                     model.id = model.attributes.id;
                     mvc.PhotoCollectionView_right_instance.collection.add(model,{silent: true});
 
+                    $el.find('img')[0].src = model.get('thumUrl');
                     console.log( 'loaded' );
                 },
                 allLoaded: function()
                 {
-                    console.log( 'all uploaded' );
+                    $.app.Events.trigger('allUploaded');
                 }
             });
         }
@@ -190,50 +178,42 @@ $(document).ready(function(){
         for(i=0,len=files.length; i<len; i++)
         {
             var 
-            processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
+            $processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
+            $imgPlaceholder = $('<div class="img-placeholder">'),
             photoModel = new mvc.PhotoModel({
                 photoName: files[i].name,
                 relatedAlbum: "tempAlbum"
             }),
             photoView = new mvc.PhotoView({model:photoModel}),
-            photoEl = photoView.render().el;
-            $(photoEl).find('.filename').hide().after(processbar);
+            photoEl = photoView.render().el,
+            $photoEl = $(photoEl);
+            
+            
+            var 
+            $img = $photoEl.find('img').hide().after($imgPlaceholder),
+            $filename = $photoEl.find('.filename').hide().after($processbar);
+
             $.app.properties.photos_right.push(photoEl);
             views.push(photoView);
-            // console.log( photoView.model,"mmm" );
-            if(window.URL){
-                url = window.URL.createObjectURL(files[i]);
-                photoView.model.set({imgUrl:url},{silent: true});
-                $("#uploadAreaContainer .photoCollection").append(photoEl);
-                $.app.properties.photosPanel.trigger('resize');
-                $(photoEl).find('img').hide().load(function(){
-                    $(this).attr({height:null,width:null});
-                    if(this.width/this.height > 150/113) { //横長
-                        $(this).attr({height:null,width:150}).show();
-                    }else{
-                        $(this).attr({height:113,width:null}).show();
-                    }
-                })[0].src=url;
 
-                // window.URL.revokeObjectURL(url);
-            }else{
-                var fr = new FileReader();
-                fr.addEventListener('load',function(e){
-                    url = this.result;
-                    $("#uploadAreaContainer .photoCollection").append(photoEl);
-                    $.app.properties.photosPanel.trigger('resize');
-                    $(photoEl).find('img').hide().load(function(){
-                    $(this).attr({height:null,width:null});
+            //------------------
+            $("#uploadAreaContainer .photoCollection").append(photoEl);
+            $.app.properties.photosPanel.trigger('resize');
+            (function( $$filename, $$imgPlaceholder, $$processbar ){
+                $img.load(function(){
+                    $this = $(this).attr({height:null,width:null});
+                    $$filename.show();
+                    $$imgPlaceholder.remove();
+                    $$processbar.remove();
                         if(this.width/this.height > 150/113) { //横長
-                            $(this).attr({height:null,width:150}).show();
+                            $this.attr({height:null,width:150});
                         }else{
-                            $(this).attr({height:113,width:null}).show();
+                            $this.attr({height:113,width:null});
                         }
-                    })[0].src=url;
-                    
-                });
-                fr.readAsDataURL(files[i]);
-            }
+                        TweenMax.set( $this, {css:{opacity:0, display:'block', scale:0.3}} );
+                        TweenMax.to( $this, 0.4, { css:{opacity:1,scale:1},ease:Back.easeOut} );
+                    });
+            })( $filename, $imgPlaceholder, $processbar );
 
         }
         return views;

@@ -52,7 +52,7 @@ function startslide(album)
 {
 	var 
     photos    = album['photos'],
-    imgUrls   = _.pluck(photos,'imgUrl');
+    imgUrls   = _.pluck(photos,'imgUrl_m');
 
 	slideshow = 
 	$.slideshow({

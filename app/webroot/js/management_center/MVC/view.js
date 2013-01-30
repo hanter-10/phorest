@@ -234,13 +234,13 @@ $(function(){
             var 
             cid = $(e.target).data('cid'),
             model = this.collection.get(cid),
-            imgUrl = model.get('imgUrl'),
+            imgUrl = model.get('imgUrl_m'),
             photoName = model.get('photoName');
             
             if(!this.tempType){ 
                if( decodeURI($.app.properties.previewImg[0].src) != imgUrl ){
                   $.app.properties.previewImg.hide().load(function(){
-                     $(this).fadeIn(150);
+                     $(this).fadeIn(300);
                   })[0].src=imgUrl;
                }
                $.app.properties.caption.text(photoName);
@@ -266,9 +266,11 @@ $(function(){
          }
          
          
-         
          //animation
-         var dpos = $dndElem.offset();
+         var 
+         _this = this,
+         dpos = $dndElem.offset(),
+         len = $selectedElem.length;
          $selectedElem.each(function(index){
             var 
             $this = $(this),
@@ -295,7 +297,22 @@ $(function(){
                type:"soft",
                timeResolution:8
             };
-            TweenMax.to( $clone , 0.85, {delay:index*0.01,css:{bezier:bezier}, ease:Power1.easeOut, onComplete:function(){$clone.remove();} });
+
+            if(--len==0){
+               var 
+               lastone = true, //クロージャ
+               cid = $this.find('img').data('cid'),
+               lastPhotoModel = _this.collection.get(cid),
+               thumUrl_square = lastPhotoModel.get('thumUrl_square');
+               
+               $clone.data( 'thumUrl_square', thumUrl_square );
+            }
+            TweenMax.to( $clone , 0.85, {delay:index*0.01,css:{bezier:bezier}, ease:Power1.easeOut, onComplete:function(){
+               if( lastone ){
+                  $.app.Events.trigger('moveToAlbumAreaEnd', { $album: $dndElem, thumUrl_square: $clone.data('thumUrl_square') } );
+               }
+               $clone.remove();
+            } });
          });
 
          this.move($selectedElem,albumModel);
@@ -448,16 +465,14 @@ $(function(){
                   t=3.15;
                }*/
                if(--len==0){
-                  $clone.data('lastone',true);
+                  var lastone = true;
                }
                TweenMax.to( $clone , t, {delay:index*0.03,css:{bezier:bezier}, ease:Back.easeOut.config(0.5), onComplete:function(){
                   $this.css('visibility', 'visible');
                   
-                  if($clone.data('lastone')){
-                     if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
-                        $.app.properties.uploadControlPanel.hide();
-                        $.app.properties.uploadArea.fadeIn();
-                     }
+                  if(lastone){ //全部終わった時
+                     $.app.Events.trigger('moveToPhotoAreaEnd');
+                     
                   }
                   $clone.remove();
                } });
@@ -515,7 +530,7 @@ $(function(){
          $coverImg = this.$el.find('.coverImg'),
          thumUrl;
          try {
-            thumUrl = this.model.get('photos')[0].thumUrl;
+            thumUrl = this.model.get('photos')[0].thumUrl_square;
          }catch(e){
             thumUrl = $.app.properties.coverimg;
          }
@@ -672,6 +687,7 @@ $(function(){
          $.app.properties.upPhoto.click();
          
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
+         $.getScript('/phorest/js/management_center/tutorial.js');
       }
    });
 
@@ -786,6 +802,29 @@ $(function(){
          }
       });
    }
+
+   function bindEvents(){
+      //-------------- move to album-area end --------------------
+      $.app.Events.on('moveToAlbumAreaEnd', function(data){
+         var 
+         $coverImg = data.$album.find('.coverImg'),
+         thumUrl = data.thumUrl_square;
+         $('<img>').load(function(){
+            $coverImg.css({'background-image' : "url('"+thumUrl+"')"});
+         })[0].src = thumUrl;
+         
+      });
+
+      //------------------ move to photo-area end -------------------
+      $.app.Events.on('moveToPhotoAreaEnd', function(){
+         if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
+            $.app.properties.uploadControlPanel.hide();
+            $.app.properties.uploadArea.fadeIn();
+         }
+      });
+   }
+
+   bindEvents();
 
    catchBlankAreaClicking($.app.properties.photoCollections.add('#uploadedPhotos'));
 

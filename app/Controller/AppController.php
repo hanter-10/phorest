@@ -36,7 +36,8 @@ class AppController extends Controller {
 	public $components = array(
 			'Session',
 			'Auth' => array(
-					'loginRedirect'	=> array('controller' => 'DatUsers', 'action' => 'index'),
+// 					'loginRedirect'	=> array('controller' => 'DatUsers', 'action' => 'index'),
+					'loginRedirect'	=> array('controller' => 'sign_up', 'action' => '4'),
 					'logoutRedirect' => array('controller' => 'DatUsers', 'action' => 'login'),
 					'loginAction' => Array('controller' => 'DatUsers', 'action' => 'login'),
 					'authError' => 'このページを表示するには、ログインを行ってください。',
@@ -61,6 +62,9 @@ class AppController extends Controller {
 		if (isset($this->request->pass[0])) {
 			$meta_data = $this->request->pass[0];
 // 			var_dump($this->request->ownername);
+		}
+		if (isset($this->request->username)) {
+			$meta_data = $this->request->username;
 		}
 		$this->set(compact('meta_data'));
 

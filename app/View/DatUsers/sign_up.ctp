@@ -31,7 +31,7 @@
 	    <p>
 	        管理画面へ移動してPhorestを初めてみましょう！
 	    </p>
-	    <a href="" class="btn">管理画面へ</a>
+	    <a href="<?php echo $this->Html->webroot('control-panel/')?>" class="btn">管理画面へ</a>
 	</div>
 
 <?php endif; ?>

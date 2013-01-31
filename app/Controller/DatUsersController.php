@@ -95,8 +95,6 @@ class DatUsersController extends AppController {
 				if ($this->Session->check('TmpUser.temp_email')) {
 
 					$this->request->data['DatUser']['email'] = $this->Session->read('TmpUser.temp_email');
-					// 対象session削除
-					$this->Session->delete('TmpUser');
 				}
 				$this->request->data['DatUser']['create_datetime'] = date('Y-m-d h:i:s');
 				$this->request->data['DatUser']['update_timestamp'] = date('Y-m-d h:i:s');
@@ -136,6 +134,9 @@ class DatUsersController extends AppController {
 							$this->DatAlbum->save($datAlbum);
 						}
 
+						// 対象session削除
+						$this->Session->delete('TmpUser');
+
 						// CPへリダイレクト
 // 						$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
 						$this->redirect($this->Auth->redirect());
@@ -149,7 +150,9 @@ class DatUsersController extends AppController {
 			}
 		} catch (Exception $e) {
 			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
-			$this->redirect($this->Auth->logout());
+			// username重複エラー対策
+			$this->redirect('/sign_up/3');
+// 			$this->redirect($this->Auth->logout());
 		}
 	}
 
@@ -231,6 +234,26 @@ EOF
 // 				$this->redirect('/sign_up');
 // 				var_dump($this->request->data);
 // 				exit;
+
+				// 既存ユーザーデータを参照＆比較
+				$db = $this->DatUser->getDataSource();
+				$datUser = $db->fetchAll(
+<<<EOF
+					SELECT
+						count(user_id) as cnt
+					FROM
+						dat_users
+					WHERE
+						email = ?
+					AND
+						status = ?
+EOF
+						,array($temp_email, 1)
+				);
+				if ($datUser[0][0]['cnt'] >= 1) {
+					// 既存データに登録済みのメールアドレスの場合
+					$this->redirect($this->Auth->logout());
+				}
 
 				$this->TmpUser->create();
 				if ($this->TmpUser->save($this->request->data)) {

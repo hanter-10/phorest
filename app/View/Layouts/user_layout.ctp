@@ -6,7 +6,7 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <?php 
+        <?php
             $script = array(
                 "common/TweenMax.min.js",
                 "management_center/jquery-ui-1.9.0.custom.min.js",
@@ -23,26 +23,27 @@
                 "management_center/MVC/router.js"
                 );
 
-            $css = array( 
+            $css = array(
                 "management_center/css/jquery-ui-1.8.24.custom.css",
                 "management_center/css/jquery.mCustomScrollbar.css",
                 "management_center/css/icon.css",
-                "management_center/css/index.css" 
+                "management_center/css/index.css"
                 );
 
             //css output
             echo $this->element('common/css');
             echo $this->Html->css( $css );
-            
+
             //js output
             echo $this->element('common/js');
             echo $this->Html->script( $script );
 
             //urls
-            $dashboard_url = $this->Html->url(array('controller'=>'DashBoards','action'=>'index',$meta_data));
+// 			$dashboard_url = $this->Html->url(array('controller'=>'DashBoards','action'=>'index',$meta_data));
+			$dashboard_url = $this->Html->webroot($meta_data);
         ?>
 
-        
+
 
         <!-- template -->
         <script type="text/template" id="temp_photo">
@@ -83,7 +84,7 @@
                     <li><a href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>DatUsers/logout">ログアウト</a></li>
                 </ul>
             </header>
-            
+
             <div id="main">
                 <div id="albums-panel" class="prevent-select">
 
@@ -139,17 +140,17 @@
                             <div class="displayAsCell">
                                 <figcaption id="caption"></figcaption>
                                 <?php echo $this->Html->image('management_center/empty-album.png', array("id"=>"preview-img", "alt"=>"large-img")); ?>
-                            
+
                             </div>
                         </div>
                     </figure>
                 </div>
             </div>
-            
+
             <footer id="footer">
-                
+
             </footer>
-            
+
         </div>
 
     </body>

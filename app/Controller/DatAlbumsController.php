@@ -86,6 +86,9 @@ class DatAlbumsController extends AppController {
 						'conditions' => array(
 							'DatPhoto.status' => 1,
 						),
+						'order' => array(
+							'DatPhoto.create_datetime DESC'
+						),
 					),
 			);
 			$conditions = array(

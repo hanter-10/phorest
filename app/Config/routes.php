@@ -52,20 +52,28 @@
 // 	Router::connect('/:username/cp/*', array('controller' => 'DatUsers', 'action' => 'index'));
 	Router::connect('/datalbums/userSearch/:username', array('controller' => 'datalbums', 'action' => 'userSearch'));
 
-	Router::connect('/DashBoards/*', array('controller' => 'DashBoards', 'action' => 'index'));
+// 	Router::connect('/DashBoards/*', array('controller' => 'DashBoards', 'action' => 'index'));
 
 	//「 DatUsers 」routhing
-	Router::connect('/login', array('controller' => 'DatUsers', 'action' => 'login'));
+// 	Router::connect('/login', array('controller' => 'DatUsers', 'action' => 'login'));
+	Router::connect('/', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/provision', array('controller' => 'DatUsers', 'action' => 'provision'));
 	Router::connect('/sign_up/:step', array('controller' => 'DatUsers', 'action' => 'sign_up'));
 	Router::connect('/code/:hash', array('controller' => 'DatUsers', 'action' => 'code'));
 	Router::connect('/DatUsers/album/:albumName', array('controller' => 'DatUsers', 'action' => 'index'));
+	Router::connect('/control-panel/', array('controller' => 'DatUsers', 'action' => 'index'));
+	Router::connect('/control-panel/album/:albumName', array('controller' => 'DatUsers', 'action' => 'index'));
+	Router::connect('/DatUsers/add', array('controller' => 'DatUsers', 'action' => 'add'));
 	Router::connect('/DatUsers', array('controller' => 'DatUsers'));
 
 	Router::connect('/datalbumphotorelations/undefined', array('controller' => 'datalbumphotorelations', 'action' => 'add'));
 
+	Router::connect('/:username', array('controller' => 'DashBoards', 'action' => 'index'));
 	Router::connect('/:username/albums/:albumname', array('controller' => 'FrontSites', 'action' => 'index'));
+
+	// すべてのルーティングをパスした場合(デフォルトルーティング)
+	Router::connect('/*', array('controller' => 'DatUsers', 'action' => 'login'));
 
 	// requestパラメータに付与する  $this->request->username で取得
 // 	Router::connect('/*', array('controller' => 'pages', 'action' => 'display'));

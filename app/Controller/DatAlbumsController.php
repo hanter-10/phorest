@@ -477,8 +477,8 @@ EOF
 				$fields = array(
 						'DatUser.user_id as id',
 						'DatUser.username',
-						'DatUser.first_name',
-						'DatUser.last_name',
+						'DatUser.sitename',
+						'DatUser.intro',
 						'DatUser.status',
 						'DatUser.create_datetime',
 						'DatUser.update_timestamp',

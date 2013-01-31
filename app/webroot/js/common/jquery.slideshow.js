@@ -1,5 +1,33 @@
 (function(){
 
+//================ transitionEnd ==================
+$.support.transition = (function () {
+
+	var transitionEnd = (function () {
+
+		var el = document.createElement('slideshow')
+		, transEndEventNames = {
+			'WebkitTransition' : 'webkitTransitionEnd'
+			,  'MozTransition'    : 'transitionend'
+			,  'OTransition'      : 'oTransitionEnd otransitionend'
+			,  'transition'       : 'transitionend'
+		}
+		, name
+
+		for (name in transEndEventNames){
+			if (el.style[name] !== undefined) {
+				return transEndEventNames[name]
+			}
+		}
+
+	}())
+
+	return transitionEnd && {
+		end: transitionEnd
+	}
+
+})();
+//==================================================
 $.slideshow = function(setting)
 {
 	//グロバル変数たち
@@ -7,17 +35,17 @@ $.slideshow = function(setting)
 	var 
 	options = 
 	{
-		imgs: null,
-		fade: 500,
-		delay: 3000,
-		size: 'auto', //contain , cover も可能
-		nextbtn: null,
-		prevbtn: null,
-		playbtn: null,
-		stopbtn: null,
-		onchange:empty,
-		onstop:empty,
-		onplay:empty
+        imgs:       null,
+        fade:       100,
+        delay:      3000,
+        size:       'auto', //contain , cover も可能
+        nextbtn:    null,
+        prevbtn:    null,
+        playbtn:    null,
+        stopbtn:    null,
+        onchange:   empty,
+        onstop:     empty,
+        onplay:     empty
 	},
     $loadicon   = $( '<div id="phorest_loadicon">' ),
     $slideshow  = $( '<div id="phorest_slideshow"></div>' ),
@@ -46,11 +74,11 @@ $.slideshow = function(setting)
         $('body').prepend($slideshow);
 
         
-        $imgs = $slideshow.find('img');
-        $slides = $slideshow.find('.slide');
-        $current = $slides.eq(0).addClass('current');
-        $next = $slides.eq(1).addClass('next');
-        pointer = 2;
+        $imgs       = $slideshow.find('img');
+        $slides     = $slideshow.find('.slide');
+        $current    = $slides.eq(0).addClass('current');
+        $next       = $slides.eq(1).addClass('next');
+        pointer     = 2;
 	}
 
 	function resize($img)
@@ -163,8 +191,10 @@ $.slideshow = function(setting)
 				(pointer)===len && (pointer=0)
 
 				// console.log( pointer );
-				$current.show();
-				$next.show();
+				// $current.show();
+				// $next.show();
+				$current.css('visibility','visible');
+				$next.css('visibility','visible');
 				allowJump = false;
 				/*$current.fadeOut(options.fade,function(){
 					$(this).removeClass('current');
@@ -173,17 +203,26 @@ $.slideshow = function(setting)
 					allowJump = true;
 				});*/
 
-				(function($current_copy){
-					TweenMax.to($current_copy, options.fade/1000, 
+				if($.support.transition){
+					$current.addClass('opacity-0').one($.support.transition.end,function(){
+						$(this).removeClass('current opacity-0').css('visibility','hidden');
+						$current.removeClass('next').addClass('current');
+						$next.addClass('next');
+						allowJump = true;
+					});
+				}else{
+					(function($current_copy){
+						TweenMax.to($current_copy, options.fade/1000, 
 						{
 							css:{opacity:0},onComplete:function(){
-								$current_copy.removeClass('current').hide().css('opacity',1);
+								$current_copy.removeClass('current').css('opacity',1);
 								$current.removeClass('next').addClass('current');
 								$next.addClass('next');
 								allowJump = true;
 							}
 						});
-				})($current);
+					})($current);
+				}
 				
 				//fire change event
 				options.onchange(pointer-1<0 ? len-1 : pointer-1);

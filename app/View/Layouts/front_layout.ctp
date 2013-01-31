@@ -9,7 +9,9 @@
         
         <?php 
             $scripts = array(
+                "common/jquery.mCustomScrollbar.js",
                 "common/underscore1.4.2-min.js",
+                "common/backbone.js",
                 "common/TweenMax.min.js",
                 "common/jquery-tools.js",
                 "common/jquery.slideshow.js",
@@ -17,7 +19,7 @@
                 "frontsite/index.js"
                 );
             echo $this->element('common/css');
-            echo $this->Html->css(array( "frontsite/css/icon.css","common/slideshow.css","frontsite/css/index.css" ));
+            echo $this->Html->css(array( "frontsite/css/icon.css","common/slideshow.css","frontsite/css/index.css","frontsite/css/jquery.mCustomScrollbar.css" ));
 
             echo $this->element('common/js');
             echo $this->Html->script( $scripts );

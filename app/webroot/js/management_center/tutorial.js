@@ -58,7 +58,7 @@
 		// console.log( $track1.offset() );
 	}).resize();
 
-	$try_btn.click(function(){
+	$mask.click(function(){
 		$mask.fadeOut(800);
 		popOut($current_step);
 		$current_step = $all_steps.eq(++status_index);

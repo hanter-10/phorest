@@ -52,11 +52,11 @@ class EmailConfig {
 	public $default = array(
 		'transport' => 'Smtp',
 		'from' => array('no-replay@phorest.com' => 'no-replay'),
-		'host' => '*****',
+		'host' => '**',
 		'port' => 587,
 		'timeout' => 30,
-		'username' => '*****',
-		'password' => '*****',
+		'username' => '**',
+		'password' => '**',
 		'log' => true			//ここをtrueにするとtmp/debug.logにメールのログが書かれる。
 	);
 

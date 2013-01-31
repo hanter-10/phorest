@@ -616,7 +616,8 @@ $(function(){
          var
          initLocation = $.app.properties.initLocation, //ループ後、最初のアルバムviewになる
          albumEls = $("<div>"), //fragment element
-         clickedAlbum;
+         clickedAlbum,
+         emptyAlbumCount=0;
 
          this.collection.each(function(album, index){
             /*
@@ -635,6 +636,10 @@ $(function(){
                ]
             }
             */
+            if(album.get('photos').length==0){
+               emptyAlbumCount++;
+            }
+
             if(!album.get('tempAlbum')) //臨時的な写真を格納するアルバムじゃなければ
             {
                var
@@ -687,7 +692,9 @@ $(function(){
          $.app.properties.upPhoto.click();
          
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
-         $.getScript('/phorest/js/management_center/tutorial.js');
+         if(emptyAlbumCount==this.collection.length){
+            $.getScript('/phorest/js/management_center/tutorial.js');
+         }
       }
    });
 

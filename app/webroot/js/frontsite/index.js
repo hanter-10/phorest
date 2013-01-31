@@ -30,23 +30,35 @@ function init()
 		addThumb(albumArr[albumIndex]);
 		addAlbum(albumArr);
 		startslide(albumArr[albumIndex]);
+		// $imgContainer.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true,horizontalScroll: true }});
 	});
+
 }
 
 function addThumb(album)
 {
+	function getWidth(photoModel){
+		var 
+        ratio = photoModel.width/photoModel.height,
+        width = ratio*33;
+        return Math.round(width);
+	}
 	var 
 	photos = album['photos'],
 	firstPhoto = photos[0],
-	ratio  = firstPhoto.width/firstPhoto.height,
-	width = ratio*33;
+	width = getWidth(firstPhoto),
+	margin = 3*2,
+	left = margin;
+
 	$imgContainer.empty();
 	$indicator.width(width);
 	$.each(photos,function(index,photo){
 		var url = photo.thumUrl;
-		$('<img height="33" alt="thum">').attr('src',url).data({index:index,title:photo.photoName}).appendTo($imgContainer);
+		$('<img height="33" alt="thum">').attr({src:url}).css({left:left}).data({index:index,title:photo.photoName}).appendTo($imgContainer);
+		left += getWidth(photo)+margin;
 	});
 }
+
 
 function startslide(album)
 {
@@ -57,7 +69,7 @@ function startslide(album)
 	slideshow = 
 	$.slideshow({
 		imgs: imgUrls,
-		fade: 1600,
+		fade: 700,
 		delay: 5000,
 		onchange:change,
 		onstop:stop,
@@ -86,7 +98,6 @@ function startslide(album)
         title   = $img.data('title'),
         left    = $img.offset().left,
         width   = $img.width();
-		// $indicator.animate({ left:left,width:width },500);
 		TweenMax.to( $indicator, 0.5, { css:{left:left,width:width}, ease:Back.easeInOut });
 		$title.text(title);
 	}
@@ -126,7 +137,7 @@ function addAlbum(albumArr)
 		var 
 		$this = $(this),
 		album_info = $this.data('album_info'),
-		imgUrls = _.pluck(album_info['photos'],'imgUrl');
+		imgUrls = _.pluck(album_info['photos'],'imgUrl_m');
 
 		slideshow.option({imgs:imgUrls});
 		addThumb(album_info);
@@ -155,26 +166,15 @@ function createThum(imgurls)
 	allLoad: function(){},
 	}).getImgs();
 
-	/*$imgs.attr('height',33).each(function(){
+	$imgs.attr('height',33).each(function(){
 		var width = $(this).css('left',left).width();
 		left += $(this).width+margin;
 
-	});*/
-	// $('#img-container').append($imgs);
+	});
+	$('#img-container').append($imgs);
 }
-var imgurls = [
-'../images/sample.jpg',
-'../images/sample2.jpg',
-'../images/sample3.jpg',
-'../images/sample4.jpg',
-'images/3.jpeg',
-'images/1.jpeg',
-'images/2.jpeg',
-'images/4.jpeg',
-'images/5.jpg'
-];
 
-// createThum(imgurls);
+
 
 
 
@@ -220,7 +220,7 @@ function showAlbums()
 {
 	slideshow.stop();
 	$albums.addClass('show');
-	$phorest_slideshow.addClass('blur');
+	// $phorest_slideshow.addClass('blur');
 	if_albums_open = true;
 }
 
@@ -228,7 +228,7 @@ function hideAlbums()
 {
 	slideshow.play();
 	$albums.removeClass('show');
-	$phorest_slideshow.removeClass('blur');
+	// $phorest_slideshow.removeClass('blur');
 	if_albums_open = false;
 }
 

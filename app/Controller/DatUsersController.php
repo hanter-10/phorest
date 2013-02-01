@@ -36,7 +36,9 @@ class DatUsersController extends AppController {
 
 				// CPへリダイレクト
 // 				$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
-				$this->redirect($this->Auth->redirect());
+				$this->Auth->redirect = '../control-panel/';
+				$this->redirect($this->Auth->redirect);
+// 				$this->redirect($this->Auth->redirect());
 			} else {
 				$this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
 			}

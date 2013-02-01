@@ -43,28 +43,29 @@
                 </div>
             </section>
         </div>
-        <!-- <footer id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="span4">
-                        <h4>Lorem ipsum.</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem nemo.</p>
-                    </div>
-                    <div class="span4">
-                        <h4>Lorem ipsum.</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores vel!</p>
-                    </div>
-                    <div class="span4">
-                        <h4>Lorem ipsum.</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit provident!</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <address class="span12">
-                        ©2012 Phorest. All rights reserved
-                    </address>
-                </div>
-            </div>
-        </footer> -->
+
+<!--         <footer id="footer"> -->
+<!--             <div class="container"> -->
+<!--                 <div class="row"> -->
+<!--                     <div class="span4"> -->
+<!--                         <h4>Lorem ipsum.</h4> -->
+<!--                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem nemo.</p> -->
+<!--                     </div> -->
+<!--                     <div class="span4"> -->
+<!--                         <h4>Lorem ipsum.</h4> -->
+<!--                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores vel!</p> -->
+<!--                     </div> -->
+<!--                     <div class="span4"> -->
+<!--                         <h4>Lorem ipsum.</h4> -->
+<!--                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit provident!</p> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <div class="row"> -->
+<!--                     <address class="span12"> -->
+<!--                         ©2012 Phorest. All rights reserved -->
+<!--                     </address> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </footer> -->
     </body>
 </html>

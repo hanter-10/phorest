@@ -1,6 +1,7 @@
 $(function(){
 
 var 
+username = $('meta[name="owner"]').attr('content'),
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
 $albumsContainer    = $('#albumsContainer'),
@@ -11,7 +12,6 @@ $phorest_slideshow;
 function init()
 {
 	var 
-	username = $('meta[name="owner"]').attr('content'),
 	url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
 //	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
 //	url = 'http://development/phorest/datalbums/userSearch/' + username;
@@ -19,12 +19,15 @@ function init()
 	$.getJSON(url,function(userArr){
 		var 
 		albumArr = userArr[0]['DatAlbum'],
-		albumIndex = 0;
+		albumIndex = 0,
+		arr = decodeURI(location.href).split('/'),
+		albumName = arr[arr.length-1];
 
 		$.each(albumArr,function(index,album){
 			var datPhoto = album.DatPhoto;
 			album.photos = datPhoto;
 			delete album.DatPhoto;
+			if(album.albumName==albumName) albumIndex=index;
 		});
 
 		addThumb(albumArr[albumIndex]);
@@ -123,6 +126,9 @@ function addAlbum(albumArr)
 		fillimg( $el.find('img'), cover["width"], cover["height"] );
 	});
 
+	
+
+
 	function fillimg($img,w,h)
 	{
 		if(w/h>1){ //横長
@@ -146,13 +152,30 @@ function addAlbum(albumArr)
 
 
 
+function router(){
+	var _routes={};
+	_routes[username+'/albums/:name']='loadAlbum';
+
+	var Router = Backbone.Router.extend({
+		routes:_routes,
+		loadAlbum : function(name)
+		{
+			console.log( decodeURI(name) );
+		}
+	});
+	var router = new Router();
+	Backbone.history.start({pushState: true, root: "/phorest/"});
+}
+
+router();
+
 init();
 
 
 
 
 //サムネールのロードと配置
-function createThum(imgurls)
+/*function createThum(imgurls)
 {
 	$('#img-container').empty();
 
@@ -172,14 +195,13 @@ function createThum(imgurls)
 
 	});
 	$('#img-container').append($imgs);
-}
+}*/
 
 
 
 
 
 //------------------ UI ------------------
-// $('#controlPanel select').selectStyler();
 var 
 $footer = $('#footer'),
 $show_photos = $('#show-photos'),

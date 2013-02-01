@@ -75,6 +75,7 @@ $(function(){
       {
          this.appendTo = $.app.properties.photoCollections.find('.mCSB_container');
          this.albumID = this.options.albumID;
+         this.albumView = this.options.albumView;
          //インスタンスから引数を受け取って初期設定
          var settings = arguments[1];
          if(settings)
@@ -121,19 +122,24 @@ $(function(){
          // this.onDropAlbum = _.bind(this.onDropAlbum,this);
          //this.$el.on('keypress','.filename',this.unFocus); //通常のjQueryのonを利用している
       },
-      render : function()
+      render : function(onlyRender)
       {
          //レンダリング済みであれば、それを表示すればいい
          console.log(this.rendered)
          if(this.rendered){ this.showPhotos(); return this; }
          this.rendered = true;
          //初回のレンダリング処理を行う
-         this.$el.empty();
-         if($currentActivePhotoCollection) //$currentActivePhotoCollectionがすでに存在していれば、隠しおく
-         {
-            $currentActivePhotoCollection.removeClass('active').hide();
+         // this.$el.empty();
+         if(!onlyRender){
+            if($currentActivePhotoCollection) //$currentActivePhotoCollectionがすでに存在していれば、隠しおく
+            {
+               $currentActivePhotoCollection.removeClass('active').hide();
+            }
+            $currentActivePhotoCollection = this.$el.addClass('active');
+         }else{
+            this.$el.hide();
          }
-         $currentActivePhotoCollection = this.$el.addClass('active');
+
          this.$el.data('collection',this.collection);
          var _this = this;
          this.collection.each(function(photo){
@@ -146,6 +152,7 @@ $(function(){
 
          // insert to container
          this.appendTo.append(this.$el);
+         if(onlyRender){ return this; }
          //UIが正常に働くように、プロパティを更新
          $.app.properties.photos = this.$el.find('.photo');
          $.app.properties.photosPanel.trigger('resize');
@@ -256,7 +263,11 @@ $(function(){
       onDropAlbum: function($dndElem, $selectedElem)
       {
          $dndElem.removeClass("dragOver");
-
+         var targetAlbumView = $dndElem.data('view');
+         
+         if(!targetAlbumView.PhotoCollectionView.rendered){ //レンダリングされてなければ、renderOnlyモードでレンダリングを行う
+            targetAlbumView.PhotoCollectionView.render(true);
+         }
          // ドロップした先のalbumのmodel、要するに移動先toである
          var albumModel = mvc.AlbumsView_instance.collection.get($dndElem.data('cid'));
          // console.log( albumModel );
@@ -309,7 +320,7 @@ $(function(){
             }
             TweenMax.to( $clone , 0.85, {delay:index*0.01,css:{bezier:bezier}, ease:Power1.easeOut, onComplete:function(){
                if( lastone ){
-                  $.app.Events.trigger('moveToAlbumAreaEnd', { $album: $dndElem, thumUrl_square: $clone.data('thumUrl_square') } );
+                  $.app.Events.trigger('moveToAlbumAreaEnd', { currentAlbumView: _this.albumView ,targetAlbumView: $dndElem.data('view') } );
                }
                $clone.remove();
             } });
@@ -418,7 +429,7 @@ $(function(){
          
 
          //目的のアルバムに挿入
-         targetAlbum.PhotoCollectionView.$el.append($selectedElem);
+         targetAlbum.PhotoCollectionView.$el.prepend($selectedElem);
          
          //---------- animation -----------
          var w_height = $(window).height();
@@ -504,14 +515,14 @@ $(function(){
       initialize : function()
       {
          var photoCollection = new mvc.PhotoCollection(this.model.get('photos'));
-         this.PhotoCollectionView = new mvc.PhotoCollectionView({collection:photoCollection,albumID:this.model.id});
+         this.PhotoCollectionView = new mvc.PhotoCollectionView({ collection:photoCollection, albumID:this.model.id, albumView:this });
          this.model.PhotoCollectionView = this.PhotoCollectionView;
          _.bindAll(this,'changeName','unFocus');
          $albumNameInput.on('keypress',this.unFocus);
          $albumNameInput.on('blur',this.changeName);
          this.model.on('destroy',this.remove,this);
          //今後利用できるよう、cidをdataにセットしておく
-         this.$el.data({cid:this.model.cid});
+         this.$el.data({ cid:this.model.cid, view:this });
       },
       render : function()
       {
@@ -524,11 +535,15 @@ $(function(){
          html = this.template(json);
          
          this.$el.html(html);
+         // this.$el.data('view',this);
 
          //アルバムのサムネールを設定する
          var
          $coverImg = this.$el.find('.coverImg'),
          thumUrl;
+         
+         this.$coverImg = $coverImg;
+
          try {
             thumUrl = this.model.get('photos')[0].thumUrl_square;
          }catch(e){
@@ -598,6 +613,29 @@ $(function(){
          this.$el.prev().find('.cover').click();
          this.$el.remove();
          this.PhotoCollectionView.remove();
+      },
+      updateCoverImage : function(){
+         var 
+         $latestPhoto = this.PhotoCollectionView.$el.find('>.photo:first-child'),
+         _this = this;
+
+         if($latestPhoto.length!=0){ // if it's not empty
+            var 
+            photoModel = this.getPhotoModelByEl($latestPhoto),
+            thumUrl = photoModel.get('thumUrl_square');
+            $('<img>').load(function(){
+               _this.$coverImg.css({'background-image' : "url('"+thumUrl+"')"});
+            })[0].src = thumUrl;
+         }else{ //empty
+            this.$coverImg.css({'background-image' : "url('"+$.app.properties.coverimg+"')"});
+         }
+      },
+      getPhotoModelByEl : function ($photoEl){
+         var
+         collection = this.PhotoCollectionView.$el.data('collection'),
+         cid = $photoEl.find('img').data('cid'),
+         model = collection.get(cid);
+         return model;
       }
    });
 
@@ -719,7 +757,11 @@ $(function(){
 
          });
          
-         TweenMax.to($selectedElems,0.4,{ css:{scale:0.3,opacity:0},ease:Back.easeIn,onComplete:function(){$selectedElems.remove();} });
+         TweenMax.to($selectedElems,0.4,{ css:{scale:0.3,opacity:0},ease:Back.easeIn,onComplete:function(){
+            var albumView = getActivedAlbumView();
+            $selectedElems.remove();
+            albumView.updateCoverImage();
+         } });
          
       });
    }
@@ -756,6 +798,9 @@ $(function(){
             alert('これ以上アルバムを削除できません');
             return false;
          }
+         
+
+         var 
          albumModel = getActivedAlbumModel();
          albumModel.destroy();
       }
@@ -771,6 +816,14 @@ $(function(){
       return albumModel;
    }
 
+   function getActivedAlbumView()
+   {
+      var 
+      $actived_album = $("#albums .album.active"),
+      albumView = $actived_album.data('view');
+      return albumView;
+   }
+
    function getAlbumModelByEl($albumEl)
    {
       var 
@@ -778,6 +831,8 @@ $(function(){
       albumModel = mvc.AlbumsView_instance.collection.get(cid);
       return albumModel;
    }
+
+
 
 
    function syncAlbumStatus()
@@ -801,11 +856,11 @@ $(function(){
          tnt = /IMG|INPUT/i,
          tn = e.target.tagName;
 
-         if(!tnt.test(tn) && !isActived){
+         if(!tnt.test(tn)){
             $('.photoCollection.active>.selectedElem',this).removeClass('selectedElem');
-            // $.app.properties.imgContainer.hide();
-            // $.app.properties.photoCollections_right.fadeIn();
-            $.app.properties.upPhoto.click();
+            if(!isActived){
+               $.app.properties.upPhoto.click();
+            }
          }
       });
    }
@@ -813,13 +868,8 @@ $(function(){
    function bindEvents(){
       //-------------- move to album-area end --------------------
       $.app.Events.on('moveToAlbumAreaEnd', function(data){
-         var 
-         $coverImg = data.$album.find('.coverImg'),
-         thumUrl = data.thumUrl_square;
-         $('<img>').load(function(){
-            $coverImg.css({'background-image' : "url('"+thumUrl+"')"});
-         })[0].src = thumUrl;
-         
+         data.currentAlbumView.updateCoverImage();
+         data.targetAlbumView.updateCoverImage();
       });
 
       //------------------ move to photo-area end -------------------

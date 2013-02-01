@@ -6,27 +6,16 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        <link rel="shortcut icon" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>images/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link id="reset_css" rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/dashboard/reset.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/dashboard/bootstrap.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/dashboard/bootstrap-responsive.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/dashboard/icon.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>css/dashboard/index.css" media="all" />
-
-        <!--[if lt IE 9]>
-			<script type="text/javascript" src="js/html5shiv.js"></script>
-			<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-			<script src="js/css3-mediaqueries.js"></script>
-        <![endif]-->
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/loadCSS.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/TweenMax.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/underscore1.4.2-min.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/bootstrap.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/jquery-tools.js"></script>
-        <script type="text/javascript" src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>js/dashboard/index.js"></script>
-
+        <?php
+            //css output
+            echo $this->element('common/css');
+            echo $this->Html->css(array( "dashboard/css/bootstrap.css","dashboard/css/bootstrap-responsive.css","dashboard/css/icon.css","dashboard/css/index.css" ));
+            //script output
+            echo $this->element('common/js');
+            echo $this->Html->script(array( "common/underscore1.4.2-min.js","dashboard/index.js" ));
+        ?>
+        
         <script type="text/template" id="temp_album">
             <figure class="span3 item">
                 <a href="<%=href%>"><img src="<%=thumUrl%>" alt="<%=albumName%>"></a>
@@ -38,7 +27,7 @@
     <body>
         <header id="header">
             <div class="container">
-                <h1>とあるおっさんの写真集</h1>
+                <h1 id="site-name"></h1>
                 <!-- <nav>
                     <ul class="unstyled">
                         <li class="first"><a href="">Home</a></li>
@@ -54,7 +43,7 @@
                 </div>
             </section>
         </div>
-        <footer id="footer">
+        <!-- <footer id="footer">
             <div class="container">
                 <div class="row">
                     <div class="span4">
@@ -76,6 +65,6 @@
                     </address>
                 </div>
             </div>
-        </footer>
+        </footer> -->
     </body>
 </html>

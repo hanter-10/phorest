@@ -3,6 +3,7 @@ $(function(){
 var
 root = 'http://localhost:8888/phorest/',
 username = $('meta[name="owner"]').attr('content'),
+sitename = username,
 //root = 'http://localhost:81/Phorest/',
 //root = 'http://development/phorest/',
 //root = 'http://pk-brs.xsrv.jp/',
@@ -16,7 +17,7 @@ function init()
 //	url = 'http://localhost:81/Phorest/datalbums/userSearch/' + username;
 //	url = 'http://development/phorest/datalbums/userSearch/' + username;
 //	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
-
+	$('#site-name').text(sitename+"のアルバム");
 	$.getJSON(url,function(userArr){
 		var 
 		albumArr = userArr[0]['DatAlbum'],

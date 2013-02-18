@@ -15,20 +15,16 @@ class DatAlbumsController extends AppController {
 
 	public $uses = array('DatAlbum','DatPhoto','DatUser','DatAlbumPhotoRelation','MstImageServer');
 
-	function beforeFilter() {
+	public function beforeFilter() {
 		// 親クラスをロード
 		parent::beforeFilter();
+		$this->Auth->allow('userSearch');
 
 		// ajax通信でのアクセスか確認
 		if (!$this->RequestHandler->isAjax()) {
 			// ajaxではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}
-
-// 		if (isset($this->Auth->user('user_id'))) {
-// 			// 会員以外の操作の場合は「400 Bad Request」
-// 			throw new BadRequestException(__('Bad Request.'));
-// 		}
 	}
 
 /**
@@ -40,7 +36,7 @@ class DatAlbumsController extends AppController {
  */
 	public function index() {
 
-		//$this->DatAlbum->recursive = 0;					HABTMの際に関連テーブルを検索するので削除
+		//$this->DatAlbum->recursive = 0;			// HABTMの際に関連テーブルを検索するので削除
 
 		// リクエストメソッド判断
 		if ($this->request->is('get')) {
@@ -48,164 +44,61 @@ class DatAlbumsController extends AppController {
 			//TODO:ユーザー権限がないと実行できないようにもしなきゃ
 			//TODO:リファラーチェックとかhash認証コードとかもしといたほうがいいんだろな。
 
-			/* 検索項目 */
-			$fields = array(
-					'DatAlbum.album_id as id',
-					'DatAlbum.albumName as albumName',
-					'DatAlbum.description',
-					'DatAlbum.flg as public',
-					'DatAlbum.status',
-					'DatAlbum.create_datetime',
-					'DatAlbum.update_timestamp',
-			);
-			$contain = array(
-					'DatPhoto' => array(
-						'MstImageServer' => array(
-							'fields' => array(
-								'image_server_id',
-								'grobal_ip',
-								'file_path'
-							),
-							'conditions' => array(
-								'MstImageServer.status' => 1,
-							),
-						),
-						'fields' => array(
-							'photo_id as id',
-							'photoName as photoName',
-							'description',
-							'width',
-							'height',
-							'file_name',
-							'size',
-							'type',
-							'status',
-							'create_datetime',
-							'update_timestamp',
-						),
-						'conditions' => array(
-							'DatPhoto.status' => 1,
-						),
-						'order' => array(
-							'DatPhoto.create_datetime DESC'
-						),
-					),
-			);
-			$conditions = array(
-					'DatAlbum.fk_user_id' => $this->Auth->user('user_id'),
-					'DatAlbum.status' => 1,
-			);
+			// 初期化
+			$datAlbumPhotos = array();
 
-			$this->DatAlbum->Behaviors->attach('Containable');
-			$option = array(
-					'fields' => $fields,
-					'contain' => $contain,
-					'conditions' => $conditions,
-			);
+			// 会員のアルバム情報取得
+			$datAlbumPhotos = $this->DatAlbum->getAlbumDataByUserId($this->Auth->user('user_id'));
 
-			$datAlbums = $this->DatAlbum->find('all', $option);
+			// アルバム情報分アルバムに紐づく写真情報を取得
+			foreach ($datAlbumPhotos as $album_key => $datAlbum) {
 
-			// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
-			foreach ( $datAlbums as $albumkey => $datAlbum ) {
+				// 対象のアルバムの写真情報取得
+				$datPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID($this->Auth->user('user_id'), $datAlbum['DatAlbum']['id']);
 
-				foreach ( $datAlbum['DatPhoto'] as $photoKey => $datPhoto) {
-					// オリジナル写真
-					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/' . $datPhoto['file_name'];
-					// サムネイル写真
-					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhoto['file_name'];
-					// スクエア写真
-					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['thumUrl_square'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/square/' . $datPhoto['file_name'];
-					// ミディアム写真
-					$datAlbums[$albumkey]['DatPhoto'][$photoKey]['imgUrl_m'] = 'http://' . $datPhoto['MstImageServer']['grobal_ip'] . $datPhoto['MstImageServer']['file_path'] . $this->Auth->user('username') . '/medium/' . $datPhoto['file_name'];
+				// 配列構造調整
+				foreach( $datPhotos as $photo_key => $datPhoto ) {
+
+					// 値をセット
+					$datAlbumPhotos[$album_key]['DatPhoto'][$photo_key]	= $datPhotos[$photo_key]['DatPhoto'];
 
 					// いらないものを消す
-					unset($datAlbums[$albumkey]['DatPhoto'][$photoKey]['DatAlbumPhotoRelation']);
-					unset($datAlbums[$albumkey]['DatPhoto'][$photoKey]['MstImageServer']);
+					unset($datPhotos[$photo_key]['DatPhoto']);
 				}
 			}
 
-// 			$this->set('datAlbums', $datAlbums);
+			// アルバム以外の写真情報取得(いわゆるtempAlbum)
+			$datTempPhotos = $this->DatPhoto->getTempAlbumPhotoRelationByUserID($this->Auth->user('user_id'));
 
+			// 配列構造調整
+			foreach( $datTempPhotos as $key => $datTempPhoto ) {
 
-			// アルバム以外の写真検索
-			$db = $this->DatPhoto->getDataSource();
-			$datPhotos = $db->fetchAll(
-<<<EOF
-					SELECT
-						DatPhoto.photo_id as id,
-						DatPhoto.fk_user_id,
-						DatPhoto.photoName as photoName,
-						DatPhoto.description as description,
-						DatPhoto.width,
-						DatPhoto.height,
-						DatPhoto.file_name,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name) as imgUrl,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name) as thumUrl,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/square/',DatPhoto.file_name) as thumUrl_square,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/medium/',DatPhoto.file_name) as imgUrl_m,
-						DatPhoto.size,
-						DatPhoto.type,
-						DatPhoto.status,
-						DatPhoto.create_datetime,
-						DatPhoto.update_timestamp
-					FROM
-						`dat_photos` as DatPhoto
-						left outer join dat_album_photo_relations as DatAlbumPhotoRelation
-							on DatPhoto.photo_id = DatAlbumPhotoRelation.fk_photo_id
-						left outer join dat_users as DatUser
-							on DatPhoto.fk_user_id = DatUser.user_id
-						inner join mst_image_servers as MstImageServer
-							on DatPhoto.fk_image_server_id = MstImageServer.image_server_id
-					where
-						DatAlbumPhotoRelation.fk_photo_id is null and DatPhoto.status = ? and DatUser.user_id = ?
-EOF
-					,array(1, $this->Auth->user('user_id'))
-			);
-
-			// TODO:データ入れ替え処理 もっと良いやり方があるはず・・・
-			foreach( $datPhotos as $key => $Photo ) {
-// 				$datPhotos[$key]['DatPhoto']['imgUrl'] = $Photo[0]['imgUrl'];
-// 				$datPhotos[$key]['DatPhoto']['thumUrl'] = $Photo[0]['thumUrl'];
-
-				$datPhotos[$key]['id']				= $datPhotos[$key]['DatPhoto']['id'];
-				$datPhotos[$key]['fk_user_id']		= $datPhotos[$key]['DatPhoto']['fk_user_id'];
-				$datPhotos[$key]['photoName']		= $datPhotos[$key]['DatPhoto']['photoName'];
-				$datPhotos[$key]['description']		= $datPhotos[$key]['DatPhoto']['description'];
-				$datPhotos[$key]['width']			= $datPhotos[$key]['DatPhoto']['width'];
-				$datPhotos[$key]['height']			= $datPhotos[$key]['DatPhoto']['height'];
-				$datPhotos[$key]['file_name']		= $datPhotos[$key]['DatPhoto']['file_name'];
-				$datPhotos[$key]['imgUrl']			= $Photo[0]['imgUrl'];
-				$datPhotos[$key]['thumUrl']			= $Photo[0]['thumUrl'];
-				$datPhotos[$key]['thumUrl_square']	= $Photo[0]['thumUrl_square'];
-				$datPhotos[$key]['imgUrl_m']		= $Photo[0]['imgUrl_m'];
-				$datPhotos[$key]['size']			= $datPhotos[$key]['DatPhoto']['size'];
-				$datPhotos[$key]['type']			= $datPhotos[$key]['DatPhoto']['type'];
-				$datPhotos[$key]['status']			= $datPhotos[$key]['DatPhoto']['status'];
-				$datPhotos[$key]['create_datetime']	= $datPhotos[$key]['DatPhoto']['create_datetime'];
-				$datPhotos[$key]['update_timestamp']= $datPhotos[$key]['DatPhoto']['update_timestamp'];
+				$datTempPhotos[$key]	= $datTempPhotos[$key]['DatPhoto'];
 
 				// いらないものを消す
-				unset($datPhotos[$key][0]);
-				unset($datPhotos[$key]['DatPhoto']);
+				unset($datTempPhotos[$key]['DatPhoto']);
 			}
 
-			// TODO:もっといいデータ改変の方法があるはず・・・
-// 			foreach( $datPhotos as $key => $Photo ) {
-
 			$tempAlbums['DatAlbum'] = array('tempAlbum' => true);
-			$tempAlbums['DatPhoto'] = $datPhotos;
-			$datAlbums[] = $tempAlbums;
+			$tempAlbums['DatPhoto'] = $datTempPhotos;
+			$datAlbumPhotos[] = $tempAlbums;
 
-			$this->set('datAlbums', $datAlbums);
-// 			$this->set('datPhotos', $datPhotos);
+			// データセット
+			$this->set('datAlbumPhotos', $datAlbumPhotos);
+
+// 			// SQLクエリログの確認方法
+// 			$log = $this->DatAlbum->getDataSource()->getLog(false, false);
+// 			echo '<pre>';
+// 			var_dump($log);
+// 			echo '</pre>';
 
 		} else {
 			// getではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}
 
-		// JsonViewは”_serialize”という名前で配列(array)を設定するとそれをJSONとして出力してくれる
-		$this->set('_serialize', 'datAlbums');
+		// JSONレスポンス
+		$this->set('_serialize', 'datAlbumPhotos');
 // 		$this->set('_serialize', compact('datAlbums','datPhotos'));
 	}
 
@@ -331,24 +224,6 @@ EOF
 			/* リクエストパラメータセット */
 			$datAlbum = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbum', $optionData);
 
-// 			// TODO:true/falseでリクエストが来ているので現状時間がないから値(1or0)に強制的に直す
-// 			if (isset($datAlbum['DatAlbum']['status'])) {
-// 				if ($datAlbum['DatAlbum']['status']) {
-// 					$datAlbum['DatAlbum']['flg'] = 1;
-// 				} else {
-// 					$datAlbum['DatAlbum']['flg'] = 0;
-// 				}
-// 				unset($datAlbum['DatAlbum']['status']);
-// 			}
-
-// 			$datAlbum['DatAlbum']['album_id']			= $id;
-// 			$datAlbum['DatAlbum']['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-// 			$datAlbum['DatAlbum']['name']				= $data->albumName;
-// 			$datAlbum['DatAlbum']['description']		= $data->description;
-// 			$datAlbum['DatAlbum']['flg']				= $data->flg;
-// 			$datAlbum['DatAlbum']['status']				= $data->status;
-// 			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
-
 			/* 配列のキー値の例外チェック */
 			if ( !$this->Check->doCheckArrayKeyToModel( $datAlbum['DatAlbum'], $this->DatAlbum->modelColumn ) ) {
 				// エラー：例外パラメータ
@@ -365,14 +240,6 @@ EOF
 
 				/* update query */
 				$result = $this->DatAlbum->updateAll(
-						// Update set
-// 						array(
-// 								'DatAlbum.albumName'		=> "'".$datAlbum['DatAlbum']['name']."'",
-// 								'DatAlbum.description'		=> "'".$datAlbum['DatAlbum']['description']."'",
-// 								'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
-// 								'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],
-// 								'DatAlbum.update_timestamp'	=> "'".$datAlbum['DatAlbum']['update_timestamp']."'",
-// 						)
 						// update fieldを動的に設定
 						$this->Convert->doConvertArrayKeyToQueryArray( $datAlbum['DatAlbum'], 'DatAlbum', $this->DatAlbum->updateColumn ),
 						// Where
@@ -460,129 +327,59 @@ EOF
 /**
  * userSearch method
  *
- * [GET]ユーザー情報と紐づくアルバム情報と紐づく写真情報取得API
+ * [GET]ユーザー情報と紐づく公開アルバム情報と紐づく写真情報取得API
  */
 	public function userSearch () {
 
-		try	{
-
-// 			echo 'ooooooooo';
-// 			var_dump($this->DatUser->find('all'));
-// 			echo 'aaaaaa';
-
+		try
+		{
 			// 返り値のデフォルトセット：false
 			$this->set('datUser', false);
 
 			// リクエストメソッド判断
 			if ($this->request->is('get')) {
 
-				/* 検索項目 */
-				$fields = array(
-						'DatUser.user_id as id',
-						'DatUser.username',
-						'DatUser.sitename',
-						'DatUser.intro',
-						'DatUser.status',
-						'DatUser.create_datetime',
-						'DatUser.update_timestamp',
-				);
-				$contain = array(
-						'DatAlbum' => array(
-								'fields' => array(
-										'album_id as id',
-										'albumName as albumName',
-										'description',
-										'flg as public',
-										'status',
-										'create_datetime',
-										'update_timestamp',
-								),
-								'conditions' => array(
-										'DatAlbum.status'	=> 1,
-										'DatAlbum.flg'		=> 1,
-								),
-						),
-				);
-				$conditions = array(
-						'DatUser.status'	=> 1,
-						'DatUser.username'	=> $this->request->username,
-				);
+				// 初期化
+				$datUserAlbums = array();
 
-				$this->DatUser->Behaviors->attach('Containable');
-				$option = array(
-						'fields'		=> $fields,
-						'conditions'	=> $conditions,
-						'contain'		=> $contain,
-				);
-				$datUsers = $this->DatUser->find('all', $option);
+				// 会員情報取得
+				$datUserAlbums[0] = $this->DatUser->getUserDataByUserName($this->request->username);
 
-// SQLクエリログの確認方法
-// 				$log = $this->DatUser->getDataSource()->getLog(false, false);
-// 				var_dump($log);
+				// アルバム情報取得
+				$datAlbums = $this->DatAlbum->getPublicAlbumDataByUserId($datUserAlbums[0]['DatUser']['user_id']);
 
-				//TODO:これらはひどいのでなんとかせねばなるまい・・・
+				// 配列構造調整
+				foreach ( $datAlbums as $album_key => $datAlbum ) {
 
-				// 必要ない関連テーブルは検索しない
-				$this->DatAlbumPhotoRelation->unbindModel(array('belongsTo'=>array('DatAlbum')), false);			//,'hasAndBelongsToMany' => array('DatAlbum')
-				foreach ( $datUsers as $userkey => $datUser ) {
+					$datUserAlbums[0]['DatAlbum'][$album_key]	= $datAlbums[$album_key]['DatAlbum'];
 
-					foreach ( $datUser['DatAlbum'] as $albumkey => $Album) {
+					// アルバムに紐づく写真情報取得
+					$datAlbumPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID($datUserAlbums[0]['DatUser']['user_id'], $datAlbum['DatAlbum']['id']);
 
-						$datPhotos = $this->DatAlbumPhotoRelation->find('all', array(
-								'conditions' => array(
-									'DatAlbumPhotoRelation.fk_album_id' => $Album['id'],
-									'DatPhoto.status' => 1,
-								)
-							)
-						);
+					// 配列構造調整
+					foreach ($datAlbumPhotos as $photo_key => $datAlbumPhoto) {
 
-						foreach( $datPhotos as $photokey => $Photo ) {
+						$datUserAlbums[0]['DatAlbum'][$album_key]['DatPhoto'][$photo_key] = $datAlbumPhotos[$photo_key]['DatPhoto'];
 
-							$this->MstImageServer->unbindModel(array('hasMany'=>array('DatPhoto')), false);
-							$datServer = $this->MstImageServer->find('all', array('conditions' => array('MstImageServer.image_server_id' => $datPhotos[$photokey]['DatPhoto']['fk_image_server_id'])));
-
-							$datPhotos[$photokey]['id']					= $datPhotos[$photokey]['DatPhoto']['photo_id'];
-							$datPhotos[$photokey]['fk_user_id']			= $datPhotos[$photokey]['DatPhoto']['fk_user_id'];
-							$datPhotos[$photokey]['photoName']			= $datPhotos[$photokey]['DatPhoto']['photoName'];
-							$datPhotos[$photokey]['description']		= $datPhotos[$photokey]['DatPhoto']['description'];
-							$datPhotos[$photokey]['width']				= $datPhotos[$photokey]['DatPhoto']['width'];
-							$datPhotos[$photokey]['height']				= $datPhotos[$photokey]['DatPhoto']['height'];
-							$datPhotos[$photokey]['file_name']			= $datPhotos[$photokey]['DatPhoto']['file_name'];
-		// 					$datPhotos[$photokey]['imgUrl']				= $datPhotos[$photokey]['DatPhoto']['imgUrl'];
-		// 					$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-							$datPhotos[$photokey]['imgUrl']				= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-		// 					$datPhotos[$photokey]['thumUrl']			= $datPhotos[$photokey]['DatPhoto']['thumUrl'];
-		// 					$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->Auth->user('username') . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['thum_file_name'];
-							$datPhotos[$photokey]['thumUrl']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/thumbnail/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-							$datPhotos[$photokey]['thumUrl_square']		= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/square/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-							$datPhotos[$photokey]['imgUrl_m']			= 'http://' . $datServer[0]["MstImageServer"]['grobal_ip'] . $datServer[0]["MstImageServer"]['file_path'] . $this->request->username . '/medium/' . $datPhotos[$photokey]['DatPhoto']['file_name'];
-							$datPhotos[$photokey]['size']				= $datPhotos[$photokey]['DatPhoto']['size'];
-							$datPhotos[$photokey]['type']				= $datPhotos[$photokey]['DatPhoto']['type'];
-							$datPhotos[$photokey]['status']				= $datPhotos[$photokey]['DatPhoto']['status'];
-							$datPhotos[$photokey]['create_datetime']	= $datPhotos[$photokey]['DatPhoto']['create_datetime'];
-							$datPhotos[$photokey]['update_timestamp']	= $datPhotos[$photokey]['DatPhoto']['update_timestamp'];
-
-							// いらないものを消す
-		// 					unset($datPhotos[$key][0]);
-							unset($datPhotos[$photokey]['DatPhoto']);
-							unset($datPhotos[$photokey]['DatAlbumPhotoRelation']);
-							unset($datServer);
-						}
-
-						if (isset($datPhotos[0])) {
-							$datUsers[$userkey]['DatAlbum'][$albumkey]['DatPhoto'] = $datPhotos;
-						} else {
-							unset($datUsers[$userkey]['DatAlbum'][$albumkey]);
-						}
+						// いらないものを消す
+						unset($datAlbumPhoto[$photo_key]);
 					}
+
+					// いらないものを消す
+					unset($datAlbums[$album_key]);
 				}
-				$this->set('datUser', $datUsers);
+
+				// データセット
+				$this->set('datUserAlbums', $datUserAlbums);
 
 			} else {
 				// getではない時は「400 Bad Request」
 				throw new BadRequestException(__('Bad Request.'));
 			}
-			$this->set('_serialize', 'datUser');
+
+			// JSONレスポンス
+			$this->set('_serialize', 'datUserAlbums');
+
 		} catch (Exception $e) {
 
 			$this->set('datUser', false);

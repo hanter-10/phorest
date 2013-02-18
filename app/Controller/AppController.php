@@ -34,28 +34,29 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
 	public $components = array(
-			'Session',
-			'Auth' => array(
-// 					'loginRedirect'	=> array('controller' => 'DatUsers', 'action' => 'index'),
-					'loginRedirect'	=> array('controller' => 'sign_up', 'action' => '4'),
-					'logoutRedirect' => array('controller' => 'DatUsers', 'action' => 'login'),
-					'loginAction' => Array('controller' => 'DatUsers', 'action' => 'login'),
-					'authError' => 'このページを表示するには、ログインを行ってください。',
-					'authenticate' => array(
-							'Form' => array(
-									'userModel'	=> 'DatUser',
-									'fields'	=> array(
-											'username'	=> 'username',
-											'password'	=> 'password',
-									),
-									'scope'		=> array('status' => '1'),
-							),
+		'Session',
+		'Auth' => array(
+// 			'loginRedirect'	=> array('controller' => 'DatUsers', 'action' => 'index'),
+			'loginRedirect'		=> array('controller' => 'sign_up', 'action' => '4'),
+			'logoutRedirect'	=> array('controller' => 'DatUsers', 'action' => 'login'),
+			'loginAction'		=> Array('controller' => 'DatUsers', 'action' => 'login'),
+			'authError'			=> 'このページを表示するには、ログインを行ってください。',
+			'authenticate' => array(
+				'Form' => array(
+					'userModel'	=> 'DatUser',
+					'fields'	=> array(
+						'username'	=> 'username',
+						'password'	=> 'password',
 					),
+					'scope'		=> array('status' => '1'),
+				),
 			),
+		),
 	);
 
 	function beforeFilter() {
-		$this->Auth->allow('*');
+		// すべてを許可する
+// 		$this->Auth->allow('*');
 
 		// usernameをURIから取得してViewに設置
 		$meta_data = '';
@@ -67,24 +68,5 @@ class AppController extends Controller {
 			$meta_data = $this->request->username;
 		}
 		$this->set(compact('meta_data'));
-
-// 		var_dump($this->params['prefix']);
-// 		var_dump(Configure::read('Routing.prefixes'));
-
-// 		//Auth Settings
-// 		if (!empty($this->params['prefix']) && in_array($this->params['prefix'], Configure::read('Routing.prefixes'))) {
-
-// 			$this->layout = $this->params['prefix'];
-
-// 			//for Member
-// 			if ($this->params['prefix'] == 'member') {
-// 				$this->Auth->loginAction = 'member/users/login';
-// 				$this->Auth->loginRedirect = 'member/users/index';
-// 				$this->Auth->fields = array('username' => 'login_id', 'password' => 'login_pw');
-// 				$this->Auth->autoRedirect = true;
-// 				$this->Auth->loginError = "IDかパスワードが正しくありません";
-// 				$this->Auth->authError = "Authentication Error";
-// 			}
-// 		}
 	}
 }

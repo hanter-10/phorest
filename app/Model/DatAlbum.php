@@ -174,4 +174,131 @@ class DatAlbum extends AppModel {
 				'insertQuery' => ''
 		)
 	);
+
+	/**
+	 * 会員に紐づくアルバム情報取得
+	 * @param string $user_id
+	 * @return Ambigous <multitype:, NULL, mixed>
+	 */
+	function getAlbumDataByUserId($user_id = null) {
+
+		$this->recursive = 0;
+
+		/* 検索項目 */
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.albumName as albumName',
+				'DatAlbum.description',
+				'DatAlbum.flg as public',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatAlbum.fk_user_id' => $user_id,
+				'DatAlbum.status' => 1,		// 有効
+		);
+
+		$option = array(
+				'fields' => $fields,
+				'conditions' => $conditions,
+		);
+
+		/* 検索実行 */
+		return $this->find('all', $option);
+	}
+
+	/**
+	 * 会員に紐づくアルバム情報取得(公開)
+	 * @param string $user_id
+	 * @return Ambigous <multitype:, NULL, mixed>
+	 */
+	function getPublicAlbumDataByUserId($user_id = null) {
+
+		$this->recursive = 0;
+
+		/* 検索項目 */
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.albumName as albumName',
+				'DatAlbum.description',
+				'DatAlbum.flg as public',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatAlbum.fk_user_id'	=> $user_id,
+				'DatAlbum.status'		=> 1,		// 有効
+				'DatAlbum.flg'			=> 1,		// 公開
+		);
+		$order = array(
+				'DatAlbum.album_id DESC',
+		);
+
+		$option = array(
+				'fields' => $fields,
+				'conditions' => $conditions,
+				'order' => $order,
+		);
+
+		/* 検索実行 */
+		return $this->find('all', $option);
+	}
+
+// 	function getUserAlbumDataByUserName($username = null) {
+
+// 		/* 検索光徳 */
+// 		$fields = array(
+// 				'DatAlbum.album_id as id',
+// 				'DatAlbum.albumName as albumName',
+// 				'DatAlbum.description',
+// 				'DatAlbum.flg as public',
+// 				'DatAlbum.status',
+// 				'DatAlbum.create_datetime',
+// 				'DatAlbum.update_timestamp',
+// 				'DatUser.user_id as id',
+// 				'DatUser.username',
+// 				'DatUser.sitename',
+// 				'DatUser.intro',
+// 				'DatUser.status',
+// 				'DatUser.create_datetime',
+// 				'DatUser.update_timestamp',
+
+// 		);
+
+// 		/* contain */
+// 		$contain = array(
+// 				'DatUser' => array(
+// 					'conditions' => array(
+// 							'DatUser.status' => 1,
+// 					),
+// 				),
+// 		);
+
+// 		/* 検索条件 */
+// 		$conditions = array(
+// 				'DatUser.username'	=> $username,
+// 				'DatUser.status'	=> 1,				// 有効
+// 				'DatAlbum.status'	=> 1,				// 有効
+// 				'DatAlbum.flg'		=> 1,				// 公開
+// 		);
+// 		$order = array(
+// 				'DatAlbum.album_id DESC',
+// 		);
+
+// 		$option = array(
+// 				'fields'		=> $fields,
+// 				'contain'		=> $contain,
+// 				'conditions'	=> $conditions,
+// 				'order'			=> $order,
+// 		);
+
+// 		$this->Behaviors->attach('Containable');
+// 		return $this->find('all', $option);
+// 	}
 }

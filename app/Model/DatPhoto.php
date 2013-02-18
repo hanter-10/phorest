@@ -203,4 +203,275 @@ class DatPhoto extends AppModel {
 				'insertQuery' => ''
 		)
 	);
+
+
+	/**
+	 * アルバムに紐づく写真の検索
+	 *
+	 * @param unknown_type $album_id
+	 * @return Ambigous <NULL, multitype:>
+	 */
+	function getAlbumPhotoRelationByUserIdAlbumID($user_id = null, $album_id = null) {
+
+		/* 検索項目 */
+		$fields = array(
+				'DatPhoto.photo_id AS id',
+				'DatPhoto.photoName AS photoName',
+				'DatPhoto.fk_user_id',
+				'DatPhoto.description',
+				'DatPhoto.imgUrl',
+				'DatPhoto.thumUrl',
+				'DatPhoto.thumUrl_square',
+				'DatPhoto.imgUrl_m',
+				'DatPhoto.width',
+				'DatPhoto.height',
+				'DatPhoto.file_name',
+				'DatPhoto.size',
+				'DatPhoto.type',
+				'DatPhoto.status',
+				'DatPhoto.create_datetime',
+				'DatPhoto.update_timestamp',
+				'DatPhoto.fk_image_server_id',
+		);
+		/* バーチャルフィールドを定義 */
+		$this->virtualFields = array(
+				'imgUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name)",
+				'thumUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name)",
+				'thumUrl_square' 	=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/square/',DatPhoto.file_name)",
+				'imgUrl_m' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/medium/',DatPhoto.file_name)",
+		);
+
+		/* contain */
+		$contain = array(
+				'DatUser' => array(
+						'conditions' => array(
+								'DatUser.status' => 1,
+						),
+				),
+				'MstImageServer' => array(
+						'fields' => array(
+								'image_server_id',
+								'grobal_ip',
+								'file_path'
+						),
+						'conditions' => array(
+								'MstImageServer.status' => 1,
+						),
+				),
+		);
+
+		/* join */
+		$joins = array(
+				array("type" => "LEFT",
+						"table" => "dat_album_photo_relations",
+						"alias" => "DatAlbumPhotoRelation",
+						"conditions" => "DatPhoto`.`photo_id = DatAlbumPhotoRelation.fk_photo_id",
+				),
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatUser.user_id' => $user_id,
+				'DatPhoto.status' => 1,		// 有効
+				'DatUser.status' => 1,
+				'MstImageServer.status' => 1,
+				'DatAlbumPhotoRelation.status' => 1,
+				'DatAlbumPhotoRelation.fk_album_id' => $album_id,
+		);
+		$order = array(
+				'DatPhoto.create_datetime DESC',
+		);
+
+		$option = array(
+				'fields'		=> $fields,
+				'contain'		=> $contain,
+				'conditions'	=> $conditions,
+				'order'			=> $order,
+				'joins'			=> $joins,
+		);
+
+		$this->Behaviors->attach('Containable');
+		return $this->find('all', $option);
+	}
+
+	function getAlbumPhotoRelationByUserIdAlbumIDs($user_id = null, $album_ids = array()) {
+
+		$condition_in = '';
+		$cnt = count($album_ids);
+		for ($i = 0; $i < $cnt; $i++) {
+			if ($cnt-1 == $i) {
+				$condition_in .= $album_ids[$i]['DatAlbum']['id'];
+			} else {
+				$condition_in .= $album_ids[$i]['DatAlbum']['id'] . ',';
+			}
+		}
+
+		/* 検索項目 */
+		$fields = array(
+				'DatPhoto.photo_id AS id',
+				'DatPhoto.photoName AS photoName',
+				'DatPhoto.fk_user_id',
+				'DatPhoto.description',
+				'DatPhoto.imgUrl',
+				'DatPhoto.thumUrl',
+				'DatPhoto.thumUrl_square',
+				'DatPhoto.imgUrl_m',
+				'DatPhoto.width',
+				'DatPhoto.height',
+				'DatPhoto.file_name',
+				'DatPhoto.size',
+				'DatPhoto.type',
+				'DatPhoto.status',
+				'DatPhoto.create_datetime',
+				'DatPhoto.update_timestamp',
+		);
+		/* バーチャルフィールドを定義 */
+		$this->virtualFields = array(
+				'imgUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name)",
+				'thumUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name)",
+				'thumUrl_square' 	=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/square/',DatPhoto.file_name)",
+				'imgUrl_m' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/medium/',DatPhoto.file_name)",
+		);
+
+		/* contain */
+		$contain = array(
+				'DatUser' => array(
+						'conditions' => array(
+								'DatUser.status' => 1,
+						),
+				),
+				'MstImageServer' => array(
+						'fields' => array(
+								'image_server_id',
+								'grobal_ip',
+								'file_path'
+						),
+						'conditions' => array(
+								'MstImageServer.status' => 1,
+						),
+				),
+		);
+
+		/* join */
+		$joins = array(
+				array("type" => "LEFT",
+						"table" => "dat_album_photo_relations",
+						"alias" => "DatAlbumPhotoRelation",
+						"conditions" => "DatPhoto`.`photo_id = DatAlbumPhotoRelation.fk_photo_id",
+				),
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatUser.user_id' => $user_id,
+				'DatPhoto.status' => 1,		// 有効
+				'DatUser.status' => 1,
+				'MstImageServer.status' => 1,
+				'DatAlbumPhotoRelation.status' => 1,
+				"DatAlbumPhotoRelation.fk_album_id in ($condition_in)",
+		);
+		$order = array(
+				'DatPhoto.create_datetime DESC',
+		);
+
+		$option = array(
+				'fields'		=> $fields,
+				'contain'		=> $contain,
+				'conditions'	=> $conditions,
+				'order'			=> $order,
+				'joins'			=> $joins,
+		);
+
+		$this->Behaviors->attach('Containable');
+		return $this->find('all', $option);
+	}
+
+	/**
+	 * 会員のアルバムに属さない写真データ取得
+	 *
+	 * @param unknown_type $user_id
+	 * @return Ambigous <NULL, multitype:>
+	 */
+	function getTempAlbumPhotoRelationByUserID($user_id) {
+
+		/* 検索項目 */
+		$fields = array(
+				'DatPhoto.photo_id AS id',
+				'DatPhoto.photoName AS photoName',
+				'DatPhoto.fk_user_id',
+				'DatPhoto.description',
+				'DatPhoto.imgUrl',
+				'DatPhoto.thumUrl',
+				'DatPhoto.thumUrl_square',
+				'DatPhoto.imgUrl_m',
+				'DatPhoto.width',
+				'DatPhoto.height',
+				'DatPhoto.file_name',
+				'DatPhoto.size',
+				'DatPhoto.type',
+				'DatPhoto.status',
+				'DatPhoto.create_datetime',
+				'DatPhoto.update_timestamp',
+				'DatPhoto.fk_image_server_id',
+		);
+		/* バーチャルフィールドを定義 */
+		$this->virtualFields = array(
+				'imgUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/',DatPhoto.file_name)",
+				'thumUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/thumbnail/',DatPhoto.file_name)",
+				'thumUrl_square' 	=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/square/',DatPhoto.file_name)",
+				'imgUrl_m' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,DatUser.username,'/medium/',DatPhoto.file_name)",
+		);
+
+		/* contain */
+		$contain = array(
+				'DatUser' => array(
+						'conditions' => array(
+								'DatUser.status' => 1,
+						),
+				),
+				'MstImageServer' => array(
+						'fields' => array(
+								'image_server_id',
+								'grobal_ip',
+								'file_path'
+						),
+						'conditions' => array(
+								'MstImageServer.status' => 1,
+						),
+				),
+		);
+
+		/* join */
+		$joins = array(
+				array("type" => "LEFT",
+						"table" => "dat_album_photo_relations",
+						"alias" => "DatAlbumPhotoRelation",
+						"conditions" => "DatPhoto`.`photo_id = DatAlbumPhotoRelation.fk_photo_id",
+				),
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatUser.user_id' => $user_id,
+				'DatUser.status' => 1,
+				'MstImageServer.status' => 1,
+				'DatPhoto.status' => 1,		// 有効
+				'DatAlbumPhotoRelation.status' => 1,
+				'DatAlbumPhotoRelation.fk_photo_id is null',		// アルバムと紐づかない写真
+		);
+		$order = array(
+				'DatPhoto.create_datetime DESC',
+		);
+
+		$option = array(
+				'fields'		=> $fields,
+				'contain'		=> $contain,
+				'conditions'	=> $conditions,
+				'order'			=> $order,
+				'joins'			=> $joins
+		);
+
+		$this->Behaviors->attach('Containable');
+		return $this->find('all', $option);
+	}
 }

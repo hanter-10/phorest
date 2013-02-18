@@ -40,7 +40,7 @@ class DatUser extends AppModel {
 		),
 		'username' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('alphaNumeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -136,4 +136,65 @@ class DatUser extends AppModel {
 		)
 	);
 
+	/**
+	 * Emailがすでに登録済みかチェックする
+	 *
+	 * @param unknown $email
+	 * @param unknown $status
+	 * @return unknown
+	 */
+	function checkUserDataByEmail($email, $status) {
+
+		$db = $this->getDataSource();
+		$datUser = $db->fetchAll(
+<<<EOF
+			SELECT
+				count(user_id) as cnt
+			FROM
+				dat_users
+			WHERE
+				email = ?
+			AND
+				status = ?
+EOF
+			,array($email, $status)
+		);
+
+		return $datUser;
+	}
+
+	/**
+	 * User名で会員情報を検索
+	 *
+	 * @param string $username
+	 * @return Ambigous <multitype:, NULL, mixed>
+	 */
+	function getUserDataByUserName($username = null) {
+
+		$this->recursive = 0;
+
+		/* 検索光徳 */
+		$fields = array(
+			'DatUser.user_id as id',
+			'DatUser.username',
+			'DatUser.sitename',
+			'DatUser.intro',
+			'DatUser.status',
+			'DatUser.create_datetime',
+			'DatUser.update_timestamp',
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+			'DatUser.username'	=> $username,
+			'DatUser.status'	=> 1,				// 有効
+		);
+
+		$option = array(
+			'fields'		=> $fields,
+			'conditions'	=> $conditions,
+		);
+
+		return $this->find('first', $option);
+	}
 }

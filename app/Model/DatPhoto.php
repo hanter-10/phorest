@@ -456,7 +456,7 @@ class DatPhoto extends AppModel {
 				'DatUser.status' => 1,
 				'MstImageServer.status' => 1,
 				'DatPhoto.status' => 1,		// 有効
-				'DatAlbumPhotoRelation.status' => 1,
+// 				'DatAlbumPhotoRelation.status' => 1,
 				'DatAlbumPhotoRelation.fk_photo_id is null',		// アルバムと紐づかない写真
 		);
 		$order = array(

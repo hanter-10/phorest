@@ -1,15 +1,15 @@
 $(function(){
 
 var
-root = 'http://pk-brs.xsrv.jp/',
+root = 'http://localhost:8888/phorest/',
 username = $('meta[name="owner"]').attr('content'),
-sitename = username,
+sitename = username,',
 $albums = $('#albums .row');
 
 function init()
 {
 
-	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
+	var url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
 	$('#site-name').text(sitename+"のアルバム");
 	$.getJSON(url,function(userArr){
 		var

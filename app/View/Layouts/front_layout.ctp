@@ -6,8 +6,8 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-        
-        <?php 
+
+        <?php
             $scripts = array(
                 "common/jquery.mCustomScrollbar.js",
                 "common/underscore1.4.2-min.js",
@@ -16,7 +16,7 @@
                 "common/jquery-tools.js",
                 "common/jquery.slideshow.js",
                 "common/screenfull.js",
-                "frontsite/index.js"
+                FRONTSITE_DS_INDEX_JS
                 );
             echo $this->element('common/css');
             echo $this->Html->css(array( "frontsite/css/icon.css","common/slideshow.css","frontsite/css/index.css","frontsite/css/jquery.mCustomScrollbar.css" ));
@@ -24,11 +24,11 @@
             echo $this->element('common/js');
             echo $this->Html->script( $scripts );
         ?>
-        
 
-        
 
-        
+
+
+
 
         <script type="text/template" id="temp_album">
             <figure class="album">

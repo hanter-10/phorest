@@ -59,7 +59,26 @@
  */
 class DATABASE_CONFIG {
 
-	public $default = array(
+	/**
+	 * 本番環境
+	 * @var unknown_type
+	 */
+	public $production = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => '',
+		'password' => '',
+		'database' => '',
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
+
+	/**
+	 * 開発環境①
+	 * @var unknown_type
+	 */
+	public $development = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
@@ -70,14 +89,27 @@ class DATABASE_CONFIG {
 		//'encoding' => 'utf8',
 	);
 
-	public $test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-		//'encoding' => 'utf8',
+	/**
+	 * 開発環境②
+	 * @var unknown_type
+	 */
+	public $development_sub = array(
+			'datasource' => 'Database/Mysql',
+			'persistent' => false,
+			'host' => 'localhost',
+			'login' => 'root',
+			'password' => '111',
+			'database' => 'phorest_db',
+			'prefix' => '',
+			//'encoding' => 'utf8',
 	);
+
+	public function __construct()
+	{
+		$connection = Configure::read('envronment');
+
+		if (!empty($this->{$connection})) {
+			$this->default = $this->{$connection};
+		}
+	}
 }

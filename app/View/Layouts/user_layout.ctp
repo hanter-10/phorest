@@ -16,11 +16,11 @@
                 "management_center/jquery.dropfile.js",
                 "management_center/underscore1.4.2-min.js",
                 "management_center/backbone_099.js",
-                "management_center/app.js",
+                MANAGEMENT_DS_APP_JS,
                 "management_center/UI.js",
-                "management_center/MVC/model.js",
-                "management_center/MVC/view.js",
-                "management_center/MVC/router.js"
+                MANAGEMENT_DS_MVC_DS_MODEL_JS,
+                MANAGEMENT_DS_MVC_DS_VIEW_JS,
+                MANAGEMENT_DS_MVC_DS_ROUTER_JS
                 );
 
             $css = array(

@@ -58,7 +58,30 @@ class AppController extends Controller {
 		// すべてを許可する
 // 		$this->Auth->allow('*');
 
-		// usernameをURIから取得してViewに設置
+		// 環境によって読み込むファイルパス設定
+		$connection = Configure::read('envronment');
+		if (!empty($connection)) {
+
+			if ($connection === 'production') {
+				// 本番環境
+				define('DASHBORD_DS_INDEX_JS', 'dashboard/index.js');
+				define('FRONTSITE_DS_INDEX_JS', 'frontsite/index.js');
+				define('MANAGEMENT_DS_APP_JS', 'management_center/app.js');
+				define('MANAGEMENT_DS_MVC_DS_MODEL_JS', 'management_center/MVC/model.js');
+				define('MANAGEMENT_DS_MVC_DS_VIEW_JS', 'management_center/MVC/view.js');
+				define('MANAGEMENT_DS_MVC_DS_ROUTER_JS', 'management_center/MVC/router.js');
+			}
+			else {
+				define('DASHBORD_DS_INDEX_JS', 'dashboard/_dev_index.js');
+				define('FRONTSITE_DS_INDEX_JS', 'frontsite/_dev_index.js');
+				define('MANAGEMENT_DS_APP_JS', 'management_center/_dev_app.js');
+				define('MANAGEMENT_DS_MVC_DS_MODEL_JS', 'management_center/MVC/_dev_model.js');
+				define('MANAGEMENT_DS_MVC_DS_VIEW_JS', 'management_center/MVC/_dev_view.js');
+				define('MANAGEMENT_DS_MVC_DS_ROUTER_JS', 'management_center/MVC/_dev_router.js');
+			}
+		}
+
+		// usernameをURIから取得してViewに設置用にセット
 		$meta_data = '';
 		if (isset($this->request->pass[0])) {
 			$meta_data = $this->request->pass[0];

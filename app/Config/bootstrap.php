@@ -2,7 +2,7 @@
 /**
  * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
- * This file should load/create any application wide configuration settings, such as 
+ * This file should load/create any application wide configuration settings, such as
  * Caching, Logging, loading additional configuration files.
  *
  * You should also use this file to include any files that provide global functions/constants
@@ -179,3 +179,29 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+
+// 環境によって読み込むファイルパス設定
+$connection = Configure::read('envronment');
+if (!empty($connection)) {
+
+	if ($connection === 'production') {
+		// 本番環境
+		define('DASHBORD_DS_INDEX_JS', 'dashboard/index.js');
+		define('FRONTSITE_DS_INDEX_JS', 'frontsite/index.js');
+		define('MANAGEMENT_DS_APP_JS', 'management_center/app.js');
+		define('MANAGEMENT_DS_MVC_DS_MODEL_JS', 'management_center/MVC/model.js');
+		define('MANAGEMENT_DS_MVC_DS_VIEW_JS', 'management_center/MVC/view.js');
+		define('MANAGEMENT_DS_MVC_DS_ROUTER_JS', 'management_center/MVC/router.js');
+	}
+	else {
+		// 開発環境
+		define('DASHBORD_DS_INDEX_JS', 'dashboard/_dev_index.js');
+		define('FRONTSITE_DS_INDEX_JS', 'frontsite/_dev_index.js');
+		define('MANAGEMENT_DS_APP_JS', 'management_center/_dev_app.js');
+		define('MANAGEMENT_DS_MVC_DS_MODEL_JS', 'management_center/MVC/_dev_model.js');
+		define('MANAGEMENT_DS_MVC_DS_VIEW_JS', 'management_center/MVC/_dev_view.js');
+		define('MANAGEMENT_DS_MVC_DS_ROUTER_JS', 'management_center/MVC/_dev_router.js');
+	}
+}
+

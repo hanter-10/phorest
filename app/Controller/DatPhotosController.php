@@ -249,6 +249,7 @@ class DatPhotosController extends AppController {
 			 */
 			// スクエア画像アップロード先
 			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $filename;
+			$medium_path = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium';
 
 			// 参考サムネイルサイズ
 			if ($Jsize[0] >= 1280) {
@@ -266,6 +267,11 @@ class DatPhotosController extends AppController {
 				}
 			}
 			else {
+
+				//保存先のディレクトリが存在しているかチェック
+				if (!file_exists($medium_path)) {
+					mkdir($medium_path);
+				}
 				// オリジナル画像コピー
 				copy($image, $medium_image);
 			}
@@ -327,6 +333,7 @@ class DatPhotosController extends AppController {
 			$mstImage = $db->fetchAll(
 <<<EOF
 					SELECT
+						image_server_id,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/','$filename') as imgUrl,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/thumbnail/','$filename') as thumUrl,
 						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/square/','$filename') as thumUrl_square,
@@ -334,14 +341,14 @@ class DatPhotosController extends AppController {
 					FROM
 						mst_image_servers as MstImageServer
 					where
-						MstImageServer.image_server_id = ?
+						MstImageServer.status = ?
 EOF
 					,array(1)
 			);
 
 			/* paramater set */
 			$datPhoto['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datPhoto['fk_image_server_id']		= 1;								// TODO:対象の画像サーバのidを取得する
+			$datPhoto['fk_image_server_id']		= $mstImage[0]['MstImageServer']['image_server_id'];				// TODO:対象の画像サーバのidを取得する
 			$datPhoto['photoName']				= $filename;						// 写真名
 // 			$datPhoto['DatPhoto']['description']			= '';								// 写真説明
 			$datPhoto['width']					= $Jsize[0];						// 画像の横幅

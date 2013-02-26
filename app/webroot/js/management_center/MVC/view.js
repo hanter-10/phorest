@@ -727,7 +727,7 @@ $(function(){
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            $.getScript('/phorest/js/management_center/tutorial.js');
+            $.getScript('http://phorest.ligtest.info/js/management_center/tutorial.js');
          }
       }
    });

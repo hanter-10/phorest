@@ -54,20 +54,16 @@ class AppController extends Controller {
 		),
 	);
 
-	// View埋め込みようメタデータ変数
-	private $meta_data = '';
-
 	function beforeFilter() {
-		// すべてを許可する
-// 		$this->Auth->allow('*');
+		// View埋め込みようメタデータ変数
+		$meta_data = '';
 
 		// usernameをURIから取得してViewに設置用にセット
 		if (isset($this->request->pass[0])) {
-			$this->meta_data = $this->request->pass[0];
-// 			var_dump($this->request->ownername);
+			$meta_data = $this->request->pass[0];
 		}
 		if (isset($this->request->username)) {
-			$this->meta_data = $this->request->username;
+			$meta_data = $this->request->username;
 		}
 		$this->set(compact('meta_data'));
 	}

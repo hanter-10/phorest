@@ -101,8 +101,9 @@ class DatUsersController extends AppController {
 
 					$this->request->data['DatUser']['email'] = $this->Session->read('TmpUser.temp_email');
 				}
-				$this->request->data['DatUser']['create_datetime'] = date('Y-m-d h:i:s');
-				$this->request->data['DatUser']['update_timestamp'] = date('Y-m-d h:i:s');
+				$this->request->data['DatUser']['status']	= 1;		// デフォルト有効
+				$this->request->data['DatUser']['create_datetime']	= date('Y-m-d h:i:s');
+				$this->request->data['DatUser']['update_timestamp']	= date('Y-m-d h:i:s');
 
 				$this->DatUser->create();
 				if ($this->DatUser->save($this->request->data)) {
@@ -136,6 +137,9 @@ class DatUsersController extends AppController {
 // 						$this->redirect(array('controller' => 'DatUsers', 'action' => 'index'));
 					}
 				} else {
+					/* バリデーションエラー内容出力 */
+					//var_dump($this->validateErrors($this->DatUser));
+					//exit;
 					// TODO:バリデーションとかその辺ハンドリングしなきゃ
 					$this->redirect($this->Auth->logout());
 // 					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));

@@ -39,7 +39,7 @@ class DatUser extends AppModel {
 			),
 		),
 		'username' => array(
-			'notempty' => array(
+			'alphaNumeric' => array(
 				'rule' => array('alphaNumeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,

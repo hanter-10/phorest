@@ -9,7 +9,7 @@ $albums = $('#albums .row');
 function init()
 {
 
-	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
+	url = 'http://phorest.ligtest.info/datalbums/userSearch/' + username;
 	$('#site-name').text(sitename+"のアルバム");
 	$.getJSON(url,function(userArr){
 		var

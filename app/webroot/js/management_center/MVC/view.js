@@ -391,7 +391,7 @@ $(function(){
          options =
          {
             data : data,
-            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
+            url : 'http://phorest.ligtest.info/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)
          .fail(function(){

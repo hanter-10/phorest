@@ -32,7 +32,7 @@ $(function(){
    **************************** Collection ****************************
    */
    mvc.PhotoCollection = Backbone.Collection.extend({
-      url:     'http://pk-brs.xsrv.jp/datphotos/',
+      url:     'http://phorest.ligtest.info/datphotos/',
       model:   mvc.PhotoModel
    });
 
@@ -64,7 +64,7 @@ $(function(){
    ******************************* 宇宙の始まり *******************************
    */
    mvc.AlbumCollection = Backbone.Collection.extend({
-      url:     'http://pk-brs.xsrv.jp/datalbums/',
+      url:     'http://phorest.ligtest.info/datalbums/',
       model:   mvc.AlbumModel,
       initialize : function()
       {

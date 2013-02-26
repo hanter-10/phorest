@@ -12,7 +12,7 @@ $phorest_slideshow;
 function init()
 {
 	var
-	url = 'http://pk-brs.xsrv.jp/datalbums/userSearch/' + username;
+	url = 'http://phorest.ligtest.info/datalbums/userSearch/' + username;
 	$.getJSON(url,function(userArr){
 		var
 		albumArr = userArr[0]['DatAlbum'],

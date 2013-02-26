@@ -8,8 +8,8 @@ $(document).ready(function(){
     $.app.Events = _.extend({}, Backbone.Events);
     $.app.properties =
     {
-    	root:                   "http://pk-brs.xsrv.jp/",
-        coverimg:               "http://pk-brs.xsrv.jp/css/management_center/images/cover.png",
+    	root:                   "http://phorest.ligtest.info/",
+        coverimg:               "http://phorest.ligtest.info/css/management_center/images/cover.png",
         headerHeight:           $("#header").outerHeight(true),
         albumControlBarHeight:  $("#album-control-bar").outerHeight(true),
         albums:                 $("#albums"),
@@ -101,7 +101,7 @@ $(document).ready(function(){
         fileDrop: function()
         {
             $("#uploadAreaContainer").dropfile({
-				url:   'http://pk-brs.xsrv.jp/uploads/',
+				url:   'http://phorest.ligtest.info/uploads/',
                 inputID: 'photoFiles',
                 accept: ['image/jpeg','image/png','image/gif'],
                 dragEnter: function(){

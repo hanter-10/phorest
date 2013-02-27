@@ -328,7 +328,7 @@ class DatPhotosController extends AppController {
 // 				copy($image, $medium_image);
 // 			}
 
-			// 対象画像サーバー参照
+			// 対象画像サーバー参照 TODO:今のところはいいけど複数になった瞬間おわる・・・
 			$db = $this->MstImageServer->getDataSource();
 			$mstImage = $db->fetchAll(
 <<<EOF

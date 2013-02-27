@@ -1,7 +1,7 @@
 $(function(){
 
 var
-root = 'http://pk-brs.xsrv.jp/',
+root = 'http://phorest.ligtest.info/',
 username = $('meta[name="owner"]').attr('content'),
 sitename = username,
 $albums = $('#albums .row');

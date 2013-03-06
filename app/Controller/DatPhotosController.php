@@ -11,7 +11,7 @@ class DatPhotosController extends AppController {
  * [ Phorest ] :
  */
 	public $viewClass = 'Json';
-	public $components = array('RequestHandler','Convert','Check','Thumbmake');
+	public $components = array('RequestHandler','Convert','Check','Thumbmake', 'Ftp');
 
 	public $uses = array('DatAlbum','DatPhoto','DatUser','MstImageServer');
 
@@ -247,7 +247,7 @@ class DatPhotosController extends AppController {
 			/**
 			 * medium (横幅1280)画像作成
 			 */
-			// スクエア画像アップロード先
+			// ミディアム画像アップロード先
 			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $filename;
 			$medium_path = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium';
 
@@ -380,6 +380,17 @@ EOF
 
 					$this->set('datPhoto', $datPhoto);
 				}
+
+				// FTPサーバ接続
+				$conn_id = $this->Ftp->FtpLogin();
+				// アップロード処理
+				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $image, null);					// オリジナルファイル
+				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $thumbnail_image, 'thumbnail');	// サムネイルファイル
+				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $square_image, 'square');			// スクエアファイル
+				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $medium_image, 'medium');			// メディアムファイル
+				// FTPサーバ接続切断
+				$this->Ftp->FtpClose($conn_id);
+
 			}
 		} else {
 			// postではない時は「400 Bad Request」

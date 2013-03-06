@@ -205,3 +205,15 @@ if (!empty($connection)) {
 	}
 }
 
+/**
+ * FTP設定情報
+ * 	Configure::read('ftp.config');
+ */
+Configure::write('ftp.config', array(
+	'host'		=> '******',
+	'username'	=> '********',
+	'userpass'	=> '********',
+));
+
+// 画像サーバディレクトリパス
+define('IMAGE_SERVER_DIR_PASS', '/pk-brs.xsrv.jp/public_html/app/webroot/img/test/phorest/');

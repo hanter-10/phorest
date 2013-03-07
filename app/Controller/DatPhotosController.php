@@ -353,7 +353,7 @@ EOF
 // 			$datPhoto['DatPhoto']['description']			= '';								// 写真説明
 			$datPhoto['width']					= $Jsize[0];						// 画像の横幅
 			$datPhoto['height']					= $Jsize[1];						// 画像の縦幅
-			$datPhoto['file_name']				= $_FILES['file']['name'];			// 画像の名前を決める
+			$datPhoto['file_name']				= $filename;			// 画像の名前を決める
 			$datPhoto['imgUrl']					= $mstImage[0][0]['imgUrl'];
 			$datPhoto['thumUrl']				= $mstImage[0][0]['thumUrl'];
 			$datPhoto['thumUrl_square']			= $mstImage[0][0]['thumUrl_square'];

@@ -19,6 +19,9 @@ class FtpComponent extends Component {
 		// ユーザ名とパスワードでログインする
 		$login_result = ftp_login($conn_id, $ftp_config['username'], $ftp_config['userpass']);
 
+		// PASVモードONにする	各々の環境に起因する
+		ftp_pasv($conn_id, true);
+
 		return $conn_id;
 	}
 

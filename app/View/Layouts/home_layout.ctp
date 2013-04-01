@@ -36,9 +36,11 @@
                         <div class="right">
                             <div id="forms">
 
-								<?php echo $this->Form->create('DatUser', array('id' => 'login-form'));?>
-                                    <input type="text" name="data[DatUser][username]" id="username" placeholder="ユーザ名">
-                                    <input type="password" name="data[DatUser][password]" id="password" placeholder="パスワード">
+								<?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'login'), 'id' => 'login-form'));?>
+                                    <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->error('DatUser.username'); ?>
+                                    <?php echo $this->Form->text('DatUser.password', array('id' => 'password"', 'type' => 'password', 'placeholder' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->error('DatUser.password'); ?>
                                     <button>ログイン！</button>
                                     <div id="options">
                                         <ul>
@@ -53,8 +55,12 @@
                                     </div>
 								<?php echo $this->Form->end();?>
 
+								<?php if ( isset ( $error_message ) ) : ?>
+									<div class="error-message"><?php echo $error_message; ?></div>
+								<?php endif; ?>
                                 <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'provision'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
-                                    <input type="text" name="data[TmpUser][temp_email]" id="email" placeholder="E-mail">
+                                    <?php echo $this->Form->text('TmpUser.temp_email', array('id' => 'email"', 'placeholder' => 'E-mail', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->error('TmpUser.temp_email'); ?>
                                     <button>新規登録！</button>
                                 <?php echo $this->Form->end();?>
                             </div>

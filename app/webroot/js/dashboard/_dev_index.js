@@ -3,7 +3,7 @@ $(function(){
 var
 root = 'http://localhost:8888/phorest/',
 username = $('meta[name="owner"]').attr('content'),
-sitename = username,',
+sitename = username,
 $albums = $('#albums .row');
 
 function init()

@@ -54,107 +54,48 @@ class DatPhoto extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'photo_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_image_server_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'photoName' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'description' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'size' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'type' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'create_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'update_timestamp' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+			'photo_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '写真IDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => '写真IDは数値で指定してください')),
+
+			'fk_user_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'ユーザIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'ユーザIDは数値で指定してください')),
+
+			'fk_image_server_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '画像サーバIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => '画像サーバIDは数値で指定してください')),
+
+			'photoName' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '写真名を指定してください')),
+
+			'size' => array(
+					'notempty' => array(
+							'rule' => array('notempty'),
+							'message' => 'サイズはを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'サイズは数値で指定してください')),
+
+			'type' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '写真タイプを指定してください')),
+			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

@@ -85,4 +85,57 @@ class MstImageServer extends AppModel {
 		)
 	);
 
+	/**
+	 * ランダムに画像サーバを選択する
+	 */
+	public function getSelectImageServer() {
+
+		$this->recursive = 0;
+
+		/* 検索条件 */
+		$conditions = array(
+				'MstImageServer.status' => STATUS_ON,		// 有効
+				);
+
+		$option = array(
+				'conditions' => $conditions,
+				);
+
+		$servers = $this->find( 'all', $option );
+
+		return $servers[array_rand( $servers, 1 )]['MstImageServer']['image_server_id'];
+	}
+
+	/**
+	 * 画像パスを取得する
+	 *
+	 * @param unknown_type $id
+	 * @param unknown_type $username
+	 * @param unknown_type $filename
+	 */
+	public function getImageServerPathByUser( $id, $username, $filename ) {
+
+		$this->recursive = 0;
+
+		/* バーチャルフィールドを定義 */
+		$this->virtualFields = array(
+				'imgUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/','$filename')",
+				'thumUrl' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/thumbnail/','$filename')",
+				'thumUrl_square' 	=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/square/','$filename')",
+				'imgUrl_m' 			=> "CONCAT('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/medium/','$filename')",
+				);
+
+		/* 検索条件 */
+		$conditions = array(
+				'MstImageServer.image_server_id' => $id,
+				'MstImageServer.status' => STATUS_ON,		// 有効
+				);
+
+		$option = array(
+				'conditions'	=> $conditions,
+				);
+
+		return $this->find( 'first', $option );
+	}
+
 }

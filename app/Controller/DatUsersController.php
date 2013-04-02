@@ -15,7 +15,7 @@ class DatUsersController extends AppController {
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('login', 'logout', 'add', 'sign_up', 'code', 'provision');
+		$this->Auth->allow( 'login', 'logout', 'add', 'sign_up', 'code', 'provision' );
 	}
 
 	// 初期登録時のアルバム数
@@ -62,13 +62,9 @@ class DatUsersController extends AppController {
 
 		// usernameを取得してViewに設置
 		$meta_data = $this->Auth->user('username');
-		$this->set(compact('meta_data'));
+		$this->set( compact('meta_data') );
 
 		$this->layout = 'user_layout';
-
-// 		var_dump($this->Auth->user('user_id'));
-// 		$this->DatUser->recursive = 0;
-// 		$this->set('datUsers', $this->paginate());
 	}
 
 /**
@@ -112,7 +108,7 @@ class DatUsersController extends AppController {
 
 					$this->DatUser->create();
 					if ( $this->DatUser->save( $this->request->data ) ) {
-						if ($this->Auth->login()) {
+						if ( $this->Auth->login() ) {
 
 							// tempユーザーデータのステータスを認証済みとする
 							$this->TmpUser->updateTmpUserStatus($this->request->data['DatUser']['email'], 1);
@@ -130,7 +126,7 @@ class DatUsersController extends AppController {
 								$datAlbum['albumName']	= 'アルバム' . $i;		// アルバム名
 
 								$this->DatAlbum->create();
-								$this->DatAlbum->save($datAlbum);
+								$this->DatAlbum->save( $datAlbum );
 							}
 
 							// 対象session削除
@@ -140,7 +136,6 @@ class DatUsersController extends AppController {
 							$this->redirect($this->Auth->redirect());
 						}
 					} else {
-						// TODO:バリデーションとかその辺ハンドリングしなきゃ
 						$this->redirect( $this->Auth->logout() );
 					}
 				}
@@ -183,7 +178,7 @@ class DatUsersController extends AppController {
 		$fromDate 	= date('Y-m-d h:i:s' ,strtotime('-7 day'));
 
 		// 該当Hash値で検索して一時Userデータを取得する
-		$tmpUser = $this->TmpUser->getTmpUserDataByHash($hash, 0, $fromDate);
+		$tmpUser = $this->TmpUser->getTmpUserDataByHash( $hash, 0, $fromDate );
 
 		if ( $tmpUser ) {
 
@@ -230,7 +225,7 @@ class DatUsersController extends AppController {
 					if ( $this->TmpUser->validates() ) {
 
 						$this->TmpUser->create();
-						if ($this->TmpUser->save($this->request->data)) {
+						if ( $this->TmpUser->save( $this->request->data ) ) {
 
 							// 通知URL作成
 							$send_url = Router::url("/code/$hash_string", true);
@@ -255,11 +250,12 @@ class DatUsersController extends AppController {
 							$this->redirect($this->Auth->logout());
 						}
 					}
-					$this->render('login', 'home_layout');
 				}
 			}
+
+			$this->render('login', 'home_layout');
+
 		} catch (Exception $e) {
-			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
 			$this->redirect($this->Auth->logout());
 		}
 	}

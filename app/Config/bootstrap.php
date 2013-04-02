@@ -217,3 +217,15 @@ Configure::write('ftp.config', array(
 
 // 画像サーバディレクトリパス
 define('IMAGE_SERVER_DIR_PASS', '/pk-brs.xsrv.jp/public_html/app/webroot/img/test/phorest/');
+
+/** ステータス **/
+define('STATUS_ON', 1);
+define('STATUS_OFF', 0);
+
+/** アップロード画像ディレクトリ名 **/
+define('UPLOAD_DIR_THUMBNAIL', 'thumbnail');
+define('UPLOAD_DIR_SQUARE', 'square');
+define('UPLOAD_DIR_SMALL', 'small');
+define('UPLOAD_DIR_MEDIUM', 'medium');
+define('UPLOAD_DIR_LARGE', 'large');
+define('UPLOAD_DIR_HUGE', 'huge');

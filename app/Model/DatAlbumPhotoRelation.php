@@ -50,99 +50,22 @@ class DatAlbumPhotoRelation extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'album_photo_relation_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_album_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_photo_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'create_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'update_timestamp' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+			'fk_album_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバムIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'アルバムIDは数値で指定してください')),
+
+			'fk_photo_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '写真IDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => '写真IDは数値で指定してください')),
+			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -255,8 +178,21 @@ class DatAlbumPhotoRelation extends AppModel {
 		$this->unbindModel(array('belongsTo'=>array('DatAlbum')), false);
 		$this->unbindModel(array('belongsTo'=>array('DatPhoto')), false);
 
-		var_dump($this->find('all', $option));
-		exit;
 		return $this->find('all', $option);
+	}
+
+	public function updateAlbumPhotoRelationByAlbumId( $target_album_id, $from_album_id, $photo_id ) {
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatAlbumPhotoRelation.fk_album_id' => $from_album_id,
+				'DatAlbumPhotoRelation.fk_photo_id' => $photo_id,
+		);
+
+		$fields = array(
+				'DatAlbumPhotoRelation.fk_album_id' => $target_album_id,
+				);
+
+		return $this->updateAll( $fields, $conditions );
 	}
 }

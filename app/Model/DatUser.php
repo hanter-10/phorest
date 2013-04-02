@@ -62,8 +62,7 @@ class DatUser extends AppModel {
 							'message' => 'サイト名を入力してください'),
 					'minlength' => array(
 							'rule' => array('minLength', '5'),
-							'message' => 'サイト名は5文字以上で入力してください。',
-							'required' => true)),
+							'message' => 'サイト名は5文字以上で入力してください。')),
 			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

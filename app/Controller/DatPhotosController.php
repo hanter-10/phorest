@@ -125,16 +125,16 @@ class DatPhotosController extends AppController {
 	public function add() {
 
 		// 返り値のデフォルトセット：false
-		$this->set('datPhoto', false);
+		$this->set( 'datPhoto', false );
 
 		// Uploadのチェック
-		if (!$this->Check->doCheckUploadAction($_FILES)) {
+		if ( ! $this->Check->doCheckUploadAction( $_FILES) ) {
 			// uploadではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('post')) {
+		if ( $this->request->is( 'post' ) ) {
 
 			$username	= $this->Auth->user('username');
 			$filename	= $_FILES['file']['name'];
@@ -143,7 +143,7 @@ class DatPhotosController extends AppController {
 
 			// 重複ファイル名の確認＆リネーム
 			$i = 1;
-			while (file_exists($imagePath . DS . $filename)) {
+			while ( file_exists( $imagePath . DS . $filename ) ) {
 				$filename	= $_FILES['file']['name'];
 				$filename	= "($i)".$filename;
 				$i++;
@@ -156,20 +156,20 @@ class DatPhotosController extends AppController {
 			$image		= WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . $filename;
 
 			//保存先のディレクトリが存在しているかチェック
-			if (!file_exists($imagePath)) {
-				mkdir($imagePath);
+			if ( ! file_exists( $imagePath ) ) {
+				mkdir( $imagePath );
 			}
 
 			//TODO:拡張子のチェックとかも必要になる事だろう
 
 			// 画像のアップロード
-			move_uploaded_file($_FILES['file']['tmp_name'], $image);
+			move_uploaded_file( $_FILES['file']['tmp_name'], $image );
 
 			/**
 			 *  サムネイル画像作成
 			 **/
 			// サムネイル画像アップロード先
-			$thumbnail_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'thumbnail' . DS . $filename;
+			$thumbnail_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_THUMBNAIL . DS . $filename;
 
 			// 参考サムネイルサイズ
 			$width	= 150;
@@ -178,21 +178,21 @@ class DatPhotosController extends AppController {
 			// 初期化
 			$this->Thumbmake->init();
 			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $thumbnail_image);
+			$this->Thumbmake->setImage( $image, $thumbnail_image );
 
 			// 画像サイズ取得
-			$Jsize = getimagesize("$image");
+			$Jsize = getimagesize( "$image" );
 
 			// リサイズ処理
 			// 画像の縦横サイズチェック
 			if ( $Jsize[0] >= $Jsize[1] ) {
 				// 縦より横が大きい場合
-				if (!$this->Thumbmake->width($width)) {
+				if ( ! $this->Thumbmake->width( $width ) ) {
 					//TODO:サムネイル画像作成失敗
 				}
 			} else {
 				// 横より縦が大きい場合
-				if (!$this->Thumbmake->height($height)) {
+				if ( ! $this->Thumbmake->height( $height ) ) {
 					//TODO:サムネイル画像作成失敗
 				}
 			}
@@ -201,7 +201,7 @@ class DatPhotosController extends AppController {
 			 * スクエア画像作成
 			 */
 			// スクエア画像アップロード先
-			$square_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'square' . DS . $filename;
+			$square_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_SQUARE . DS . $filename;
 
 			// 参考スクエアサイズ
 			$width	= 270;
@@ -210,10 +210,10 @@ class DatPhotosController extends AppController {
 			// 初期化
 			$this->Thumbmake->init();
 			// 元画像のファイルパスと保存先をセット
-			$this->Thumbmake->setImage($image, $square_image);
+			$this->Thumbmake->setImage( $image, $square_image );
 
 			// リサイズ処理
-			if ($this->Thumbmake->resizeCrop($width,$height)) {
+			if ( $this->Thumbmake->resizeCrop( $width, $height ) ) {
 				//TODO:スクエア画像作成失敗
 			}
 
@@ -222,7 +222,7 @@ class DatPhotosController extends AppController {
 // 			 * Small (横幅500)画像作成
 // 			 */
 // 			// スクエア画像アップロード先
-// 			$small_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'small' . DS . $filename;
+// 			$small_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_SMALL . DS . $filename;
 
 // 			// 参考サムネイルサイズ
 // 			if ($Jsize[0] >= 500) {
@@ -248,8 +248,8 @@ class DatPhotosController extends AppController {
 			 * medium (横幅1280)画像作成
 			 */
 			// ミディアム画像アップロード先
-			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium' . DS . $filename;
-			$medium_path = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'medium';
+			$medium_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_MEDIUM . DS . $filename;
+			$medium_path = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_MEDIUM;
 
 			// 参考サムネイルサイズ
 			if ($Jsize[0] >= 1280) {
@@ -259,28 +259,28 @@ class DatPhotosController extends AppController {
 				// 初期化
 				$this->Thumbmake->init();
 				// 元画像のファイルパスと保存先をセット
-				$this->Thumbmake->setImage($image, $medium_image);
+				$this->Thumbmake->setImage( $image, $medium_image );
 
 				// リサイズ処理
-				if (!$this->Thumbmake->width($width)) {
+				if ( ! $this->Thumbmake->width( $width ) ) {
 					//TODO:サムネイル画像作成失敗
 				}
 			}
 			else {
 
 				//保存先のディレクトリが存在しているかチェック
-				if (!file_exists($medium_path)) {
+				if ( ! file_exists( $medium_path ) ) {
 					mkdir($medium_path);
 				}
 				// オリジナル画像コピー
-				copy($image, $medium_image);
+				copy( $image, $medium_image );
 			}
 
 // 			/**
 // 			 * large (横幅1600)画像作成
 // 			 */
 // 			// スクエア画像アップロード先
-// 			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'large' . DS . $filename;
+// 			$large_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_LARGE . DS . $filename;
 
 // 			// 参考サムネイルサイズ
 // 			if ($Jsize[0] >= 2000) {
@@ -306,7 +306,7 @@ class DatPhotosController extends AppController {
 // 			 * huge (横幅3000)画像作成
 // 			 */
 // 			// スクエア画像アップロード先
-// 			$huge_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . 'huge' . DS . $filename;
+// 			$huge_image = WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username') . DS . UPLOAD_DIR_HUGE . DS . $filename;
 
 // 			// 参考サムネイルサイズ
 // 			if ($Jsize[0] >= 3000) {
@@ -328,75 +328,69 @@ class DatPhotosController extends AppController {
 // 				copy($image, $medium_image);
 // 			}
 
-			// 対象画像サーバー参照 TODO:今のところはいいけど複数になった瞬間おわる・・・
-			$db = $this->MstImageServer->getDataSource();
-			$mstImage = $db->fetchAll(
-<<<EOF
-					SELECT
-						image_server_id,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/','$filename') as imgUrl,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/thumbnail/','$filename') as thumUrl,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/square/','$filename') as thumUrl_square,
-						concat('http://',MstImageServer.grobal_ip,MstImageServer.file_path,'$username','/medium/','$filename') as imgUrl_m
-					FROM
-						mst_image_servers as MstImageServer
-					where
-						MstImageServer.status = ?
-EOF
-					,array(1)
-			);
+			// ランダムに画像サーバを選択する
+			$image_server_id = $this->MstImageServer->getSelectImageServer();
+
+			// 画像パスを取得する
+			$mstImage = $this->MstImageServer->getImageServerPathByUser( $image_server_id, $username, $filename );
 
 			/* paramater set */
-			$datPhoto['fk_user_id']				= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datPhoto['fk_image_server_id']		= $mstImage[0]['MstImageServer']['image_server_id'];				// TODO:対象の画像サーバのidを取得する
-			$datPhoto['photoName']				= $filename;						// 写真名
-// 			$datPhoto['DatPhoto']['description']			= '';								// 写真説明
-			$datPhoto['width']					= $Jsize[0];						// 画像の横幅
-			$datPhoto['height']					= $Jsize[1];						// 画像の縦幅
-			$datPhoto['file_name']				= $filename;			// 画像の名前を決める
-			$datPhoto['imgUrl']					= $mstImage[0][0]['imgUrl'];
-			$datPhoto['thumUrl']				= $mstImage[0][0]['thumUrl'];
-			$datPhoto['thumUrl_square']			= $mstImage[0][0]['thumUrl_square'];
-			$datPhoto['imgUrl_m']				= $mstImage[0][0]['imgUrl_m'];
-			$datPhoto['size']					= $_FILES['file']['size'];			// 画像のサイズを取得
-			$datPhoto['type']					= $_FILES['file']['type'];			// 画像のタイプを取得
-			$datPhoto['status']					= 1;								// デフォルトは有効
+			$datPhoto['fk_user_id']				= $this->Auth->user( 'user_id' );				// 会員ID:セッションより取得
+			$datPhoto['fk_image_server_id']		= $image_server_id;
+			$datPhoto['photoName']				= $filename;									// 写真名
+			$datPhoto['description']			= '';											// 写真説明
+			$datPhoto['width']					= $Jsize[0];									// 画像の横幅
+			$datPhoto['height']					= $Jsize[1];									// 画像の縦幅
+			$datPhoto['file_name']				= $filename;									// 画像の名前を決める
+			$datPhoto['imgUrl']					= $mstImage['MstImageServer']['imgUrl'];
+			$datPhoto['thumUrl']				= $mstImage['MstImageServer']['thumUrl'];
+			$datPhoto['thumUrl_square']			= $mstImage['MstImageServer']['thumUrl_square'];
+			$datPhoto['imgUrl_m']				= $mstImage['MstImageServer']['imgUrl_m'];
+			$datPhoto['size']					= $_FILES['file']['size'];						// 画像のサイズを取得
+			$datPhoto['type']					= $_FILES['file']['type'];						// 画像のタイプを取得
+			$datPhoto['status']					= STATUS_ON;									// デフォルトは有効
 			$datPhoto['create_datetime']		= date('Y-m-d h:i:s');
 			$datPhoto['update_timestamp']		= date('Y-m-d h:i:s');
 
-			// Modelに値をセット
-			$this->DatPhoto->set($datPhoto);
+			$this->DatPhoto->set( $datPhoto );
 
 			// バリデーションチェック
-			if ($this->DatPhoto->validates()) {
-
-				/* バリデーション通過 */
+			if ( $this->DatPhoto->validates() ) {
 
 				/* insert query */
 				$this->DatPhoto->create();
-				if ($this->DatPhoto->save($datPhoto)) {
+				if ( $this->DatPhoto->save( $datPhoto ) ) {
 					/* get insert new id */
 					$datPhoto['id'] = $this->DatPhoto->id;
 
 					$this->set('datPhoto', $datPhoto);
 				}
 
-				// FTPサーバ接続
-				$conn_id = $this->Ftp->FtpLogin();
-				// アップロード処理
-				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $image, null);					// オリジナルファイル
-				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $thumbnail_image, 'thumbnail');	// サムネイルファイル
-				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $square_image, 'square');			// スクエアファイル
-				$this->Ftp->FtpUpload($conn_id, $this->Auth->user('username'), $filename, $medium_image, 'medium');			// メディアムファイル
-				// FTPサーバ接続切断
-				$this->Ftp->FtpClose($conn_id);
+				// 外部画像サーバへの送信は本番環境のみ
+				if ( Configure::read( 'envronment' ) === 'production' ) {
 
+					// FTPサーバ接続
+					$conn_id = $this->Ftp->FtpLogin();
+					// アップロード処理
+					$this->Ftp->FtpUpload( $conn_id, $this->Auth->user('username'), $filename, $image, null );						// オリジナルファイル
+					$this->Ftp->FtpUpload( $conn_id, $this->Auth->user('username'), $filename, $thumbnail_image, 'thumbnail' );		// サムネイルファイル
+					$this->Ftp->FtpUpload( $conn_id, $this->Auth->user('username'), $filename, $square_image, 'square' );			// スクエアファイル
+					$this->Ftp->FtpUpload( $conn_id, $this->Auth->user('username'), $filename, $medium_image, 'medium' );			// メディアムファイル
+					// FTPサーバ接続切断
+					$this->Ftp->FtpClose( $conn_id );
+				}
 			}
+			else {
+				// バリデーションエラー
+				$datPhoto = false;
+			}
+
 		} else {
 			// postではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}
-		$this->set('_serialize', 'datPhoto');
+
+		$this->set( '_serialize', 'datPhoto' );
 	}
 
 /**
@@ -413,67 +407,32 @@ EOF
 		$this->set('datPhoto', false);
 
 		$this->DatPhoto->id = $id;
-		if (!$this->DatPhoto->exists()) {
+		if ( ! $this->DatPhoto->exists() ) {
 			// Not Data
 			throw new NotFoundException(__('Invalid dat photo'));
-		} else {
-
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('put') || $this->request->is('patch')) {
+		if ( $this->request->is( 'put' ) || $this->request->is( 'patch' ) ) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
 			$requestData = $this->request->input('json_decode');
 
-			/* 固定パラメータセット */
-			$optionData = array();
-			$optionData = array(
-				'photo_id'			=> $id,
-				'fk_user_id'		=> $this->Auth->user('user_id'),
-				'update_timestamp'	=> date('Y-m-d h:i:s'),
-			);
-			/* リクエストパラメータセット */
-			$datPhoto = $this->Convert->doConvertObjectToModelArray($requestData, 'DatPhoto', $optionData);
-
-			/* 配列のキー値の例外チェック */
-			if ( !$this->Check->doCheckArrayKeyToModel( $datPhoto['DatPhoto'], $this->DatPhoto->modelColumn ) ) {
-				// エラー：例外パラメータ
-				throw new BadRequestException(__('Bad Request.'));
-			}
-
 			// Modelに値をセット
-			$this->DatPhoto->set($datPhoto);
+			$this->DatPhoto->set( 'photo_id', $id );
+			$this->DatPhoto->set( 'fk_user_id', $this->Auth->user('user_id') );
+			if ( isset( $requestData->photoName ) ) $this->DatPhoto->set( 'photoName', $requestData->photoName );
+			if ( isset( $requestData->description ) )$this->DatPhoto->set( 'description', $requestData->description );
+			$this->DatPhoto->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
 			// バリデーションチェック
-			if ($this->DatPhoto->validates()) {
+			if ( $this->DatPhoto->validates() ) {
 
-				/* バリデーション通過 */
-
-				/* update query */
-				$result = $this->DatPhoto->updateAll(
-						// Update set
-// 						array(
-// 								'DatPhoto.name'				=> "'".$datPhoto['DatPhoto']['name']."'",
-// 								'DatPhoto.description'		=> "'".$datPhoto['DatPhoto']['description']."'",
-// 								'DatPhoto.status'			=> $datPhoto['DatPhoto']['status']."'",
-// 								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'",
-// 						)
-						// update fieldを動的に設定
-						$this->Convert->doConvertArrayKeyToQueryArray( $datPhoto['DatPhoto'], 'DatPhoto', $this->DatPhoto->updateColumn ),
-						// Where
-						array(
-								array(
-										'DatPhoto.photo_id' => $datPhoto['DatPhoto']['photo_id'],
-										'DatPhoto.fk_user_id' => $datPhoto['DatPhoto']['fk_user_id'],
-								)
-						)
-				);
-				$this->set('datPhoto', $result);
+				// 更新処理
+				if ( $this->DatPhoto->save() ) {
+					$this->set( 'datPhoto', true );
+				}
 			}
-			// Validationエラー内容
-// 			$this->DatAlbum->validationErrors;
-
 		} else {
 			// putではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
@@ -497,41 +456,24 @@ EOF
 
 		// idが存在するかチェック
 		$this->DatPhoto->id = $id;
-		if (!$this->DatPhoto->exists()) {
+		if ( ! $this->DatPhoto->exists() ) {
 			throw new NotFoundException(__('Invalid dat photo'));
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('delete')) {
-
-			/* paramater set */
-			$datPhoto['DatPhoto']['photo_id']			= $id;
-			$datPhoto['DatPhoto']['status'] 			= 0;
-			$datPhoto['DatPhoto']['update_timestamp']	= date('Y-m-d h:i:s');
+		if ( $this->request->is( 'delete' ) ) {
 
 			// Modelに値をセット
-			$this->DatPhoto->set($datPhoto);
+			$this->DatPhoto->set( 'photo_id', $id );
+			$this->DatPhoto->set( 'status', STATUS_OFF );
+			$this->DatPhoto->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
 			// バリデーションチェック
-			if ($this->DatPhoto->validates()) {
+			if ( $this->DatPhoto->validates() ) {
 
-				/* バリデーション通過 */
-
-				/* update query */
-				$result = $this->DatPhoto->updateAll(
-						// Update set
-						array(
-								'DatPhoto.status'		 	=> $datPhoto['DatPhoto']['status'],
-								'DatPhoto.update_timestamp'	=> "'".$datPhoto['DatPhoto']['update_timestamp']."'"
-						)
-						// Where
-						,array(
-								array(
-										'DatPhoto.photo_id'	=> $datPhoto['DatPhoto']['photo_id']
-								)
-						)
-				);
-				$this->set('datPhoto', $result);
+				if ( $this->DatPhoto->save() ) {
+					$this->set( 'datPhoto', true );
+				}
 			}
 		} else {
 			throw new MethodNotAllowedException();

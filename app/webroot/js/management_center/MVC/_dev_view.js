@@ -768,6 +768,15 @@ $(function(){
 
          });
 
+         if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
+            var prev = $selectedElems.eq(0).prev();
+            if(prev.length==0){
+               prev = $selectedElems.eq(0).next();
+            }
+
+            prev.find('img').click();
+         }
+
          TweenMax.to($selectedElems,0.4,{ css:{scale:0.3,opacity:0},ease:Back.easeIn,onComplete:function(){
             var albumView = getActivedAlbumView();
             $selectedElems.remove();

@@ -9,12 +9,12 @@
         <?php
             $script = array(
                 "common/TweenMax.min.js",
-                "management_center/jquery-ui-1.9.0.custom.min.js",
-                "management_center/jquery.scrollTo-1.4.3.1-min.js",
-                "management_center/jquery.mousewheel.min.js",
-                "management_center/jquery.mCustomScrollbar.js",
+                "common/jquery-ui.js",
+                "common/jquery.mousewheel.min.js",
+                "common/jquery.mCustomScrollbar.js",
+                "common/mousetrap.min.js",
                 "management_center/jquery.dropfile.js",
-                "management_center/underscore1.4.2-min.js",
+                "common/underscore.js",
                 "management_center/backbone_099.js",
                 "management_center/app.js",
                 "management_center/UI.js",
@@ -79,10 +79,18 @@
                         </div>
                     </div>
                 </div>
-                <ul id="user-panel">
-                    <li><a href="#">アカウント設定</a></li>
-                    <li><a href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $this->Html->webroot; ?>DatUsers/logout">ログアウト</a></li>
-                </ul>
+                <div id="user-panel">
+                    <div class="triangle"></div>
+                    <ul class="base">
+                        <li>
+                            <h3>基本情報</h3>
+                            <ul class="sub-ul">
+                                <li><input type="text" name="sitename" placeholder="サイト名"></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <a id="logout" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ログアウト</a>
+                </div>
             </header>
 
             <div id="main">

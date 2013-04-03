@@ -28,6 +28,11 @@ $.support.transition = (function () {
 
 })();
 //==================================================
+var ww = $(window).width();
+$(window).resize(function(){
+	ww = $(window).width();
+});
+
 $.slideshow = function(setting)
 {
 	//グロバル変数たち
@@ -36,7 +41,8 @@ $.slideshow = function(setting)
 	options = 
 	{
         imgs:       null,
-        fade:       100,
+        effect:     'fade',
+        fade:       700,
         delay:      3000,
         size:       'auto', //contain , cover も可能
         nextbtn:    null,
@@ -67,6 +73,10 @@ $.slideshow = function(setting)
         	var 
         	$img = $('<img>').load(function(){ resize($(this)); }),
         	$div = $('<div class="slide">').append($img);
+
+        	if(options.effect=='fade'){
+        		$div.css('transition','opacity '+options.fade+'ms ease-out');
+        	}
 
         	$img[0].src=url;
         	$slideshow.append($div);
@@ -180,12 +190,15 @@ $.slideshow = function(setting)
 
 	var methods =
 	{
-		play: function(immediacy)
+		play: function(immediacy,dir)
 		{
 			clearTimeout( timer );
-			var len = options.imgs.length;
+			options.onplay();
+			var 
+			len = options.imgs.length,
+			effect = options.effect;
 
-			function doSlideshow()
+			function doSlideshow(byUser)
 			{
 				
 				(pointer)===len && (pointer=0)
@@ -203,26 +216,69 @@ $.slideshow = function(setting)
 					allowJump = true;
 				});*/
 
-				if($.support.transition){
-					$current.addClass('opacity-0').one($.support.transition.end,function(){
-						$(this).removeClass('current opacity-0').css('visibility','hidden');
-						$current.removeClass('next').addClass('current');
-						$next.addClass('next');
-						allowJump = true;
-					});
-				}else{
-					(function($current_copy){
-						TweenMax.to($current_copy, options.fade/1000, 
-						{
-							css:{opacity:0},onComplete:function(){
-								$current_copy.removeClass('current').css('opacity',1);
+				//
+
+				//
+				switch(effect) {
+					case 'slide':
+						(function($current_copy){
+							var
+                            current_from    = 0,
+                            current_to      = -ww,
+                            next_from       = ww,
+                            next_to         = 0;
+
+							if(byUser && dir){
+								current_from    = 0,
+	                            current_to      = ww,
+	                            next_from       = -ww,
+	                            next_to         = 0;
+							}
+							/*TweenMax.fromTo($current,0.8,{ css:{left:current_from} },{ css:{left:current_to}, ease:Power2.easeInOut });
+							TweenMax.fromTo($next, 0.8, {css:{left:next_from}}, {css:{left:next_to}, ease:Power2.easeInOut,onComplete:function(){
+								$current_copy.removeClass('current');
 								$current.removeClass('next').addClass('current');
 								$next.addClass('next');
 								allowJump = true;
-							}
+							}});*/
+							//
+							$current.css('left',current_from).animate({left:current_to},800);
+							$next.css('left',next_from).animate({left:next_to},800,function(){
+								$current_copy.removeClass('current');
+								$current.removeClass('next').addClass('current');
+								$next.addClass('next');
+								allowJump = true;
+							});
+							//
+						})($current);
+
+						break;
+
+					case 'fade':
+					if($.support.transition){
+						$current.addClass('opacity-0').one($.support.transition.end,function(){
+							$(this).removeClass('current opacity-0').css('visibility','hidden');
+							$current.removeClass('next').addClass('current');
+							$next.addClass('next');
+							allowJump = true;
 						});
-					})($current);
+					}else{
+						(function($current_copy){
+							TweenMax.to($current_copy, options.fade/1000, 
+							{
+								css:{opacity:0},onComplete:function(){
+									$current_copy.removeClass('current').css('opacity',1);
+									$current.removeClass('next').addClass('current');
+									$next.addClass('next');
+									allowJump = true;
+								}
+							});
+						})($current);
+					}
+
 				}
+
+				
 				
 				//fire change event
 				options.onchange(pointer-1<0 ? len-1 : pointer-1);
@@ -232,7 +288,7 @@ $.slideshow = function(setting)
 			}
 
 			if(immediacy){
-				doSlideshow();
+				doSlideshow(true);
 			}else{
 				timer = setTimeout( doSlideshow, options.delay );
 			}
@@ -267,7 +323,7 @@ $.slideshow = function(setting)
 			if(pointer<0) pointer = len-1;
 			$next.removeClass('next');
 			$next = $slides.eq(pointer-1).addClass('next');
-			this.stop().play(true);
+			this.stop().play(true,'prev');
 		},
 		jumpTo: function(index)
 		{
@@ -289,6 +345,10 @@ $.slideshow = function(setting)
 		{ return $imgs; },
 		option: function(newoptions)
 		{
+			if( options.effect=='slide' && newoptions.effect=='fade'){
+				$slideshow.find('.slide').css('left','');
+			}
+
 			$.extend(options,newoptions);
 			if(newoptions.imgs)
 			{
@@ -296,6 +356,9 @@ $.slideshow = function(setting)
 				getReady();
 				this.play();
 			}
+
+
+
 			$(window).resize();
 			return this;
 		}

@@ -47,6 +47,12 @@ class DashBoardsController extends AppController {
 
 	public $layout = 'dashboard_layout';
 
+	public function beforeFilter() {
+		// 親クラスをロード
+		parent::beforeFilter();
+		$this->Auth->allow('index');
+	}
+
 
 /**
  * Displays a view

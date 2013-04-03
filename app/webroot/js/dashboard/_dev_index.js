@@ -1,7 +1,7 @@
 $(function(){
 
 var
-root = 'http://phorest.ligtest.info/',
+root = 'http://localhost:8888/phorest/',
 username = $('meta[name="owner"]').attr('content'),
 sitename = username,
 $albums = $('#albums .row');
@@ -9,7 +9,7 @@ $albums = $('#albums .row');
 function init()
 {
 
-	url = 'http://phorest.ligtest.info/datalbums/userSearch/' + username;
+	var url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
 	$('#site-name').text(sitename+"のアルバム");
 	$.getJSON(url,function(userArr){
 		var

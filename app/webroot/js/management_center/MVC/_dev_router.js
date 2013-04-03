@@ -69,5 +69,5 @@ $(function(){
    // }
 
    mvc.router = new Router();
-   Backbone.history.start({pushState: true, root: "/control-panel/"});
+   Backbone.history.start({pushState: true, root: "/phorest/control-panel/"});
 });

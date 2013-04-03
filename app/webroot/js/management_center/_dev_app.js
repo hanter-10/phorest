@@ -8,8 +8,8 @@ $(document).ready(function(){
     $.app.Events = _.extend({}, Backbone.Events);
     $.app.properties =
     {
-    	root:                   "http://phorest.ligtest.info/",
-        coverimg:               "http://phorest.ligtest.info/css/management_center/images/cover.png",
+    	root:                   "http://localhost:8888/phorest/",
+        coverimg:               "/phorest/css/management_center/images/cover.png",
         headerHeight:           $("#header").outerHeight(true),
         albumControlBarHeight:  $("#album-control-bar").outerHeight(true),
         albums:                 $("#albums"),
@@ -64,25 +64,11 @@ $(document).ready(function(){
             $uploadAreaContainer = $("#uploadAreaContainer"),
             $imgContainer = $("#imgContainer");
 
-            $.app.properties.upPhoto.click(function(e,isSysClick){ 
-                console.log( e.data,'ddddddddddddddd' );
-                var 
-                $this = $(this),
-                isActived = $this.hasClass('active');
-
-                if( !isActived ){
-                    $this.addClass('active');
-                    $imgContainer.hide();
-                    $uploadAreaContainer.fadeIn(); 
-                }else{
-                    if(!isSysClick){ return false; }
-                    $(this).removeClass('active');
-                    $uploadAreaContainer.hide();
-                    $imgContainer.fadeIn();
-                }
-                
-                
-            });
+            $.app.properties.upPhoto.toggle
+            (
+            function(){ $(this).toggleClass('active');$imgContainer.hide(); $uploadAreaContainer.fadeIn(); },
+            function(){ $(this).toggleClass('active');$uploadAreaContainer.hide(); $imgContainer.fadeIn(); }
+            );
 
             var
             $userPanel = $("#user-panel"),
@@ -97,7 +83,7 @@ $(document).ready(function(){
             });
 
             //------------------------アルバムのアクティブ状態----------------------------
-            $( '#albums' ).on( 'click' , '.cover' ,function()
+            $("#albums .cover").live("click",function()
             {
                 $("#albums .album").removeClass("active");
                 $(this).parent().addClass("active");
@@ -115,7 +101,7 @@ $(document).ready(function(){
         fileDrop: function()
         {
             $("#uploadAreaContainer").dropfile({
-				url:   'http://phorest.ligtest.info/uploads/',
+                url:   'http://localhost:8888/phorest/uploads/',
                 inputID: 'photoFiles',
                 accept: ['image/jpeg','image/png','image/gif'],
                 dragEnter: function(){

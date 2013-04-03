@@ -2,7 +2,7 @@ $(function(){
 
 var
 username            = $('meta[name="owner"]').attr('content'),
-rooturl             = 'http://phorest.ligtest.info/',
+rooturl             = 'http://localhost:8888/phorest/',
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
 $albumsContainer    = $('#albumsContainer'),
@@ -66,6 +66,9 @@ function startslide(album)
 }
 
 
+
+
+
 //all start here
 var _routes={};
 _routes[username+'/albums/:albumName']='init';
@@ -111,10 +114,10 @@ var Router = Backbone.Router.extend({
 
 	initAlbum : function(albumArr)
 	{
-		var 
+		var
 		template = _.template($('#temp_album').html());
 		$.each(albumArr,function(index,album){
-			var 
+			var
 			cover = album['photos'][0],
 			$el = $( template({thumUrl:cover['thumUrl_square'],  albumName:album["albumName"]}) );
 
@@ -124,8 +127,7 @@ var Router = Backbone.Router.extend({
 
 		function changeAlbum()
 		{
-<<<<<<< HEAD
-			var 
+			var
 			albumName = $(this).parent().find('figcaption').text(),
 			newurl = username+'/albums/'+albumName;
 
@@ -136,7 +138,7 @@ var Router = Backbone.Router.extend({
 
 	loadAlbum : function(albumName,init)
 	{
-		var 
+		var
 		_this = this,
 		albumIndex,
 		imgArr = [],
@@ -152,20 +154,6 @@ var Router = Backbone.Router.extend({
 			imgArr.push(photo.imgUrl_m);
 		});
 
-		$.loadimg({
-			imgs: imgArr,
-			process: function(percentage){
-				console.log( percentage );
-				// _this.startslide(albumArr[albumIndex]);
-			},
-			allLoad: function(){
-				console.log( 'all loaed' );
-				_this.addThumb( albumArr[albumIndex] );
-				if(init){
-					startslide(albumArr[albumIndex]);
-				}else{
-					slideshow.option({imgs:imgArr});
-				}
 
 		$.loadimg({
 			imgs: imgArr,
@@ -181,15 +169,15 @@ var Router = Backbone.Router.extend({
 				}else{
 					slideshow.option({imgs:imgArr});
 				}
-				
+
 			}
 		});
-		
+
 	},
 
 	addThumb : function(album)
 	{
-		var 
+		var
 		$div = $('<div>'),
 		photos = album['photos'],
 		firstPhoto = photos[0],
@@ -200,7 +188,7 @@ var Router = Backbone.Router.extend({
 		$indicator.css({ width:indicator_width, left:3 }); //reset position and width of indicator
 
 		$.each(photos,function(index,photo){
-			var 
+			var
 			url = photo.thumUrl,
 			img_width = $('<img height="33" alt="thum">').attr({src:url}).data({index:index,photoName:photo.photoName}).appendTo($div);
 			container_width += getWidth(photo)+6;
@@ -211,7 +199,7 @@ var Router = Backbone.Router.extend({
 		$underpart.mCustomScrollbar("update");
 
 		function getWidth(photoModel){
-			var 
+			var
 	        ratio = photoModel.width/photoModel.height,
 	        width = ratio*33;
 	        return Math.round(width);

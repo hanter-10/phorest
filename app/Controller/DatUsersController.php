@@ -15,39 +15,42 @@ class DatUsersController extends AppController {
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('login', 'logout', 'add', 'sign_up', 'code', 'provision');
+		$this->Auth->allow( 'login', 'logout', 'add', 'sign_up', 'code', 'provision' );
 	}
 
+	// 初期登録時のアルバム数
+	private $default_album = 3;
+
 	public function login() {
+
 		$this->layout = 'home_layout';
-		if ($this->request->is('post')) {
+
+		if ( $this->request->is('post') ) {
 
 			// ユーザー名に「＠」を使用できないという前提でusernameに「＠」を含んでいる場合はemailに置き換え
-			if (strstr($this->request->data['DatUser']['username'], '@')) {
-				$this->request->data['DatUser']['email']	= $this->request->data['DatUser']['username'];
-// 				$this->Auth->fields['username']	= 'email';
-// 				$this->Auth->fields = array(
-// 						'username' => 'email',
-// 				);
+			if ( strstr( $this->request->data['DatUser']['username'], '@' ) ) {
+				$this->request->data['DatUser']['email'] = $this->request->data['DatUser']['username'];
 				$this->Auth->authenticate['Form']['fields']['username'] = 'email';
 			}
 
-			if ($this->Auth->login()) {
-
-				// CPへリダイレクト
-// 				$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
-				$this->Auth->redirect = '../control-panel/';
-				$this->redirect($this->Auth->redirect);
-// 				$this->redirect($this->Auth->redirect());
-			} else {
-				$this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
+			// データセット
+			$this->DatUser->set( $this->request->data );
+			// バリデーションチェック
+			if ( $this->DatUser->validates() ) {
+				if ( $this->Auth->login() ) {
+					// CPへリダイレクト
+					$this->Auth->redirect = '../control-panel/';
+					$this->redirect($this->Auth->redirect);
+				} else {
+					$this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
+				}
 			}
 		}
 	}
 
 	public function logout() {
 		$this->layout = 'login';
-		$this->redirect($this->Auth->logout());
+		$this->redirect( $this->Auth->logout() );
 	}
 
 /**
@@ -59,13 +62,9 @@ class DatUsersController extends AppController {
 
 		// usernameを取得してViewに設置
 		$meta_data = $this->Auth->user('username');
-		$this->set(compact('meta_data'));
+		$this->set( compact('meta_data') );
 
 		$this->layout = 'user_layout';
-
-// 		var_dump($this->Auth->user('user_id'));
-// 		$this->DatUser->recursive = 0;
-// 		$this->set('datUsers', $this->paginate());
 	}
 
 /**
@@ -98,63 +97,60 @@ class DatUsersController extends AppController {
 
 					$this->request->data['DatUser']['email'] = $this->Session->read('TmpUser.temp_email');
 				}
-				$this->request->data['DatUser']['create_datetime'] = date('Y-m-d h:i:s');
-				$this->request->data['DatUser']['update_timestamp'] = date('Y-m-d h:i:s');
+				$this->request->data['DatUser']['status']	= 1;		// デフォルト有効
+				$this->request->data['DatUser']['create_datetime']	= date('Y-m-d h:i:s');
+				$this->request->data['DatUser']['update_timestamp']	= date('Y-m-d h:i:s');
 
-				$this->DatUser->create();
-				if ($this->DatUser->save($this->request->data)) {
-					if ($this->Auth->login()) {
+				// データセット
+				$this->DatUser->set( $this->request->data );
+				// バリデーションチェック
+				if ( $this->DatUser->validates() ) {
 
-						// tempユーザーデータのステータスを認証済みとする
-						$result = $this->TmpUser->updateAll(
-								// Update set
-								array(
-										'TmpUser.status'	=> 1,
-								),
-								// Where
-								array(
-										array(
-												'TmpUser.status'		=> 0,
-												'TmpUser.temp_email'	=> $this->request->data['DatUser']['email'],
-										)
-								)
-						);
+					$this->DatUser->create();
+					if ( $this->DatUser->save( $this->request->data ) ) {
+						if ( $this->Auth->login() ) {
 
-						// 初期登録デフォルトでアルバム3つ保持
-						$datAlbum = array();
-						$datAlbum['fk_user_id']					= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-						$datAlbum['flg']						= 0;								// デフォルトは非公開
-						$datAlbum['status']						= 1;								// デフォルトは有効
-						$datAlbum['create_datetime']			= date('Y-m-d h:i:s');
-						$datAlbum['update_timestamp']			= date('Y-m-d h:i:s');
+							// tempユーザーデータのステータスを認証済みとする
+							$this->TmpUser->updateTmpUserStatus($this->request->data['DatUser']['email'], 1);
 
-						/* insert query */
-						for ($i = 1; $i <= 3; $i++) {
-							$datAlbum['albumName']	= 'アルバム' . $i;		// アルバム名
+							// 初期登録デフォルトでアルバム3つ保持
+							$datAlbum = array();
+							$datAlbum['fk_user_id']					= $this->Auth->user('user_id');		// 会員ID:セッションより取得
+							$datAlbum['flg']						= 0;								// デフォルトは非公開
+							$datAlbum['status']						= 1;								// デフォルトは有効
+							$datAlbum['create_datetime']			= date('Y-m-d h:i:s');
+							$datAlbum['update_timestamp']			= date('Y-m-d h:i:s');
 
-							$this->DatAlbum->create();
-							$this->DatAlbum->save($datAlbum);
+							// 登録時のデフォルトアルバムを登録する
+							for ($i = 1; $i <= $this->default_album; $i++) {
+								$datAlbum['albumName']	= 'アルバム' . $i;		// アルバム名
+
+								$this->DatAlbum->create();
+								$this->DatAlbum->save( $datAlbum );
+							}
+
+							// 対象session削除
+							$this->Session->delete('TmpUser');
+
+							// CPへリダイレクト
+							$this->redirect($this->Auth->redirect());
 						}
-
-						// 対象session削除
-						$this->Session->delete('TmpUser');
-
-						// CPへリダイレクト
-// 						$this->Auth->loginRedirect = $this->Auth->user('username') . '/cp';
-						$this->redirect($this->Auth->redirect());
-// 						$this->redirect(array('controller' => 'DatUsers', 'action' => 'index'));
+					} else {
+						$this->redirect( $this->Auth->logout() );
 					}
-				} else {
-					// TODO:バリデーションとかその辺ハンドリングしなきゃ
-					$this->redirect($this->Auth->logout());
-// 					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
 				}
+				$this->set( 'step', 3 );
+				$this->set( 'meta_data', $this->request->data['DatUser']['email'] );
+				$this->set( 'email', $this->request->data['DatUser']['email'] );
+				$this->render( 'sign_up', 'sign_up_layout' );
 			}
 		} catch (Exception $e) {
-			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
 			// username重複エラー対策
-			$this->redirect('/sign_up/3');
-// 			$this->redirect($this->Auth->logout());
+			$this->set( 'step', 3 );
+			$this->set( 'meta_data', $this->request->data['DatUser']['email'] );
+			$this->set( 'email', $this->request->data['DatUser']['email'] );
+			$this->set( 'error_message', '該当のユーザーIDは使用済みです' );
+			$this->render( 'sign_up', 'sign_up_layout' );
 		}
 	}
 
@@ -179,40 +175,20 @@ class DatUsersController extends AppController {
 		$hash = $this->request->hash;
 
 		// 対象期間 7日間
-		$toDate 	= date('Y-m-d h:i:s');
 		$fromDate 	= date('Y-m-d h:i:s' ,strtotime('-7 day'));
 
-		$db = $this->TmpUser->getDataSource();
-		$tmpUser = $db->fetchAll(
-<<<EOF
-				SELECT
-					id,
-					temp_email,
-					hash_string,
-					status,
-					create_datetime
-				FROM
-					tmp_users
-				WHERE
-					hash_string = ?
-				AND
-					status = ?
-				AND
-					create_datetime >= ?
-				AND
-					create_datetime <= ?
-EOF
-				,array($hash, 0, $fromDate, $toDate)
-		);
-		if($tmpUser){
+		// 該当Hash値で検索して一時Userデータを取得する
+		$tmpUser = $this->TmpUser->getTmpUserDataByHash( $hash, 0, $fromDate );
+
+		if ( $tmpUser ) {
 
 			// 格納
 			$this->Session->write('TmpUser.temp_email', $tmpUser[0]['tmp_users']['temp_email']);
-
 			// メール認証後、ユーザー情報入力画面へ
 			$this->redirect('/sign_up/3');
-		} else {
 
+		}
+		else {
 			// ログイン画面へ
 			$this->redirect('/login');
 		}
@@ -233,104 +209,102 @@ EOF
 
 				$hash_string = $this->request->data['TmpUser']['hash_string'];
 
-// 				$this->redirect('/sign_up');
-// 				var_dump($this->request->data);
-// 				exit;
+				// 既存ユーザーデータにすでにEmailが登録されていないかチェック
+				$datUser = $this->DatUser->checkUserDataByEmail($temp_email, 1);
 
-				// 既存ユーザーデータを参照＆比較
-				$db = $this->DatUser->getDataSource();
-				$datUser = $db->fetchAll(
-<<<EOF
-					SELECT
-						count(user_id) as cnt
-					FROM
-						dat_users
-					WHERE
-						email = ?
-					AND
-						status = ?
-EOF
-						,array($temp_email, 1)
-				);
-				if ($datUser[0][0]['cnt'] >= 1) {
+				if ( $datUser > 0 ) {
 					// 既存データに登録済みのメールアドレスの場合
-					$this->redirect($this->Auth->logout());
+					$this->set( 'error_message', '該当のメールアドレスは既に使用済みです' );
+					$this->render('login', 'home_layout');
 				}
+				else {
 
-				$this->TmpUser->create();
-				if ($this->TmpUser->save($this->request->data)) {
+					// データセット
+					$this->TmpUser->set( $this->request->data );
+					// バリデーションチェック
+					if ( $this->TmpUser->validates() ) {
 
-					// 通知URL作成
-					$send_url = Router::url("/code/$hash_string", true);
+						$this->TmpUser->create();
+						if ( $this->TmpUser->save( $this->request->data ) ) {
 
-					// メール送信処理
-					$email = new CakeEmail( 'default' );
-// 					$email->from(array('yashiro@XXX.com' => 'My Site'));
-					$email->to( $temp_email );
-					$email->subject( 'メールアドレス確認通知' );
-					$email->send( $send_url );
+							// 通知URL作成
+							$send_url = Router::url("/code/$hash_string", true);
+							$data = array(
+									'url' => $send_url,
+									);
+							// メール送信処理
+							$email = new CakeEmail( 'default' );
+							$email->to( $temp_email );
+							$email->subject( 'メールアドレス確認通知' );
+							$email->template( 'sign_up_notification_to_user' );
+							$email->viewVars( $data );
+							$email->send();
 
-					// メール送信しました画面へ
-					$this->redirect('/sign_up/2');
-					exit;
+							// 格納
+							$this->Session->write('TmpUser.temp_email', $temp_email);
+							// メール送信しました画面へ
+							$this->redirect('/sign_up/2');
+							exit;
 
-				} else {
-					// TODO:バリデーションとかその辺ハンドリングしなきゃ
-					$this->redirect($this->Auth->logout());
-					// 					$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
+						} else {
+							$this->redirect($this->Auth->logout());
+						}
+					}
 				}
 			}
+
+			$this->render('login', 'home_layout');
+
 		} catch (Exception $e) {
-			// TODO:SQL ERRORとかその辺ハンドリングしなきゃ
 			$this->redirect($this->Auth->logout());
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->DatUser->id = $id;
-		if (!$this->DatUser->exists()) {
-			throw new NotFoundException(__('Invalid dat user'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->DatUser->save($this->request->data)) {
-				$this->Session->setFlash(__('The dat user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->DatUser->read(null, $id);
-		}
-	}
+// /**
+//  * edit method
+//  *
+//  * @throws NotFoundException
+//  * @param string $id
+//  * @return void
+//  */
+// 	public function edit($id = null) {
+// 		$this->DatUser->id = $id;
+// 		if (!$this->DatUser->exists()) {
+// 			throw new NotFoundException(__('Invalid dat user'));
+// 		}
+// 		if ($this->request->is('post') || $this->request->is('put')) {
+// 			if ($this->DatUser->save($this->request->data)) {
+// 				$this->Session->setFlash(__('The dat user has been saved'));
+// 				$this->redirect(array('action' => 'index'));
+// 			} else {
+// 				$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
+// 			}
+// 		} else {
+// 			$this->request->data = $this->DatUser->read(null, $id);
+// 		}
+// 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->DatUser->id = $id;
-		if (!$this->DatUser->exists()) {
-			throw new NotFoundException(__('Invalid dat user'));
-		}
-		if ($this->DatUser->delete()) {
-			$this->Session->setFlash(__('Dat user deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Dat user was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
+// /**
+//  * delete method
+//  *
+//  * @throws MethodNotAllowedException
+//  * @throws NotFoundException
+//  * @param string $id
+//  * @return void
+//  */
+// 	public function delete($id = null) {
+// 		if (!$this->request->is('post')) {
+// 			throw new MethodNotAllowedException();
+// 		}
+// 		$this->DatUser->id = $id;
+// 		if (!$this->DatUser->exists()) {
+// 			throw new NotFoundException(__('Invalid dat user'));
+// 		}
+// 		if ($this->DatUser->delete()) {
+// 			$this->Session->setFlash(__('Dat user deleted'));
+// 			$this->redirect(array('action' => 'index'));
+// 		}
+// 		$this->Session->setFlash(__('Dat user was not deleted'));
+// 		$this->redirect(array('action' => 'index'));
+// 	}
 }

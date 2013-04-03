@@ -18,7 +18,7 @@
                 "common/jquery-tools.js",
                 "common/jquery.slideshow.js",
                 "common/screenfull.js",
-                "frontsite/index.js"
+                FRONTSITE_DS_INDEX_JS
                 );
             echo $this->element('common/css');
             echo $this->Html->css(array( "frontsite/css/icon.css","common/slideshow.css","frontsite/css/index.css","frontsite/css/jquery.mCustomScrollbar.css" ));

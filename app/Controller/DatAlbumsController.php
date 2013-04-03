@@ -196,16 +196,27 @@ class DatAlbumsController extends AppController {
 		$this->set('datAlbum', false);
 
 		$this->DatAlbum->id = $id;
-		if (!$this->DatAlbum->exists()) {
+		if ( ! $this->DatAlbum->exists() ) {
 			// Not Data
 			throw new NotFoundException(__('Invalid dat album'));
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('put') || $this->request->is('patch')) {
+		if ( $this->request->is( 'put' ) || $this->request->is( 'patch' ) ) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$requestData = $this->request->input('json_decode');
+			$requestData = $this->request->input( 'json_decode' );
+
+// 			// データセット
+// 			if ( isset ( $requestData->albumName ) ) $this->DatAlbum->set( 'albumName', $requestData->albumName );
+// 			if ( isset ( $requestData->public ) ) $this->DatAlbum->set( 'flg', $requestData->public );
+// 			$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
+
+// 			// バリデーションチェック
+// 			if ( $this->DatAlbum->validates() ) {
+
+// 			}
+
 
 			/* 固定パラメータセット */
 			$optionData = array();

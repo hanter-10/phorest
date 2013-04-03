@@ -52,87 +52,40 @@ class DatAlbum extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'album_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'albumName' => array(
-			'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'description' => array(
-			'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'flg' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'create_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'update_timestamp' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+			'album_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバムIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'アルバムIDは数値で指定してください')),
+
+			'fk_user_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'ユーザーIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'ユーザーIDは数値で指定してください')),
+
+			'albumName' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバム名を指定してください')),
+
+			'description' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバム説明を指定してください')),
+
+			'flg' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '公開/非公開を指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => '公開/非公開は数値で指定してください'))
+			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

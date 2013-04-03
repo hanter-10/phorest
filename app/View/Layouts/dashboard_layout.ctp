@@ -13,7 +13,7 @@
             echo $this->Html->css(array( "dashboard/css/bootstrap.css","dashboard/css/bootstrap-responsive.css","dashboard/css/icon.css","dashboard/css/index.css" ));
             //script output
             echo $this->element('common/js');
-            echo $this->Html->script(array( "common/underscore1.4.2-min.js",DASHBORD_DS_INDEX_JS ));
+            echo $this->Html->script(array( "common/underscore.js",DASHBORD_DS_INDEX_JS ));
         ?>
 
         <script type="text/template" id="temp_album">

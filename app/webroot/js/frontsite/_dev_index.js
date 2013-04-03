@@ -2,7 +2,7 @@ $(function(){
 
 var
 username            = $('meta[name="owner"]').attr('content'),
-rooturl             = 'http://localhost:8888/phorest/',
+rooturl             = '/phorest/',
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
 $albumsContainer    = $('#albumsContainer'),

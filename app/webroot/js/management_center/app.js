@@ -64,24 +64,24 @@ $(document).ready(function(){
             $uploadAreaContainer = $("#uploadAreaContainer"),
             $imgContainer = $("#imgContainer");
 
-            $.app.properties.upPhoto.click(function(e,isSysClick){ 
+            $.app.properties.upPhoto.click(function(e,isSysClick){
                 console.log( e.data,'ddddddddddddddd' );
-                var 
+                var
                 $this = $(this),
                 isActived = $this.hasClass('active');
 
                 if( !isActived ){
                     $this.addClass('active');
                     $imgContainer.hide();
-                    $uploadAreaContainer.fadeIn(); 
+                    $uploadAreaContainer.fadeIn();
                 }else{
                     if(!isSysClick){ return false; }
                     $(this).removeClass('active');
                     $uploadAreaContainer.hide();
                     $imgContainer.fadeIn();
                 }
-                
-                
+
+
             });
 
             var

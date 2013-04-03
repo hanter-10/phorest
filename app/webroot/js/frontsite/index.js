@@ -66,6 +66,9 @@ function startslide(album)
 }
 
 
+
+
+
 //all start here
 var _routes={};
 _routes[username+'/albums/:albumName']='init';
@@ -124,7 +127,6 @@ var Router = Backbone.Router.extend({
 
 		function changeAlbum()
 		{
-<<<<<<< HEAD
 			var
 			albumName = $(this).parent().find('figcaption').text(),
 			newurl = username+'/albums/'+albumName;
@@ -152,20 +154,6 @@ var Router = Backbone.Router.extend({
 			imgArr.push(photo.imgUrl_m);
 		});
 
-		$.loadimg({
-			imgs: imgArr,
-			process: function(percentage){
-				console.log( percentage );
-				// _this.startslide(albumArr[albumIndex]);
-			},
-			allLoad: function(){
-				console.log( 'all loaed' );
-				_this.addThumb( albumArr[albumIndex] );
-				if(init){
-					startslide(albumArr[albumIndex]);
-				}else{
-					slideshow.option({imgs:imgArr});
-				}
 
 		$.loadimg({
 			imgs: imgArr,

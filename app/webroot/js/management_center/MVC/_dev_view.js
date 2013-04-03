@@ -1,5 +1,5 @@
 $(function(){
-   var
+   var 
    $currentActivePhotoCollection,
    $photoCollection_right,
    mvc = $.app.Backbone,
@@ -7,6 +7,7 @@ $(function(){
    $albumStatusInput = $.app.properties.albumStatusInput,
    $title = $('head title'),
    $preview = $('#preview'),
+   $deletePhoto = $('#delete-photo'),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -25,7 +26,7 @@ $(function(){
       },
       render : function()
       {
-         var
+         var 
          html = this.template(this.model.toJSON()),
          width = this.model.get("width"),
          height = this.model.get("height");
@@ -38,12 +39,12 @@ $(function(){
          }else{
             $img.attr({height:113,width:null});
          }
-
+         
          return this;
       },
       changeName : function(e)
       {
-         var
+         var 
          $input = $(e.currentTarget),
          oldName = this.model.get('photoName');
          newName = $input.val();
@@ -56,14 +57,14 @@ $(function(){
             // this.model.set({photoName:newName});
             this.model.save({photoName:newName}, {patch: true});
          }
-
+         
       }
    });
 
    mvc.PhotoCollectionView = Backbone.View.extend({
       tagName : 'div',
       className : 'photoCollection',
-      events :
+      events : 
       {
          'keypress .filename':   'unFocus',
          'click .photo':         'selectable'
@@ -90,11 +91,11 @@ $(function(){
          this.collection.on('remove',this.removePhotos,this);
          _.bindAll(this,'onDropAlbum','onDropUploadArea','onDropPhotosArea'); //The _.bindAll() must be called before the function is assigned
          var dnd = new $.app.UI.methods.dndClass(this.$el,'img'),
-         options =
+         options = 
          [
             {
                dropArea:   'album',
-               events:
+               events:     
                {
                   onDrop:     this.onDropAlbum, //dndElemはドロップされた要素(album)
                   onDragOver: this.onDragOverAlbum
@@ -118,7 +119,7 @@ $(function(){
             }
          ];
          dnd.enable(options);
-
+         
          // this.onDropAlbum = _.bind(this.onDropAlbum,this);
          //this.$el.on('keypress','.filename',this.unFocus); //通常のjQueryのonを利用している
       },
@@ -145,10 +146,10 @@ $(function(){
          this.collection.each(function(photo){
             var photoView;
             photoView = new mvc.PhotoView({model:photo});
-
+            
             _this.$el.append(photoView.render().el);
          });
-
+         
 
          // insert to container
          this.appendTo.append(this.$el);
@@ -177,6 +178,7 @@ $(function(){
       },
       selectable : function(e)
       {
+         if(e.target.className=='filename') { e.target.select(); }
          if(e.target.tagName!='IMG') { return this;}
          var
          ctrlOrShift,
@@ -233,25 +235,27 @@ $(function(){
             // $(".selectedElem",$container).removeClass("selectedElem");
             beSelected = beSelected.add($photo).add($firstElem);
             beSelected.addClass("selectedElem");
-            $photo.removeClass("activing");
+            $photo.removeClass("activing"); 
 
          }
          else
          {
-            var
+            var 
             cid = $(e.target).data('cid'),
             model = this.collection.get(cid),
             imgUrl = model.get('imgUrl_m'),
             photoName = model.get('photoName');
-
-            if(!this.tempType){
+            
+            if(!this.tempType){ 
                if( decodeURI($.app.properties.previewImg[0].src) != imgUrl ){
                   $.app.properties.previewImg.hide().load(function(){
                      $(this).fadeIn(300);
                   })[0].src=imgUrl;
                }
                $.app.properties.caption.text(photoName);
-               if($.app.properties.upPhoto.hasClass('active')){ $.app.properties.upPhoto.click(); }
+               if($.app.properties.upPhoto.hasClass('active')){ 
+                  $.app.properties.upPhoto.trigger("click",[true]);
+               }
             }
             // console.log( imgUrl );
             $(".selectedElem",$container).removeClass("selectedElem");
@@ -264,7 +268,7 @@ $(function(){
       {
          $dndElem.removeClass("dragOver");
          var targetAlbumView = $dndElem.data('view');
-
+         
          if(!targetAlbumView.PhotoCollectionView.rendered){ //レンダリングされてなければ、renderOnlyモードでレンダリングを行う
             targetAlbumView.PhotoCollectionView.render(true);
          }
@@ -275,15 +279,15 @@ $(function(){
          {
             return false;
          }
-
-
+         
+         
          //animation
-         var
+         var 
          _this = this,
          dpos = $dndElem.offset(),
          len = $selectedElem.length;
          $selectedElem.each(function(index){
-            var
+            var 
             $this = $(this),
             $clone = $this.clone(),
             pos = $this.offset();
@@ -310,12 +314,12 @@ $(function(){
             };
 
             if(--len==0){
-               var
+               var 
                lastone = true, //クロージャ
                cid = $this.find('img').data('cid'),
                lastPhotoModel = _this.collection.get(cid),
                thumUrl_square = lastPhotoModel.get('thumUrl_square');
-
+               
                $clone.data( 'thumUrl_square', thumUrl_square );
             }
             TweenMax.to( $clone , 0.85, {delay:index*0.01,css:{bezier:bezier}, ease:Power1.easeOut, onComplete:function(){
@@ -332,7 +336,7 @@ $(function(){
       },
       onDragOverAlbum: function($dndElem, $selectedElem)
       {
-
+          
          this.lastDragOverElem.removeClass("dragOver");
          this.lastDragOverElem = $dndElem.addClass("dragOver");
       },
@@ -353,14 +357,14 @@ $(function(){
             return false;
          }else{
             // ドロップした先のalbumのmodel、要するに移動先toである
-            var
+            var 
             $to = $('#albums .album.active'),
             albumModel = mvc.AlbumsView_instance.collection.get($to.data('cid'));
             this.move($selectedElem,albumModel,true); //isPhotosAreaをtrueにすることで、moveでアニメを実行
             return true;
          }
 
-
+         
       },
       onDragOverPhotosArea: function($selectedElem)
       {
@@ -380,18 +384,22 @@ $(function(){
          _this = this;
 
          _.each($selectedElem,function(el,index){
-            var
+            var 
             cid      = $('img',el).data('cid'),
             model    = this.collection.get(cid);
             photoModels[index] = model;
             photoIds[index] = model.id || model.attributes.id;
          },this);
-
+         
          data = JSON.stringify({ targetAlbum:targetAlbum.id, photos:photoIds });
          options =
          {
             data : data,
+//            url : '/DatAlbumPhotoRelations/'+_this.albumID
             url : 'http://localhost:8888/phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://localhost:81/Phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://development/phorest/datalbumphotorelations/'+_this.albumID
+//            url : 'http://pk-brs.xsrv.jp/datalbumphotorelations/'+_this.albumID
          };
          Backbone.sync('update',null,options)
          .fail(function(){
@@ -399,7 +407,7 @@ $(function(){
          });
 
          //サーバーの応答を待たずに、とりあえずアルバムを移動する
-
+         
          _this.collection.remove(photoModels);
          targetAlbum.PhotoCollectionView.collection.add(photoModels);
 
@@ -408,10 +416,10 @@ $(function(){
             $.app.properties.photos_right = $.app.properties.photos_right.not($selectedElem);
             $.app.properties.photos = $.app.properties.photos.add($selectedElem);
             $.app.properties.photosPanel.trigger('resize');
-
+            
             var $clones=$();
             $selectedElem.each(function(index){
-               var
+               var 
                $this = $(this),
                $clone = $this.clone(),
                pos = $this.offset();
@@ -422,30 +430,30 @@ $(function(){
             $clones.appendTo('body');
             $selectedElem.css('visibility','hidden');
          }
-
+         
 
          //目的のアルバムに挿入
          targetAlbum.PhotoCollectionView.$el.prepend($selectedElem);
-
+         
          //---------- animation -----------
          var w_height = $(window).height();
          if(isPhotosArea){
             var len = $selectedElem.length;
             $selectedElem.each(function(index){
-               var
+               var 
                $this = $(this),
                $clone = $clones.eq(index),
                curviness = 0.3,
                pos = $clone.offset(),
                dpos = $this.offset();
-
+               
                if(dpos.top > w_height){
                   var rh = _.random(60,200);
                   dpos.top = w_height+rh;
                   curviness = _.random(30,100)*0.01;
                }
-
-
+               
+               
                var
                rx = _.random(60, 130)*0.01,
                ry = _.random(60, 130)*0.01,
@@ -476,10 +484,10 @@ $(function(){
                }
                TweenMax.to( $clone , t, {delay:index*0.03,css:{bezier:bezier}, ease:Back.easeOut.config(0.5), onComplete:function(){
                   $this.css('visibility', 'visible');
-
+                  
                   if(lastone){ //全部終わった時
                      $.app.Events.trigger('moveToPhotoAreaEnd');
-
+                     
                   }
                   $clone.remove();
                } });
@@ -497,7 +505,7 @@ $(function(){
       }
    });
 
-
+   
 
    //単体のアルバムView
    mvc.AlbumView = Backbone.View.extend({
@@ -529,7 +537,7 @@ $(function(){
          json.status = json.public==1 ? "公開" : "非公開";
 
          html = this.template(json);
-
+         
          this.$el.html(html);
          // this.$el.data('view',this);
 
@@ -537,7 +545,7 @@ $(function(){
          var
          $coverImg = this.$el.find('.coverImg'),
          thumUrl;
-
+         
          this.$coverImg = $coverImg;
 
          try {
@@ -557,11 +565,11 @@ $(function(){
       {
          if(!this.$el.hasClass('active')) //今アクテイブ中のアルバムではなく、新たにクリックしたアルバムなら
          {
-            var
+            var 
             //status,
             albumName = this.model.get('albumName'),
             status = this.model.get('public')==1 ? true : false;
-
+            
 
             $albumNameInput.val(albumName); //アルバムの名前の表示を更新
             $albumStatusInput.attr({checked:status}); //アルバムの公開非公開の表示を更新
@@ -571,8 +579,15 @@ $(function(){
 
             mvc.router.navigate('album/'+albumName);
             $title.text('Phorest - '+albumName);
-
+            
             $preview.attr('href',$.app.properties.root + username + "/albums/" + albumName);
+            if( !this.PhotoCollectionView.$el.find('>.photo').length ){
+               $preview.add($deletePhoto).addClass('disabled');
+               $preview.on('click',function(){return false;});
+            }else{
+               $preview.add($deletePhoto).removeClass('disabled');
+               $preview.off('click');
+            }
             return this;
          }
       },
@@ -585,7 +600,7 @@ $(function(){
       },
       changeName : function(e)
       {
-         var
+         var 
          $albumEl = this.$el,
          newVal = $albumNameInput.val(),
          oldVal = this.model.get('albumName');
@@ -596,7 +611,7 @@ $(function(){
          }
 
          if(newVal==oldVal){ return; }
-
+         
          if( $albumEl.hasClass('active') )
          {
             this.model.save({ albumName: newVal},{patch: true});
@@ -611,12 +626,12 @@ $(function(){
          this.PhotoCollectionView.remove();
       },
       updateCoverImage : function(){
-         var
+         var 
          $latestPhoto = this.PhotoCollectionView.$el.find('>.photo:first-child'),
          _this = this;
 
          if($latestPhoto.length!=0){ // if it's not empty
-            var
+            var 
             photoModel = this.getPhotoModelByEl($latestPhoto),
             thumUrl = photoModel.get('thumUrl_square');
             $('<img>').load(function(){
@@ -624,6 +639,8 @@ $(function(){
             })[0].src = thumUrl;
          }else{ //empty
             this.$coverImg.css({'background-image' : "url('"+$.app.properties.coverimg+"')"});
+            $preview.add($deletePhoto).addClass('disabled');
+            $preview.on('click',function(){return false;});
          }
       },
       getPhotoModelByEl : function ($photoEl){
@@ -642,9 +659,9 @@ $(function(){
       initialize : function()
       {
          this.collection.on('reset',this.render,this);
-
+         
       },
-
+      
       render : function()
       {
          var
@@ -679,7 +696,7 @@ $(function(){
                var
                albumView = new mvc.AlbumView({model:album}),
                albumEl = albumView.render().el;
-
+               
                //if(index==0){ firstAlbumView = albumView; } //最初のアルバムを決める
                albumEls.append(albumEl);
             }
@@ -697,17 +714,17 @@ $(function(){
                   $('#uploadArea').hide();
                }
             }
-
+            
          });
 
          this.$el.append( albumEls.children() );
-
+         
 
          //最初のアルバム内の写真を表示する
          if(initLocation=="home"){  //ホームであれば最初のアルバムをクリック
             clickedAlbum = $("#albums .album .cover").eq(0).click().parent();
          }else{ //違うならそのアルバムをクリック
-
+            
             var matchedAlbum = $("#albums .album").filter(function(){
                return $(this).find('.album-name').text() == initLocation;
             }).eq(0).find('.cover');
@@ -720,11 +737,11 @@ $(function(){
          }
 
          var clickedAlbumModel = getAlbumModelByEl(clickedAlbum);
-         if( clickedAlbumModel.get('photos').length != 0 ){
+         if( clickedAlbumModel.get('photos').length != 0 ){ 
             clickedAlbumModel.PhotoCollectionView.$el.find('.photo img').eq(0).click(); //持ってるなら最初の写真をクリック
          }
-         $.app.properties.upPhoto.click();
-
+         $.app.properties.upPhoto.trigger("click",[true]);
+         
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
             $.getScript('/phorest/js/management_center/tutorial.js');
@@ -737,14 +754,14 @@ $(function(){
    function syncPhotoDel($delBtn,which)
    {
       $delBtn.click(function(){
-         var
+         var 
          $photoCollection = which == 'left' ? $currentActivePhotoCollection : $photoCollection_right,
          $selectedElems = $photoCollection.find('.selectedElem'),
          collection = $photoCollection.data('collection');
-
+         
          if($selectedElems.length==0) return;
          $selectedElems.each(function(index){
-            var
+            var 
             $el = $(this),
             cid = $el.find('img').data('cid'),
             model = collection.get(cid);
@@ -752,13 +769,13 @@ $(function(){
 
 
          });
-
+         
          TweenMax.to($selectedElems,0.4,{ css:{scale:0.3,opacity:0},ease:Back.easeIn,onComplete:function(){
             var albumView = getActivedAlbumView();
             $selectedElems.remove();
             albumView.updateCoverImage();
          } });
-
+         
       });
    }
 
@@ -776,7 +793,7 @@ $(function(){
 
          mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',status:0},{silent: true,success:function(model){
             model.id = model.attributes.id;
-            var
+            var 
             albumView = new mvc.AlbumView({model:model}),
             albumEl = albumView.render().el;
             $el.append(albumEl);
@@ -794,9 +811,9 @@ $(function(){
             alert('これ以上アルバムを削除できません');
             return false;
          }
+         
 
-
-         var
+         var 
          albumModel = getActivedAlbumModel();
          albumModel.destroy();
       }
@@ -805,7 +822,7 @@ $(function(){
 
    function getActivedAlbumModel()
    {
-      var
+      var 
       $actived_album = $("#albums .album.active"),
       cid = $actived_album.data('cid'),
       albumModel = mvc.AlbumsView_instance.collection.get(cid);
@@ -814,7 +831,7 @@ $(function(){
 
    function getActivedAlbumView()
    {
-      var
+      var 
       $actived_album = $("#albums .album.active"),
       albumView = $actived_album.data('view');
       return albumView;
@@ -822,7 +839,7 @@ $(function(){
 
    function getAlbumModelByEl($albumEl)
    {
-      var
+      var 
       cid = $albumEl.data('cid'),
       albumModel = mvc.AlbumsView_instance.collection.get(cid);
       return albumModel;
@@ -834,12 +851,12 @@ $(function(){
    function syncAlbumStatus()
    {
       $('#status-check').change(function(){
-         var
+         var 
          albumModel = getActivedAlbumModel(),
          status = this.checked ? 1 : 0,
          stext = status ? "公開" : "非公開";
          albumModel.save({public:status},{patch: true});
-
+         
          //リアルタイムで表示を更新する
          $('#albums .album.active .status').text(stext);
       });
@@ -847,7 +864,7 @@ $(function(){
 
    function catchBlankAreaClicking($container){
       $container.click(function(e){
-         var
+         var 
          isActived = $.app.properties.upPhoto.hasClass('active'),
          tnt = /IMG|INPUT/i,
          tn = e.target.tagName;
@@ -855,7 +872,7 @@ $(function(){
          if(!tnt.test(tn)){
             $('.photoCollection.active>.selectedElem',this).removeClass('selectedElem');
             if(!isActived){
-               $.app.properties.upPhoto.click();
+               $.app.properties.upPhoto.trigger("click",[true]);
             }
          }
       });
@@ -869,11 +886,17 @@ $(function(){
       });
 
       //------------------ move to photo-area end -------------------
-      $.app.Events.on('moveToPhotoAreaEnd', function(){
+      $.app.Events.on('moveToPhotoAreaEnd', function(data){
+         //enable preview button
+         $preview.add($deletePhoto).removeClass('disabled');
+         $preview.off('click');
+         //hide or show upload-area
          if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
             $.app.properties.uploadControlPanel.hide();
             $.app.properties.uploadArea.fadeIn();
          }
+         //update album cover image
+         $("#albums .album.active").data('view').updateCoverImage();
       });
    }
 

@@ -7,6 +7,7 @@ $(function(){
    $albumStatusInput = $.app.properties.albumStatusInput,
    $title = $('head title'),
    $preview = $('#preview'),
+   $deletePhoto = $('#delete-photo'),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -177,6 +178,7 @@ $(function(){
       },
       selectable : function(e)
       {
+         if(e.target.className=='filename') { e.target.select(); }
          if(e.target.tagName!='IMG') { return this;}
          var
          ctrlOrShift,
@@ -251,7 +253,9 @@ $(function(){
                   })[0].src=imgUrl;
                }
                $.app.properties.caption.text(photoName);
-               if($.app.properties.upPhoto.hasClass('active')){ $.app.properties.upPhoto.click(); }
+               if($.app.properties.upPhoto.hasClass('active')){
+                  $.app.properties.upPhoto.trigger("click",[true]);
+               }
             }
             // console.log( imgUrl );
             $(".selectedElem",$container).removeClass("selectedElem");
@@ -573,6 +577,13 @@ $(function(){
             $title.text('Phorest - '+albumName);
 
             $preview.attr('href',$.app.properties.root + username + "/albums/" + albumName);
+            if( !this.PhotoCollectionView.$el.find('>.photo').length ){
+               $preview.add($deletePhoto).addClass('disabled');
+               $preview.on('click',function(){return false;});
+            }else{
+               $preview.add($deletePhoto).removeClass('disabled');
+               $preview.off('click');
+            }
             return this;
          }
       },
@@ -624,6 +635,8 @@ $(function(){
             })[0].src = thumUrl;
          }else{ //empty
             this.$coverImg.css({'background-image' : "url('"+$.app.properties.coverimg+"')"});
+            $preview.add($deletePhoto).addClass('disabled');
+            $preview.on('click',function(){return false;});
          }
       },
       getPhotoModelByEl : function ($photoEl){
@@ -723,11 +736,11 @@ $(function(){
          if( clickedAlbumModel.get('photos').length != 0 ){
             clickedAlbumModel.PhotoCollectionView.$el.find('.photo img').eq(0).click(); //持ってるなら最初の写真をクリック
          }
-         $.app.properties.upPhoto.click();
+         $.app.properties.upPhoto.trigger("click",[true]);
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            $.getScript('http://phorest.ligtest.info/js/management_center/tutorial.js');
+            $.getScript('/phorest/js/management_center/tutorial.js');
          }
       }
    });
@@ -855,7 +868,7 @@ $(function(){
          if(!tnt.test(tn)){
             $('.photoCollection.active>.selectedElem',this).removeClass('selectedElem');
             if(!isActived){
-               $.app.properties.upPhoto.click();
+               $.app.properties.upPhoto.trigger("click",[true]);
             }
          }
       });
@@ -869,11 +882,17 @@ $(function(){
       });
 
       //------------------ move to photo-area end -------------------
-      $.app.Events.on('moveToPhotoAreaEnd', function(){
+      $.app.Events.on('moveToPhotoAreaEnd', function(data){
+         //enable preview button
+         $preview.add($deletePhoto).removeClass('disabled');
+         $preview.off('click');
+         //hide or show upload-area
          if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
             $.app.properties.uploadControlPanel.hide();
             $.app.properties.uploadArea.fadeIn();
          }
+         //update album cover image
+         $("#albums .album.active").data('view').updateCoverImage();
       });
    }
 

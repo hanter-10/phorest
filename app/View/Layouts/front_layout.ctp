@@ -6,11 +6,13 @@
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
         <meta name="keywords" content="demo,demo">
-
-        <?php
+        
+        <?php 
             $scripts = array(
+                "common/jquery-ui.js",
+                "common/jquery.mousewheel.min.js",
                 "common/jquery.mCustomScrollbar.js",
-                "common/underscore1.4.2-min.js",
+                "common/underscore.js",
                 "common/backbone.js",
                 "common/TweenMax.min.js",
                 "common/jquery-tools.js",
@@ -24,15 +26,11 @@
             echo $this->element('common/js');
             echo $this->Html->script( $scripts );
         ?>
-
-
-
-
-
+        
 
         <script type="text/template" id="temp_album">
             <figure class="album">
-                <div class="wrapper"><img class="cover" src="<%=thumUrl%>" alt="cover"></div>
+                <div class="wrapper"><img class="cover" src="<%=thumUrl%>" alt="cover" height="150" width="150"></div>
                 <figcaption><%=albumName%></figcaption>
             </figure>
         </script>
@@ -64,7 +62,12 @@
                 <div class="upperpart">
                     <div class="fl">
                         <a href="" id="logo"><?php echo $this->Html->image('common/logo_white.png') ?></a>
-                        <span class="title">This is Photoshop's version  of Lorem Ipsum. Proin gravida</span>
+                        <ul class="nav">
+                            <li class="home"><a href=""><?php echo $this->Html->image('frontsite/home_icon.png'); ?></a></li>
+                            <li class="album-name"> </li>
+                            <li class="photo-name"> </li>
+                        </ul>
+                        <!-- <span class="title">This is Photoshop's version  of Lorem Ipsum. Proin gravida</span> -->
                     </div>
                     <div class="fr">
                         <button class="icon-cog" id="config">設定</button>

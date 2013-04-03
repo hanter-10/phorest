@@ -1,63 +1,16 @@
 $(function(){
 
 var
-username = $('meta[name="owner"]').attr('content'),
+username            = $('meta[name="owner"]').attr('content'),
+rooturl             = 'http://phorest.ligtest.info/',
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
 $albumsContainer    = $('#albumsContainer'),
 $indicator          = $('#indicator'),
-$title              = $("#footer .title"),
+$photoName          = $("#footer .photo-name"),
+$albumName          = $("#footer .album-name"),
+$underpart          = $('#footer .underpart'),
 $phorest_slideshow;
-//データの取得を開始
-function init()
-{
-	var
-	url = 'http://phorest.ligtest.info/datalbums/userSearch/' + username;
-	$.getJSON(url,function(userArr){
-		var
-		albumArr = userArr[0]['DatAlbum'],
-		albumIndex = 0,
-		arr = decodeURI(location.href).split('/'),
-		albumName = arr[arr.length-1];
-
-		$.each(albumArr,function(index,album){
-			var datPhoto = album.DatPhoto;
-			album.photos = datPhoto;
-			delete album.DatPhoto;
-			if(album.albumName==albumName) albumIndex=index;
-		});
-
-		addThumb(albumArr[albumIndex]);
-		addAlbum(albumArr);
-		startslide(albumArr[albumIndex]);
-		// $imgContainer.mCustomScrollbar({scrollInertia:0,advanced:{ updateOnContentResize: true,horizontalScroll: true }});
-	});
-
-}
-
-function addThumb(album)
-{
-	function getWidth(photoModel){
-		var
-        ratio = photoModel.width/photoModel.height,
-        width = ratio*33;
-        return Math.round(width);
-	}
-	var
-	photos = album['photos'],
-	firstPhoto = photos[0],
-	width = getWidth(firstPhoto),
-	margin = 3*2,
-	left = margin;
-
-	$imgContainer.empty();
-	$indicator.width(width);
-	$.each(photos,function(index,photo){
-		var url = photo.thumUrl;
-		$('<img height="33" alt="thum">').attr({src:url}).css({left:left}).data({index:index,title:photo.photoName}).appendTo($imgContainer);
-		left += getWidth(photo)+margin;
-	});
-}
 
 
 function startslide(album)
@@ -65,6 +18,8 @@ function startslide(album)
 	var
     photos    = album['photos'],
     imgUrls   = _.pluck(photos,'imgUrl_m');
+    $albumName.text(album.albumName);
+    $photoName.text(album.photos[0].photoName);
 
 	slideshow =
 	$.slideshow({
@@ -95,106 +50,165 @@ function startslide(album)
 	{
 		var
         $img    = $imgContainer.find('img').eq(index),
-        title   = $img.data('title'),
-        left    = $img.offset().left,
+        photoName   = $img.data('photoName'),
+        scroll_left = parseInt($('#footer .mCSB_container').css('left')),
+        left    = $img.offset().left-8-scroll_left,
         width   = $img.width();
 		TweenMax.to( $indicator, 0.5, { css:{left:left,width:width}, ease:Back.easeInOut });
-		$title.text(title);
+		$photoName.text(photoName);
 	}
 
-	function play(index)
+	function play()
 	{
 
 	}
 
 }
 
-function addAlbum(albumArr)
-{
-	var
-	template = _.template($('#temp_album').html());
-	$.each(albumArr,function(index,album){
-		var
-		cover = album['photos'][0],
-		$el = $( template({thumUrl:cover['thumUrl'],  albumName:album["albumName"]}) );
-
-		$albumsContainer.append($el);
-		$el.find('.wrapper').data('album_info',album).click(changeAlbum);
-		fillimg( $el.find('img'), cover["width"], cover["height"] );
-	});
 
 
 
 
-	function fillimg($img,w,h)
-	{
-		if(w/h>1){ //横長
-			$img.attr('height',150);
-		}else{
-			$img.attr('width',150);
+//all start here
+var _routes={};
+_routes[username+'/albums/:albumName']='init';
+
+var Router = Backbone.Router.extend({
+	routes: _routes,
+	isInited: false,
+	init: function(albumName){
+		var albumName = decodeURI(albumName);
+		if(this.isInited==true){
+			this.loadAlbum(albumName);
+			return false;
 		}
-	}
+		this.isInited = true;
 
-	function changeAlbum()
+		//init processing
+		var
+        url     = rooturl+'datalbums/userSearch/' + username,
+        _this   = this;
+
+		$.getJSON(url,function(userArr){
+			var albumArr = userArr[0]['DatAlbum'];
+
+			//配列の構造を最適化
+			$.each(albumArr,function(index,album){
+				var datPhoto = album.DatPhoto;
+				album.photos = datPhoto;
+				delete album.DatPhoto;
+			});
+
+			//アルバム配列をメンバープロパティにする
+			_this.albumArr = albumArr;
+
+			//アルバムをロード
+			_this.initAlbum(albumArr);
+			_this.loadAlbum(albumName,true);
+
+			// $underpart.mCustomScrollbar({scrollInertia:0, horizontalScroll: true, advanced:{ autoExpandHorizontalScroll:true }});
+			$(".underpart").mCustomScrollbar({horizontalScroll:true,scrollInertia:0,advanced:{autoExpandHorizontalScroll:true}});
+		});
+	},
+
+
+	initAlbum : function(albumArr)
 	{
 		var
-		$this = $(this),
-		album_info = $this.data('album_info'),
-		imgUrls = _.pluck(album_info['photos'],'imgUrl_m');
+		template = _.template($('#temp_album').html());
+		$.each(albumArr,function(index,album){
+			var
+			cover = album['photos'][0],
+			$el = $( template({thumUrl:cover['thumUrl_square'],  albumName:album["albumName"]}) );
 
-		slideshow.option({imgs:imgUrls});
-		addThumb(album_info);
-	}
-}
+			$albumsContainer.append($el);
+			$el.find('.wrapper').click(changeAlbum);
+		});
 
-
-
-function router(){
-	var _routes={};
-	_routes[username+'/albums/:name']='loadAlbum';
-
-	var Router = Backbone.Router.extend({
-		routes:_routes,
-		loadAlbum : function(name)
+		function changeAlbum()
 		{
-			console.log( decodeURI(name) );
+			var
+			albumName = $(this).parent().find('figcaption').text(),
+			newurl = username+'/albums/'+albumName;
+
+			router.navigate(newurl, {trigger: true});
+			$albumName.text(albumName);
 		}
-	});
-	var router = new Router();
-	Backbone.history.start({pushState: true, root: "/phorest/"});
-}
+	},
 
-router();
+	loadAlbum : function(albumName,init)
+	{
+		var
+		_this = this,
+		albumIndex,
+		imgArr = [],
+		albumArr = this.albumArr;
 
-init();
+		//どのアルバムかを確定する
+		$.each(albumArr,function(index,album){
+			if(album.albumName==albumName) albumIndex=index;
+		});
 
-
-
-
-//サムネールのロードと配置
-/*function createThum(imgurls)
-{
-	$('#img-container').empty();
-
-	var
-	margin = 3,
-	left = margin,
-	$imgs = $.loadimg({
-	imgs:imgurls,
-	process: function(percentage,index){ console.log( percentage+"%" );},
-	load: function(){},
-	allLoad: function(){},
-	}).getImgs();
-
-	$imgs.attr('height',33).each(function(){
-		var width = $(this).css('left',left).width();
-		left += $(this).width+margin;
-
-	});
-	$('#img-container').append($imgs);
-}*/
+		//このアルバム内に入っている写真のURLを絞り出す
+		$.each(albumArr[albumIndex].photos,function(index,photo){
+			imgArr.push(photo.imgUrl_m);
+		});
 
 
+		$.loadimg({
+			imgs: imgArr,
+			process: function(percentage){
+				console.log( percentage );
+				// _this.startslide(albumArr[albumIndex]);
+			},
+			allLoad: function(){
+				console.log( 'all loaed' );
+				_this.addThumb( albumArr[albumIndex] );
+				if(init){
+					startslide(albumArr[albumIndex]);
+				}else{
+					slideshow.option({imgs:imgArr});
+				}
+
+			}
+		});
+
+	},
+
+	addThumb : function(album)
+	{
+		var
+		$div = $('<div>'),
+		photos = album['photos'],
+		firstPhoto = photos[0],
+		indicator_width = getWidth(firstPhoto),
+		container_width = 0;
+
+		$imgContainer.empty().width(container_width); //empty previous thumbnail in container
+		$indicator.css({ width:indicator_width, left:3 }); //reset position and width of indicator
+
+		$.each(photos,function(index,photo){
+			var
+			url = photo.thumUrl,
+			img_width = $('<img height="33" alt="thum">').attr({src:url}).data({index:index,photoName:photo.photoName}).appendTo($div);
+			container_width += getWidth(photo)+6;
+		});
+
+		$imgContainer.width(container_width);
+		$div.children().appendTo($imgContainer);
+		$underpart.mCustomScrollbar("update");
+
+		function getWidth(photoModel){
+			var
+	        ratio = photoModel.width/photoModel.height,
+	        width = ratio*33;
+	        return Math.round(width);
+		}
+	}
+});
+
+var router = new Router();
+Backbone.history.start({pushState: true, root: rooturl});
 
 
 

@@ -7,6 +7,7 @@ $(function(){
    $albumStatusInput = $.app.properties.albumStatusInput,
    $title = $('head title'),
    $preview = $('#preview'),
+   $statusCheck = $('#status-check'),
    $deletePhoto = $('#delete-photo'),
    username = $('meta[name="owner"]').attr('content');
 
@@ -577,13 +578,13 @@ $(function(){
             mvc.router.navigate('album/'+albumName);
             $title.text('Phorest - '+albumName);
 
-            $preview.attr('href',$.app.properties.root + username + "/albums/" + albumName);
+            $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + albumName);
             if( !this.PhotoCollectionView.$el.find('>.photo').length ){
                $preview.add($deletePhoto).addClass('disabled');
-               $preview.on('click',function(){return false;});
+               // $preview.on('click',function(){return false;});
             }else{
                $preview.add($deletePhoto).removeClass('disabled');
-               $preview.off('click');
+               // $preview.off('click');
             }
             return this;
          }
@@ -847,7 +848,7 @@ $(function(){
 
    function syncAlbumStatus()
    {
-      $('#status-check').change(function(){
+      $statusCheck.change(function(){
          var
          albumModel = getActivedAlbumModel(),
          status = this.checked ? 1 : 0,
@@ -857,6 +858,7 @@ $(function(){
          //リアルタイムで表示を更新する
          $('#albums .album.active .status').text(stext);
       });
+
    }
 
    function catchBlankAreaClicking($container){
@@ -878,8 +880,10 @@ $(function(){
    function bindEvents(){
       //-------------- move to album-area end --------------------
       $.app.Events.on('moveToAlbumAreaEnd', function(data){
-         data.currentAlbumView.updateCoverImage();
-         data.targetAlbumView.updateCoverImage();
+         if( data.currentAlbumView ){
+            data.currentAlbumView.updateCoverImage();
+         }
+         data.targetAlbumView.updateCoverImage();         
       });
 
       //------------------ move to photo-area end -------------------

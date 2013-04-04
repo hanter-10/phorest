@@ -78,7 +78,7 @@ class DatAlbum extends AppModel {
 							'rule' => array('notEmpty'),
 							'message' => 'アルバム説明を指定してください')),
 
-			'flg' => array(
+			'public' => array(
 					'notempty' => array(
 							'rule' => array('notEmpty'),
 							'message' => '公開/非公開を指定してください'),
@@ -142,7 +142,7 @@ class DatAlbum extends AppModel {
 				'DatAlbum.album_id as id',
 				'DatAlbum.albumName as albumName',
 				'DatAlbum.description',
-				'DatAlbum.flg as public',
+				'DatAlbum.public as public',
 				'DatAlbum.status',
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',
@@ -177,7 +177,7 @@ class DatAlbum extends AppModel {
 				'DatAlbum.album_id as id',
 				'DatAlbum.albumName as albumName',
 				'DatAlbum.description',
-				'DatAlbum.flg as public',
+				'DatAlbum.public as public',
 				'DatAlbum.status',
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',
@@ -187,7 +187,7 @@ class DatAlbum extends AppModel {
 		$conditions = array(
 				'DatAlbum.fk_user_id'	=> $user_id,
 				'DatAlbum.status'		=> 1,		// 有効
-				'DatAlbum.flg'			=> 1,		// 公開
+				'DatAlbum.public'			=> 1,		// 公開
 		);
 		$order = array(
 				'DatAlbum.album_id DESC',

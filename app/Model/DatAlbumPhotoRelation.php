@@ -100,7 +100,7 @@ class DatAlbumPhotoRelation extends AppModel {
 				'DatAlbum.album_id as id',
 				'DatAlbum.albumName as albumName',
 				'DatAlbum.description',
-				'DatAlbum.flg as public',
+				'DatAlbum.public as public',
 				'DatAlbum.status',
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',

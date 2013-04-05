@@ -133,6 +133,7 @@ var Router = Backbone.Router.extend({
 
 			router.navigate(newurl, {trigger: true});
 			$albumName.text(albumName);
+			
 		}
 	},
 
@@ -162,13 +163,17 @@ var Router = Backbone.Router.extend({
 				// _this.startslide(albumArr[albumIndex]);
 			},
 			allLoad: function(){
-				console.log( 'all loaed' );
+				// console.log( 'all loaed' );
 				_this.addThumb( albumArr[albumIndex] );
 				if(init){
 					startslide(albumArr[albumIndex]);
 				}else{
 					slideshow.option({imgs:imgArr});
 				}
+				var
+				$img    = $imgContainer.find('img').eq(0),
+		        photoName   = $img.data('photoName');
+				$photoName.text(photoName);
 
 			}
 		});

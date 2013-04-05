@@ -68,7 +68,10 @@ $.slideshow = function(setting)
 	function getReady()
 	{
 		var len = options.imgs.length;
+		options.imgLength = len;
 		$slideshow.empty();
+		
+
         $.each(options.imgs,function(index,url){
         	var 
         	$img = $('<img>').load(function(){ resize($(this)); }),
@@ -173,7 +176,6 @@ $.slideshow = function(setting)
 	{
         getReady();
 
-        
         function adapt()
         {
         	$imgs.each(function(){
@@ -185,7 +187,7 @@ $.slideshow = function(setting)
 
         $(window).on('resize',adapt);
         //adapt();
-        $(window).load(function(){ adapt(); });
+        $(window).load(adapt);
 	}
 
 	var methods =
@@ -194,6 +196,9 @@ $.slideshow = function(setting)
 		{
 			clearTimeout( timer );
 			options.onplay();
+			if(options.imgLength==1){
+				return this;
+			}
 			var 
 			len = options.imgs.length,
 			effect = options.effect;

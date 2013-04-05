@@ -95,6 +95,17 @@ html,body{
 			}
 		}
 
+		.error-message{
+			padding: 0.4em 1em;
+			@include adjust-font-size-to( $to-size:12px, $lines:1 );
+			@include trailer(.5);
+			font-weight: bold;
+			color: #F00;
+			background-color: #FFE8E8;
+			border-left: 6px solid #F00;
+			clear: both;
+		}
+
 		input.passed {
 			color: #70BE80;
 			background-color: #E7FFD7 !important;

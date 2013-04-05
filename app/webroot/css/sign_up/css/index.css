@@ -172,17 +172,29 @@ html, body {
   width: 204px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\0000398}}
+#step3 .container .error-message {
+  padding: 0.4em 1em;
+  font-size: 0.85714em;
+  line-height: 1.5em;
+  margin-bottom: 0.64286em;
+  font-weight: bold;
+  color: #F00;
+  background-color: #FFE8E8;
+  border-left: 6px solid red;
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003109}}
 #step3 .container input.passed {
   color: #70BE80;
   background-color: #e7ffd7 !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003116}}
 #email {
   color: #C9C9C9;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003120}}
 .btn {
   display: block;
   border: 1px solid #6bb60a;
@@ -202,11 +214,11 @@ html, body {
   box-shadow: 0 0 1px 5px rgba(255, 255, 255, 0.35);
   margin-top: 2.57143em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003121}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003132}}
 .btn:hover {
   background-color: #81d11b;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003124}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003135}}
 .btn:active {
   -webkit-box-shadow: 0 0 1px 5px rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.32) inset;
   -moz-box-shadow: 0 0 1px 5px rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.32) inset;
@@ -214,7 +226,7 @@ html, body {
   background-color: #75c212;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003131}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003142}}
 input[type="text"], input[type="password"] {
   outline: none;
   padding: 9px 10px;
@@ -233,31 +245,31 @@ input[type="text"], input[type="password"] {
   border-radius: 3px;
   margin-bottom: 1.28571em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003152}}
 input[type="text"]:focus, input[type="password"]:focus {
   -webkit-box-shadow: 0 0 5px #b9ff5e;
   -moz-box-shadow: 0 0 5px #b9ff5e;
   box-shadow: 0 0 5px #b9ff5e;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003157}}
 input.last {
   margin-bottom: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003161}}
 input {
   line-height: 1.5;
   font-family: "Hiragino Kaku Gothic Pro";
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003155}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003166}}
 a {
   text-decoration: none;
 }
 
 /* step2 */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003161}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003172}}
 #step2, #step4 {
   text-align: center;
   width: 660px;
@@ -267,7 +279,7 @@ a {
   position: relative;
   margin-top: -160px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003170}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003181}}
 #step2 h2, #step4 h2 {
   font-family: "Hiragino Kaku Gothic Std";
   text-shadow: 0 5px 7px rgba(0, 0, 0, 0.24);
@@ -277,7 +289,7 @@ a {
   font-size: 4.28571em;
   line-height: 0.9em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003178}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003189}}
 #step2 p, #step4 p {
   margin: 0;
   font-size: 1.28571em;
@@ -285,7 +297,7 @@ a {
   text-shadow: 0 5px 7px rgba(0, 0, 0, 0.24);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003186}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/sign_up\/sass\/index\.scss}line{font-family:\00003197}}
 #step4 a {
   width: 5em;
 }

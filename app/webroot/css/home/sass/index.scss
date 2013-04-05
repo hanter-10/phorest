@@ -102,6 +102,16 @@ button{
 	width: 376px;
 	float: right;
 	@include box-shadow(0 0 1px 5px rgba(255, 255, 255, 0.35));
+	.error-message{
+		position: relative;
+		padding: .8em 1em;
+		font-size: 12px;
+		text-align: center;
+		color: #F00;
+		font-weight: bold;
+		background-color: #FFE8E8;
+		border-bottom: 1px solid #E7E7E7;
+	}
 }
 
 #title {

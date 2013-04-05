@@ -31,6 +31,8 @@ class DatUsersController extends AppController {
 			if ( strstr( $this->request->data['DatUser']['username'], '@' ) ) {
 				$this->request->data['DatUser']['email'] = $this->request->data['DatUser']['username'];
 				$this->Auth->authenticate['Form']['fields']['username'] = 'email';
+
+				unset( $this->DatUser->validate['username'] );
 			}
 
 			// データセット
@@ -40,9 +42,11 @@ class DatUsersController extends AppController {
 				if ( $this->Auth->login() ) {
 					// CPへリダイレクト
 					$this->Auth->redirect = '../control-panel/';
-					$this->redirect($this->Auth->redirect);
-				} else {
-					$this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
+					$this->redirect( $this->Auth->redirect );
+				}
+				else {
+					$this->set( 'error_message_login', 'IDまたはパスワードを確認してください' );
+					// $this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
 				}
 			}
 		}
@@ -90,19 +94,20 @@ class DatUsersController extends AppController {
 	public function add() {
 		try
 		{
-			if ($this->request->is('post')) {
+			if ( $this->request->is( 'post' ) ) {
 
 				// 対象sessionから値取得
-				if ($this->Session->check('TmpUser.temp_email')) {
+				if ( $this->Session->check( 'TmpUser.temp_email' ) ) {
 
 					$this->request->data['DatUser']['email'] = $this->Session->read('TmpUser.temp_email');
 				}
-				$this->request->data['DatUser']['status']	= 1;		// デフォルト有効
+				$this->request->data['DatUser']['status']	= STATUS_ON;		// デフォルト有効
 				$this->request->data['DatUser']['create_datetime']	= date('Y-m-d h:i:s');
 				$this->request->data['DatUser']['update_timestamp']	= date('Y-m-d h:i:s');
 
 				// データセット
 				$this->DatUser->set( $this->request->data );
+
 				// バリデーションチェック
 				if ( $this->DatUser->validates() ) {
 
@@ -113,27 +118,27 @@ class DatUsersController extends AppController {
 							// tempユーザーデータのステータスを認証済みとする
 							$this->TmpUser->updateTmpUserStatus($this->request->data['DatUser']['email'], 1);
 
-							// 初期登録デフォルトでアルバム3つ保持
-							$datAlbum = array();
-							$datAlbum['fk_user_id']					= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-							$datAlbum['flg']						= 0;								// デフォルトは非公開
-							$datAlbum['status']						= 1;								// デフォルトは有効
-							$datAlbum['create_datetime']			= date('Y-m-d h:i:s');
-							$datAlbum['update_timestamp']			= date('Y-m-d h:i:s');
-
 							// 登録時のデフォルトアルバムを登録する
-							for ($i = 1; $i <= $this->default_album; $i++) {
-								$datAlbum['albumName']	= 'アルバム' . $i;		// アルバム名
+							for ( $i = 1; $i <= $this->default_album; $i++ ) {
 
+								// データセット
 								$this->DatAlbum->create();
-								$this->DatAlbum->save( $datAlbum );
+								$this->DatAlbum->set( 'fk_user_id', $this->Auth->user('user_id') );
+								$this->DatAlbum->set( 'albumName', "アルバム$i" );
+								$this->DatAlbum->set( 'public', STATUS_OFF );
+								$this->DatAlbum->set( 'status', STATUS_ON );
+								$this->DatAlbum->set( 'create_datetime', date('Y-m-d h:i:s') );
+								$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
+
+								// 追加
+								$this->DatAlbum->save();
 							}
 
 							// 対象session削除
 							$this->Session->delete('TmpUser');
 
 							// CPへリダイレクト
-							$this->redirect($this->Auth->redirect());
+							$this->redirect( $this->Auth->redirect() );
 						}
 					} else {
 						$this->redirect( $this->Auth->logout() );

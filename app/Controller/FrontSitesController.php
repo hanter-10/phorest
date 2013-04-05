@@ -64,8 +64,23 @@ class FrontSitesController extends AppController {
 		$this->layout = 'front_layout';
 
 		$meta_data = $this->request->username;
-		$this->set(compact('meta_data'));
+		$this->set( compact( 'meta_data' ) );
+	}
 
-// 		var_dump($this->request->albumname);
+	public function preview() {
+
+		$this->layout = 'front_layout';
+
+		$meta_data = $this->request->username;
+
+		// ログインユーザーしか見れない
+		if ( $this->Auth->user( 'username' ) === $meta_data ) {
+			$this->set( compact( 'meta_data' ) );
+		}
+		else {
+			$this->layout = 'home_layout';
+			// postではない時は「400 Bad Request」
+			//throw new BadRequestException(__('Bad Request.'));
+		}
 	}
 }

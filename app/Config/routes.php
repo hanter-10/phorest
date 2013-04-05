@@ -71,6 +71,7 @@
 
 	Router::connect('/:username', array('controller' => 'DashBoards', 'action' => 'index'));
 	Router::connect('/:username/albums/:albumname', array('controller' => 'FrontSites', 'action' => 'index'));
+	Router::connect('/:username/preview/albums/:albumname', array('controller' => 'FrontSites', 'action' => 'preview'));
 
 	// すべてのルーティングをパスした場合(デフォルトルーティング)
 	Router::connect('/*', array('controller' => 'DatUsers', 'action' => 'login'));

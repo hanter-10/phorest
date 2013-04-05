@@ -11,17 +11,17 @@ class DatAlbumsController extends AppController {
  * [ Phorest ] :
  */
 	public $viewClass = 'Json';
-	public $components = array('RequestHandler','Convert','Check');
+	public $components = array( 'RequestHandler','Convert','Check' );
 
-	public $uses = array('DatAlbum','DatPhoto','DatUser','DatAlbumPhotoRelation','MstImageServer');
+	public $uses = array( 'DatAlbum','DatPhoto','DatUser','DatAlbumPhotoRelation','MstImageServer' );
 
 	public function beforeFilter() {
 		// 親クラスをロード
 		parent::beforeFilter();
-		$this->Auth->allow('userSearch');
+		$this->Auth->allow( 'userSearch' );
 
 		// ajax通信でのアクセスか確認
-		if (!$this->RequestHandler->isAjax()) {
+		if ( ! $this->RequestHandler->isAjax() ) {
 			// ajaxではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
 		}
@@ -39,7 +39,7 @@ class DatAlbumsController extends AppController {
 		//$this->DatAlbum->recursive = 0;			// HABTMの際に関連テーブルを検索するので削除
 
 		// リクエストメソッド判断
-		if ($this->request->is('get')) {
+		if ( $this->request->is( 'get' ) ) {
 
 			//TODO:ユーザー権限がないと実行できないようにもしなきゃ
 			//TODO:リファラーチェックとかhash認証コードとかもしといたほうがいいんだろな。
@@ -48,13 +48,13 @@ class DatAlbumsController extends AppController {
 			$datAlbumPhotos = array();
 
 			// 会員のアルバム情報取得
-			$datAlbumPhotos = $this->DatAlbum->getAlbumDataByUserId($this->Auth->user('user_id'));
+			$datAlbumPhotos = $this->DatAlbum->getAlbumDataByUserId( $this->Auth->user( 'user_id' ) );
 
 			// アルバム情報分アルバムに紐づく写真情報を取得
-			foreach ($datAlbumPhotos as $album_key => $datAlbum) {
+			foreach ( $datAlbumPhotos as $album_key => $datAlbum ) {
 
 				// 対象のアルバムの写真情報取得
-				$datPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID($this->Auth->user('user_id'), $datAlbum['DatAlbum']['id']);
+				$datPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID( $this->Auth->user('user_id'), $datAlbum['DatAlbum']['id'] );
 
 				// 配列構造調整
 				foreach( $datPhotos as $photo_key => $datPhoto ) {
@@ -63,12 +63,12 @@ class DatAlbumsController extends AppController {
 					$datAlbumPhotos[$album_key]['DatPhoto'][$photo_key]	= $datPhotos[$photo_key]['DatPhoto'];
 
 					// いらないものを消す
-					unset($datPhotos[$photo_key]['DatPhoto']);
+					unset( $datPhotos[$photo_key]['DatPhoto'] );
 				}
 			}
 
 			// アルバム以外の写真情報取得(いわゆるtempAlbum)
-			$datTempPhotos = $this->DatPhoto->getTempAlbumPhotoRelationByUserID($this->Auth->user('user_id'));
+			$datTempPhotos = $this->DatPhoto->getTempAlbumPhotoRelationByUserID( $this->Auth->user( 'user_id' ) );
 
 			// 配列構造調整
 			foreach( $datTempPhotos as $key => $datTempPhoto ) {
@@ -76,15 +76,15 @@ class DatAlbumsController extends AppController {
 				$datTempPhotos[$key]	= $datTempPhotos[$key]['DatPhoto'];
 
 				// いらないものを消す
-				unset($datTempPhotos[$key]['DatPhoto']);
+				unset( $datTempPhotos[$key]['DatPhoto'] );
 			}
 
-			$tempAlbums['DatAlbum'] = array('tempAlbum' => true);
+			$tempAlbums['DatAlbum'] = array( 'tempAlbum' => true );
 			$tempAlbums['DatPhoto'] = $datTempPhotos;
 			$datAlbumPhotos[] = $tempAlbums;
 
 			// データセット
-			$this->set('datAlbumPhotos', $datAlbumPhotos);
+			$this->set( 'datAlbumPhotos', $datAlbumPhotos );
 
 // 			// SQLクエリログの確認方法
 // 			$log = $this->DatAlbum->getDataSource()->getLog(false, false);
@@ -98,7 +98,7 @@ class DatAlbumsController extends AppController {
 		}
 
 		// JSONレスポンス
-		$this->set('_serialize', 'datAlbumPhotos');
+		$this->set( '_serialize', 'datAlbumPhotos' );
 // 		$this->set('_serialize', compact('datAlbums','datPhotos'));
 	}
 
@@ -115,12 +115,12 @@ class DatAlbumsController extends AppController {
 		$this->DatAlbum->recursive = 0;		// アルバム情報のみ取得
 
 		$this->DatAlbum->id = $id;
-		if (!$this->DatAlbum->exists()) {
+		if ( ! $this->DatAlbum->exists() ) {
 			// Not Data
 			throw new NotFoundException(__('Invalid dat album'));
 		}
-		$this->set('datAlbum', $this->DatAlbum->read(null, $id));
-		$this->set('_serialize', 'datAlbum');
+		$this->set( 'datAlbum', $this->DatAlbum->read( null, $id ) );
+		$this->set( '_serialize', 'datAlbum' );
 	}
 
 /**
@@ -131,49 +131,28 @@ class DatAlbumsController extends AppController {
 	public function add() {
 
 		// 返り値のデフォルトセット：false
-		$this->set('datAlbum', false);
+		$this->set( 'datAlbum', false );
 
 		// リクエストメソッド判断
-		if ($this->request->is('post')) {
+		if ( $this->request->is( 'post' ) ) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$data = $this->request->input('json_decode');
+			$request_data = $this->request->input('json_decode');
 
-			// TODO:$dataの内容を確認して動的にModelに値をセットできるようにする
+			$this->DatAlbum->create();
+			$this->DatAlbum->set( 'albumName', $request_data->albumName );
+			$this->DatAlbum->set( 'fk_user_id', $this->Auth->user('user_id') );
+			$this->DatAlbum->set( 'public', STATUS_OFF );
+			$this->DatAlbum->set( 'status', STATUS_ON );
+			$this->DatAlbum->set( 'create_datetime', date('Y-m-d h:i:s') );
+			$this->DatAlbum->set( 'create_datetime', date('Y-m-d h:i:s') );
 
-			/* paramater set */
-			$datAlbum = array();
-			$datAlbum['fk_user_id']			= $this->Auth->user('user_id');		// 会員ID:セッションより取得
-			$datAlbum['albumName']			= $data->albumName;					// アルバム名
-// 			$datAlbum['DatAlbum']['description']		= '';		//$data->description;				// アルバム説明
-			$datAlbum['flg']				= 0;								// デフォルトは非公開
-			$datAlbum['status']				= 1;								// デフォルトは有効
-			$datAlbum['create_datetime']	= date('Y-m-d h:i:s');
-			$datAlbum['update_timestamp']	= date('Y-m-d h:i:s');
+			if ( $this->DatAlbum->validates() ) {
 
-			// Modelに値をセット
-			$this->DatAlbum->set($datAlbum);
-
-			// バリデーションチェック
-			if ($this->DatAlbum->validates()) {
-
-				/* バリデーション通過 */
-
-				/* insert query */
-				$this->DatAlbum->create();
-				if ($this->DatAlbum->save($datAlbum)) {
-					/* get insert new id */
-// 					$datAlbum['DatAlbum']['album_id'] = $this->DatAlbum->id;
-					$datAlbum['id'] = $this->DatAlbum->id;
-					$datAlbum['public'] = $datAlbum['flg'];
-					unset($datAlbum['flg']);
-
-					$this->set('datAlbum', $datAlbum);
-				}
+				// 追加
+				$save_result = $this->DatAlbum->save();
+				$this->set( 'datAlbum', $save_result );
 			}
-
-			/* バリデーションエラー内容出力 */
-			//var_dump($this->validateErrors($this->DatAlbum));
 		} else {
 
 			// postではない時は「400 Bad Request」
@@ -193,68 +172,34 @@ class DatAlbumsController extends AppController {
 	public function edit($id = null) {
 
 		// 返り値のデフォルトセット：false
-		$this->set('datAlbum', false);
+		$this->set( 'datAlbum', false );
 
 		$this->DatAlbum->id = $id;
-		if (!$this->DatAlbum->exists()) {
+		if ( ! $this->DatAlbum->exists() ) {
 			// Not Data
 			throw new NotFoundException(__('Invalid dat album'));
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('put') || $this->request->is('patch')) {
+		if ( $this->request->is( 'put' ) || $this->request->is( 'patch' ) ) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$requestData = $this->request->input('json_decode');
+			$requestData = $this->request->input( 'json_decode' );
 
-			/* 固定パラメータセット */
-			$optionData = array();
-			$optionData = array(
-				'album_id'			=> $id,
-				'fk_user_id'		=> $this->Auth->user('user_id'),
-				'update_timestamp'	=> date('Y-m-d h:i:s'),
-			);
-
-			// 矯正 public->flg
-			if (isset($requestData->public)) {
-				$requestData->flg = $requestData->public;
-				unset($requestData->public);
-			}
-
-			/* リクエストパラメータセット */
-			$datAlbum = $this->Convert->doConvertObjectToModelArray($requestData, 'DatAlbum', $optionData);
-
-			/* 配列のキー値の例外チェック */
-			if ( !$this->Check->doCheckArrayKeyToModel( $datAlbum['DatAlbum'], $this->DatAlbum->modelColumn ) ) {
-				// エラー：例外パラメータ
-				throw new BadRequestException(__('Bad Request.'));
-			}
-
-			// Modelに値をセット
-			$this->DatAlbum->set($datAlbum);
+			// データセット
+			$this->DatAlbum->create( false );
+			$this->DatAlbum->set( 'album_id', $id );
+			if ( isset ( $requestData->albumName ) ) $this->DatAlbum->set( 'albumName', $requestData->albumName );
+			if ( isset ( $requestData->public ) ) $this->DatAlbum->set( 'public', $requestData->public );
+			$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
 			// バリデーションチェック
-			if ($this->DatAlbum->validates()) {
+			if ( $this->DatAlbum->validates() ) {
 
-				/* バリデーション通過 */
-
-				/* update query */
-				$result = $this->DatAlbum->updateAll(
-						// update fieldを動的に設定
-						$this->Convert->doConvertArrayKeyToQueryArray( $datAlbum['DatAlbum'], 'DatAlbum', $this->DatAlbum->updateColumn ),
-						// Where
-						array(
-							array(
-								'DatAlbum.album_id'		=> $datAlbum['DatAlbum']['album_id'],
-								'DatAlbum.fk_user_id'	=> $datAlbum['DatAlbum']['fk_user_id'],
-							)
-						)
-				);
-				$this->set('datAlbum', $result);
+				// 更新処理
+				$this->DatAlbum->save();
+				$this->set( 'datAlbum', true );
 			}
-			// Validationエラー内容
-// 			$this->DatAlbum->validationErrors;
-
 		} else {
 			// putではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
@@ -274,47 +219,29 @@ class DatAlbumsController extends AppController {
 	public function delete($id = null) {
 
 		// 返り値のデフォルトセット：false
-		$this->set('datAlbum', false);
+		$this->set( 'datAlbum', false );
 
 		// idが存在するかチェック
 		$this->DatAlbum->id = $id;
-		if (!$this->DatAlbum->exists()) {
+		if ( ! $this->DatAlbum->exists() ) {
 			throw new NotFoundException(__('Invalid dat album'));
 		}
 
 		// リクエストメソッド判断
-		if ($this->request->is('delete')) {
+		if ( $this->request->is( 'delete' ) ) {
 
-			/* paramater set */
-			$datAlbum['DatAlbum']['album_id']			= $id;
-			$datAlbum['DatAlbum']['flg']				= 0;
-			$datAlbum['DatAlbum']['status']				= 0;
-			$datAlbum['DatAlbum']['update_timestamp']	= date('Y-m-d h:i:s');
+			$this->DatAlbum->create( false );
+			$this->DatAlbum->set( 'album_id', $id );
+			$this->DatAlbum->set( 'public', STATUS_OFF );
+			$this->DatAlbum->set( 'status', STATUS_OFF );
+			$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
-			// Modelに値をセット
-			$this->DatAlbum->set($datAlbum);
+			if ( $this->DatAlbum->validates() ) {
 
-			// バリデーションチェック
-			if ($this->DatAlbum->validates()) {
+				// 更新
+				$this->DatAlbum->save();
+				$this->set( 'datAlbum', true );
 
-				/* バリデーション通過 */
-
-				/* update query */
-				$result = $this->DatAlbum->updateAll(
-						// Update set
-						array(
-								'DatAlbum.flg'				=> $datAlbum['DatAlbum']['flg'],
-								'DatAlbum.status'			=> $datAlbum['DatAlbum']['status'],
-								'DatAlbum.update_timestamp'	=> "'".$datAlbum['DatAlbum']['update_timestamp']."'",
-						)
-						// Where
-						,array(
-								array(
-										'DatAlbum.album_id'	=> $datAlbum['DatAlbum']['album_id']
-								)
-						)
-				);
-				$this->set('datAlbum', $result);
 			}
 		} else {
 			// deleteではない時は「400 Bad Request」
@@ -337,7 +264,7 @@ class DatAlbumsController extends AppController {
 			$this->set('datUser', false);
 
 			// リクエストメソッド判断
-			if ($this->request->is('get')) {
+			if ( $this->request->is( 'get' ) ) {
 
 				// 初期化
 				$datUserAlbums = array();
@@ -347,6 +274,69 @@ class DatAlbumsController extends AppController {
 
 				// アルバム情報取得
 				$datAlbums = $this->DatAlbum->getPublicAlbumDataByUserId($datUserAlbums[0]['DatUser']['user_id']);
+
+				// 配列構造調整
+				foreach ( $datAlbums as $album_key => $datAlbum ) {
+
+					$datUserAlbums[0]['DatAlbum'][$album_key]	= $datAlbums[$album_key]['DatAlbum'];
+
+					// アルバムに紐づく写真情報取得
+					$datAlbumPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID($datUserAlbums[0]['DatUser']['user_id'], $datAlbum['DatAlbum']['id']);
+
+					// 配列構造調整
+					foreach ($datAlbumPhotos as $photo_key => $datAlbumPhoto) {
+
+						$datUserAlbums[0]['DatAlbum'][$album_key]['DatPhoto'][$photo_key] = $datAlbumPhotos[$photo_key]['DatPhoto'];
+
+						// いらないものを消す
+						unset($datAlbumPhoto[$photo_key]);
+					}
+
+					// いらないものを消す
+					unset($datAlbums[$album_key]);
+				}
+
+				// データセット
+				$this->set('datUserAlbums', $datUserAlbums);
+
+			} else {
+				// getではない時は「400 Bad Request」
+				throw new BadRequestException(__('Bad Request.'));
+			}
+
+			// JSONレスポンス
+			$this->set('_serialize', 'datUserAlbums');
+
+		} catch (Exception $e) {
+
+			$this->set('datUser', false);
+			$this->set('_serialize', 'datUser');
+		}
+	}
+
+/**
+ * userSearch method
+ *
+ * [GET]ユーザー情報と紐づく公開アルバム情報と紐づく写真情報取得API
+ */
+	public function previewSearch() {
+
+		try
+		{
+			// 返り値のデフォルトセット：false
+			$this->set('datUser', false);
+
+			// リクエストメソッド判断
+			if ( $this->request->is( 'get' ) ) {
+
+				// 初期化
+				$datUserAlbums = array();
+
+				// 会員情報取得
+				$datUserAlbums[0] = $this->DatUser->getUserDataByUserName($this->request->username);
+
+				// アルバム情報取得
+				$datAlbums = $this->DatAlbum->getPreviewAlbumDataByUserId($datUserAlbums[0]['DatUser']['user_id']);
 
 				// 配列構造調整
 				foreach ( $datAlbums as $album_key => $datAlbum ) {

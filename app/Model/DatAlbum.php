@@ -52,87 +52,40 @@ class DatAlbum extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'album_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fk_user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'albumName' => array(
-			'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'description' => array(
-			'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					//'message' => 'Your custom message here',
-					'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'flg' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'create_datetime' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'update_timestamp' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+			'album_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバムIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'アルバムIDは数値で指定してください')),
+
+			'fk_user_id' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'ユーザーIDを指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => 'ユーザーIDは数値で指定してください')),
+
+			'albumName' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバム名を指定してください')),
+
+			'description' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'アルバム説明を指定してください')),
+
+			'public' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => '公開/非公開を指定してください'),
+					'numeric' => array(
+							'rule' => array( 'numeric' ),
+							'message' => '公開/非公開は数値で指定してください'))
+			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -189,7 +142,7 @@ class DatAlbum extends AppModel {
 				'DatAlbum.album_id as id',
 				'DatAlbum.albumName as albumName',
 				'DatAlbum.description',
-				'DatAlbum.flg as public',
+				'DatAlbum.public as public',
 				'DatAlbum.status',
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',
@@ -224,7 +177,7 @@ class DatAlbum extends AppModel {
 				'DatAlbum.album_id as id',
 				'DatAlbum.albumName as albumName',
 				'DatAlbum.description',
-				'DatAlbum.flg as public',
+				'DatAlbum.public as public',
 				'DatAlbum.status',
 				'DatAlbum.create_datetime',
 				'DatAlbum.update_timestamp',
@@ -234,7 +187,46 @@ class DatAlbum extends AppModel {
 		$conditions = array(
 				'DatAlbum.fk_user_id'	=> $user_id,
 				'DatAlbum.status'		=> 1,		// 有効
-				'DatAlbum.flg'			=> 1,		// 公開
+				'DatAlbum.public'		=> 1,		// 公開
+		);
+		$order = array(
+				'DatAlbum.album_id DESC',
+		);
+
+		$option = array(
+				'fields' => $fields,
+				'conditions' => $conditions,
+				'order' => $order,
+		);
+
+		/* 検索実行 */
+		return $this->find('all', $option);
+	}
+
+	/**
+	 * 会員に紐づくアルバム情報取得(公開/非公開)
+	 * @param unknown_type $user_id
+	 * @return Ambigous <NULL, multitype:>
+	 */
+	function getPreviewAlbumDataByUserId( $user_id = null ) {
+
+		$this->recursive = 0;
+
+		/* 検索項目 */
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.albumName as albumName',
+				'DatAlbum.description',
+				'DatAlbum.public as public',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatAlbum.fk_user_id'	=> $user_id,
+				'DatAlbum.status'		=> 1,		// 有効
 		);
 		$order = array(
 				'DatAlbum.album_id DESC',

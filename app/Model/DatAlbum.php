@@ -187,7 +187,46 @@ class DatAlbum extends AppModel {
 		$conditions = array(
 				'DatAlbum.fk_user_id'	=> $user_id,
 				'DatAlbum.status'		=> 1,		// 有効
-				'DatAlbum.public'			=> 1,		// 公開
+				'DatAlbum.public'		=> 1,		// 公開
+		);
+		$order = array(
+				'DatAlbum.album_id DESC',
+		);
+
+		$option = array(
+				'fields' => $fields,
+				'conditions' => $conditions,
+				'order' => $order,
+		);
+
+		/* 検索実行 */
+		return $this->find('all', $option);
+	}
+
+	/**
+	 * 会員に紐づくアルバム情報取得(公開/非公開)
+	 * @param unknown_type $user_id
+	 * @return Ambigous <NULL, multitype:>
+	 */
+	function getPreviewAlbumDataByUserId( $user_id = null ) {
+
+		$this->recursive = 0;
+
+		/* 検索項目 */
+		$fields = array(
+				'DatAlbum.album_id as id',
+				'DatAlbum.albumName as albumName',
+				'DatAlbum.description',
+				'DatAlbum.public as public',
+				'DatAlbum.status',
+				'DatAlbum.create_datetime',
+				'DatAlbum.update_timestamp',
+		);
+
+		/* 検索条件 */
+		$conditions = array(
+				'DatAlbum.fk_user_id'	=> $user_id,
+				'DatAlbum.status'		=> 1,		// 有効
 		);
 		$order = array(
 				'DatAlbum.album_id DESC',

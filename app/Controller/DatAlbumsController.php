@@ -314,6 +314,69 @@ class DatAlbumsController extends AppController {
 		}
 	}
 
+/**
+ * userSearch method
+ *
+ * [GET]ユーザー情報と紐づく公開アルバム情報と紐づく写真情報取得API
+ */
+	public function previewSearch() {
+
+		try
+		{
+			// 返り値のデフォルトセット：false
+			$this->set('datUser', false);
+
+			// リクエストメソッド判断
+			if ( $this->request->is( 'get' ) ) {
+
+				// 初期化
+				$datUserAlbums = array();
+
+				// 会員情報取得
+				$datUserAlbums[0] = $this->DatUser->getUserDataByUserName($this->request->username);
+
+				// アルバム情報取得
+				$datAlbums = $this->DatAlbum->getPreviewAlbumDataByUserId($datUserAlbums[0]['DatUser']['user_id']);
+
+				// 配列構造調整
+				foreach ( $datAlbums as $album_key => $datAlbum ) {
+
+					$datUserAlbums[0]['DatAlbum'][$album_key]	= $datAlbums[$album_key]['DatAlbum'];
+
+					// アルバムに紐づく写真情報取得
+					$datAlbumPhotos = $this->DatPhoto->getAlbumPhotoRelationByUserIdAlbumID($datUserAlbums[0]['DatUser']['user_id'], $datAlbum['DatAlbum']['id']);
+
+					// 配列構造調整
+					foreach ($datAlbumPhotos as $photo_key => $datAlbumPhoto) {
+
+						$datUserAlbums[0]['DatAlbum'][$album_key]['DatPhoto'][$photo_key] = $datAlbumPhotos[$photo_key]['DatPhoto'];
+
+						// いらないものを消す
+						unset($datAlbumPhoto[$photo_key]);
+					}
+
+					// いらないものを消す
+					unset($datAlbums[$album_key]);
+				}
+
+				// データセット
+				$this->set('datUserAlbums', $datUserAlbums);
+
+			} else {
+				// getではない時は「400 Bad Request」
+				throw new BadRequestException(__('Bad Request.'));
+			}
+
+			// JSONレスポンス
+			$this->set('_serialize', 'datUserAlbums');
+
+		} catch (Exception $e) {
+
+			$this->set('datUser', false);
+			$this->set('_serialize', 'datUser');
+		}
+	}
+
 // 	public function userSearchAll () {
 
 // 		// アルバム以外の写真検索

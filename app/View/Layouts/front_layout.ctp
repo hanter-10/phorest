@@ -5,9 +5,12 @@
         <title>demo</title>
         <meta name="description" content="demo">
         <meta name="owner" content="<?php echo $meta_data?>">
+        <?php if ( isset( $preview_mode ) ) : ?>
+        	<meta name="previewMod" content="<?php echo $preview_mode; ?>">
+        <?php endif; ?>
         <meta name="keywords" content="demo,demo">
-        
-        <?php 
+
+        <?php
             $scripts = array(
                 "common/jquery-ui.js",
                 "common/jquery.mousewheel.min.js",
@@ -26,7 +29,7 @@
             echo $this->element('common/js');
             echo $this->Html->script( $scripts );
         ?>
-        
+
 
         <script type="text/template" id="temp_album">
             <figure class="album">

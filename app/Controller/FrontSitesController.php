@@ -75,7 +75,8 @@ class FrontSitesController extends AppController {
 
 		// ログインユーザーしか見れない
 		if ( $this->Auth->user( 'username' ) === $meta_data ) {
-			$this->set( compact( 'meta_data' ) );
+			$preview_mode = 'true';
+			$this->set( compact( 'meta_data', 'preview_mode' ) );
 		}
 		else {
 			$this->layout = 'home_layout';

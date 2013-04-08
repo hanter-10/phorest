@@ -9,6 +9,8 @@ $(function(){
    $preview = $('#preview'),
    $statusCheck = $('#status-check'),
    $deletePhoto = $('#delete-photo'),
+   $userPanel = $("#user-panel"),
+   $userPanelHover = $("#user-panel-hover"),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -581,6 +583,7 @@ $(function(){
             $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + albumName);
             if( !this.PhotoCollectionView.$el.find('>.photo').length ){
                $preview.add($deletePhoto).addClass('disabled');
+               $preview.attr('href',null);
                // $preview.on('click',function(){return false;});
             }else{
                $preview.add($deletePhoto).removeClass('disabled');
@@ -638,7 +641,7 @@ $(function(){
          }else{ //empty
             this.$coverImg.css({'background-image' : "url('"+$.app.properties.coverimg+"')"});
             $preview.add($deletePhoto).addClass('disabled');
-            $preview.on('click',function(){return false;});
+            $preview.attr('href',null);
          }
       },
       getPhotoModelByEl : function ($photoEl){
@@ -742,9 +745,8 @@ $(function(){
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            $.getScript('/js/management_center/tutorial.js');
-         }
-      }
+            //$.getScript('/js/management_center/tutorial.js');
+         }      }
    });
 
 
@@ -892,7 +894,7 @@ $(function(){
          if( data.currentAlbumView ){
             data.currentAlbumView.updateCoverImage();
          }
-         data.targetAlbumView.updateCoverImage();         
+         data.targetAlbumView.updateCoverImage();
       });
 
       //------------------ move to photo-area end -------------------
@@ -910,8 +912,93 @@ $(function(){
       });
    }
 
-   bindEvents();
+   function setUserPanel(){
+      var
+      $inputs = $userPanel.find('input'),
+      $okbtn = $userPanel.find('.ok'),
+      backup = {};
 
+      $inputs.each(function(){
+         var
+         $this = $(this),
+         name = $this.attr('name'),
+         val = $this.val();
+
+         backup[name] = val;
+      });
+
+      function rollBack(){
+         $inputs.each(function(){
+            var
+            $this = $(this),
+            name = $this.attr('name'),
+            val = backup[name];
+            $this.val(val);
+         });
+      }
+
+      $okbtn.click(function(){
+         var
+         url = '/DatUsers/edit/'+username,
+         data = {};
+
+         $inputs.each(function(){
+            var
+            $this = $(this),
+            name = $this.attr('name'),
+            val = $this.val();
+
+            data[name] = val;
+         });
+
+         $.ajax({
+            url: url,
+            data: data,
+            type: 'PATCH',
+            dataType: 'json',
+            success: function(response){
+               if( !response.errorMsg ){
+                  backup = data;
+                  $userPanelHover.click();
+               }else{
+                  rollBack();
+               }
+            },
+            error: function(){
+               rollBack();
+            }
+         });
+      });
+
+
+      $('#user-panel .cancel').click(function(){
+         rollBack();
+      });
+
+      $userPanel.submit(function(e){
+         e.preventDefault();
+         $okbtn.click();
+         return false;
+      });
+
+   }
+
+   function errorHandling(){
+      $( document ).ajaxError(function(event, jqxhr, settings, exception) {
+         alert('通信処理に失敗しました。\nページを再読み込みして再度お試しください。');
+      });
+
+      $( document ).ajaxSuccess(function(event, xhr, settings) {
+         if(xhr.responseText.indexOf('errorMsg') != -1){
+            var data = JSON.parse(xhr.responseText);
+            alert(data.errorMsg);
+         }
+      });
+   }
+
+   errorHandling();
+   setUserPanel();
+   bindEvents();
    catchBlankAreaClicking($.app.properties.photoCollections.add('#uploadedPhotos'));
 
    syncAlbumStatus();

@@ -2,6 +2,7 @@ $(function(){
 
 var
 username            = $('meta[name="owner"]').attr('content'),
+previewMod            = $('meta[name="previewMod"]').attr('content'),
 rooturl             = '/',
 $imgContainer       = $('#img-container'),
 $controller         = $('#controller'),
@@ -71,7 +72,11 @@ function startslide(album)
 
 //all start here
 var _routes={};
-_routes[username+'/albums/:albumName']='init';
+if(previewMod=='true'){
+	_routes[username+'/preview/albums/:albumName']='init';
+}else{
+	_routes[username+'/albums/:albumName']='init';
+}
 
 var Router = Backbone.Router.extend({
 	routes: _routes,
@@ -86,7 +91,7 @@ var Router = Backbone.Router.extend({
 
 		//init processing
 		var
-        url     = rooturl+'datalbums/userSearch/' + username,
+        url     = previewMod=='true' ? (rooturl+'datalbums/previewSearch/' + username) : (rooturl+'datalbums/userSearch/' + username),
         _this   = this;
 
 		$.getJSON(url,function(userArr){
@@ -129,10 +134,11 @@ var Router = Backbone.Router.extend({
 		{
 			var
 			albumName = $(this).parent().find('figcaption').text(),
-			newurl = username+'/albums/'+albumName;
+			newurl = previewMod=='true' ? (username+'/preview/albums/'+albumName) : (username+'/albums/'+albumName);
 
 			router.navigate(newurl, {trigger: true});
 			$albumName.text(albumName);
+			
 		}
 	},
 
@@ -162,13 +168,17 @@ var Router = Backbone.Router.extend({
 				// _this.startslide(albumArr[albumIndex]);
 			},
 			allLoad: function(){
-				console.log( 'all loaed' );
+				// console.log( 'all loaed' );
 				_this.addThumb( albumArr[albumIndex] );
 				if(init){
 					startslide(albumArr[albumIndex]);
 				}else{
 					slideshow.option({imgs:imgArr});
 				}
+				var
+				$img    = $imgContainer.find('img').eq(0),
+		        photoName   = $img.data('photoName');
+				$photoName.text(photoName);
 
 			}
 		});

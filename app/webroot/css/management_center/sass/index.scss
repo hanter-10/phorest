@@ -73,9 +73,34 @@ a{
 	background-color: #EFEFEF;
 	border-radius: 5px 5px 8px 8px;
 	box-shadow: black 0px 3px 10px 2px;
-	&>ul{
+	&>.base{
+		padding: 1.6em 1.4em;
+	}
+	&>.btnGroup{
 		padding: 1.6em 1.4em;
 		border-bottom: 1px solid #DBDBDB;
+		overflow: hidden;
+		.ok{
+			margin-right: 14px;
+		}
+		.ok, .cancel{
+			display: block;
+			padding: 0.8em 1em;
+			color: #fafafa;
+			float: left;
+			width: 78px;
+			text-align: center;
+			border-radius: 5px;
+			cursor: pointer;
+			border: 1px solid #6BB60A;
+			background-color: #77C700;
+			text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+			@include transition(0.15s);
+			&:hover{
+				border: 1px solid #6BB60A;
+				background-color: #85DF00;
+			}
+		}
 	}
 	h3{
 		margin: 0;

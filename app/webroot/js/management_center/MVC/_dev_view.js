@@ -9,6 +9,7 @@ $(function(){
    $preview = $('#preview'),
    $statusCheck = $('#status-check'),
    $deletePhoto = $('#delete-photo'),
+   $userPanel = $("#user-panel"),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -581,6 +582,7 @@ $(function(){
             $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + albumName);
             if( !this.PhotoCollectionView.$el.find('>.photo').length ){
                $preview.add($deletePhoto).addClass('disabled');
+               $preview.attr('href',null);
                // $preview.on('click',function(){return false;});
             }else{
                $preview.add($deletePhoto).removeClass('disabled');
@@ -638,7 +640,7 @@ $(function(){
          }else{ //empty
             this.$coverImg.css({'background-image' : "url('"+$.app.properties.coverimg+"')"});
             $preview.add($deletePhoto).addClass('disabled');
-            $preview.on('click',function(){return false;});
+            $preview.attr('href',null);
          }
       },
       getPhotoModelByEl : function ($photoEl){
@@ -910,8 +912,85 @@ $(function(){
       });
    }
 
-   bindEvents();
+   function setUserPanel(){
+      var 
+      $inputs = $userPanel.find('input'),
+      backup = {};
 
+      $inputs.each(function(){
+         var 
+         $this = $(this),
+         name = $this.attr('name'),
+         val = $this.val();
+
+         backup[name] = val;
+      });
+
+      function rollBack(){
+         $inputs.each(function(){
+            var 
+            $this = $(this),
+            name = $this.attr('name'),
+            val = backup[name];
+            $this.val(val);
+         });
+      }
+
+      $userPanel.find('.ok').click(function(){
+         var 
+         url = '/phorest/DatUsers/edit/'+username,
+         data = {};
+
+         $inputs.each(function(){
+            var 
+            $this = $(this),
+            name = $this.attr('name'),
+            val = $this.val();
+
+            data[name] = val;
+         });
+
+         $.ajax({
+            url: url,
+            data: data,
+            success: function(data){
+               if( !data.errorMsg ){
+                  backup = data;
+                  console.log( 'seikou' );
+                  console.log( data );
+               }else{
+                  alert(data.errorMsg);
+                  rollBack();
+               }
+            },
+            error: function(){
+               rollBack();
+            }
+         });
+      });
+
+      $('#user-panel .cancel').click(function(){
+
+      });
+
+   }
+
+   function errorHandling(){
+      $( document ).ajaxError(function(event, jqxhr, settings, exception) {
+         alert('通信処理に失敗しました。\nページを再読み込みして再度お試しください。');
+      });
+
+      $( document ).ajaxSuccess(function(event, xhr, settings) {
+         if(xhr.responseText.indexOf('errorMsg') != -1){
+            var data = eval(xhr.responseText);
+            alert(data.errorMsg);
+         }
+      });
+   }
+
+   errorHandling();
+   setUserPanel();
+   bindEvents();
    catchBlankAreaClicking($.app.properties.photoCollections.add('#uploadedPhotos'));
 
    syncAlbumStatus();

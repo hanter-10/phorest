@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="user-panel">
+                <form id="user-panel">
                     <div class="triangle"></div>
                     <ul class="base">
                         <li>
@@ -89,8 +89,12 @@
                             </ul>
                         </li>
                     </ul>
+                    <div class="btnGroup">
+                        <a class="ok">OK</a>
+                        <a class="cancel">キャンセル</a>
+                    </div>
                     <a id="logout" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ログアウト</a>
-                </div>
+                </form>
             </header>
 
             <div id="main">

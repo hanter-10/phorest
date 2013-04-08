@@ -105,9 +105,9 @@
                             <span class="current">フェード</span>
                             <ul class="options">
                                 <li data-type="effect" data-value="fade" class="current">フェード</li>
-                                <li data-type="effect" data-value="page">ページ</li>
+                                <!-- <li data-type="effect" data-value="page">ページ</li> -->
                                 <li data-type="effect" data-value="slide">スライド</li>
-                                <li data-type="effect" data-value="zoom">拡大</li>
+                                <!-- <li data-type="effect" data-value="zoom">拡大</li> -->
                             </ul>
                         </div>
                     </li>

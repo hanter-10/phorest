@@ -745,7 +745,7 @@ $(function(){
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            $.getScript('/js/management_center/tutorial.js');
+            //$.getScript('/phorest/js/management_center/tutorial.js');
          }
       }
    });
@@ -895,7 +895,7 @@ $(function(){
          if( data.currentAlbumView ){
             data.currentAlbumView.updateCoverImage();
          }
-         data.targetAlbumView.updateCoverImage();         
+         data.targetAlbumView.updateCoverImage();
       });
 
       //------------------ move to photo-area end -------------------
@@ -914,13 +914,13 @@ $(function(){
    }
 
    function setUserPanel(){
-      var 
+      var
       $inputs = $userPanel.find('input'),
       $okbtn = $userPanel.find('.ok'),
       backup = {};
 
       $inputs.each(function(){
-         var 
+         var
          $this = $(this),
          name = $this.attr('name'),
          val = $this.val();
@@ -930,7 +930,7 @@ $(function(){
 
       function rollBack(){
          $inputs.each(function(){
-            var 
+            var
             $this = $(this),
             name = $this.attr('name'),
             val = backup[name];
@@ -939,12 +939,12 @@ $(function(){
       }
 
       $okbtn.click(function(){
-         var 
+         var
          url = '/phorest/DatUsers/edit/'+username,
          data = {};
 
          $inputs.each(function(){
-            var 
+            var
             $this = $(this),
             name = $this.attr('name'),
             val = $this.val();

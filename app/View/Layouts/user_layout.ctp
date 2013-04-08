@@ -85,7 +85,7 @@
                         <li>
                             <h3>基本情報</h3>
                             <ul class="sub-ul">
-                                <li><input type="text" name="sitename" placeholder="サイト名"></li>
+                                <li><input type="text" name="sitename" placeholder="サイト名" title="サイト名"></li>
                             </ul>
                         </li>
                     </ul>

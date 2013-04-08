@@ -10,6 +10,7 @@ $(function(){
    $statusCheck = $('#status-check'),
    $deletePhoto = $('#delete-photo'),
    $userPanel = $("#user-panel"),
+   $userPanelHover = $("#user-panel-hover"),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -915,6 +916,7 @@ $(function(){
    function setUserPanel(){
       var 
       $inputs = $userPanel.find('input'),
+      $okbtn = $userPanel.find('.ok'),
       backup = {};
 
       $inputs.each(function(){
@@ -936,7 +938,7 @@ $(function(){
          });
       }
 
-      $userPanel.find('.ok').click(function(){
+      $okbtn.click(function(){
          var 
          url = '/phorest/DatUsers/edit/'+username,
          data = {};
@@ -953,13 +955,12 @@ $(function(){
          $.ajax({
             url: url,
             data: data,
-            success: function(data){
-               if( !data.errorMsg ){
+            type: 'PATCH',
+            success: function(response){
+               if( !response.errorMsg ){
                   backup = data;
-                  console.log( 'seikou' );
-                  console.log( data );
+                  $userPanelHover.click();
                }else{
-                  alert(data.errorMsg);
                   rollBack();
                }
             },
@@ -969,8 +970,15 @@ $(function(){
          });
       });
 
-      $('#user-panel .cancel').click(function(){
 
+      $('#user-panel .cancel').click(function(){
+         rollBack();
+      });
+
+      $userPanel.submit(function(e){
+         e.preventDefault();
+         $okbtn.click();
+         return false;
       });
 
    }
@@ -982,7 +990,7 @@ $(function(){
 
       $( document ).ajaxSuccess(function(event, xhr, settings) {
          if(xhr.responseText.indexOf('errorMsg') != -1){
-            var data = eval(xhr.responseText);
+            var data = JSON.parse(xhr.responseText);
             alert(data.errorMsg);
          }
       });

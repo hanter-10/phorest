@@ -43,7 +43,7 @@ class DashBoardsController extends AppController {
  *
  * @var array
  */
-	public $uses = array();
+	public $uses = array( 'DatUser' );
 
 	public $layout = 'dashboard_layout';
 
@@ -61,8 +61,9 @@ class DashBoardsController extends AppController {
  * @return void
  */
 	public function index() {
-
 		$this->layout = 'dashboard_layout';
 
+		$datuser = $this->DatUser->getUserDataByUserName( $this->Auth->user( 'username' ) );
+		$this->set( compact('datuser') );
 	}
 }

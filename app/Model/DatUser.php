@@ -38,7 +38,7 @@ class DatUser extends AppModel {
 							'required' => true),
 					'alphaNumeric' => array(
 							'rule' => array( 'alphaNumeric' ),
-							'message' => 'ユーザーIDを確認してください')),
+							'message' => 'ユーザーIDを確認してください。記号は使用できません。')),
 
 			'email' => array(
 					'email' => array(

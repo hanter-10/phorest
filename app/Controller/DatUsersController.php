@@ -309,6 +309,11 @@ class DatUsersController extends AppController {
 				$this->DatUser->save();
 				$this->set( 'datUser', true );
 			}
+			else {
+				if ( isset( $this->DatUser->validationErrors['sitename'][0] ) ) {
+					$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['sitename'][0] ) );
+				}
+			}
 		}
 		$this->set('_serialize', 'datUser');
 	}

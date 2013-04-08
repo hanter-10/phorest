@@ -956,6 +956,7 @@ $(function(){
             url: url,
             data: data,
             type: 'PATCH',
+            dataType: 'json',
             success: function(response){
                if( !response.errorMsg ){
                   backup = data;

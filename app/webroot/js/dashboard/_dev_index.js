@@ -10,7 +10,7 @@ function init()
 {
 
 	var url = 'http://localhost:8888/phorest/datalbums/userSearch/' + username;
-	$('#site-name').text(sitename+"のアルバム");
+	//$('#site-name').text(sitename+"のアルバム");
 	$.getJSON(url,function(userArr){
 		var
 		albumArr = userArr[0]['DatAlbum'],

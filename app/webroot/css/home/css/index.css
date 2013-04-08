@@ -77,17 +77,22 @@ button:active {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000363}}
+#options {
+  visibility: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000367}}
 #form-container {
   position: relative;
   overflow: hidden;
   height: 280px;
   width: 376px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000372}}
 #form-container .left {
   float: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000375}}
 #form-container .right {
   position: relative;
   border-left: 1px solid #fdfdfd;
@@ -100,11 +105,11 @@ button:active {
   -moz-box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000385}}
 #form-container .right input {
   width: 193px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000389}}
 #form-container .triangle {
   -webkit-transition: 0.3s ease-in-out;
   -moz-transition: 0.3s ease-in-out;
@@ -119,12 +124,12 @@ button:active {
   top: 52px;
   left: 94px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\0000399}}
 #form-container .triangle.bottom {
   top: 192px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003105}}
 #form-wrapper {
   width: 376px;
   float: right;
@@ -132,7 +137,7 @@ button:active {
   -moz-box-shadow: 0 0 1px 5px rgba(255, 255, 255, 0.35);
   box-shadow: 0 0 1px 5px rgba(255, 255, 255, 0.35);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003109}}
 #form-wrapper .error-message {
   position: relative;
   padding: 0.8em 1em;
@@ -144,12 +149,12 @@ button:active {
   border-bottom: 1px solid #e7e7e7;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003117}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003121}}
 #title {
   float: left;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003121}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003125}}
 #login-tab, #sign-up-tab {
   -webkit-transition: 0.3s ease-out;
   -moz-transition: 0.3s ease-out;
@@ -164,7 +169,7 @@ button:active {
   background-color: #ECECEC;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003132}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003136}}
 #login-tab.actived, #sign-up-tab.actived {
   color: #fafafa;
   font-weight: bold;
@@ -174,7 +179,7 @@ button:active {
   -moz-box-shadow: 10px 0 0 #5a9f00 inset;
   box-shadow: 10px 0 0 #5a9f00 inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003144}}
 #login-tab.unactived:hover, #sign-up-tab.unactived:hover {
   -webkit-box-shadow: 130px 0 0 #a8e05f inset;
   -moz-box-shadow: 130px 0 0 #a8e05f inset;
@@ -183,7 +188,7 @@ button:active {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003150}}
 #login-tab span, #sign-up-tab span {
   position: absolute;
   top: 84px;
@@ -192,7 +197,7 @@ button:active {
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003157}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003161}}
 #options ul {
   list-style-image: none;
   list-style-type: none;
@@ -202,16 +207,16 @@ button:active {
   padding: 0;
   font-size: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003163}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003167}}
 #options ul #remember_me {
   width: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003170}}
 #options ul li {
   line-height: 2;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003172}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003176}}
 #forms {
   position: absolute;
   top: 25px;
@@ -225,16 +230,16 @@ button:active {
   -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003179}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003183}}
 #forms.sign-up {
   top: -237px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003182}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003186}}
 #forms .passed {
   background-color: #E7FFD7;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003187}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003191}}
 #header {
   padding: 20px;
   overflow: hidden;
@@ -244,12 +249,12 @@ button:active {
   top: 20%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003196}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003200}}
 #title {
   color: white;
   text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003199}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003203}}
 #title h1 {
   font-size: 48px;
   padding-top: 18px;

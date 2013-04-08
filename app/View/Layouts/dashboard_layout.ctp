@@ -27,7 +27,7 @@
     <body>
         <header id="header">
             <div class="container">
-                <h1 id="site-name"></h1>
+                <h1 id="site-name"><?php echo h($datuser['DatUser']['sitename']); ?></h1>
                 <!-- <nav>
                     <ul class="unstyled">
                         <li class="first"><a href="">Home</a></li>

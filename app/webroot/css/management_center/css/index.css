@@ -92,11 +92,43 @@ a {
   box-shadow: black 0px 3px 10px 2px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000376}}
-#user-panel > ul {
+#user-panel > .base {
+  padding: 1.6em 1.4em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000379}}
+#user-panel > .btnGroup {
   padding: 1.6em 1.4em;
   border-bottom: 1px solid #dbdbdb;
+  overflow: hidden;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000380}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000383}}
+#user-panel > .btnGroup .ok {
+  margin-right: 14px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000386}}
+#user-panel > .btnGroup .ok, #user-panel > .btnGroup .cancel {
+  display: block;
+  padding: 0.8em 1em;
+  color: #fafafa;
+  float: left;
+  width: 78px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #6bb60a;
+  background-color: #77C700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -webkit-transition: 0.15s;
+  -moz-transition: 0.15s;
+  -o-transition: 0.15s;
+  transition: 0.15s;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000399}}
+#user-panel > .btnGroup .ok:hover, #user-panel > .btnGroup .cancel:hover {
+  border: 1px solid #6bb60a;
+  background-color: #85DF00;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003105}}
 #user-panel h3 {
   margin: 0;
   margin-bottom: 0.5em;
@@ -107,7 +139,7 @@ a {
   padding-left: 0.5em;
   line-height: 1.3;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003115}}
 #user-panel input {
   -webkit-transition: 0.25s;
   -moz-transition: 0.25s;
@@ -122,11 +154,11 @@ a {
   color: #5A5A5A;
   width: 200px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003125}}
 #user-panel input:focus {
   box-shadow: 0 0 5px #9eee94;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003104}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003129}}
 #user-panel #logout {
   color: #D8D8D8;
   padding: 1em 0;
@@ -157,14 +189,14 @@ a {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003122}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003147}}
 #user-panel #logout:hover {
   color: #E4E4E4;
   text-shadow: 0 0 16px rgba(255, 255, 255, 0.35);
   background-color: #3c3c3c;
   box-shadow: 0 55px 15px rgba(0, 0, 0, 0.3) inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003129}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003154}}
 #user-panel .triangle {
   width: 0px;
   height: 0px;
@@ -176,13 +208,13 @@ a {
   left: 206px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003166}}
 #header .container {
   overflow: hidden;
   border-bottom: 1px solid black;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003171}}
 #up-photo, #user-panel-hover {
   float: left;
   padding: 12px 20px;
@@ -195,12 +227,12 @@ a {
   transition: 0.2s ease-out;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003155}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003180}}
 #up-photo {
   padding-left: 50px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003159}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003184}}
 #up-photo:hover, #user-panel-hover:hover, #up-photo.active, #user-panel-hover.active {
   text-shadow: 0 -1px 1px black;
   background: #5DA500;
@@ -221,7 +253,7 @@ a {
   /* IE6-9 */
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003196}}
 #up-photo.active, #user-panel-hover.active {
   box-shadow: 0 0 50px 2px rgba(255, 255, 255, 0.01), 0 0 1px 1px rgba(0, 0, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.71) inset;
   background: #5DA500;
@@ -243,7 +275,7 @@ a {
 }
 
 /*main*/
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003188}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003213}}
 #main {
   border-top: 1px solid #343434;
   position: relative;
@@ -251,7 +283,7 @@ a {
 }
 
 /*albums-panel*/
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003199}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003224}}
 #albums-panel {
   background-color: #e5e5e9;
   width: 150px;
@@ -262,15 +294,15 @@ a {
   float: left;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003209}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003234}}
 #albums {
   overflow: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003212}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003237}}
 #albums .album {
   padding-top: 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003216}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003241}}
 #albums .cover {
   background-color: #f8f8f9;
   width: 102px;
@@ -282,7 +314,7 @@ a {
   -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.23);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.23);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003224}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003249}}
 #albums .cover .coverImg {
   position: relative;
   overflow: hidden;
@@ -302,7 +334,7 @@ a {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003237}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003262}}
 #albums .status {
   display: block;
   text-align: center;
@@ -312,7 +344,7 @@ a {
   color: #303030;
   cursor: default;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003247}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003272}}
 #albums .album-name {
   display: block;
   text-align: center;
@@ -321,32 +353,32 @@ a {
   overflow: hidden;
   white-space: nowrap;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003254}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003279}}
 #albums .album.dragOver {
   background-color: #ADADAD;
   background-color: rgba(0, 0, 0, 0.2);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003259}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003284}}
 #albums .album.active {
   background-image: url("../images/bg_album.png");
   -webkit-box-shadow: 0 1px 0 white, 0 1px 1px white, 0 3px 8px 2px rgba(0, 0, 0, 0.25) inset, 0 2px 20px 1px rgba(0, 0, 0, 0.14) inset, -7px 0 10px rgba(0, 0, 0, 0.21) inset, -1px 0 0 rgba(255, 255, 255, 0.16) inset;
   -moz-box-shadow: 0 1px 0 white, 0 1px 1px white, 0 3px 8px 2px rgba(0, 0, 0, 0.25) inset, 0 2px 20px 1px rgba(0, 0, 0, 0.14) inset, -7px 0 10px rgba(0, 0, 0, 0.21) inset, -1px 0 0 rgba(255, 255, 255, 0.16) inset;
   box-shadow: 0 1px 0 white, 0 1px 1px white, 0 3px 8px 2px rgba(0, 0, 0, 0.25) inset, 0 2px 20px 1px rgba(0, 0, 0, 0.14) inset, -7px 0 10px rgba(0, 0, 0, 0.21) inset, -1px 0 0 rgba(255, 255, 255, 0.16) inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003264}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003289}}
 #albums .album.active .status {
   text-shadow: 0 1px 1px #242424;
   color: #f8f8f8;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003271}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003296}}
 #albums-panel .cover img {
   position: relative;
   display: block;
   margin: 0 auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003281}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003306}}
 #album-control-bar {
   overflow: hidden;
   border-top: 1px solid #bfbfbf;
@@ -367,7 +399,7 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f9f9', endColorstr='#cccccc',GradientType=0 );
   /* IE6-9 */
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003292}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003317}}
 #album-control-bar span {
   display: block;
   font-size: 12px;
@@ -376,26 +408,26 @@ a {
   text-shadow: 0 1px white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003302}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003327}}
 #add-album {
   float: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003304}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003329}}
 #add-album:hover {
   font-weight: bold;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003335}}
 #remove-album {
   float: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003337}}
 #remove-album:hover {
   font-weight: bold;
 }
 
 /*photos-panel*/
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003347}}
 #photos-panel {
   background-image: url("../images/bg_mid.png");
   background-image: url("../images/shadow2.png"), url("../images/shadow3.png"), url("../images/bg_mid.png");
@@ -411,12 +443,12 @@ a {
   border-right: 1px solid #0e0e0f;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003362}}
 #photoCollections {
   position: relative;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003367}}
 #droparea {
   width: 100%;
   height: 100%;
@@ -428,7 +460,7 @@ a {
   background: rgba(255, 255, 255, 0.04);
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003376}}
 #droparea .text {
   line-height: 1.2;
   top: 40%;
@@ -437,18 +469,18 @@ a {
   text-align: center;
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003385}}
 #droparea .large {
   font-size: 40px;
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003390}}
 #droparea .small {
   font-size: 17px;
   display: block;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003374}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003399}}
 #photos-control-panel {
   width: 330px;
   margin: 0 auto;
@@ -459,7 +491,7 @@ a {
   position: relative;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003409}}
 #album-name-input {
   width: 308px;
   padding: 7px 10px;
@@ -478,7 +510,7 @@ a {
   outline: none;
   padding-top: 11px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003421}}
 #album-name-input:focus {
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 8px 2px rgba(101, 184, 255, 0.5);
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3) inset, 0 0 8px 2px rgba(101, 184, 255, 0.5);
@@ -486,14 +518,14 @@ a {
   background: rgba(255, 255, 255, 0.18);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003403}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003428}}
 #photos-control-panel .row {
   padding: 10px 0;
   display: block;
   line-height: 1.5;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003409}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003434}}
 #preview, #upload-btn {
   color: white;
   padding-left: 38px;
@@ -506,7 +538,7 @@ a {
   transition: 0.23s;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003420}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003445}}
 #delete-photo, #delete-photo-right {
   padding-left: 27px;
   font-size: 12px;
@@ -520,35 +552,35 @@ a {
   transition: 0.23s;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003430}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003455}}
 #preview:hover, #delete-photo:hover, #upload-btn:hover, #delete-photo-right:hover {
   text-shadow: 0 0 30px white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003434}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003459}}
 #preview.icon-eye.disabled, #delete-photo.icon-cancel.disabled {
   text-shadow: 0 1px 1px #0e0e0e;
   color: #575757;
   cursor: default;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003438}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003463}}
 #preview.icon-eye.disabled::before, #delete-photo.icon-cancel.disabled::before {
   color: #575757;
 }
 
 /*Photos*/
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003445}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003470}}
 .photoCollection .photo, .alternative.photo {
   position: relative;
   float: left;
   margin: 0 18px;
   padding-top: 7px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003451}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003476}}
 .photoCollection .photo img, .photoCollection .photo input, .photoCollection .photo span, .alternative.photo img, .alternative.photo input, .alternative.photo span {
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003455}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003480}}
 .photoCollection .photo input, .alternative.photo input {
   border: none;
   outline: none;
@@ -562,35 +594,35 @@ a {
   margin-bottom: 16px;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003469}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003494}}
 .photoCollection .photo img, .alternative.photo img {
   margin: 0 auto;
   border-radius: 5px;
   box-shadow: 0 3px 16px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003474}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003499}}
 .photoCollection .photo img:hover, .alternative.photo img:hover {
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003479}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003504}}
 .photoCollection .photo.selectedElem img, .alternative.photo.selectedElem img {
   -webkit-box-shadow: 0 0 0px 4px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(255, 255, 255, 0.2);
   -moz-box-shadow: 0 0 0px 4px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 0px 4px rgba(0, 0, 0, 0.4), 0 0 0 7px rgba(255, 255, 255, 0.2);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003483}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003508}}
 .photoCollection .photo .imgTable, .alternative.photo .imgTable {
   display: table;
   width: 150px;
   height: 113px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003489}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003514}}
 .photoCollection .photo .imgCell, .alternative.photo .imgCell {
   display: table-cell;
   vertical-align: middle;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003494}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003519}}
 .photoCollection .photo .img-placeholder, .alternative.photo .img-placeholder {
   width: 100%;
   height: 100%;
@@ -602,7 +634,7 @@ a {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003502}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003527}}
 .photoCollection .photo .img-placeholder::before, .alternative.photo .img-placeholder::before {
   content: "uploading";
   color: rgba(255, 255, 255, 0.46);
@@ -611,11 +643,11 @@ a {
   vertical-align: middle;
   margin-top: 40px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003513}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003538}}
 .photoCollection .photo .filename, .alternative.photo .filename {
   border-radius: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003515}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003540}}
 .photoCollection .photo .filename:hover, .alternative.photo .filename:hover {
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(86, 86, 86, 0.2) 100%);
   /* FF3.6+ */
@@ -633,7 +665,7 @@ a {
   /* IE6-9 */
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18), 0 6px 14px rgba(0, 0, 0, 0.2) inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003525}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003550}}
 .photoCollection .photo .filename:focus, .alternative.photo .filename:focus {
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(68, 68, 68, 0.2) 100%);
   /* FF3.6+ */
@@ -652,23 +684,23 @@ a {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 14px rgba(0, 0, 0, 0.55) inset;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003541}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003566}}
 .alternative.photo img {
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.35) !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003544}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003569}}
 .alternative.photo input {
   text-shadow: 0 2px 1px rgba(0, 0, 0, 0.35) !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003549}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003574}}
 .photoCollection {
   position: relative;
   height: 100%;
 }
 
 /*preview-panel*/
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003560}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003585}}
 #preview-panel {
   position: absolute;
   background-image: url("../images/bg_dark.png");
@@ -676,7 +708,7 @@ a {
   right: 0;
   border-left: 1px solid #3c3c3e;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003566}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003591}}
 #preview-panel figcaption {
   text-align: center;
   color: white;
@@ -685,7 +717,7 @@ a {
   padding-bottom: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003576}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003601}}
 #uploadAreaContainer {
   height: 100%;
   width: 100%;
@@ -701,14 +733,14 @@ a {
   padding: 20px;
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003585}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003610}}
 #uploadAreaContainer.dragOver {
   -webkit-box-shadow: 0 0 90px 7px rgba(0, 0, 0, 0.66) inset;
   -moz-box-shadow: 0 0 90px 7px rgba(0, 0, 0, 0.66) inset;
   box-shadow: 0 0 90px 7px rgba(0, 0, 0, 0.66) inset;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003592}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003617}}
 #upload-control-panel {
   color: #E7E7E7;
   font-weight: bold;
@@ -720,7 +752,7 @@ a {
   padding-bottom: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003604}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003629}}
 #uploadArea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -736,17 +768,17 @@ a {
   line-height: 1.2;
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003617}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003642}}
 #uploadArea.active {
   border-color: #39810A;
   color: #39810A;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003621}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003646}}
 #uploadArea .text {
   position: relative;
   top: 40%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003624}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003649}}
 #uploadArea .text.dragOver {
   -webkit-transform: scale(0.9);
   -moz-transform: scale(0.9);
@@ -754,14 +786,14 @@ a {
   -o-transform: scale(0.9);
   transform: scale(0.9);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003628}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003653}}
 #uploadArea .small {
   display: block;
   text-align: center;
   font-size: 20px;
   cursor: default;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003635}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003660}}
 #uploadArea .large {
   display: block;
   text-align: center;
@@ -769,12 +801,12 @@ a {
   cursor: default;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003645}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003670}}
 #uploadedPhotos {
   position: relative;
   height: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003648}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003673}}
 #uploadedPhotos .processbar {
   height: 7px;
   width: 100%;
@@ -784,7 +816,7 @@ a {
   border-radius: 10px;
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003657}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003682}}
 #uploadedPhotos .currentbar {
   width: 0%;
   height: 100%;
@@ -796,7 +828,7 @@ a {
   transition: width 0.3s ease-out;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003668}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003693}}
 #photoFiles {
   display: block;
   width: 100%;
@@ -806,7 +838,7 @@ a {
   opacity: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003677}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003702}}
 #preview-img {
   margin: 0 auto;
   display: block;
@@ -814,7 +846,7 @@ a {
   box-shadow: 0 1px 35px rgba(0, 0, 0, 0.4);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003685}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003710}}
 #imgContainer {
   position: relative;
   padding: 40px;
@@ -828,20 +860,20 @@ a {
   box-sizing: border-box;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003699}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003724}}
 .displayAstable {
   display: table;
   width: 100%;
   height: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003704}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003729}}
 .displayAsCell {
   display: table-cell;
   vertical-align: middle;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003710}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003735}}
 #countIcon {
   position: absolute;
   top: 33px;
@@ -875,7 +907,7 @@ a {
   /* IE6-9 */
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003735}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003760}}
 #countIconContainer {
   display: none;
   width: 70px;
@@ -886,23 +918,23 @@ a {
 
 /*animate.css*/
 @-webkit-keyframes flipInX {
-  /* line 745, ../sass/index.scss */
+  /* line 770, ../sass/index.scss */
   0% {
     -webkit-transform: perspective(400px) rotateX(90deg);
     opacity: 0;
   }
 
-  /* line 750, ../sass/index.scss */
+  /* line 775, ../sass/index.scss */
   40% {
     -webkit-transform: perspective(400px) rotateX(-10deg);
   }
 
-  /* line 754, ../sass/index.scss */
+  /* line 779, ../sass/index.scss */
   70% {
     -webkit-transform: perspective(400px) rotateX(10deg);
   }
 
-  /* line 758, ../sass/index.scss */
+  /* line 783, ../sass/index.scss */
   100% {
     -webkit-transform: perspective(400px) rotateX(0deg);
     opacity: 1;
@@ -910,23 +942,23 @@ a {
 }
 
 @-moz-keyframes flipInX {
-  /* line 764, ../sass/index.scss */
+  /* line 789, ../sass/index.scss */
   0% {
     -moz-transform: perspective(400px) rotateX(90deg);
     opacity: 0;
   }
 
-  /* line 769, ../sass/index.scss */
+  /* line 794, ../sass/index.scss */
   40% {
     -moz-transform: perspective(400px) rotateX(-10deg);
   }
 
-  /* line 773, ../sass/index.scss */
+  /* line 798, ../sass/index.scss */
   70% {
     -moz-transform: perspective(400px) rotateX(10deg);
   }
 
-  /* line 777, ../sass/index.scss */
+  /* line 802, ../sass/index.scss */
   100% {
     -moz-transform: perspective(400px) rotateX(0deg);
     opacity: 1;
@@ -934,23 +966,23 @@ a {
 }
 
 @-o-keyframes flipInX {
-  /* line 783, ../sass/index.scss */
+  /* line 808, ../sass/index.scss */
   0% {
     -o-transform: perspective(400px) rotateX(90deg);
     opacity: 0;
   }
 
-  /* line 788, ../sass/index.scss */
+  /* line 813, ../sass/index.scss */
   40% {
     -o-transform: perspective(400px) rotateX(-10deg);
   }
 
-  /* line 792, ../sass/index.scss */
+  /* line 817, ../sass/index.scss */
   70% {
     -o-transform: perspective(400px) rotateX(10deg);
   }
 
-  /* line 796, ../sass/index.scss */
+  /* line 821, ../sass/index.scss */
   100% {
     -o-transform: perspective(400px) rotateX(0deg);
     opacity: 1;
@@ -958,30 +990,30 @@ a {
 }
 
 @keyframes flipInX {
-  /* line 802, ../sass/index.scss */
+  /* line 827, ../sass/index.scss */
   0% {
     transform: perspective(400px) rotateX(90deg);
     opacity: 0;
   }
 
-  /* line 807, ../sass/index.scss */
+  /* line 832, ../sass/index.scss */
   40% {
     transform: perspective(400px) rotateX(-10deg);
   }
 
-  /* line 811, ../sass/index.scss */
+  /* line 836, ../sass/index.scss */
   70% {
     transform: perspective(400px) rotateX(10deg);
   }
 
-  /* line 815, ../sass/index.scss */
+  /* line 840, ../sass/index.scss */
   100% {
     transform: perspective(400px) rotateX(0deg);
     opacity: 1;
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003821}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003846}}
 .flipInX {
   -webkit-backface-visibility: visible !important;
   -webkit-animation-name: flipInX;
@@ -993,7 +1025,7 @@ a {
   animation-name: flipInX;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003832}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/management_center\/sass\/index\.scss}line{font-family:\00003857}}
 .animated {
   -webkit-animation-duration: 1s;
   -moz-animation-duration: 1s;

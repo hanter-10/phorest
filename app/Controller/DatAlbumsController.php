@@ -37,6 +37,7 @@ class DatAlbumsController extends AppController {
 	public function index() {
 
 		//$this->DatAlbum->recursive = 0;			// HABTMの際に関連テーブルを検索するので削除
+		$this->set( 'datAlbumPhotos', array( 'errorMsg' => 'データ取得に失敗しました。画面を更新して再度お試しください' ) );
 
 		// リクエストメソッド判断
 		if ( $this->request->is( 'get' ) ) {
@@ -131,7 +132,7 @@ class DatAlbumsController extends AppController {
 	public function add() {
 
 		// 返り値のデフォルトセット：false
-		$this->set( 'datAlbum', false );
+		$this->set( 'datAlbum', array( 'errorMsg' => 'アルバム追加に失敗しました。画面を更新して再度お試しください' ) );
 
 		// リクエストメソッド判断
 		if ( $this->request->is( 'post' ) ) {
@@ -172,7 +173,7 @@ class DatAlbumsController extends AppController {
 	public function edit($id = null) {
 
 		// 返り値のデフォルトセット：false
-		$this->set( 'datAlbum', false );
+		$this->set( 'datAlbum', array( 'errorMsg' => 'データ更新に失敗しました。画面を更新して再度お試しください' ) );
 
 		$this->DatAlbum->id = $id;
 		if ( ! $this->DatAlbum->exists() ) {
@@ -200,6 +201,11 @@ class DatAlbumsController extends AppController {
 				$this->DatAlbum->save();
 				$this->set( 'datAlbum', true );
 			}
+			else {
+				if ( isset( $this->DatAlbum->validationErrors['albumName'][0] ) ) {
+					$this->set( 'datAlbum', array( 'errorMsg' => $this->DatAlbum->validationErrors['albumName'][0] ) );
+				}
+			}
 		} else {
 			// putではない時は「400 Bad Request」
 			throw new BadRequestException(__('Bad Request.'));
@@ -219,7 +225,7 @@ class DatAlbumsController extends AppController {
 	public function delete($id = null) {
 
 		// 返り値のデフォルトセット：false
-		$this->set( 'datAlbum', false );
+		$this->set( 'datAlbum', array( 'errorMsg' => 'データ更新に失敗しました。画面を更新して再度お試しください' ) );
 
 		// idが存在するかチェック
 		$this->DatAlbum->id = $id;
@@ -261,7 +267,7 @@ class DatAlbumsController extends AppController {
 		try
 		{
 			// 返り値のデフォルトセット：false
-			$this->set('datUser', false);
+			$this->set( 'datUserAlbums', array( 'errorMsg' => 'データ取得に失敗しました。画面を更新して再度お試しください' ) );
 
 			// リクエストメソッド判断
 			if ( $this->request->is( 'get' ) ) {
@@ -292,6 +298,11 @@ class DatAlbumsController extends AppController {
 						unset($datAlbumPhoto[$photo_key]);
 					}
 
+					if ( ! isset( $datUserAlbums[0]['DatAlbum'][$album_key]['DatPhoto'] ) ) {
+						// 写真データがないアルバムはビューの対象外とする
+						unset( $datUserAlbums[0]['DatAlbum'][$album_key] );
+					}
+
 					// いらないものを消す
 					unset($datAlbums[$album_key]);
 				}
@@ -309,8 +320,8 @@ class DatAlbumsController extends AppController {
 
 		} catch (Exception $e) {
 
-			$this->set('datUser', false);
-			$this->set('_serialize', 'datUser');
+			$this->set( 'datUserAlbums', array( 'errorMsg' => 'データ取得に失敗しました。画面を更新して再度お試しください' ) );
+			$this->set('_serialize', 'datUserAlbums');
 		}
 	}
 
@@ -324,7 +335,7 @@ class DatAlbumsController extends AppController {
 		try
 		{
 			// 返り値のデフォルトセット：false
-			$this->set('datUser', false);
+			$this->set( 'datUserAlbums', array( 'errorMsg' => 'データ取得に失敗しました。画面を更新して再度お試しください' ) );
 
 			// リクエストメソッド判断
 			if ( $this->request->is( 'get' ) ) {
@@ -355,6 +366,11 @@ class DatAlbumsController extends AppController {
 						unset($datAlbumPhoto[$photo_key]);
 					}
 
+					if ( ! isset( $datUserAlbums[0]['DatAlbum'][$album_key]['DatPhoto'] ) ) {
+						// 写真データがないアルバムはビューの対象外とする
+						unset( $datUserAlbums[0]['DatAlbum'][$album_key] );
+					}
+
 					// いらないものを消す
 					unset($datAlbums[$album_key]);
 				}
@@ -372,8 +388,8 @@ class DatAlbumsController extends AppController {
 
 		} catch (Exception $e) {
 
-			$this->set('datUser', false);
-			$this->set('_serialize', 'datUser');
+			$this->set( 'datUserAlbums', array( 'errorMsg' => 'データ取得に失敗しました。画面を更新して再度お試しください' ) );
+			$this->set('_serialize', 'datUserAlbums');
 		}
 	}
 

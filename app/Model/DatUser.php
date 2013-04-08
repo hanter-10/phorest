@@ -38,7 +38,7 @@ class DatUser extends AppModel {
 							'required' => true),
 					'alphaNumeric' => array(
 							'rule' => array( 'alphaNumeric' ),
-							'message' => 'ユーザーIDを確認してください')),
+							'message' => 'ユーザーIDを確認してください。記号は使用できません。')),
 
 			'email' => array(
 					'email' => array(
@@ -59,7 +59,7 @@ class DatUser extends AppModel {
 			'sitename' => array(
 					'notempty' => array(
 							'rule' => array('notEmpty'),
-							'message' => 'サイト名を入力してください')),
+							'message' => 'サイト名を入力してください') ),
 			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed

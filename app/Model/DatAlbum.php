@@ -71,7 +71,10 @@ class DatAlbum extends AppModel {
 			'albumName' => array(
 					'notempty' => array(
 							'rule' => array('notEmpty'),
-							'message' => 'アルバム名を指定してください')),
+							'message' => 'アルバム名を指定してください'),
+					'alphaNumeric' => array(
+							'rule' => array( 'alphaNumeric' ),
+							'message' => 'アルバム名を確認してください。記号は使用できません。')),
 
 			'description' => array(
 					'notempty' => array(

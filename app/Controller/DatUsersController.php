@@ -265,29 +265,50 @@ class DatUsersController extends AppController {
 		}
 	}
 
-// /**
-//  * edit method
-//  *
-//  * @throws NotFoundException
-//  * @param string $id
-//  * @return void
-//  */
-// 	public function edit($id = null) {
-// 		$this->DatUser->id = $id;
-// 		if (!$this->DatUser->exists()) {
-// 			throw new NotFoundException(__('Invalid dat user'));
-// 		}
-// 		if ($this->request->is('post') || $this->request->is('put')) {
-// 			if ($this->DatUser->save($this->request->data)) {
-// 				$this->Session->setFlash(__('The dat user has been saved'));
-// 				$this->redirect(array('action' => 'index'));
-// 			} else {
-// 				$this->Session->setFlash(__('The dat user could not be saved. Please, try again.'));
-// 			}
-// 		} else {
-// 			$this->request->data = $this->DatUser->read(null, $id);
-// 		}
-// 	}
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function edit($username = null) {
+
+		$this->viewClass = 'Json';
+
+		// 返り値のデフォルトセット：false
+		$this->set( 'datUser', array( 'errorMsg', '更新に失敗しました。画面を更新して再度お試しください' ) );
+
+		// usernameでデータ取得
+		$datuser = $this->DatUser->getUserDataByUserName( $this->request->username );
+
+		$this->DatUser->id = $datuser['DatUser']['id'];
+		if (!$this->DatUser->exists()) {
+			throw new NotFoundException(__('Invalid dat user'));
+		}
+
+		if ( $this->request->is('post') || $this->request->is('put') || $this->request->is('patch') ) {
+
+			// リクエストデータをJSON形式にエンコードで取得する
+			$requestData = $this->request->input( 'json_decode' );
+
+			// データセット
+			$this->DatUser->create( false );
+			$this->DatUser->set( 'user_id', $datuser['DatUser']['id'] );
+			if ( isset ( $requestData->sitename ) ) $this->DatUser->set( 'sitename', $requestData->sitename );
+			if ( isset ( $requestData->sitename ) ) $this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
+
+			unset( $this->DatUser->validate['username'] );
+			unset( $this->DatUser->validate['password'] );
+
+			if ( $this->DatUser->validates() ) {
+				// 更新処理
+				$this->DatUser->save();
+				$this->set( 'datUser', true );
+			}
+		}
+		$this->set('_serialize', 'datUser');
+	}
 
 // /**
 //  * delete method

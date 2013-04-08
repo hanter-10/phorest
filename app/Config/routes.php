@@ -60,6 +60,7 @@
 	Router::connect('/', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/provision', array('controller' => 'DatUsers', 'action' => 'provision'));
+	Router::connect('/DatUsers/edit/:username', array('controller' => 'DatUsers', 'action' => 'edit'));
 	Router::connect('/sign_up/:step', array('controller' => 'DatUsers', 'action' => 'sign_up'));
 	Router::connect('/code/:hash', array('controller' => 'DatUsers', 'action' => 'code'));
 	Router::connect('/DatUsers/album/:albumName', array('controller' => 'DatUsers', 'action' => 'index'));

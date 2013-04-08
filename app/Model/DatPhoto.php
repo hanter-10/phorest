@@ -83,6 +83,11 @@ class DatPhoto extends AppModel {
 							'rule' => array('notEmpty'),
 							'message' => '写真名を指定してください')),
 
+			'file_name' => array(
+					'notempty' => array(
+							'rule' => array('notempty'),
+							'message' => 'ファイル名を指定してください')),
+
 			'size' => array(
 					'notempty' => array(
 							'rule' => array('notempty'),

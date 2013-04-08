@@ -20,9 +20,9 @@ class DatPhotosController extends AppController {
 		parent::beforeFilter();
 
 		// POSTの場合はajax規制を排除
-		if (!$this->request->is('post')) {
+		if ( ! $this->request->is( 'post' ) ) {
 			// ajax通信でのアクセスか確認
-			if(!$this->RequestHandler->isAjax()) {
+			if( ! $this->RequestHandler->isAjax() ) {
 				// ajaxではない時は「400 Bad Request」
 				throw new BadRequestException(__('Bad Request.'));
 			}
@@ -383,8 +383,13 @@ class DatPhotosController extends AppController {
 					}
 				}
 				else {
-					// バリデーションエラー
-					$this->set( 'datPhoto', array( 'errorMsg' => '写真追加に失敗しました。画面を更新して画像が追加されているか確認してください。' ) );
+					if ( isset( $this->DatPhoto->validationErrors['file_name'][0] ) ) {
+						$this->set( 'datPhoto', array( 'errorMsg' => $this->DatPhoto->validationErrors['file_name'][0] ) );
+					}
+					else {
+						// バリデーションエラー
+						$this->set( 'datPhoto', array( 'errorMsg' => '写真追加に失敗しました。画面を更新して画像が追加されているか確認してください。' ) );
+					}
 				}
 
 			} else {

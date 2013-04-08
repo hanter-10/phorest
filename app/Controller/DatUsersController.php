@@ -66,7 +66,8 @@ class DatUsersController extends AppController {
 
 		// usernameを取得してViewに設置
 		$meta_data = $this->Auth->user('username');
-		$this->set( compact('meta_data') );
+		$sitename = $this->Auth->user('sitename');
+		$this->set( compact('meta_data', 'sitename') );
 
 		$this->layout = 'user_layout';
 	}
@@ -275,6 +276,7 @@ class DatUsersController extends AppController {
 	public function edit($username = null) {
 
 		$this->viewClass = 'Json';
+		$this->components = array( 'RequestHandler' );
 
 		// 返り値のデフォルトセット：false
 		$this->set( 'datUser', array( 'errorMsg' => '更新に失敗しました。画面を更新して再度お試しください' ) );
@@ -290,13 +292,14 @@ class DatUsersController extends AppController {
 		if ( $this->request->is('post') || $this->request->is('put') || $this->request->is('patch') ) {
 
 			// リクエストデータをJSON形式にエンコードで取得する
-			$requestData = $this->request->input( 'json_decode' );
+// 			$requestData = $this->request->input( 'json_decode' );
+			$request_array = split( '=', $this->request->input() );
 
 			// データセット
 			$this->DatUser->create( false );
 			$this->DatUser->set( 'user_id', $datuser['DatUser']['id'] );
-			if ( isset ( $requestData->sitename ) ) $this->DatUser->set( 'sitename', $requestData->sitename );
-			if ( isset ( $requestData->sitename ) ) $this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
+			if ( isset ( $request_array[1] ) ) $this->DatUser->set( 'sitename', urldecode( $request_array[1] ) );
+			if ( isset ( $request_array[1] ) ) $this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
 			unset( $this->DatUser->validate['username'] );
 			unset( $this->DatUser->validate['password'] );

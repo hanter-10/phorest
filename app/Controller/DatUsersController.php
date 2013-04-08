@@ -277,7 +277,7 @@ class DatUsersController extends AppController {
 		$this->viewClass = 'Json';
 
 		// 返り値のデフォルトセット：false
-		$this->set( 'datUser', array( 'errorMsg', '更新に失敗しました。画面を更新して再度お試しください' ) );
+		$this->set( 'datUser', array( 'errorMsg' => '更新に失敗しました。画面を更新して再度お試しください' ) );
 
 		// usernameでデータ取得
 		$datuser = $this->DatUser->getUserDataByUserName( $this->request->username );

@@ -152,6 +152,7 @@ class DatAlbumsController extends AppController {
 
 				// 追加
 				$save_result = $this->DatAlbum->save();
+				$save_result['id'] = $save_result['DatAlbum']['album_id'];
 				$this->set( 'datAlbum', $save_result );
 			}
 		} else {

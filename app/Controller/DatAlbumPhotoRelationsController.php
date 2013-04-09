@@ -104,8 +104,7 @@ class DatAlbumPhotoRelationsController extends AppController {
 				}
 				else {
 					// 失敗したらfalseを返す
-					$this->set( 'datAlbumPhotoRelations', false );
-					break;
+					$this->set( 'datAlbumPhotoRelations', array( 'errorMsg' => '写真追加に失敗しました。画面を更新して写真が追加されているか確認してください。' ) );
 				}
 			}
 		}
@@ -154,7 +153,7 @@ class DatAlbumPhotoRelationsController extends AppController {
 				}
 				else {
 					// バリデーションエラーの場合
-					$result[$key] = false;
+					$result[$key] = array( 'errorMsg' => '写真追加に失敗しました。画面を更新して写真が追加されているか確認してください。' );
 				}
 			}
 			$this->set('datAlbumPhotoRelation', $result);

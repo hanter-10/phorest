@@ -31,14 +31,17 @@ class DatUser extends AppModel {
 			'username' => array(
 					'notempty' => array(
 							'rule' => array('notEmpty'),
-							'message' => 'ユーザIDを入力してください'),
+							'message' => 'ユーザー名を入力してください'),
 					'minlength' => array(
 							'rule' => array('minLength', '5'),
 							'message' => 'ユーザー名は5文字以上で入力してください。',
 							'required' => true),
 					'alphaNumeric' => array(
 							'rule' => array( 'alphaNumeric' ),
-							'message' => 'ユーザーIDを確認してください。記号は使用できません。')),
+							'message' => 'ユーザー名を確認してください。記号は使用できません。'),
+					'customrule' => array(
+							'rule' => array('custom', '/^[a-z\d]+$/i'),
+							'message' => 'ユーザー名は半角英数字で入力してください')),
 
 			'email' => array(
 					'email' => array(

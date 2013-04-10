@@ -643,6 +643,12 @@ $(function(){
             $preview.add($deletePhoto).addClass('disabled');
             $preview.attr('href',null);
          }
+         return this;
+      },
+      updatePreviewBtn : function(){
+         var albumName = this.model.get('albumName');
+         $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + albumName);
+         return this;
       },
       getPhotoModelByEl : function ($photoEl){
          var
@@ -798,9 +804,13 @@ $(function(){
 
       function addAlbum()
       {
-         var $el = mvc.AlbumsView_instance.$el;
+         var 
+         $el = mvc.AlbumsView_instance.$el,
+         albumName = '新規アルバム',
+         newAlbumCount = $("#albums .album-name:contains('新規アルバム')").length;
+         albumName+=(newAlbumCount+1);
 
-         mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',status:0},{silent: true,success:function(model){
+         mvc.AlbumsView_instance.collection.create({albumName:albumName,status:0},{silent: true,success:function(model){
             model.id = model.attributes.id;
             var
             albumView = new mvc.AlbumView({model:model}),
@@ -895,20 +905,24 @@ $(function(){
             data.currentAlbumView.updateCoverImage();
          }
          data.targetAlbumView.updateCoverImage();
+         if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
+            $.app.properties.uploadControlPanel.hide();
+            $.app.properties.uploadArea.fadeIn();
+         }
       });
 
       //------------------ move to photo-area end -------------------
       $.app.Events.on('moveToPhotoAreaEnd', function(data){
          //enable preview button
          $preview.add($deletePhoto).removeClass('disabled');
-         $preview.off('click');
+         // $preview.off('click');
          //hide or show upload-area
          if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
             $.app.properties.uploadControlPanel.hide();
             $.app.properties.uploadArea.fadeIn();
          }
          //update album cover image
-         $("#albums .album.active").data('view').updateCoverImage();
+         $("#albums .album.active").data('view').updateCoverImage().updatePreviewBtn();
       });
    }
 
@@ -918,6 +932,7 @@ $(function(){
       $okbtn = $userPanel.find('.ok'),
       backup = {};
 
+      $inputs.tooltip({placement:'left'});
       $inputs.each(function(){
          var
          $this = $(this),

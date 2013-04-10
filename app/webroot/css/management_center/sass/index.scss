@@ -75,6 +75,12 @@ a{
 	box-shadow: black 0px 3px 10px 2px;
 	&>.base{
 		padding: 1.6em 1.4em;
+		li{
+			margin-top: 1em;
+		}
+		li.first{
+			margin-top: 0;
+		}
 	}
 	&>.btnGroup{
 		padding: 1.6em 1.4em;
@@ -115,6 +121,7 @@ a{
 	input{
 		@include transition(0.25s);
 		outline: none;
+		display: block;
 		padding: 0.8em 1em;
 		font-size: 14px;
 		border-radius: 5px;
@@ -122,6 +129,7 @@ a{
 		border: 1px solid #D8D8D8;
 		color: #5A5A5A;
 		width: 200px;
+		margin-bottom: 1em;
 		&:focus {
 			box-shadow: 0 0 5px #9EEE94;
 		}

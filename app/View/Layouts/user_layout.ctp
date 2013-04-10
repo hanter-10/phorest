@@ -16,6 +16,7 @@
                 "management_center/jquery.dropfile.js",
                 "common/underscore.js",
                 "management_center/backbone_099.js",
+                "common/bootstrap.min.js",
                 MANAGEMENT_DS_APP_JS,
                 "management_center/UI.js",
                 MANAGEMENT_DS_MVC_DS_MODEL_JS,
@@ -27,6 +28,7 @@
                 "management_center/css/jquery-ui-1.8.24.custom.css",
                 "management_center/css/jquery.mCustomScrollbar.css",
                 "management_center/css/icon.css",
+                "common/bootstrap.css",
                 "management_center/css/index.css"
                 );
 
@@ -82,16 +84,25 @@
                 <form id="user-panel">
                     <div class="triangle"></div>
                     <ul class="base">
-                        <li>
+                        <li class="first">
                             <h3>基本情報</h3>
                             <ul class="sub-ul">
-                                <li><input type="text" name="sitename" placeholder="サイト名" title="サイト名" value="<?php if ( isset( $sitename ) ) echo $sitename;?>"></li>
+                                <li><input data-toggle="tooltip" type="text" name="sitename" placeholder="サイト名" title="サイト名" value="<?php if ( isset( $sitename ) ) echo $sitename;?>"></li>
+                                <li><input data-toggle="tooltip" type="text" name="email" placeholder="E-mail" title="E-mail" value="<?php if ( isset( $sitename ) ) echo $sitename;?>"></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h3>パスワード</h3>
+                            <ul class="sub-ul">
+                                <li><input data-toggle="tooltip" type="password" name="old_password" placeholder="古いパスワード" title="古いパスワード"</li>
+                                <li><input data-toggle="tooltip" type="password" name="new_password" placeholder="新しいパスワード" title="新しいパスワード"</li>
                             </ul>
                         </li>
                     </ul>
                     <div class="btnGroup">
-                        <a class="ok">OK</a>
-                        <a class="cancel">キャンセル</a>
+                        <a class="ok">変更する</a>
+                        <a class="cancel">戻す</a>
                     </div>
                     <a id="logout" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ログアウト</a>
                 </form>

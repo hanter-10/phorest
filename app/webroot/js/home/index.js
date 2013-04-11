@@ -2,7 +2,8 @@ $(function(){
 	var 
 	$tabs = $("#login-tab,#sign-up-tab"),
 	$forms = $('#forms'),
-	$triangle = $('#form-container .triangle');
+	$triangle = $('#form-container .triangle'),
+	$formWrapper = $('#form-wrapper');
 
 	$tabs.click(function(){
 		var $this = $(this);
@@ -11,4 +12,14 @@ $(function(){
 		$forms.toggleClass('sign-up');
 		$triangle.toggleClass('bottom');
 	});
+
+	$('#forms input').tooltip({placement:'left'});
+	if( $('.error-message.signUp').length==0 ){
+		$formWrapper.show();
+	}else{
+		$('#sign-up-tab').click();
+		setTimeout(function(){
+			$formWrapper.show();
+		},300);
+	}
 });

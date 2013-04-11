@@ -164,8 +164,8 @@ $(document).ready(function(){
                     $el = view.$el,
                     model = view.model,
                     newAttributes = responseText;
-                    if(responseText.indexOf('errorMsg') != -1){
-                        alert(JSON.parse(responseText).errorMsg);
+                    if(responseText.errorMsg){
+                        alert(responseText.errorMsg);
                         $el.remove();
                         return false;
                     }

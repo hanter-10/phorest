@@ -103,6 +103,7 @@ button{
 }
 
 #form-wrapper{
+	display: none;
 	width: 376px;
 	float: right;
 	@include box-shadow(0 0 1px 5px rgba(255, 255, 255, 0.35));

@@ -9,10 +9,10 @@
         <?php
             //css output
             echo $this->element('common/css');
-            echo $this->Html->css(array( "home/css/icon.css", "home/css/index.css" ));
+            echo $this->Html->css(array( "common/bootstrap.css", "home/css/icon.css", "home/css/index.css" ));
             //script output
             echo $this->element('common/js');
-            echo $this->Html->script(array( "home/index.js" ));
+            echo $this->Html->script(array( "common/bootstrap.min.js", "home/index.js" ));
         ?>
 
     </head>
@@ -41,9 +41,9 @@
 								<?php endif; ?>
 								<?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'login'), 'id' => 'login-form'));?>
 									<?php echo $this->Form->error('DatUser.username'); ?>
-                                    <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザ名','title' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <?php echo $this->Form->error('DatUser.password'); ?>
-                                    <?php echo $this->Form->text('DatUser.password', array('id' => 'password"', 'type' => 'password', 'placeholder' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->text('DatUser.password', array('id' => 'password"', 'type' => 'password', 'placeholder' => 'パスワード','title' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>ログイン！</button>
                                     <div id="options">
                                         <ul>
@@ -63,7 +63,7 @@
 								<?php endif; ?>
                                 <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'provision'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
                                 	<?php echo $this->Form->error('TmpUser.temp_email'); ?>
-                                    <?php echo $this->Form->text('TmpUser.temp_email', array('id' => 'email"', 'placeholder' => 'E-mail', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->text('TmpUser.temp_email', array('id' => 'email"', 'placeholder' => 'E-mail','title' => 'E-mail', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>新規登録！</button>
                                 <?php echo $this->Form->end();?>
                             </div>

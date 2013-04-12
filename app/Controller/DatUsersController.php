@@ -318,6 +318,11 @@ class DatUsersController extends AppController {
 		$this->set('_serialize', 'datUser');
 	}
 
+	public function resent_password() {
+
+		$this->layout = 'sign_up_layout';
+	}
+
 // /**
 //  * delete method
 //  *

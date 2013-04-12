@@ -334,6 +334,9 @@ $(function(){
             } });
          });
 
+         if(!this.albumView){ //photo from right area
+            $.app.properties.photos_right = $.app.properties.photos_right.not($selectedElem); //update right area photo
+         }
          this.move($selectedElem,albumModel);
          return true;
          // console.log( $dndElem,$selectedElem );
@@ -751,8 +754,9 @@ $(function(){
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            //$.getScript('/js/management_center/tutorial.js');
-         }      }
+            $.getScript('/phorest/js/management_center/tutorial.js');
+         }
+      }
    });
 
 
@@ -763,7 +767,9 @@ $(function(){
          var
          $photoCollection = which == 'left' ? $currentActivePhotoCollection : $photoCollection_right,
          $selectedElems = $photoCollection.find('.selectedElem'),
-         collection = $photoCollection.data('collection');
+         collection = $photoCollection.data('collection'),
+         allElemsLen = collection.length,
+         isActived = $.app.properties.upPhoto.hasClass('active');
 
          if($selectedElems.length==0) return;
          $selectedElems.each(function(index){
@@ -772,11 +778,13 @@ $(function(){
             cid = $el.find('img').data('cid'),
             model = collection.get(cid);
             model.destroy();
-
-
          });
 
-         if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
+         if(allElemsLen==$selectedElems.length){ //写真を全部削除したら、アップロード領域を出す
+            if(!isActived){
+               $.app.properties.upPhoto.trigger("click",[true]);
+            }
+         }else if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
             var prev = $selectedElems.eq(0).prev();
             if(prev.length==0){
                prev = $selectedElems.eq(0).next();
@@ -923,6 +931,11 @@ $(function(){
          }
          //update album cover image
          $("#albums .album.active").data('view').updateCoverImage().updatePreviewBtn();
+      });
+
+      //------------------ select text --------------------
+      $albumNameInput.click(function(){
+         this.select();
       });
    }
 

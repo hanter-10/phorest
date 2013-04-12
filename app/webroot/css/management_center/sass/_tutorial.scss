@@ -1,48 +1,108 @@
-$tutorial-sprite-dimensions: true;
-@import "tutorial/*.png";
+#mask{
+	section{
+		background-color: #76BB1C;
+		width: 200px;
+		position: absolute;
+		padding: 1em;
+		z-index: 100;
+		color: #0E1A00;
+		border: 5px solid #FFF;
+		h1{
+			font-size: 16px;
+			text-align: center;
+			margin: 0;
+			border-bottom: 1px dashed #031600;
+			padding-bottom: 0.5em;
+		}
+	}
 
-#t_step1,#t_step2,#t_step3,#t_step4{
-	position: absolute;
-	display: none;
-	@include opacity(0);
-	@include transition(all 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275));
 }
 
-#t_step1{
-	@include tutorial-sprite(step1);
-	left: 510px;
+#tu-ok{
+	position: fixed;
+	right: 18px;
+	bottom: 18px;
+	a,div{
+		color:white;
+		display: block;
+		cursor: pointer;
+	}
+	a{
+		margin-bottom: .5em;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+	.okbtn{
+		font-size: 18px;
+		background: #0085FF;
+		text-align: center;
+		padding: 0.7em 1em;
+		border-radius: 5px;
+		&:hover{
+			background-color: #005AAD;
+		}
+	}
+}
+
+.arrow-b::before{
+	content:'';
+	display: block;
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 20px 20px 0 20px;
+	border-color: white transparent transparent transparent;
+	bottom: -25px;
+	left: 90px;
+}
+
+.arrow-l::before{
+	content:'';
+	display: block;
+	position: absolute;
+	left: -25px;
+	top: 50px;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 20px 20px 20px 0;
+	border-color: transparent white transparent transparent;
+}
+
+.arrow-t::before{
+	content:'';
+	display: block;
+	position: absolute;
+	left: 155px;
+	top: -25px;
+	width: 0px;
+	height: 0px;
+	border-style: solid;
+	border-width: 0 20px 20px 20px;
+	border-color: transparent transparent white transparent;
+
+}
+
+#tu-photos{
+	top: 280px;
+	left: 225px;
+}
+
+#tu-uploadArea{
+	left: 50%;
 	top: 50%;
+	margin-top: -90px;
+	margin-left: 146px;
 }
 
-#t_step2{
-	top: 190px;
-	left: 110px;
-	@include tutorial-sprite(step2);
+#tu-user-panel{
+	right: 0;
+	top: 53px;
 }
 
-#t_step3{
-	top: 136px;
-	@include tutorial-sprite(step3);
-	.t_btn{
-		left: 410px;
-	}
-}
-
-#t_step4{
-	top: 187px;
-	@include tutorial-sprite(step4);
-}
-
-.t_btn{
-	position: absolute;
-	left: 180px;
-	top: 157px;
-	cursor: pointer;
-	opacity:0.5;
-	@include tutorial-sprite(try_btn);
-	@include transition(0.2s);
-	&:hover{
-		opacity: 1;
-		@include transform(rotateZ(6deg));
-	}
+#tu-albums{
+	left: 150px;
+	top: 58px;
 }

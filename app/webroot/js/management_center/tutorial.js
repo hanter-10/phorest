@@ -1,77 +1,42 @@
 (function(){
-	var 
-	$mask = $('<div id="mask"> ').hide().appendTo('body'),
-	$step1 = $('<div id="t_step1">').append('<div class="t_btn">').appendTo($mask),
-	$step2 = $('<div id="t_step2">').append('<div class="t_btn">').appendTo($mask),
-	$step3 = $('<div id="t_step3">').append('<div class="t_btn">').appendTo($mask),
-	$step4 = $('<div id="t_step4">').append('<div class="t_btn">').appendTo($mask),
-	$all_steps = $step1.add($step2).add($step3).add($step4),
-	$try_btn = $mask.find('.t_btn'),
-	$track1 = $('#uploadArea .text'),
-	$track3 = $('#delete-photo'),
-	$track4 = $('#status-check'),
-	status_index = 0,
-	$current_step = $step1;
 
-	//step1
-	setTimeout(function(){ 
-		$mask.fadeIn(500 ,function(){ popIn($step1) });
-	} , 500 );
-
-	//step2
-	$.app.Events.once('allUploaded',function(){
-		setTimeout(function(){
-			//step3
-			$mask.fadeIn(500 ,function(){ 
-				popIn($step2);
-				$('#albums .cover').on('click',function(){
-					$('#albums .cover').off('click',arguments.callee);
-					$mask.fadeIn(500, function(){ 
-						popIn($step3);
-						//step4
-						$.app.Events.once('moveToPhotoAreaEnd',function(){
-							$mask.fadeIn(500,function(){
-								popIn($step4);
-							});
-						});
-					});
-				});
-			});
-		},500);
-	});
-
-	
-
-	$(window).resize(function(){
-		var 
-		track1_pos = $track1.offset(),
-		track3_pos = $track3.offset(),
-		track4_pos = $track4.offset(),
-		left1 = track1_pos.left + $track1.width()/2 - 160,
-		top1 = track1_pos.top - 240,
-		left3 = track3_pos.left - 30,
-		left4 = track4_pos.left;
-
-		$step1.css({left:left1,top:top1});
-		$step3.css({left:left3});
-		$step4.css({left:left4});
-		// console.log( $track1.offset() );
-	}).resize();
-
-	$mask.click(function(){
-		$mask.fadeOut(800);
-		popOut($current_step);
-		$current_step = $all_steps.eq(++status_index);
-	});
+var 
+tuStr = 
+'<section id="tu-photos" class="arrow-b">\
+	<h1>写真領域</h1>\
+	<p>アルバム写真を格納する場所です。</p>\
+</section>\
+\
+<section id="tu-uploadArea" class="arrow-b">\
+	<h1>アップロード領域</h1>\
+	<p>「アップロード」ボタンをクリックするか、ドロップしてアップロードする場所です。</p>\
+</section>\
+\
+<section id="tu-user-panel" class="arrow-t">\
+	<h1>アカウント設定</h1>\
+	<p>パスワードやサイト名など、アカウントにまつわる設定はこちらから。</p>\
+</section>\
+\
+<section id="tu-albums" class="arrow-l">\
+	<h1>アルバム領域</h1>\
+	<p>全てのアルバムの一覧です。写真をドロップして、アルバムからアルバムへの移動が可能。</p>\
+</section>\
+\
+<div id="tu-ok">\
+	<a href="" target="_blank">「15秒動画で分かる操作方法」を見る</a>\
+	<div class="okbtn">案内画面を閉じる</div>\
+</div>',
+$mask = $('<div id="mask"> ').hide().appendTo('body');
+$mask.append(tuStr);
+//step1
+setTimeout(function(){ 
+	$mask.fadeIn(500 ,function(){  });
+} , 500 );
 
 
-	function popIn($el){
-		TweenMax.set( $el, {css:{scale:0.2, display:'block'}} );
-		TweenMax.to( $el, 0.6, {css:{scale:1,opacity:1}, ease:Back.easeOut} );
-	}
+$mask.find('.okbtn').click(function(){
+	$mask.fadeOut(800);
+});
 
-	function popOut($el){
-		TweenMax.to( $el, 0.6, {css:{scale:0.4,opacity:0,rotationZ:15}, ease:Back.easeOut,onComplete:function(){ $el.hide(); }} );
-	}
 
 })();

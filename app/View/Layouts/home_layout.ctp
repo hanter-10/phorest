@@ -41,7 +41,7 @@
 								<?php endif; ?>
 								<?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'login'), 'id' => 'login-form'));?>
 									<?php echo $this->Form->error('DatUser.username'); ?>
-                                    <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザ名','title' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
+                                    <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザー名、またはE-mail','title' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <?php echo $this->Form->error('DatUser.password'); ?>
                                     <?php echo $this->Form->text('DatUser.password', array('id' => 'password"', 'type' => 'password', 'placeholder' => 'パスワード','title' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>ログイン！</button>

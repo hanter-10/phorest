@@ -58,7 +58,7 @@
 	//「 DatUsers 」routhing
 // 	Router::connect('/login', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/', array('controller' => 'DatUsers', 'action' => 'login'));
-	Router::connect('/resent_password', array('controller' => 'DatUsers', 'action' => 'resent_password'));
+	Router::connect('/resend_password', array('controller' => 'DatUsers', 'action' => 'resend_password'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/provision', array('controller' => 'DatUsers', 'action' => 'provision'));
 	Router::connect('/DatUsers/edit/:username', array('controller' => 'DatUsers', 'action' => 'edit'));

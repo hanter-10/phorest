@@ -20,13 +20,13 @@
 	        <?php echo $this->Form->error('DatUser.username'); ?>
 	        <div class="row">
 	            <span id="hostname">phorest.jp/</span>
-	            <?php echo $this->Form->text('DatUser.username', array('placeholder' => 'uername　(英数)', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	            <?php echo $this->Form->text('DatUser.username', array('placeholder' => 'ユーザ名　(英数)','title' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	        </div>
 	        <?php echo $this->Form->error('DatUser.password'); ?>
-	        <?php echo $this->Form->text('DatUser.password', array('type' => 'password', 'placeholder' => 'パスワード　（半角英数字４文字以上）', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	        <?php echo $this->Form->text('DatUser.password', array('type' => 'password', 'placeholder' => 'パスワード　（半角英数字４文字以上）','title' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	        <?php echo $this->Form->error('DatUser.sitename'); ?>
-	        <?php echo $this->Form->text('DatUser.sitename', array('placeholder' => 'サイト名　（日本語可）', 'label' => false, 'div' => false, 'error'=>false)); ?>
-	        <?php echo $this->Form->textarea('DatUser.sitename', array('class' => 'last', 'placeholder' => 'サイト名説明', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	        <?php echo $this->Form->text('DatUser.sitename', array('placeholder' => 'サイト名　（日本語可）','title' => 'サイト名', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	        <?php echo $this->Form->textarea('DatUser.sitename', array('class' => 'last', 'placeholder' => 'サイト名説明（150文字以内）','title' => 'サイト名説明', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	    </div>
 	    <input type="submit" value="登録" class="btn">
 	<?php echo $this->Form->end();?>

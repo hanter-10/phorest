@@ -13,7 +13,7 @@ $(function(){
 		$triangle.toggleClass('bottom');
 	});
 
-	$('#forms input').tooltip({placement:'left'});
+	$('input,textarea').tooltip({placement:'left'});
 	if( $('.error-message.signUp').length==0 ){
 		$formWrapper.show();
 	}else{

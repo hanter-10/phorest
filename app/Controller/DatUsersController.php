@@ -323,6 +323,21 @@ class DatUsersController extends AppController {
 		$this->layout = 'sign_up_layout';
 	}
 
+	public function resend_password_completed() {
+
+		$this->layout = 'sign_up_layout';
+	}
+
+	public function reset_password() {
+
+		$this->layout = 'sign_up_layout';
+	}
+
+	public function reset_password_completed() {
+
+		$this->layout = 'sign_up_layout';
+	}
+
 // /**
 //  * delete method
 //  *

@@ -25,7 +25,8 @@
 	        <?php echo $this->Form->error('DatUser.password'); ?>
 	        <?php echo $this->Form->text('DatUser.password', array('type' => 'password', 'placeholder' => 'パスワード　（半角英数字４文字以上）', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	        <?php echo $this->Form->error('DatUser.sitename'); ?>
-	        <?php echo $this->Form->text('DatUser.sitename', array('class' => 'last', 'placeholder' => 'サイト名　（日本語可）', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	        <?php echo $this->Form->text('DatUser.sitename', array('placeholder' => 'サイト名　（日本語可）', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	        <?php echo $this->Form->textarea('DatUser.sitename', array('class' => 'last', 'placeholder' => 'サイト名説明', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	    </div>
 	    <input type="submit" value="登録" class="btn">
 	<?php echo $this->Form->end();?>

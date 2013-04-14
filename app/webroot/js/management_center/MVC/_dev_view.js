@@ -812,7 +812,7 @@ $(function(){
 
       function addAlbum()
       {
-         var 
+         var
          $el = mvc.AlbumsView_instance.$el,
          albumName = '新規アルバム',
          newAlbumCount = $("#albums .album-name:contains('新規アルバム')").length;
@@ -978,6 +978,9 @@ $(function(){
 
             data[name] = val;
          });
+
+         var introname = $("textarea").attr("name");
+         data[introname] = $("textarea").val();
 
          $.ajax({
             url: url,

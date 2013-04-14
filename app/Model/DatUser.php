@@ -63,6 +63,13 @@ class DatUser extends AppModel {
 					'notempty' => array(
 							'rule' => array('notEmpty'),
 							'message' => 'サイト名を入力してください') ),
+			'intro' => array(
+					'notempty' => array(
+							'rule' => array('notEmpty'),
+							'message' => 'サイトの説明を入力してください'),
+					'maxlength' => array(
+							'rule' => array('maxLength', '150'),
+							'message' => 'サイト説明は150文字以上で入力してください。') ),
 			);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -146,7 +153,7 @@ class DatUser extends AppModel {
 
 		$this->recursive = 0;
 
-		/* 検索光徳 */
+		/* 検索項目 */
 		$fields = array(
 			'DatUser.user_id as id',
 			'DatUser.username',
@@ -169,5 +176,37 @@ class DatUser extends AppModel {
 		);
 
 		return $this->find('first', $option);
+	}
+
+	/**
+	 * email で会員検索
+	 * @param string $email
+	 * @return Ambigous <multitype:, NULL, mixed>
+	 */
+	function getUserDataByEmail( $email = null ) {
+
+		$this->recursive = 0;
+
+		$options = array(
+				'conditions' => array(
+						'DatUser.email' => $email,
+						'DatUser.status' => STATUS_ON,
+						),
+				);
+		return $this->find('first', $options);
+	}
+
+	function checkUserByOldPassword( $username, $oldpassword = null ) {
+
+		$this->recursive = 0;
+
+		$options = array(
+				'conditions' => array(
+						'DatUser.username' => $username,
+						'DatUser.password' => $oldpassword,
+						'DatUser.status' => STATUS_ON,
+						),
+				);
+		return $this->find( 'first', $options );
 	}
 }

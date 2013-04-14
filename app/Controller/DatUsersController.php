@@ -15,14 +15,14 @@ class DatUsersController extends AppController {
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow( 'login', 'logout', 'add', 'sign_up', 'code', 'provision' );
+		$this->Auth->allow( 'login', 'logout', 'add', 'sign_up', 'code', 'provision', 'resend_password', 'resend_password_completed', 'reset_password', 'reset_password_completed' );
 	}
 
 	// 初期登録時のアルバム数
 	private $default_album = 3;
 
-	public function login() {
 
+	public function login() {
 		$this->layout = 'home_layout';
 
 		if ( $this->request->is('post') ) {
@@ -66,10 +66,10 @@ class DatUsersController extends AppController {
 
 		// usernameを取得してViewに設置
 		$meta_data = $this->Auth->user('username');
-		$sitename = $this->Auth->user('sitename');
-		$this->set( compact('meta_data', 'sitename') );
+		$user = $this->DatUser->read(null, $this->Auth->user('user_id'));
+		$this->set( compact( 'meta_data', 'sitename', 'user' ) );
 
-		$this->layout = 'user_layout';
+		$this->layout = 'control_panel_layout';
 	}
 
 /**
@@ -134,6 +134,15 @@ class DatUsersController extends AppController {
 								// 追加
 								$this->DatAlbum->save();
 							}
+
+							// 対象ユーザへEmail送信
+							$Email = new CakeEmail( 'default' );
+							$message = $Email->to( $this->request->data['DatUser']['email'] )
+							->subject( '会員登録が完了しました' )
+							->template( 'user_add_complete_to_user' )
+							->viewVars( array( 'username' => $this->request->data['DatUser']['username'],
+									'email' => $this->request->data['DatUser']['email'] ) )
+							->send();
 
 							// 対象session削除
 							$this->Session->delete('TmpUser');
@@ -293,49 +302,184 @@ class DatUsersController extends AppController {
 
 			// リクエストデータをJSON形式にエンコードで取得する
 // 			$requestData = $this->request->input( 'json_decode' );
-			$request_array = split( '=', $this->request->input() );
+			$requestData = split( '&', urldecode( $this->request->input() ) );
+			foreach ( $requestData as $key => $data ) {
+				$splitData = split( '=', $data );
+				$makeData[$splitData[0]] = $splitData[1];
+			}
 
-			// データセット
 			$this->DatUser->create( false );
-			$this->DatUser->set( 'user_id', $datuser['DatUser']['id'] );
-			if ( isset ( $request_array[1] ) ) $this->DatUser->set( 'sitename', urldecode( $request_array[1] ) );
-			if ( isset ( $request_array[1] ) ) $this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
 
-			unset( $this->DatUser->validate['username'] );
-			unset( $this->DatUser->validate['password'] );
-
-			if ( $this->DatUser->validates() ) {
-				// 更新処理
-				$this->DatUser->save();
-				$this->set( 'datUser', true );
+			$password_flg = true;
+			if ( isset ( $makeData['new_password'] ) && $makeData['new_password'] !== '' ) {
+				// 古いパスワードのチェック
+				$oldpassword = $this->Auth->password( $makeData['old_password'] );
+				$datUser = $this->DatUser->checkUserByOldPassword( $this->request->username, $oldpassword );
+				if ( $datUser ) {
+					$this->DatUser->set( 'password', $makeData['new_password'] );
+				}
+				else {
+					$password_flg = false;
+					$this->set( 'datUser', array( 'errorMsg' => '古いパスワードをご確認ください。' ) );
+				}
 			}
 			else {
-				if ( isset( $this->DatUser->validationErrors['sitename'][0] ) ) {
-					$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['sitename'][0] ) );
+				unset( $this->DatUser->validate['password'] );
+			}
+
+			if ( $password_flg ) {
+				// データセット
+				$this->DatUser->set( 'user_id', $datuser['DatUser']['id'] );
+				if ( isset ( $makeData['sitename'] ) ) $this->DatUser->set( 'sitename', $makeData['sitename'] );
+				if ( isset ( $makeData['intro'] ) ) $this->DatUser->set( 'intro', $makeData['intro'] );
+				if ( isset ( $makeData['email'] ) ) $this->DatUser->set( 'email', $makeData['email'] );
+				if ( isset ( $makeData['sitename'] ) || isset ( $makeData['email'] ) || isset ( $makeData['intro'] ) || isset ( $makeData['password'] ) ) $this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
+
+				unset( $this->DatUser->validate['username'] );
+				if ( $this->DatUser->validates() ) {
+					// 更新処理
+					$this->DatUser->save();
+					$this->set( 'datUser', true );
+				}
+				else {
+					if ( isset( $this->DatUser->validationErrors['sitename'][0] ) ) {
+						$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['sitename'][0] ) );
+					}
+					else if ( isset( $this->DatUser->validationErrors['intro'][0] ) ) {
+						$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['intro'][0] ) );
+					}
+					else if ( isset( $this->DatUser->validationErrors['email'][0] ) ) {
+						$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['email'][0] ) );
+					}
+					else if ( isset( $this->DatUser->validationErrors['password'][0] ) ) {
+						$this->set( 'datUser', array( 'errorMsg' => $this->DatUser->validationErrors['password'][0] ) );
+					}
 				}
 			}
 		}
 		$this->set('_serialize', 'datUser');
 	}
 
+	/**
+	 * 仮パスワード発行
+	 */
 	public function resend_password() {
 
 		$this->layout = 'sign_up_layout';
+
+		if ( $this->request->is( 'post' ) ) {
+			// ボタン押下時
+			unset( $this->DatUser->validate['username'] );
+			unset( $this->DatUser->validate['password'] );
+
+			$this->DatUser->set( 'email', $this->request->data['DatUser']['email'] );
+			if ( $this->DatUser->validates() ) {
+				$datUser = $this->DatUser->getUserDataByEmail( $this->request->data['DatUser']['email'] );
+				if ( $datUser ) {
+					// パスワード再発行
+					$password = $this->_getRandomString( 16 );
+
+					// 再発行パスワードでパスワード更新
+					$this->DatUser->create( false );
+					$this->DatUser->set(  'user_id', $datUser['DatUser']['user_id'] );
+					$this->DatUser->set( 'password', $password );
+					$this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
+					$this->DatUser->save();
+
+					// 対象ユーザへEmail送信
+					$Email = new CakeEmail( 'default' );
+					$message = $Email->to( $this->request->data['DatUser']['email'] )
+					->subject( 'パスワード再発行' )
+					->template( 'resend_password_to_user' )
+					->viewVars( array( 'password' => $password, 'username' => $datUser['DatUser']['username'] ) )
+					->send();
+				}
+				else {
+					// 登録されていないemail
+					$this->set( 'error_message', '登録されていないE-mailです。' );
+				}
+			}
+		}
 	}
 
+	/**
+	 * 仮パスワード発行完了
+	 */
 	public function resend_password_completed() {
 
 		$this->layout = 'sign_up_layout';
 	}
 
-	public function reset_password() {
+	/**
+	 * 新しいパスワード登録
+	 * @param string $username
+	 */
+	public function reset_password( $username = null ) {
+
+		$this->layout = 'sign_up_layout';
+
+		if ( ! is_null( $username ) ) {
+			$this->Session->write( 'tmp_username', $username );
+		}
+		else {
+			$username = $this->Session->read( 'tmp_username' );
+		}
+
+		if ( $this->request->is( 'post' ) ) {
+
+			// ボタン押下時
+			unset( $this->DatUser->validate['username'] );
+
+			$this->DatUser->set( 'password', $this->request->data['DatUser']['password'] );
+			// バリデーションチェック
+			if ( $this->DatUser->validates() ) {
+
+				// データセット
+				$oldpassword = $this->Auth->password( $this->request->data['DatUser']['oldpassword'] );
+				$datUser = $this->DatUser->checkUserByOldPassword( $username, $oldpassword );
+				if ( $datUser ) {
+
+					// 再発行パスワードでパスワード更新
+					$this->DatUser->create( false );
+					$this->DatUser->set( 'user_id', $datUser['DatUser']['user_id'] );
+					$this->DatUser->set( 'password', $this->request->data['DatUser']['password'] );
+					$this->DatUser->set( 'update_timestamp', date('Y-m-d h:i:s') );
+					$this->DatUser->save();
+
+					// 完了画面へ
+					$this->Session->delete( 'tmp_username' );
+					$this->redirect('/reset_password_completed');
+				}
+				else {
+					$this->set( 'error_message', '発行されたパスワードを確認してください。' );
+				}
+			}
+		}
+	}
+
+	/**
+	 * 新しいパスワード登録完了画面
+	 */
+	public function reset_password_completed() {
 
 		$this->layout = 'sign_up_layout';
 	}
 
-	public function reset_password_completed() {
+	/**
+	 * ランダムな文字列を生成
+	 * @param number $nLengthRequired
+	 * @return string
+	 */
+	private function _getRandomString( $nLengthRequired = 8 ) {
 
-		$this->layout = 'sign_up_layout';
+		$sCharList = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
+		mt_srand();
+		$sRes = '';
+
+		for($i = 0; $i < $nLengthRequired; $i++) {
+			$sRes .= $sCharList{mt_rand(0, strlen($sCharList) - 1)};
+		}
+    	return $sRes;
 	}
 
 // /**

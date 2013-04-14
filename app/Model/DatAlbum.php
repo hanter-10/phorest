@@ -245,6 +245,21 @@ class DatAlbum extends AppModel {
 		return $this->find('all', $option);
 	}
 
+	function checkAlbumDataByAlbumName( $user_id, $name ) {
+
+		$this->recursive = 0;
+
+		$options = array(
+				'conditions' => array(
+						'DatAlbum.fk_user_id' => $user_id,
+						'DatAlbum.albumName' => $name,
+						'DatAlbum.status' => STATUS_ON,
+						),
+				);
+
+		return $this->find( 'count', $options );
+	}
+
 // 	function getUserAlbumDataByUserName($username = null) {
 
 // 		/* 検索光徳 */

@@ -63,7 +63,8 @@ class DashBoardsController extends AppController {
 	public function index() {
 		$this->layout = 'dashboard_layout';
 
-		$datuser = $this->DatUser->getUserDataByUserName( $this->Auth->user( 'username' ) );
+		//$datuser = $this->DatUser->getUserDataByUserName( $this->Auth->user( 'username' ) );
+		$datuser = $this->DatUser->getUserDataByUserName( $this->request->username );
 		$this->set( compact('datuser') );
 	}
 }

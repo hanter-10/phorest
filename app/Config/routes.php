@@ -60,7 +60,7 @@
 	Router::connect('/', array('controller' => 'DatUsers', 'action' => 'login'));
 	Router::connect('/resend_password', array('controller' => 'DatUsers', 'action' => 'resend_password'));
 	Router::connect('/resend_password_completed', array('controller' => 'DatUsers', 'action' => 'resend_password_completed'));
-	Router::connect('/reset_password', array('controller' => 'DatUsers', 'action' => 'reset_password'));
+	Router::connect('/reset_password/*', array('controller' => 'DatUsers', 'action' => 'reset_password'));
 	Router::connect('/reset_password_completed', array('controller' => 'DatUsers', 'action' => 'reset_password_completed'));
 	Router::connect('/DatUsers/logout', array('controller' => 'DatUsers', 'action' => 'logout'));
 	Router::connect('/DatUsers/provision', array('controller' => 'DatUsers', 'action' => 'provision'));

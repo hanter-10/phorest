@@ -24,6 +24,12 @@
                     <p class="subheading">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 </div>
                 <div id="form-wrapper">
+                	<?php if ( isset ( $error_message_login ) ) : ?>
+						<div class="error-message"><?php echo $error_message_login; ?></div>
+					<?php endif; ?>
+					<?php echo $this->Form->error('DatUser.username'); ?>
+					<?php echo $this->Form->error('DatUser.password'); ?>
+					<?php echo $this->Form->error('TmpUser.temp_email', array('attributes' => array('class' => 'error-message signUp'))); ?>
                     <div id="form-container">
                         <div class="left">
                             <div id="login-tab" class="actived">
@@ -35,14 +41,8 @@
                         </div>
                         <div class="right">
                             <div id="forms">
-
-                            	<?php if ( isset ( $error_message_login ) ) : ?>
-									<div class="error-message"><?php echo $error_message_login; ?></div>
-								<?php endif; ?>
 								<?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'login'), 'id' => 'login-form'));?>
-									<?php echo $this->Form->error('DatUser.username'); ?>
                                     <?php echo $this->Form->text('DatUser.username', array('id' => 'username', 'placeholder' => 'ユーザー名、またはE-mail','title' => 'ユーザ名', 'label' => false, 'div' => false, 'error'=>false)); ?>
-                                    <?php echo $this->Form->error('DatUser.password'); ?>
                                     <?php echo $this->Form->text('DatUser.password', array('id' => 'password"', 'type' => 'password', 'placeholder' => 'パスワード','title' => 'パスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>ログイン！</button>
                                     <div id="options">
@@ -52,7 +52,7 @@
                                                 <label for="remember_me">次回からパスワードを入力しない</label>
                                             </li>
                                             <li>
-                                                <a href="">パスワードを忘れた？</a>
+                                                <a href="<?php echo $this->Html->url('/') . 'resend_password'; ?>">パスワードを忘れた？</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -62,7 +62,6 @@
 									<div class="error-message"><?php echo $error_message; ?></div>
 								<?php endif; ?>
                                 <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'provision'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
-                                	<?php echo $this->Form->error('TmpUser.temp_email'); ?>
                                     <?php echo $this->Form->text('TmpUser.temp_email', array('id' => 'email"', 'placeholder' => 'E-mail','title' => 'E-mail', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>新規登録！</button>
                                 <?php echo $this->Form->end();?>

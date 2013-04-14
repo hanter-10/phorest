@@ -189,23 +189,34 @@ class DatAlbumsController extends AppController {
 			// リクエストデータをJSON形式にエンコードで取得する
 			$requestData = $this->request->input( 'json_decode' );
 
-			// データセット
-			$this->DatAlbum->create( false );
-			$this->DatAlbum->set( 'album_id', $id );
-			if ( isset ( $requestData->albumName ) ) $this->DatAlbum->set( 'albumName', $requestData->albumName );
-			if ( isset ( $requestData->public ) ) $this->DatAlbum->set( 'public', $requestData->public );
-			$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
-
-			// バリデーションチェック
-			if ( $this->DatAlbum->validates() ) {
-
-				// 更新処理
-				$this->DatAlbum->save();
-				$this->set( 'datAlbum', true );
+			$album_flg = true;
+			if ( isset ( $requestData->albumName ) ) {
+				// 名前の重複チェックを行う
+				if ( $this->DatAlbum->checkAlbumDataByAlbumName( $this->Auth->user('user_id'), $requestData->albumName ) > 0 ) {
+					$album_flg = false;
+					$this->set( 'datAlbum', array( 'errorMsg' => 'そのアルバム名は既に登録済みです。違うアルバム名でご登録ください。' ) );
+				}
 			}
-			else {
-				if ( isset( $this->DatAlbum->validationErrors['albumName'][0] ) ) {
-					$this->set( 'datAlbum', array( 'errorMsg' => $this->DatAlbum->validationErrors['albumName'][0] ) );
+
+			if ( $album_flg ) {
+				// データセット
+				$this->DatAlbum->create( false );
+				$this->DatAlbum->set( 'album_id', $id );
+				if ( isset ( $requestData->albumName ) ) $this->DatAlbum->set( 'albumName', $requestData->albumName );
+				if ( isset ( $requestData->public ) ) $this->DatAlbum->set( 'public', $requestData->public );
+				$this->DatAlbum->set( 'update_timestamp', date('Y-m-d h:i:s') );
+
+				// バリデーションチェック
+				if ( $this->DatAlbum->validates() ) {
+
+					// 更新処理
+					$this->DatAlbum->save();
+					$this->set( 'datAlbum', true );
+				}
+				else {
+					if ( isset( $this->DatAlbum->validationErrors['albumName'][0] ) ) {
+						$this->set( 'datAlbum', array( 'errorMsg' => $this->DatAlbum->validationErrors['albumName'][0] ) );
+					}
 				}
 			}
 		} else {

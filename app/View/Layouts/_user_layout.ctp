@@ -87,9 +87,9 @@
                         <li class="first">
                             <h3>基本情報</h3>
                             <ul class="sub-ul">
-                                <li><input type="text" name="sitename" placeholder="サイト名" title="サイト名" value="<?php if ( isset( $sitename ) ) echo $sitename;?>"></li>
-                                <li><input type="text" name="email" placeholder="E-mail" title="E-mail" value="<?php if ( isset( $sitename ) ) echo $sitename;?>"></li>
-                                <li><textarea name="siteintro" data-toggle="tooltip" placeholder="サイト説明（150文字以内）" title="サイト説明（150文字以内）"></textarea></li>
+                                <li><input type="text" name="sitename" placeholder="サイト名" title="サイト名" value="<?php if ( isset( $user['DatUser']['sitename'] ) ) echo $user['DatUser']['sitename'];?>"></li>
+                                <li><input type="text" name="email" placeholder="E-mail" title="E-mail" value="<?php if ( isset( $user['DatUser']['email'] ) ) echo $user['DatUser']['email'];?>"></li>
+                                <li><textarea name="intro" data-toggle="tooltip" placeholder="サイト説明(150文字以内)" title="サイト説明（150文字以内）" value="<?php if ( isset( $user['DatUser']['intro'] ) ) echo $user['DatUser']['intro']; ?>" ></textarea></li>
                             </ul>
                         </li>
 

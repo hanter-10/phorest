@@ -64,9 +64,9 @@
             <footer id="footer">
                 <div class="upperpart">
                     <div class="fl">
-                        <a href="" id="logo"><?php echo $this->Html->image('common/logo_white.png') ?></a>
+                        <a href="<?php echo $this->Html->url('/') . 'control-panel/'; ?>" id="logo"><?php echo $this->Html->image('common/logo_white.png') ?></a>
                         <ul class="nav">
-                            <li class="home"><a href=""><?php echo $this->Html->image('frontsite/home_icon.png'); ?></a></li>
+                            <li class="home"><a href="<?php echo $this->Html->url('/') . $meta_data; ?>"><?php echo $this->Html->image('frontsite/home_icon.png'); ?></a></li>
                             <li class="album-name"> </li>
                             <li class="photo-name"> </li>
                         </ul>

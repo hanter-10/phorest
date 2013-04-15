@@ -94,7 +94,7 @@
                         </li>
 
                         <li>
-                            <h3>パスワード</h3>
+                            <h3 data-slide="up">パスワード</h3>
                             <ul class="sub-ul">
                                 <li><input data-toggle="tooltip" type="password" name="old_password" placeholder="古いパスワード" title="古いパスワード"</li>
                                 <li><input data-toggle="tooltip" type="password" name="new_password" placeholder="新しいパスワード" title="新しいパスワード"</li>

@@ -94,10 +94,17 @@
                         </li>
 
                         <li>
-                            <h3>パスワード</h3>
+                            <h3 data-slide="up">パスワード</h3>
                             <ul class="sub-ul">
-                                <li><input data-toggle="tooltip" type="password" name="old_password" placeholder="古いパスワード" title="古いパスワード"</li>
-                                <li><input data-toggle="tooltip" type="password" name="new_password" placeholder="新しいパスワード" title="新しいパスワード"</li>
+                                <li><input data-toggle="tooltip" type="password" name="old_password" placeholder="古いパスワード" title="古いパスワード"></li>
+                                <li><input data-toggle="tooltip" type="password" name="new_password" placeholder="新しいパスワード" title="新しいパスワード"></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <h3 data-slide="up">ヘルプ</h3>
+                            <ul class="sub-ul">
+                                <li><a href="#" target="_blank">マニュアルを見る</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -105,6 +112,7 @@
                         <a class="ok">変更する</a>
                         <a class="cancel">戻す</a>
                     </div>
+                    <a id="dashboard" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ダッシュボード</a>
                     <a id="logout" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ログアウト</a>
                 </form>
             </header>

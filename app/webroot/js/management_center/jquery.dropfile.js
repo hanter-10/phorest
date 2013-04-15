@@ -21,7 +21,7 @@ def_opts =
     },
     progress: empty
 },
-errors = ["BrowserNotSupported", "TooManyFiles", "FileTooLarge", "FileTypeNotAllowed"],
+errors = ["ご使用のブラウザではドロップ機能が使えません。", "ファイルは1度に10個までしかアップロードできません。", "アップロードするファイルの容量は10MB以下になるよう調整をしてください。", "アップロードされたファイルはサポートしていない拡張子です。"],
 workQueue   = [],
 sending     = false;
 

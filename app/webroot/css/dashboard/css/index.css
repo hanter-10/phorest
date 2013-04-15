@@ -7,30 +7,29 @@ a:hover {
   color: #333333;
 }
 
-/* line 4, ../sass/index.scss */
+/* line 3, ../sass/index.scss */
 html, body {
   font-family: "SourceSansProItalic", "Helvetica Neue", sans-serif;
 }
 
-/* line 8, ../sass/index.scss */
+/* line 7, ../sass/index.scss */
 #header {
   padding: 4em 0;
 }
-/* line 10, ../sass/index.scss */
+/* line 9, ../sass/index.scss */
 #header h1 {
   font-size: 2em;
-  float: left;
 }
-/* line 14, ../sass/index.scss */
+/* line 13, ../sass/index.scss */
 #header nav {
   float: right;
   font-size: 1.2em;
 }
-/* line 17, ../sass/index.scss */
+/* line 16, ../sass/index.scss */
 #header nav ul {
   margin: 1.2em 0;
 }
-/* line 19, ../sass/index.scss */
+/* line 18, ../sass/index.scss */
 #header nav ul li {
   list-style-image: none;
   list-style-type: none;
@@ -41,20 +40,20 @@ html, body {
   padding-left: 15px;
   padding-right: 15px;
 }
-/* line 48, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+/* line 48, ../../../../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
 #header nav ul li:first-child, #header nav ul li.first {
   padding-left: 0;
 }
-/* line 49, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+/* line 49, ../../../../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
 #header nav ul li:last-child {
   padding-right: 0;
 }
-/* line 50, ../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
+/* line 50, ../../../../../../../../CodeKit.app/Contents/Resources/engines/compass/frameworks/compass/stylesheets/compass/typography/lists/_horizontal-list.scss */
 #header nav ul li.last {
   padding-right: 0;
 }
 
-/* line 30, ../sass/index.scss */
+/* line 29, ../sass/index.scss */
 #albums .item {
   position: relative;
   height: 160px;
@@ -62,7 +61,7 @@ html, body {
   margin-bottom: 30px;
   overflow: hidden;
 }
-/* line 36, ../sass/index.scss */
+/* line 35, ../sass/index.scss */
 #albums .item .album-title {
   width: 100%;
   position: absolute;
@@ -86,34 +85,34 @@ html, body {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-/* line 49, ../sass/index.scss */
+/* line 48, ../sass/index.scss */
 #albums .item:hover .album-title {
   bottom: 0;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-/* line 55, ../sass/index.scss */
+/* line 54, ../sass/index.scss */
 #albums .item img {
   width: 100%;
 }
-/* line 59, ../sass/index.scss */
+/* line 58, ../sass/index.scss */
 #albums .span3 {
   height: 220px;
 }
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 64, ../sass/index.scss */
+  /* line 63, ../sass/index.scss */
   #albums .span3 {
     height: 166px;
   }
 }
 @media (min-width: 1200px) {
-  /* line 70, ../sass/index.scss */
+  /* line 69, ../sass/index.scss */
   #albums .span3 {
     height: 270px;
   }
 }
 
-/* line 76, ../sass/index.scss */
+/* line 75, ../sass/index.scss */
 #footer {
   background-color: #333333;
   padding-bottom: 40px;
@@ -121,7 +120,7 @@ html, body {
   color: #dddddd;
 }
 
-/* line 83, ../sass/index.scss */
+/* line 82, ../sass/index.scss */
 address {
   margin: 0;
   margin-top: 2em;

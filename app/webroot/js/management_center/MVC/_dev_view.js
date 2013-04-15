@@ -1012,6 +1012,15 @@ $(function(){
          return false;
       });
 
+      $userPanel.find('h3').click(function(){
+         $(this).next('.sub-ul').slideToggle(300);
+      }).each(function(){
+         var slide = $(this).data('slide');
+         if(slide=='up'){
+            this.click();
+         }
+      });
+
    }
 
    function errorHandling(){

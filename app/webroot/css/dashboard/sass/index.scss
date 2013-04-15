@@ -1,0 +1,129 @@
+@import "partials/base";
+
+html,body{
+	font-family: 'SourceSansProItalic', 'Helvetica Neue', sans-serif;
+}
+
+#header{
+	padding: 4em 0;
+	h1{
+		font-size: 2em;
+		// float: left;
+	}
+	nav{
+		float: right;
+		font-size: 1.2em;
+		ul{
+			margin: 1.2em 0;
+			li{
+				@include horizontal-list-item(15px);
+			}
+		}
+	}
+}
+
+
+
+
+#albums {
+	.item {
+		position: relative;
+		height: 160px;
+		background-color: #2c2c2c;
+		margin-bottom: 30px;
+		overflow: hidden;
+		.album-title {
+			width: 100%;
+			position: absolute;
+			bottom: -55px;
+			background-color: #1B1B1B;
+			color: #dbdbdb;
+			padding: 10px;
+			line-height: 2em;
+			@include opacity(0);
+			@include box-sizing(border-box);
+			@include ellipsis;
+			@include transition(0.3s);
+		}
+		&:hover .album-title{
+			bottom: 0;
+			@include opacity(1);
+		}
+	}
+
+	.item img {
+		width: 100%;
+	}
+
+	.span3 {
+		height: 220px;
+	}
+
+	@media (min-width: 768px) and (max-width: 979px) {
+		.span3 {
+			height: 166px;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.span3 {
+			height: 270px;
+		}
+	}
+}
+
+#footer{
+	background-color: #333333;
+	padding-bottom: 40px;
+	padding-top: 2em;
+	color: $mainWhite;
+}
+
+address{
+	margin: 0;
+	margin-top: 2em;
+	text-align: center;
+}
+
+
+
+
+
+
+/* mediaquery */
+/* @media (max-width: 767px) {
+	.carousel-inner{
+		height: 300px;
+	}
+	#myCarousel,#footer{
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	#footer{
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+} */
+
+@media (max-width: $iPhoneWidth) {
+	/* #header h1{
+		font-size: 1em;
+	}
+	#header nav{
+		font-size: 0.9em;
+	}
+	#header nav ul{
+		margin-top: 1.5em;
+	}
+
+	#header {
+		padding: 1em 0;
+	} */
+}
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+@import "compass";
+
+$mainTextColor: #333;
+$mainWhite: #DDD;
+$iPhoneWidth:320px;
+$ipadWidth:768px;
+
+a{
+	color: $mainTextColor;
+	&:hover{
+		color: $mainTextColor;
+	}
+}

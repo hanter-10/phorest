@@ -784,6 +784,12 @@ $(function(){
             if(!isActived){
                $.app.properties.upPhoto.trigger("click",[true]);
             }
+            if(which=='right'){
+               setTimeout(function(){
+                  $.app.properties.uploadControlPanel.hide();
+                  $.app.properties.uploadArea.fadeIn();
+               },400);
+            }
          }else if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
             var prev = $selectedElems.eq(0).prev();
             if(prev.length==0){

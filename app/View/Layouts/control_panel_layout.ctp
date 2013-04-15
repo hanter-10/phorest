@@ -89,7 +89,7 @@
                             <ul class="sub-ul">
                                 <li><input type="text" name="sitename" placeholder="サイト名" title="サイト名" value="<?php if ( isset( $user['DatUser']['sitename'] ) ) echo $user['DatUser']['sitename'];?>"></li>
                                 <li><input type="text" name="email" placeholder="E-mail" title="E-mail" value="<?php if ( isset( $user['DatUser']['email'] ) ) echo $user['DatUser']['email'];?>"></li>
-                                <li><textarea name="intro" data-toggle="tooltip" placeholder="サイト説明(150文字以内)" title="サイト説明（150文字以内）" value="<?php if ( isset( $user['DatUser']['intro'] ) ) echo $user['DatUser']['intro']; ?>" ></textarea></li>
+                                <li><textarea name="intro" data-toggle="tooltip" placeholder="サイト説明(150文字以内)" title="サイト説明（150文字以内）" ><?php if ( isset( $user['DatUser']['intro'] ) ) echo $user['DatUser']['intro']; ?></textarea></li>
                             </ul>
                         </li>
 
@@ -112,8 +112,8 @@
                         <a class="ok">変更する</a>
                         <a class="cancel">戻す</a>
                     </div>
-                    <a id="dashboard" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ダッシュボード</a>
-                    <a id="logout" href="<?php echo $this->Html->webroot; ?>DatUsers/logout">ログアウト</a>
+                    <a id="dashboard" href="<?php echo $this->Html->url('/') . $user['DatUser']['username']; ?>" target="_blank">ダッシュボード</a>
+                    <a id="logout" href="<?php echo $this->Html->url('/'); ?>DatUsers/logout">ログアウト</a>
                 </form>
             </header>
 

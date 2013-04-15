@@ -140,6 +140,7 @@ class DatPhotosController extends AppController {
 
 				$username	= $this->Auth->user('username');
 				$filename	= $_FILES['file']['name'];
+				$photoname	= explode( '.', $_FILES['file']['name'] );
 
 				$imagePath	= WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username');
 
@@ -339,7 +340,7 @@ class DatPhotosController extends AppController {
 				/* paramater set */
 				$datPhoto['fk_user_id']				= $this->Auth->user( 'user_id' );				// 会員ID:セッションより取得
 				$datPhoto['fk_image_server_id']		= $image_server_id;
-				$datPhoto['photoName']				= $filename;									// 写真名
+				$datPhoto['photoName']				= $photoname[0];								// 写真名
 				$datPhoto['description']			= '';											// 写真説明
 				$datPhoto['width']					= $Jsize[0];									// 画像の横幅
 				$datPhoto['height']					= $Jsize[1];									// 画像の縦幅
@@ -364,7 +365,6 @@ class DatPhotosController extends AppController {
 					if ( $this->DatPhoto->save( $datPhoto ) ) {
 						/* get insert new id */
 						$datPhoto['id'] = $this->DatPhoto->id;
-
 						$this->set('datPhoto', $datPhoto);
 					}
 
@@ -391,12 +391,10 @@ class DatPhotosController extends AppController {
 						$this->set( 'datPhoto', array( 'errorMsg' => '写真追加に失敗しました。画面を更新して画像が追加されているか確認してください。' ) );
 					}
 				}
-
 			} else {
 				// postではない時は「400 Bad Request」
 				throw new BadRequestException(__('Bad Request.'));
 			}
-
 			$this->set( '_serialize', 'datPhoto' );
 		}
 		catch ( Exception $e ) {

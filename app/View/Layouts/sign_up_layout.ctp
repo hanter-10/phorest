@@ -9,7 +9,7 @@
         <?php
             //css output
             echo $this->element('common/css');
-            echo $this->Html->css(array( "common/bootstrap.css","sign_up/css/index.css" ));
+            echo $this->Html->css(array( "common/bootstrap.css","sign_up/css/index.css","helps/css/index.css" ));
             //script output
             echo $this->element('common/js');
             echo $this->Html->script(array( "common/bootstrap.min.js","home/index.js" ));

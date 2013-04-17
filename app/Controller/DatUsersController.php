@@ -10,9 +10,9 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class DatUsersController extends AppController {
 
-	public $uses = array('DatUser', 'DatAlbum', 'TmpUser');
+	public $uses = array( 'DatUser', 'DatAlbum', 'TmpUser' );
 
-	public $components = array('Cookie');
+	public $components = array( 'Cookie' );
 
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
@@ -23,16 +23,15 @@ class DatUsersController extends AppController {
 	// 初期登録時のアルバム数
 	private $default_album = 3;
 
-
 	public function login() {
 		$this->layout = 'home_layout';
 
-		$cookie = $this->Cookie->read( 'Auth.User' );  // クッキーをリード
+		$cookie = $this->Cookie->read( 'Auth.User' );  // クッキー取得
 		if ( ! is_null( $cookie ) ) {
 			// データセット
 			$this->DatUser->set( $cookie );
 			if ( $this->Auth->login() ) {
-
+				// クッキーでログインできる場合はそのまま管理画面へ
 				$this->Auth->redirect = '../control-panel/';
 				$this->redirect( $this->Auth->redirect );
 			} else {
@@ -43,15 +42,10 @@ class DatUsersController extends AppController {
 
 		if ( $this->request->is('post') ) {
 
+			// 次回からパスワードを入力しないのチェックありの場合
 			if ( isset( $this->request->data['DatUser']['remember'] ) && $this->request->data['DatUser']['remember'] === 'on' ) {
 				// 次回からパスワード入力しない場合
-				$cookie = array();
-				// username
-				$cookie['username'] = $this->request->data['DatUser']['username'];
-				// password
-				$cookie['password'] = $this->request->data['DatUser']['password'];
-				// cookie書き込み
-				$this->Cookie->write('Auth.DatUser', $cookie, true, '+2 weeks');
+				$this->Cookie->write('Auth.User', $this->request->data, true, '+2 weeks');
 			}
 
 			// ユーザー名に「＠」を使用できないという前提でusernameに「＠」を含んでいる場合はemailに置き換え
@@ -73,7 +67,6 @@ class DatUsersController extends AppController {
 				}
 				else {
 					$this->set( 'error_message_login', 'IDまたはパスワードを確認してください' );
-					// $this->Session->setFlash(__('ユーザ名またはパスワードが誤っています。再度入力してください。'));
 				}
 			}
 		}

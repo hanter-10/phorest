@@ -1,0 +1,64 @@
+@import "compass";
+$base-font-size: 14px;
+$base-line-height: 18px;
+@include establish-baseline;
+
+#main{
+	color: #333;
+	width: 940px;
+	margin: 0 auto;
+	background-color: #FFF;
+	position: relative;
+	padding: 20px;
+	@include border-radius(5px);
+	margin-top: 30px;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+	h1{
+		border-bottom: 1px solid #C7C7C7;
+		margin-bottom: 0;
+		padding-bottom: 0.3em;
+		@include adjust-font-size-to( $to-size:28px, $lines:2 );
+		@include leader(1,28px);
+		@include padding-trailer($lines:.5, $font-size:28px);
+	}
+	p{
+		@include leader(.8);
+		@include trailer(.2);
+	}
+	
+	section{
+		overflow: hidden;
+	}
+
+	.container{
+		@include leader(1);
+		overflow: hidden;
+	}
+
+	.left{
+		float: left;
+		&.video{
+			margin-right: 1.28571em;
+		}
+		&.intro{
+			background: #F1F1F1;
+			padding: 24px;
+			border-radius: 5px;
+		}
+		p.first{
+			margin-top: 0;
+		}
+		p.last{
+			margin-bottom: 0;
+		}
+	}
+
+	.right{
+		float: right;
+	}
+}
+
+#sidebar{
+	display: none;
+}
+

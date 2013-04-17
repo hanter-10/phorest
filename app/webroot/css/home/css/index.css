@@ -164,6 +164,7 @@ button:active {
   height: 140px;
   background-color: #ECECEC;
   text-align: center;
+  text-shadow: 0 0 0 transparent;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/home\/sass\/index\.scss}line{font-family:\00003134}}
 #login-tab.actived, #sign-up-tab.actived {

@@ -1,0 +1,82 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/CodeKit\.app\/Contents\/Resources\/engines\/compass\/frameworks\/compass\/stylesheets\/compass\/typography\/_vertical_rhythm\.scss}line{font-family:\0000361}}
+* html {
+  font-size: 87.5%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/CodeKit\.app\/Contents\/Resources\/engines\/compass\/frameworks\/compass\/stylesheets\/compass\/typography\/_vertical_rhythm\.scss}line{font-family:\0000364}}
+html {
+  font-size: 14px;
+  line-height: 1.28571em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\000036}}
+#main {
+  color: #333;
+  width: 940px;
+  margin: 0 auto;
+  background-color: #FFF;
+  position: relative;
+  padding: 20px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 30px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000316}}
+#main h1 {
+  border-bottom: 1px solid #c7c7c7;
+  margin-bottom: 0;
+  padding-bottom: 0.3em;
+  font-size: 2em;
+  line-height: 1.28571em;
+  margin-top: 0.64286em;
+  padding-bottom: 0.32143em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000324}}
+#main p {
+  margin-top: 1.02857em;
+  margin-bottom: 0.25714em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000329}}
+#main section {
+  overflow: hidden;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000333}}
+#main .container {
+  margin-top: 1.28571em;
+  overflow: hidden;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000338}}
+#main .left {
+  float: left;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000340}}
+#main .left.video {
+  margin-right: 1.28571em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000343}}
+#main .left.intro {
+  background: #F1F1F1;
+  padding: 24px;
+  border-radius: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000348}}
+#main .left p.first {
+  margin-top: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000351}}
+#main .left p.last {
+  margin-bottom: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000356}}
+#main .right {
+  float: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Applications\/MAMP\/htdocs\/phorest\/app\/webroot\/css\/helps\/sass\/index\.scss}line{font-family:\0000361}}
+#sidebar {
+  display: none;
+}

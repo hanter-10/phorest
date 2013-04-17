@@ -130,7 +130,7 @@ button{
 	height: 140px;
 	background-color: #ECECEC;
 	text-align: center;
-
+	text-shadow: 0 0 0 transparent;
 	&.actived{
 		color: $mainWhite;
 		font-weight: bold;

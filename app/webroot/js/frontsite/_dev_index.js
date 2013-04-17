@@ -217,8 +217,11 @@ var Router = Backbone.Router.extend({
 	}
 });
 
-var router = new Router();
-Backbone.history.start({pushState: true, root: rooturl});
+var 
+router = new Router(),
+pushState = history.pushState ? true : false;
+
+Backbone.history.start({pushState: pushState, root: rooturl});
 
 
 

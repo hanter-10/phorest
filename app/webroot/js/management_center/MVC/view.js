@@ -1,4 +1,5 @@
 $(function(){
+   
    var
    $currentActivePhotoCollection,
    $photoCollection_right,
@@ -334,6 +335,9 @@ $(function(){
             } });
          });
 
+         if(!this.albumView){ //photo from right area
+            $.app.properties.photos_right = $.app.properties.photos_right.not($selectedElem); //update right area photo
+         }
          this.move($selectedElem,albumModel);
          return true;
          // console.log( $dndElem,$selectedElem );
@@ -643,6 +647,12 @@ $(function(){
             $preview.add($deletePhoto).addClass('disabled');
             $preview.attr('href',null);
          }
+         return this;
+      },
+      updatePreviewBtn : function(){
+         var albumName = this.model.get('albumName');
+         $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + albumName);
+         return this;
       },
       getPhotoModelByEl : function ($photoEl){
          var
@@ -745,8 +755,9 @@ $(function(){
 
          mvc.PhotoCollectionView_right_instance.$el.show().addClass('active');
          if(emptyAlbumCount==this.collection.length){
-            //$.getScript('/js/management_center/tutorial.js');
-         }      }
+            $.getScript('http://phorest.ligtest.info/js/management_center/tutorial.js');
+         }
+      }
    });
 
 
@@ -757,7 +768,9 @@ $(function(){
          var
          $photoCollection = which == 'left' ? $currentActivePhotoCollection : $photoCollection_right,
          $selectedElems = $photoCollection.find('.selectedElem'),
-         collection = $photoCollection.data('collection');
+         collection = $photoCollection.data('collection'),
+         allElemsLen = collection.length,
+         isActived = $.app.properties.upPhoto.hasClass('active');
 
          if($selectedElems.length==0) return;
          $selectedElems.each(function(index){
@@ -766,11 +779,19 @@ $(function(){
             cid = $el.find('img').data('cid'),
             model = collection.get(cid);
             model.destroy();
-
-
          });
 
-         if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
+         if(allElemsLen==$selectedElems.length){ //写真を全部削除したら、アップロード領域を出す
+            if(!isActived){
+               $.app.properties.upPhoto.trigger("click",[true]);
+            }
+            if(which=='right'){
+               setTimeout(function(){
+                  $.app.properties.uploadControlPanel.hide();
+                  $.app.properties.uploadArea.fadeIn();
+               },400);
+            }
+         }else if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
             var prev = $selectedElems.eq(0).prev();
             if(prev.length==0){
                prev = $selectedElems.eq(0).next();
@@ -798,9 +819,13 @@ $(function(){
 
       function addAlbum()
       {
-         var $el = mvc.AlbumsView_instance.$el;
+         var
+         $el = mvc.AlbumsView_instance.$el,
+         albumName = '新規アルバム',
+         newAlbumCount = $("#albums .album-name:contains('新規アルバム')").length;
+         albumName+=(newAlbumCount+1);
 
-         mvc.AlbumsView_instance.collection.create({albumName:'新規アルバム',status:0},{silent: true,success:function(model){
+         mvc.AlbumsView_instance.collection.create({albumName:albumName,status:0},{silent: true,success:function(model){
             model.id = model.attributes.id;
             var
             albumView = new mvc.AlbumView({model:model}),
@@ -895,20 +920,29 @@ $(function(){
             data.currentAlbumView.updateCoverImage();
          }
          data.targetAlbumView.updateCoverImage();
+         if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
+            $.app.properties.uploadControlPanel.hide();
+            $.app.properties.uploadArea.fadeIn();
+         }
       });
 
       //------------------ move to photo-area end -------------------
       $.app.Events.on('moveToPhotoAreaEnd', function(data){
          //enable preview button
          $preview.add($deletePhoto).removeClass('disabled');
-         $preview.off('click');
+         // $preview.off('click');
          //hide or show upload-area
          if(mvc.PhotoCollectionView_right_instance.$el.find('>.photo').length==0){
             $.app.properties.uploadControlPanel.hide();
             $.app.properties.uploadArea.fadeIn();
          }
          //update album cover image
-         $("#albums .album.active").data('view').updateCoverImage();
+         $("#albums .album.active").data('view').updateCoverImage().updatePreviewBtn();
+      });
+
+      //------------------ select text --------------------
+      $albumNameInput.click(function(){
+         this.select();
       });
    }
 
@@ -918,6 +952,7 @@ $(function(){
       $okbtn = $userPanel.find('.ok'),
       backup = {};
 
+      $inputs.tooltip({placement:'left'});
       $inputs.each(function(){
          var
          $this = $(this),
@@ -951,6 +986,9 @@ $(function(){
             data[name] = val;
          });
 
+         var introname = $("textarea").attr("name");
+         data[introname] = $("textarea").val();
+
          $.ajax({
             url: url,
             data: data,
@@ -979,6 +1017,15 @@ $(function(){
          e.preventDefault();
          $okbtn.click();
          return false;
+      });
+
+      $userPanel.find('h3').click(function(){
+         $(this).next('.sub-ul').slideToggle(300);
+      }).each(function(){
+         var slide = $(this).data('slide');
+         if(slide=='up'){
+            this.click();
+         }
       });
 
    }

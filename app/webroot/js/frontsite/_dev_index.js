@@ -1,5 +1,4 @@
 $(function(){
-
 var
 username            = $('meta[name="owner"]').attr('content'),
 previewMod            = $('meta[name="previewMod"]').attr('content'),

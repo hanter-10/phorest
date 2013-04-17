@@ -48,7 +48,7 @@
                                     <div id="options">
                                         <ul>
                                             <li>
-                                                <input type="checkbox" name="remember_me" id="remember_me">
+                                                <input type="checkbox" name="data[DatUser][remember]" id="remember_me">
                                                 <label for="remember_me">次回からパスワードを入力しない</label>
                                             </li>
                                             <li>

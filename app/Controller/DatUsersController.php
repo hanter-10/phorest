@@ -12,6 +12,8 @@ class DatUsersController extends AppController {
 
 	public $uses = array('DatUser', 'DatAlbum', 'TmpUser');
 
+	public $components = array('Cookie');
+
 	// ログインなしでアクセス可能なページ
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -25,7 +27,32 @@ class DatUsersController extends AppController {
 	public function login() {
 		$this->layout = 'home_layout';
 
+		$cookie = $this->Cookie->read( 'Auth.User' );  // クッキーをリード
+		if ( ! is_null( $cookie ) ) {
+			// データセット
+			$this->DatUser->set( $cookie );
+			if ( $this->Auth->login() ) {
+
+				$this->Auth->redirect = '../control-panel/';
+				$this->redirect( $this->Auth->redirect );
+			} else {
+				// cookieの内容でログイン失敗
+				$this->Cookie->delete( 'Auth.DatUser' );  //  クッキー削除
+			}
+		}
+
 		if ( $this->request->is('post') ) {
+
+			if ( isset( $this->request->data['DatUser']['remember'] ) && $this->request->data['DatUser']['remember'] === 'on' ) {
+				// 次回からパスワード入力しない場合
+				$cookie = array();
+				// username
+				$cookie['username'] = $this->request->data['DatUser']['username'];
+				// password
+				$cookie['password'] = $this->request->data['DatUser']['password'];
+				// cookie書き込み
+				$this->Cookie->write('Auth.DatUser', $cookie, true, '+2 weeks');
+			}
 
 			// ユーザー名に「＠」を使用できないという前提でusernameに「＠」を含んでいる場合はemailに置き換え
 			if ( strstr( $this->request->data['DatUser']['username'], '@' ) ) {
@@ -54,6 +81,7 @@ class DatUsersController extends AppController {
 
 	public function logout() {
 		$this->layout = 'login';
+		$this->Cookie->delete( 'Auth.User' );  //  クッキー削除
 		$this->redirect( $this->Auth->logout() );
 	}
 

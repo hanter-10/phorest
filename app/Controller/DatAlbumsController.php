@@ -48,6 +48,8 @@ class DatAlbumsController extends AppController {
 			// 初期化
 			$datAlbumPhotos = array();
 
+// 			pr($this->Session->read());
+
 			// 会員のアルバム情報取得
 			$datAlbumPhotos = $this->DatAlbum->getAlbumDataByUserId( $this->Auth->user( 'user_id' ) );
 

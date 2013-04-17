@@ -104,7 +104,7 @@
                         <li>
                             <h3 data-slide="up">ヘルプ</h3>
                             <ul class="sub-ul">
-                                <li><a href="#" target="_blank">マニュアルを見る</a></li>
+                                <li><a href="<?php echo $this->Html->url('/helps/manual')?>" target="_blank">マニュアルを見る</a></li>
                             </ul>
                         </li>
                     </ul>

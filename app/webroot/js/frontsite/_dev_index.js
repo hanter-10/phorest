@@ -220,7 +220,7 @@ var
 router = new Router(),
 pushState = history.pushState ? true : false;
 
-Backbone.history.start({pushState: pushState, root: rooturl});
+Backbone.history.start({pushState: pushState, hashChange: false, root: rooturl});
 
 
 

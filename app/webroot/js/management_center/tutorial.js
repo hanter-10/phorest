@@ -1,7 +1,7 @@
 (function(){
 
-var 
-tuStr = 
+var
+tuStr =
 '<section id="tu-photos" class="arrow-b">\
 	<h1>写真領域</h1>\
 	<p>アルバム写真を格納する場所です。</p>\
@@ -23,13 +23,13 @@ tuStr =
 </section>\
 \
 <div id="tu-ok">\
-	<a href="" target="_blank">「15秒動画で分かる操作方法」を見る</a>\
+	<a href="http://phorest.ligtest.info/helps/manual" target="_blank">「45秒動画で分かる操作方法」を見る</a>\
 	<div class="okbtn">案内画面を閉じる</div>\
 </div>',
 $mask = $('<div id="mask"> ').hide().appendTo('body');
 $mask.append(tuStr);
 //step1
-setTimeout(function(){ 
+setTimeout(function(){
 	$mask.fadeIn(500 ,function(){  });
 } , 500 );
 

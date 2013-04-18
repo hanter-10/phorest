@@ -85,16 +85,28 @@ $(document).ready(function(){
             });
 
             var
+            $main = $('#main'),
             $userPanel = $("#user-panel"),
             $userPanelHover = $("#user-panel-hover");
 
-            $userPanelHover.toggle(function(){
-                $userPanelHover.toggleClass('active');
-                $userPanel.fadeIn();
-            },function(){
-                $userPanelHover.toggleClass('active');
-                $userPanel.fadeOut();
+            $userPanelHover.on('click',function(){
+                if($userPanelHover.hasClass('active')){
+                    $userPanelHover.removeClass('active');
+                    $userPanel.fadeOut(200);
+                    $main.off('click',fadeOutPanel);
+                }else{
+                    $userPanelHover.addClass('active');
+                    $userPanel.fadeIn(200);
+                    $main.one('click',fadeOutPanel);
+                }
             });
+
+            function fadeOutPanel(){
+                if($userPanelHover.hasClass('active')){
+                    $userPanelHover.removeClass('active');
+                    $userPanel.fadeOut(200);
+                }
+            }
 
             //------------------------アルバムのアクティブ状態----------------------------
             $( '#albums' ).on( 'click' , '.cover' ,function()
@@ -152,6 +164,11 @@ $(document).ready(function(){
                     $el = view.$el,
                     model = view.model,
                     newAttributes = responseText;
+                    if(responseText.errorMsg){
+                        alert(responseText.errorMsg);
+                        $el.remove();
+                        return false;
+                    }
                     $.extend(model.attributes,newAttributes);
                     model.id = model.attributes.id;
                     mvc.PhotoCollectionView_right_instance.collection.add(model,{silent: true});

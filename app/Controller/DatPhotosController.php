@@ -139,8 +139,19 @@ class DatPhotosController extends AppController {
 			if ( $this->request->is( 'post' ) ) {
 
 				$username	= $this->Auth->user('username');
-				$filename	= $_FILES['file']['name'];
+
+				// TODO:ちょっといけすかないけどしょうがないさ
 				$photoname	= explode( '.', $_FILES['file']['name'] );
+
+				// 全角ファイル名のチェック
+				if ( $this->_checkHalf( $_FILES['file']['name'] ) ) {
+					// 全角ファイル名の場合はリネーム
+					$filename = date( 'Ymd' ) . '-' . $this->_getRandomString() . '.' . $photoname[1];
+				}
+				else {
+					// それ以外はそのまま
+					$filename = $_FILES['file']['name'];
+				}
 
 				$imagePath	= WWW_ROOT . 'img' . DS . 'phorest' . DS . $this->Auth->user('username');
 
@@ -489,5 +500,38 @@ class DatPhotosController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 		$this->set('_serialize', 'datPhoto');
+	}
+
+	/**
+	 * 全角文字チェック関数
+	 * @param unknown $data
+	 * @return boolean
+	 */
+	private function _checkHalf( $data ) {
+
+		$ret = false;
+		$len = strlen( $data );
+		$mblen = mb_strlen( $data,mb_internal_encoding() );
+		if ( $len !== $mblen ) {
+			$ret = true;
+		}
+		return $ret;
+	}
+
+	/**
+	 * ランダムな文字列を生成
+	 * @param number $nLengthRequired
+	 * @return string
+	 */
+	private function _getRandomString( $nLengthRequired = 8 ) {
+
+		$sCharList = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
+		mt_srand();
+		$sRes = '';
+
+		for($i = 0; $i < $nLengthRequired; $i++) {
+			$sRes .= $sCharList{mt_rand(0, strlen($sCharList) - 1)};
+		}
+		return $sRes;
 	}
 }

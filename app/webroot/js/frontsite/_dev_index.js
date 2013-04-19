@@ -160,7 +160,7 @@ var Router = Backbone.Router.extend({
 		});
 
 
-		$.loadimg({
+		/*$.loadimg({
 			imgs: imgArr,
 			process: function(percentage){
 				console.log( percentage );
@@ -180,7 +180,21 @@ var Router = Backbone.Router.extend({
 				$photoName.text(photoName);
 
 			}
-		});
+		});*/
+
+		//----
+		_this.addThumb( albumArr[albumIndex] );
+		if(init){
+			startslide(albumArr[albumIndex]);
+		}else{
+			slideshow.option({imgs:imgArr});
+		}
+		
+		var
+		$img    = $imgContainer.find('img').eq(0),
+		photoName   = $img.data('photoName');
+		$photoName.text(photoName);
+		//----
 
 	},
 

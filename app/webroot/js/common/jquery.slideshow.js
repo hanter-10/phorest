@@ -28,6 +28,7 @@ $.support.transition = (function () {
 
 })();
 //==================================================
+
 var ww = $(window).width();
 $(window).resize(function(){
 	ww = $(window).width();
@@ -81,8 +82,13 @@ $.slideshow = function(setting)
         		$div.css('transition','opacity '+options.fade+'ms ease-out');
         	}
 
-        	$img[0].src=url;
+        	$div.data('src',url);
         	$slideshow.append($div);
+        	if(index==0){
+        		$img.load(function(){
+        			$img.fadeIn(450);
+        		}).hide()[0].src=url;
+        	}
         });
         $('body').prepend($slideshow);
 
@@ -125,7 +131,6 @@ $.slideshow = function(setting)
         		break;
         }
 
-        
     }
 
     function contain($img,ww,wh,iw,ih,rw,ri)
@@ -184,7 +189,6 @@ $.slideshow = function(setting)
         }
 
         
-
         $(window).on('resize',adapt);
         //adapt();
         $(window).load(adapt);
@@ -203,50 +207,68 @@ $.slideshow = function(setting)
 			len = options.imgs.length,
 			effect = options.effect;
 
+			function loadimg($ct,callback){
+				var 
+				img, img_n,
+				src, src_n,
+				isLoaded, isLoaded_n,
+				$ct_n = $current.next(),
+				isLoaded_n = true;
+
+				img = $next.find('img')[0];
+				isLoaded = img.width;
+
+				if(!isLoaded){  //クリックされたスライドの画像はセットされたてなかったら
+					src = $next.data('src');
+					img.src=src; //セットされてないなら、セットするよ！
+				}
+
+				if($ct_n.length){ //次のスライドはあるのか
+					img_n = $ct_n.find('img')[0];
+					isLoaded_n = img_n.width;
+					src_n = $ct_n.data('src');
+				}
+				
+
+				if(isLoaded_n){
+					callback();
+				}else{
+					$.loadimg({
+						imgs: [src_n],
+						allLoad: function(){
+							img_n.src=src_n;
+							callback();
+						}
+					});
+				}
+				
+			}
+
 			function doSlideshow(byUser)
 			{
-				
 				(pointer)===len && (pointer=0)
 
-				// console.log( pointer );
-				// $current.show();
-				// $next.show();
 				$current.css('visibility','visible');
 				$next.css('visibility','visible');
 				allowJump = false;
-				/*$current.fadeOut(options.fade,function(){
-					$(this).removeClass('current');
-					$current.removeClass('next').addClass('current');
-					$next.addClass('next');
-					allowJump = true;
-				});*/
 
-				//
-
-				//
-				switch(effect) {
-					case 'slide':
+				loadimg($current,function(){
+					switch(effect) {
+						case 'slide':
 						(function($current_copy){
 							var
-                            current_from    = 0,
-                            current_to      = -ww,
-                            next_from       = ww,
-                            next_to         = 0;
+							current_from    = 0,
+							current_to      = -ww,
+							next_from       = ww,
+							next_to         = 0;
 
 							if(byUser && dir){
 								current_from    = 0,
-	                            current_to      = ww,
-	                            next_from       = -ww,
-	                            next_to         = 0;
+								current_to      = ww,
+								next_from       = -ww,
+								next_to         = 0;
 							}
-							/*TweenMax.fromTo($current,0.8,{ css:{left:current_from} },{ css:{left:current_to}, ease:Power2.easeInOut });
-							TweenMax.fromTo($next, 0.8, {css:{left:next_from}}, {css:{left:next_to}, ease:Power2.easeInOut,onComplete:function(){
-								$current_copy.removeClass('current');
-								$current.removeClass('next').addClass('current');
-								$next.addClass('next');
-								allowJump = true;
-							}});*/
-							//
+							
 							$current.css('left',current_from).animate({left:current_to},800);
 							$next.css('left',next_from).animate({left:next_to},800,function(){
 								$current_copy.removeClass('current');
@@ -254,42 +276,39 @@ $.slideshow = function(setting)
 								$next.addClass('next');
 								allowJump = true;
 							});
-							//
 						})($current);
 
 						break;
 
-					case 'fade':
-					if($.support.transition){
-						$current.addClass('opacity-0').one($.support.transition.end,function(){
-							$(this).removeClass('current opacity-0').css('visibility','hidden');
-							$current.removeClass('next').addClass('current');
-							$next.addClass('next');
-							allowJump = true;
-						});
-					}else{
-						(function($current_copy){
-							TweenMax.to($current_copy, options.fade/1000, 
-							{
-								css:{opacity:0},onComplete:function(){
-									$current_copy.removeClass('current').css('opacity',1);
-									$current.removeClass('next').addClass('current');
-									$next.addClass('next');
-									allowJump = true;
-								}
+						case 'fade':
+						if($.support.transition){
+							$current.addClass('opacity-0').one($.support.transition.end,function(){
+								$(this).removeClass('current opacity-0').css('visibility','hidden');
+								$current.removeClass('next').addClass('current');
+								$next.addClass('next');
+								allowJump = true;
 							});
-						})($current);
+						}else{
+							(function($current_copy){
+								TweenMax.to($current_copy, options.fade/1000, 
+								{
+									css:{opacity:0},onComplete:function(){
+										$current_copy.removeClass('current').css('opacity',1);
+										$current.removeClass('next').addClass('current');
+										$next.addClass('next');
+										allowJump = true;
+									}
+								});
+							})($current);
+						}
 					}
-
-				}
-
 				
-				
-				//fire change event
-				options.onchange(pointer-1<0 ? len-1 : pointer-1);
-				$current = $next;
-				$next = $slides.eq(pointer++);
-				timer = setTimeout( doSlideshow, options.delay );
+					//fire change event
+					options.onchange(pointer-1<0 ? len-1 : pointer-1);
+					$current = $next;
+					$next = $slides.eq(pointer++);
+					timer = setTimeout( doSlideshow, options.delay );
+				});
 			}
 
 			if(immediacy){

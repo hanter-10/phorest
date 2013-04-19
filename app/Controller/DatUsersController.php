@@ -414,6 +414,8 @@ class DatUsersController extends AppController {
 					->template( 'resend_password_to_user' )
 					->viewVars( array( 'password' => $password, 'username' => $datUser['DatUser']['username'] ) )
 					->send();
+
+					$this->redirect('/resend_password_completed');
 				}
 				else {
 					// 登録されていないemail

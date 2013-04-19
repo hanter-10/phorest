@@ -174,6 +174,7 @@ $(document).ready(function(){
                     mvc.PhotoCollectionView_right_instance.collection.add(model,{silent: true});
 
                     $el.find('img')[0].src = model.get('thumUrl');
+                    $el.find('.filename').val(model.get('photoName'));
                     console.log( 'loaded' );
                 },
                 allLoaded: function()
@@ -202,7 +203,7 @@ $(document).ready(function(){
             $processbar = $('<div class="processbar"><div class="currentbar"></div></div>'),
             $imgPlaceholder = $('<div class="img-placeholder">'),
             photoModel = new mvc.PhotoModel({
-                photoName: files[i].name,
+                // photoName: files[i].name,
                 relatedAlbum: "tempAlbum"
             }),
             photoView = new mvc.PhotoView({model:photoModel}),

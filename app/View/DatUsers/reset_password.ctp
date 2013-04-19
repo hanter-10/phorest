@@ -4,7 +4,7 @@
 	    	<?php if ( isset ( $error_message ) ) : ?>
 	    		<div class="error-message"><?php echo $error_message; ?></div>
 	    	<?php endif; ?>
-	    	<?php echo $this->Form->text('DatUser.oldpassword', array('type' => 'text','placeholder' => '発行されたパスワード','title' => '新しいパスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
+	    	<?php echo $this->Form->text('DatUser.oldpassword', array('type' => 'text','placeholder' => '発行されたパスワード','title' => '発行されたパスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	    	<?php echo $this->Form->error('DatUser.password'); ?>
 	        <?php echo $this->Form->text('DatUser.password', array('type' => 'password','placeholder' => '新しいパスワード','title' => '新しいパスワード', 'label' => false, 'div' => false, 'error'=>false)); ?>
 	    </div>

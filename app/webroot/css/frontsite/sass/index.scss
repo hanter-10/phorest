@@ -164,7 +164,8 @@ a{
 	padding: 0;
 	color: #6b6b6b;
 	color: rgba(255, 255, 255, 0.42);
-	-webkit-transition: 0.2s
+	text-shadow: 0 0 0 transparent;
+	@include transition(0.2s);
 }
 
 .fr button:hover{

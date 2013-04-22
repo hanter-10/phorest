@@ -12,7 +12,8 @@
 
         <?php
             $scripts = array(
-                "common/jquery-ui.js",
+                // "common/jquery-ui.js",
+                "common/mousetrap.min.js",
                 "common/jquery.mousewheel.min.js",
                 "common/jquery.mCustomScrollbar.js",
                 "common/underscore.js",

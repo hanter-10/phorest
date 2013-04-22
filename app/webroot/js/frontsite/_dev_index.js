@@ -10,6 +10,7 @@ $indicator          = $('#indicator'),
 $photoName          = $("#footer .photo-name"),
 $albumName          = $("#footer .album-name"),
 $underpart          = $('#footer .underpart'),
+$config             = $('#config'),
 $phorest_slideshow;
 
 
@@ -242,6 +243,7 @@ Backbone.history.start({pushState: pushState, hashChange: false, root: rooturl})
 var
 $footer = $('#footer'),
 $show_photos = $('#show-photos'),
+$show_albums = $('#show-albums'),
 $albums = $('#albums'),
 if_albums_open = false;
 
@@ -255,14 +257,14 @@ $show_photos.toggle(function(){
 });
 
 //#show-albums
-$('#show-albums').click(function(){
+$show_albums.click(function(){
 	parseInt($footer.css('bottom'))===0 && ($show_photos.click())
 	$(this).toggleClass('hover');
 	toggleAlbums();
 });
 
 $('#albums').click(function(){
-	$('#show-albums').click();
+	$show_albums.click();
 });
 
 function toggleAlbums()
@@ -312,7 +314,6 @@ function hideAlbums()
 var
 $clickReceiver  = $('#click-receiver'),
 $controlPanel   = $('#controlPanel'),
-$config         = $('#config'),
 $options        = $("#controlPanel .options"),
 width           = $('#controlPanel .right').outerWidth();
 
@@ -386,5 +387,31 @@ $('#controlPanel .options>li').click(function(){
 });
 
 })();
+
+
+//------------------------ shortcuts ---------------------------
+var
+$prevbtn = $('#prevbtn'),
+$nextbtn = $('#nextbtn');
+Mousetrap.bind('left', function(){
+	$prevbtn.click();
+});
+
+Mousetrap.bind('right', function(){
+	$nextbtn.click();
+});
+
+Mousetrap.bind('p', function(){
+	$show_photos.click();
+});
+
+Mousetrap.bind('s', function(){
+	$config.click();
+});
+
+Mousetrap.bind('a', function(){
+	$show_albums.click();
+});
+
 
 });

@@ -73,21 +73,26 @@ $.slideshow = function(setting)
 		$slideshow.empty();
 		
 
-        $.each(options.imgs,function(index,url){
+        $.each(options.imgs,function(index,img){
         	var 
-        	$img = $('<img>').load(function(){ resize($(this)); }),
+        	// $img = $('<img>').load(function(){ resize($(this)); }),
+        	$img = $('<img>').attr({width:img.width, height:img.height}),
         	$div = $('<div class="slide">').append($img);
 
         	if(options.effect=='fade'){
         		$div.css('transition','opacity '+options.fade+'ms ease-out');
         	}
 
-        	$div.data('src',url);
+        	// $div.data({src:img.url, width:img.width, height:img.height});
+        	$div.data({ src:img.url });
         	$slideshow.append($div);
+
+        	//最初の一枚だけロードしておく
         	if(index==0){
+        		$div.addClass('loaded');
         		$img.load(function(){
         			$img.fadeIn(450);
-        		}).hide()[0].src=url;
+        		}).hide()[0].src=img.url;
         	}
         });
         $('body').prepend($slideshow);
@@ -190,7 +195,7 @@ $.slideshow = function(setting)
 
         
         $(window).on('resize',adapt);
-        //adapt();
+        adapt();
         $(window).load(adapt);
 	}
 
@@ -216,20 +221,20 @@ $.slideshow = function(setting)
 				isLoaded_n = true;
 
 				img = $next.find('img')[0];
-				isLoaded = img.width;
+				isLoaded = $next.hasClass('loaded');
 
 				if(!isLoaded){  //クリックされたスライドの画像はセットされたてなかったら
 					src = $next.data('src');
 					img.src=src; //セットされてないなら、セットするよ！
+					$next.addClass('loaded');
 				}
 
 				if($ct_n.length){ //次のスライドはあるのか
 					img_n = $ct_n.find('img')[0];
-					isLoaded_n = img_n.width;
+					isLoaded_n = $ct_n.hasClass('loaded');
 					src_n = $ct_n.data('src');
 				}
 				
-
 				if(isLoaded_n){
 					callback();
 				}else{
@@ -237,6 +242,7 @@ $.slideshow = function(setting)
 						imgs: [src_n],
 						allLoad: function(){
 							img_n.src=src_n;
+							$ct_n.addClass('loaded');
 							callback();
 						}
 					});

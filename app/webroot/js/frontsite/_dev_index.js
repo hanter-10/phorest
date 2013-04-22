@@ -18,13 +18,22 @@ function startslide(album)
 {
 	var
     photos    = album['photos'],
-    imgUrls   = _.pluck(photos,'imgUrl_m');
+    imgs      = [];
+    // imgUrls   = _.pluck(photos,'imgUrl_m');
+    $.each(photos,function(index,photo){
+    	imgs[index] = {
+    		url: photo.imgUrl_m,
+    		width: photo.width,
+    		height: photo.height
+    	};
+    });
+
     $albumName.text(album.albumName);
     $photoName.text(album.photos[0].photoName);
 
 	slideshow =
 	$.slideshow({
-		imgs: imgUrls,
+		imgs: imgs,
 		fade: 700,
 		delay: 5000,
 		onchange:change,
@@ -147,7 +156,7 @@ var Router = Backbone.Router.extend({
 		var
 		_this = this,
 		albumIndex,
-		imgArr = [],
+		imgs = [],
 		albumArr = this.albumArr;
 
 		//どのアルバムかを確定する
@@ -155,9 +164,13 @@ var Router = Backbone.Router.extend({
 			if(album.albumName==albumName) albumIndex=index;
 		});
 
-		//このアルバム内に入っている写真のURLを絞り出す
+		//このアルバム内に入っている写真のURL,width,heightを絞り出す
 		$.each(albumArr[albumIndex].photos,function(index,photo){
-			imgArr.push(photo.imgUrl_m);
+			imgs[index] = {
+				url: photo.imgUrl_m,
+				width: photo.width,
+				height: photo.height
+			};
 		});
 
 
@@ -188,7 +201,7 @@ var Router = Backbone.Router.extend({
 		if(init){
 			startslide(albumArr[albumIndex]);
 		}else{
-			slideshow.option({imgs:imgArr});
+			slideshow.option({imgs:imgs});
 		}
 		
 		var

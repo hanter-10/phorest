@@ -10,6 +10,7 @@ $indicator          = $('#indicator'),
 $photoName          = $("#footer .photo-name"),
 $albumName          = $("#footer .album-name"),
 $underpart          = $('#footer .underpart'),
+$config             = $('#config'),
 $phorest_slideshow;
 
 
@@ -17,13 +18,22 @@ function startslide(album)
 {
 	var
     photos    = album['photos'],
-    imgUrls   = _.pluck(photos,'imgUrl_m');
+    imgs      = [];
+    // imgUrls   = _.pluck(photos,'imgUrl_m');
+    $.each(photos,function(index,photo){
+    	imgs[index] = {
+    		url: photo.imgUrl_m,
+    		width: photo.width,
+    		height: photo.height
+    	};
+    });
+
     $albumName.text(album.albumName);
     $photoName.text(album.photos[0].photoName);
 
 	slideshow =
 	$.slideshow({
-		imgs: imgUrls,
+		imgs: imgs,
 		fade: 700,
 		delay: 5000,
 		onchange:change,
@@ -146,7 +156,7 @@ var Router = Backbone.Router.extend({
 		var
 		_this = this,
 		albumIndex,
-		imgArr = [],
+		imgs = [],
 		albumArr = this.albumArr;
 
 		//どのアルバムかを確定する
@@ -154,13 +164,17 @@ var Router = Backbone.Router.extend({
 			if(album.albumName==albumName) albumIndex=index;
 		});
 
-		//このアルバム内に入っている写真のURLを絞り出す
+		//このアルバム内に入っている写真のURL,width,heightを絞り出す
 		$.each(albumArr[albumIndex].photos,function(index,photo){
-			imgArr.push(photo.imgUrl_m);
+			imgs[index] = {
+				url: photo.imgUrl_m,
+				width: photo.width,
+				height: photo.height
+			};
 		});
 
 
-		$.loadimg({
+		/*$.loadimg({
 			imgs: imgArr,
 			process: function(percentage){
 				console.log( percentage );
@@ -180,7 +194,21 @@ var Router = Backbone.Router.extend({
 				$photoName.text(photoName);
 
 			}
-		});
+		});*/
+
+		//----
+		_this.addThumb( albumArr[albumIndex] );
+		if(init){
+			startslide(albumArr[albumIndex]);
+		}else{
+			slideshow.option({imgs:imgs});
+		}
+		
+		var
+		$img    = $imgContainer.find('img').eq(0),
+		photoName   = $img.data('photoName');
+		$photoName.text(photoName);
+		//----
 
 	},
 
@@ -228,6 +256,7 @@ Backbone.history.start({pushState: pushState, hashChange: false, root: rooturl})
 var
 $footer = $('#footer'),
 $show_photos = $('#show-photos'),
+$show_albums = $('#show-albums'),
 $albums = $('#albums'),
 if_albums_open = false;
 
@@ -241,14 +270,14 @@ $show_photos.toggle(function(){
 });
 
 //#show-albums
-$('#show-albums').click(function(){
+$show_albums.click(function(){
 	parseInt($footer.css('bottom'))===0 && ($show_photos.click())
 	$(this).toggleClass('hover');
 	toggleAlbums();
 });
 
 $('#albums').click(function(){
-	$('#show-albums').click();
+	$show_albums.click();
 });
 
 function toggleAlbums()
@@ -298,7 +327,6 @@ function hideAlbums()
 var
 $clickReceiver  = $('#click-receiver'),
 $controlPanel   = $('#controlPanel'),
-$config         = $('#config'),
 $options        = $("#controlPanel .options"),
 width           = $('#controlPanel .right').outerWidth();
 
@@ -372,5 +400,31 @@ $('#controlPanel .options>li').click(function(){
 });
 
 })();
+
+
+//------------------------ shortcuts ---------------------------
+var
+$prevbtn = $('#prevbtn'),
+$nextbtn = $('#nextbtn');
+Mousetrap.bind('left', function(){
+	$prevbtn.click();
+});
+
+Mousetrap.bind('right', function(){
+	$nextbtn.click();
+});
+
+Mousetrap.bind('p', function(){
+	$show_photos.click();
+});
+
+Mousetrap.bind('s', function(){
+	$config.click();
+});
+
+Mousetrap.bind('a', function(){
+	$show_albums.click();
+});
+
 
 });

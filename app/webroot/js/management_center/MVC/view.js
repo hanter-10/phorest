@@ -989,6 +989,9 @@ $(function(){
          var introname = $("textarea").attr("name");
          data[introname] = $("textarea").val();
 
+         $("#old_password").value = "";
+         $("#new_password").value = "";
+
          $.ajax({
             url: url,
             data: data,

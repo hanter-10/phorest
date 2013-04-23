@@ -27,6 +27,9 @@
                 	<?php if ( isset ( $error_message_login ) ) : ?>
 						<div class="error-message"><?php echo $error_message_login; ?></div>
 					<?php endif; ?>
+					<?php if ( isset ( $error_message ) ) : ?>
+						<div class="error-message"><?php echo $error_message; ?></div>
+					<?php endif; ?>
 					<?php echo $this->Form->error('DatUser.username'); ?>
 					<?php echo $this->Form->error('DatUser.password'); ?>
 					<?php echo $this->Form->error('TmpUser.temp_email', array('attributes' => array('class' => 'error-message signUp'))); ?>
@@ -57,10 +60,6 @@
                                         </ul>
                                     </div>
 								<?php echo $this->Form->end();?>
-
-								<?php if ( isset ( $error_message ) ) : ?>
-									<div class="error-message"><?php echo $error_message; ?></div>
-								<?php endif; ?>
                                 <?php echo $this->Form->create('DatUser', array('url' => array('controller' => 'DatUsers', 'action' => 'provision'),'id' => 'sign-up-form', 'class' => 'mt30'));?>
                                     <?php echo $this->Form->text('TmpUser.temp_email', array('id' => 'email"', 'placeholder' => 'E-mail','title' => 'E-mail', 'label' => false, 'div' => false, 'error'=>false)); ?>
                                     <button>新規登録！</button>

@@ -156,13 +156,16 @@ class DatUsersController extends AppController {
 								$this->DatAlbum->save();
 							}
 
+							$send_url = Router::url("/", true);
+
 							// 対象ユーザへEmail送信
 							$Email = new CakeEmail( 'default' );
 							$message = $Email->to( $this->request->data['DatUser']['email'] )
 							->subject( '会員登録が完了しました' )
 							->template( 'user_add_complete_to_user' )
-							->viewVars( array( 'username' => $this->request->data['DatUser']['username'],
-									'email' => $this->request->data['DatUser']['email'] ) )
+							->viewVars( array( 'username' => $this->request->data['DatUser']['username']
+									,'email' => $this->request->data['DatUser']['email']
+									,'url' => $send_url ) )
 							->send();
 
 							// 対象session削除

@@ -10,9 +10,13 @@
 
 
 ■管理画面
-<?php echo $this->Html->url('/') . 'control-panel/'; ?>
+<?php echo h($url) . 'control-panel/'; ?>
 
 
 ■ログイン画面
-<?php echo $this->Html->url('/'); ?>
+<?php echo h($url); ?>
+
+
+■ダッシュボード
+<?php echo h($url) . $username; ?>
 

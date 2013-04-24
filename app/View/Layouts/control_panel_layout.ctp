@@ -9,6 +9,7 @@
         <?php
             $script = array(
                 "common/TweenMax.min.js",
+                "common/mousetrap.min.js",
                 "common/jquery-ui.js",
                 "common/jquery.mousewheel.min.js",
                 "common/jquery.mCustomScrollbar.js",

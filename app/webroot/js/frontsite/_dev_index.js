@@ -228,7 +228,7 @@ var Router = Backbone.Router.extend({
 			var
 			url = photo.thumUrl,
 			img_width = $('<img height="33" alt="thum">').attr({src:url}).data({index:index,photoName:photo.photoName}).appendTo($div);
-			container_width += getWidth(photo)+6;
+			container_width += getWidth(photo)+6+1;
 		});
 
 		$imgContainer.width(container_width);

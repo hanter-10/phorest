@@ -12,6 +12,7 @@ $(function(){
    $deletePhoto = $('#delete-photo'),
    $userPanel = $("#user-panel"),
    $userPanelHover = $("#user-panel-hover"),
+   $pass = $("#old_password,#new_password"),
    username = $('meta[name="owner"]').attr('content');
 
    mvc.PhotoView = Backbone.View.extend({
@@ -989,8 +990,7 @@ $(function(){
          var introname = $("textarea").attr("name");
          data[introname] = $("textarea").val();
 
-         $("#old_password").value = "";
-         $("#new_password").value = "";
+         $pass.val('');
 
          $.ajax({
             url: url,

@@ -27,6 +27,7 @@ class DatUsersController extends AppController {
 		$this->layout = 'home_layout';
 
 		$cookie = $this->Cookie->read( 'Auth.User' );  // クッキー取得
+		// Cookieがあればログイン
 		if ( ! is_null( $cookie ) ) {
 			// データセット
 			$this->DatUser->set( $cookie );
@@ -38,6 +39,11 @@ class DatUsersController extends AppController {
 				// cookieの内容でログイン失敗
 				$this->Cookie->delete( 'Auth.DatUser' );  //  クッキー削除
 			}
+		}
+		// ログインセッションがあればログイン
+		if ( $this->Auth->user() ) {
+			$this->Auth->redirect = '../control-panel/';
+			$this->redirect( $this->Auth->redirect );
 		}
 
 		if ( $this->request->is('post') ) {

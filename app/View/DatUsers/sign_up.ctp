@@ -37,7 +37,7 @@
 	<div id="step4">
 	    <h2>登録完了しました！</h2>
 	    <p>
-	        管理画面へ移動してPhorestを初めてみましょう！
+	        管理画面へ移動してPhorestを始めてみましょう！
 	    </p>
 	    <a href="<?php echo $this->Html->webroot('control-panel/')?>" class="btn">管理画面へ</a>
 	</div>

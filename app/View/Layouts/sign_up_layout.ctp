@@ -20,10 +20,6 @@
         <div id="wrapper">
             <header id="header">
                 <a href="<?php echo $this->Html->webroot('');?>" id="logo"><?php echo $this->Html->image('common/logo_white.png') ?></a>
-                <ul id="nav">
-                    <li id="about"><a href="">ABOUT</a></li>
-                    <li id="contact"><a href="">CONTACT</a></li>
-                </ul>
             </header>
 
 			<?php echo $content_for_layout; ?>

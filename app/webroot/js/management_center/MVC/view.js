@@ -1,5 +1,5 @@
 $(function(){
-   
+
    var
    $currentActivePhotoCollection,
    $photoCollection_right,
@@ -10,10 +10,12 @@ $(function(){
    $preview = $('#preview'),
    $statusCheck = $('#status-check'),
    $deletePhoto = $('#delete-photo'),
+   $deletePhotoRight = $('#delete-photo-right'),
    $userPanel = $("#user-panel"),
    $userPanelHover = $("#user-panel-hover"),
    $pass = $("#old_password,#new_password"),
-   username = $('meta[name="owner"]').attr('content');
+   username = $('meta[name="owner"]').attr('content'),
+   activeSide;
 
    mvc.PhotoView = Backbone.View.extend({
       tagName:    'div',
@@ -183,6 +185,7 @@ $(function(){
       },
       selectable : function(e)
       {
+         activeSide = this.tempType ? 'right' : 'left';
          if(e.target.className=='filename') { e.target.select(); }
          if(e.target.tagName!='IMG') { return this;}
          var
@@ -437,6 +440,14 @@ $(function(){
          }
 
 
+         //選択状態の細かい挙動
+         if(isPhotosArea){
+            $currentActivePhotoCollection.find('.photo.selectedElem').removeClass('selectedElem');
+         }else{
+            $selectedElem.removeClass('selectedElem');
+         }
+
+         
          //目的のアルバムに挿入
          targetAlbum.PhotoCollectionView.$el.prepend($selectedElem);
 
@@ -444,6 +455,7 @@ $(function(){
          var w_height = $(window).height();
          if(isPhotosArea){
             var len = $selectedElem.length;
+
             $selectedElem.each(function(index){
                var
                $this = $(this),
@@ -622,6 +634,7 @@ $(function(){
          {
             this.model.save({ albumName: newVal},{patch: true});
             $('.album-name',$albumEl).text(newVal);
+            $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + newVal);
             mvc.router.navigate('album/'+newVal);
          }
       },
@@ -810,8 +823,8 @@ $(function(){
       });
    }
 
-   syncPhotoDel($('#delete-photo'),'left');
-   syncPhotoDel($('#delete-photo-right'),'right');
+   syncPhotoDel($deletePhoto,'left');
+   syncPhotoDel($deletePhotoRight,'right');
 
    function syncAlbum()
    {
@@ -847,10 +860,13 @@ $(function(){
             return false;
          }
 
-
          var
-         albumModel = getActivedAlbumModel();
-         albumModel.destroy();
+         albumModel = getActivedAlbumModel(),
+         ifDel = confirm('本当に選択中のアルバムを削除しますか？');
+
+         if(ifDel){
+            albumModel.destroy();
+         }
       }
    }
 
@@ -1033,6 +1049,27 @@ $(function(){
 
    }
 
+   //binding shortcuts
+   function bindShortcuts(){
+      Mousetrap.bind( ['del', 'backspace'] , function(e) {
+         e.preventDefault();
+         if(activeSide=='left'){
+            $deletePhoto.click();
+         }else{
+            $deletePhotoRight.click();
+         }
+      });
+
+      Mousetrap.bind(['ctrl+a', 'command+a'], function(e) {
+         e.preventDefault();
+         if(activeSide=='left'){
+            $currentActivePhotoCollection.find('.photo').addClass('selectedElem');
+         }else{
+            $photoCollection_right.find('.photo').addClass('selectedElem');
+         }
+      });
+   }
+
    function errorHandling(){
       $( document ).ajaxError(function(event, jqxhr, settings, exception) {
          alert('通信処理に失敗しました。\nページを再読み込みして再度お試しください。');
@@ -1053,5 +1090,6 @@ $(function(){
 
    syncAlbumStatus();
    syncAlbum();
+   bindShortcuts();
 
 });

@@ -2,10 +2,11 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>Phorest</title>
-        <meta name="description" content="demo">
+        <title>Phorest | ControlPanel</title>
+        <meta name="description" content="">
         <meta name="owner" content="<?php echo $meta_data?>">
-        <meta name="keywords" content="demo,demo">
+        <meta name="keywords" content="">
+        <?php echo $this->Html->meta('icon', 'http://phorest.ligtest.info/img/common/favicon.ico'); ?>
         <?php
             $script = array(
                 "common/TweenMax.min.js",

@@ -2,13 +2,14 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>demo</title>
-        <meta name="description" content="demo">
+        <title>Phorest | FrontSite<?php if ( isset( $preview_mode ) ) echo ' PreviewMode' ?></title>
+        <meta name="description" content="">
         <meta name="owner" content="<?php echo $meta_data?>">
         <?php if ( isset( $preview_mode ) ) : ?>
         	<meta name="previewMod" content="<?php echo $preview_mode; ?>">
         <?php endif; ?>
-        <meta name="keywords" content="demo,demo">
+        <meta name="keywords" content="">
+        <?php echo $this->Html->meta('icon', 'http://phorest.ligtest.info/img/common/favicon.ico'); ?>
 
         <?php
             $scripts = array(

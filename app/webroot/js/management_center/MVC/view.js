@@ -447,7 +447,7 @@ $(function(){
             $selectedElem.removeClass('selectedElem');
          }
 
-         
+
          //目的のアルバムに挿入
          targetAlbum.PhotoCollectionView.$el.prepend($selectedElem);
 
@@ -620,23 +620,32 @@ $(function(){
       {
          var
          $albumEl = this.$el,
-         newVal = $albumNameInput.val(),
-         oldVal = this.model.get('albumName');
+         isActived = $albumEl.hasClass('active');
 
-         if(newVal=="")
+         if(!isActived){
+            return;
+         }
+
+         var
+         oldVal = this.model.get('albumName'),
+         newVal = $albumNameInput.val(),
+         ifOverlap = _.indexOf(  mvc.AlbumsView_instance.collection.pluck("albumName") , newVal) != -1,
+         ifValid = (/([.*+?^'@=!:${}()|[\]\/\\！”＃＄％＆’（）＝～｜｛｝＊‘＋＜＞？＿、。ー＾＠「；：」、。・￥])/g).test(newVal);
+
+         if(newVal=="" || ifOverlap || ifValid)
          {
-            $albumNameInput.val(oldVal); return;
+            if(ifOverlap){ alert('そのアルバム名は既に登録済みです。違うアルバム名でご登録ください。'); }
+            if(ifValid){ alert('アルバム名を確認してください。記号は使用できません。'); }
+            $albumNameInput.val(oldVal);
+            return;
          }
 
          if(newVal==oldVal){ return; }
 
-         if( $albumEl.hasClass('active') )
-         {
-            this.model.save({ albumName: newVal},{patch: true});
-            $('.album-name',$albumEl).text(newVal);
-            $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + newVal);
-            mvc.router.navigate('album/'+newVal);
-         }
+         this.model.save({ albumName: newVal},{patch: true});
+         $('.album-name',$albumEl).text(newVal);
+         $preview.attr('href',$.app.properties.root + username + "/preview/albums/" + newVal);
+         mvc.router.navigate('album/'+newVal);
       },
       remove : function()
       {

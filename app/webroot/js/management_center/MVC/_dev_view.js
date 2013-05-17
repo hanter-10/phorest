@@ -447,7 +447,7 @@ $(function(){
             $selectedElem.removeClass('selectedElem');
          }
 
-         
+
          //目的のアルバムに挿入
          targetAlbum.PhotoCollectionView.$el.prepend($selectedElem);
 
@@ -618,7 +618,7 @@ $(function(){
       },
       changeName : function(e)
       {
-         var 
+         var
          $albumEl = this.$el,
          isActived = $albumEl.hasClass('active');
 
@@ -630,7 +630,7 @@ $(function(){
          oldVal = this.model.get('albumName'),
          newVal = $albumNameInput.val(),
          ifOverlap = _.indexOf(  mvc.AlbumsView_instance.collection.pluck("albumName") , newVal) != -1,
-         ifValid = (/([.*+?^=!:${}()|[\]\/\\])/g).test(newVal);
+         ifValid = (/([.*+?^'@=!:${}()|[\]\/\\！”＃＄％＆’（）＝～｜｛｝＊‘＋＜＞？＿、。ー＾＠「；：」、。・￥])/g).test(newVal);
 
          if(newVal=="" || ifOverlap || ifValid)
          {

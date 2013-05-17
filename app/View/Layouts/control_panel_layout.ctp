@@ -142,7 +142,7 @@
                             <span class="icon-cancel" id="delete-photo">写真を削除</span>
                         </li>
                         <li class="row">
-                            <input type="text" id="album-name-input" value="風景">
+                            <input type="text" id="album-name-input" value="">
                         </li>
                         <li class="row">
                             <input type="checkbox" name="status-check" id="status-check">

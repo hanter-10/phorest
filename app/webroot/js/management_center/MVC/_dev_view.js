@@ -23,7 +23,7 @@ $(function(){
       template:   _.template( $('#temp_photo').html() ),
       events:
       {
-         'blur .filename' : 'changeName'
+         'change .filename' : 'changeName'
       },
       initialize : function()
       {
@@ -540,7 +540,7 @@ $(function(){
          this.model.PhotoCollectionView = this.PhotoCollectionView;
          _.bindAll(this,'changeName','unFocus');
          $albumNameInput.on('keypress',this.unFocus);
-         $albumNameInput.on('blur',this.changeName);
+         $albumNameInput.on('change',this.changeName);
          this.model.on('destroy',this.remove,this);
          //今後利用できるよう、cidをdataにセットしておく
          this.$el.data({ cid:this.model.cid, view:this });

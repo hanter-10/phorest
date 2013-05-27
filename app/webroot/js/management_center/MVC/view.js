@@ -817,7 +817,7 @@ $(function(){
          }else if(which=='left'){ //削除したらプレビュー写真を前｜次の写真に変える。
             var prev = $selectedElems.eq(0).prev();
             if(prev.length==0){
-               prev = $selectedElems.eq(0).next();
+               prev = $selectedElems.eq( $selectedElems.length-1 ).next();
             }
 
             prev.find('img').click();
